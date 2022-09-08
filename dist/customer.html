@@ -21,6 +21,11 @@
   <link rel="stylesheet" href="../assets/css/Chart.min.css">
   <link rel="stylesheet" href="../assets/css/morris.css">
   <link rel="stylesheet" href="../assets/css/leaflet.css">
+  
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
 
   <!-- Theme CSS -->
   <link rel="stylesheet" href="../assets/css/style.css">
@@ -294,7 +299,7 @@
                   </a>
                   <ul class="sub ml-20px">
                     <li class="menu-item">
-                      <a class="item-link" href="client.html"><span class="link-text">client</span></a>
+                      <a class="item-link" href="customer.html"><span class="link-text">customer</span></a>
                     </li>
                     <li class="menu-item">
                       <a class="item-link" href="staff.html"><span class="link-text">staff</span></a>
@@ -470,15 +475,15 @@
         
             <div class="card">
                 <div class="card-header">
-                  Client
+                  Customer
                 </div>
                 <div class="card-body">
                   <ul class="nav nav-pills mb-3" role="tablist">
                     <li class="nav-item" role="presentation">
-                      <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#tab-7" type="button" role="tab" aria-selected="true">all</button>
+                      <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#tab-7" type="button" role="tab" aria-selected="true">All</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                      <button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-8" type="button" role="tab" aria-selected="false">removed</button>
+                      <button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-8" type="button" role="tab" aria-selected="false">Removed</button>
                     </li>
                 
                   </ul>
@@ -930,6 +935,11 @@
                   </div>
                 </div>
               </div>
+              <div class="add-action-box">
+                <button class="btn btn-primary btn-lg btn-square rounded-pill" data-bs-toggle="modal" data-bs-target="#add-customer">
+                  <span class="btn-icon icofont-plus"></span>
+                </button>
+              </div>
         </div>
       </div>
     </main>
@@ -990,63 +1000,6 @@
   </div>
 </div>
 
-<!-- Add patients modals -->
-<div class="modal fade" id="add-patient" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Add new patient</h5>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="form-group avatar-box d-flex">
-            <img src="../assets/content/anonymous-400.jpg" width="40" height="40" alt="" class="rounded-500 me-4">
-
-            <button class="btn btn-outline-primary" type="button">
-              Select image<span class="btn-icon icofont-ui-user ms-2"></span>
-            </button>
-          </div>
-
-          <div class="form-group">
-            <input class="form-control" type="text" placeholder="Name">
-          </div>
-
-          <div class="form-group">
-            <input class="form-control" type="number" placeholder="Number">
-          </div>
-
-          <div class="row">
-            <div class="col-12 col-sm-6">
-              <div class="form-group">
-                <input class="form-control" type="number" placeholder="Age">
-              </div>
-            </div>
-            <div class="col-12 col-sm-6">
-              <div class="form-group">
-                <select class="selectpicker" title="Gender">
-                  <option class="d-none">Gender</option>
-                  <option>Male</option>
-                  <option>Female</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group mb-0">
-            <textarea class="form-control" placeholder="Address" rows="3"></textarea>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer d-block">
-        <div class="actions justify-content-between">
-          <button type="button" class="btn btn-error" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-info">Add patient</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- end Add patients modals -->
 
 <!-- Add patients modals -->
 <div class="modal fade" id="settings" tabindex="-1" role="dialog" aria-hidden="true">
@@ -1099,6 +1052,88 @@
 <!-- end Add patients modals -->
 
 
+<div class="modal fade" id="add-customer" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+        <i class="icofont-close-line"></i>
+      </button>
+
+      <div class="modal-header">
+        <h5 class="modal-title">Register new customer</h5>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label>First name</label>
+            <input class="form-control" type="text" placeholder="Type first name...">
+          </div>
+
+          <div class="form-group">
+            <label>Last name</label>
+            <input class="form-control" type="text" placeholder="Type last name...">
+          </div>
+
+          <div class="form-group">
+            <label>Email</label>
+            <input class="form-control" type="email" placeholder="Type email...">
+          </div>
+          
+
+          <div class="form-group">
+            <label>Password</label>
+            <input class="form-control" type="password" placeholder="Type password...">
+          </div>
+
+          <hr>
+          <h3>
+            Add site
+          </h3>
+          <div class="form-group"  id="SpecialTask2">
+            <div class="addMultipleItem">
+              <div class="container-fluid px-0 px-sm-4 py-0 mx-auto">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-md-12 col-lg-12 col-xl-12">
+                        <div class="card border-0">
+                            <div class="row px-3">
+                                <div class="col-sm-10 list14">
+                                    <div class="mb-2 row justify-content-between px-3"> 
+                                        <input class="mb-2 mob"  type="text"  placeholder="Enter site name">
+                                        <input class="mb-2 mob"  type="number"  placeholder="Amount">
+                                        <textarea class="form-control border-secondary" rows="4" placeholder="Enter site address"></textarea>
+                                        <div class="mt-1 cancel fa fa-times text-danger" style="max-width:15px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row px-3 mt-3">
+                                <div class="col-sm-2"></div>
+                                <div class="col-sm-10">
+                                    <div class="row px-3">
+                                        <div class="fa fa-plus-circle text-secondary add14" style="max-width:20px;"></div>
+                                        <p class="text-secondary ml-3 add14" style="max-width:50px;">Add</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer d-block">
+        <div class="actions justify-content-between">
+          <button type="button" class="btn btn-error" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-info">Register</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <script src="../assets/js/jquery-3.6.0.min.js"></script>
 <script src="../assets/js/jquery-migrate-1.4.1.min.js"></script>
 <script src="../assets/js/popper.min.js"></script>
@@ -1114,6 +1149,7 @@
 <script src="../assets/js/echarts-gl.min.js"></script>
 
 <script src="../assets/js/main.js"></script>
+
 
 
 </body>

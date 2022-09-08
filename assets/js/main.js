@@ -1686,45 +1686,204 @@ $(document).ready(function(){
 
 
 
-document.getElementById("SpecialInstruction1").style.display="none"
-document.getElementById("SpecialInstruction2").style.display="none"
-document.getElementById("SpecialTask1").style.display="none"
-document.getElementById("SpecialTask2").style.display="none"
 
+$(document).ready(function(){
 
-document.getElementById("SpecialInstructionType").addEventListener("change", function() {
+  $('.add5').click(function(){
+  $(".list5").append(
+      `<div class="mb-2 row justify-content-between px-3"> 
+      <input class="mb-2 mob"  type="text"  placeholder="Enter title">
+      <textarea class="form-control border-secondary" rows="4" placeholder="Enter Special Instruction ...."></textarea>
 
-  if(this.value=="Repeat"){
-    document.getElementById("SpecialInstruction2").style.display="block";
-    document.getElementById("SpecialInstruction1").style.display="none";
-
-  }
-  else if(this.value=="manually"){
-    document.getElementById("SpecialInstruction1").style.display="block";
-    document.getElementById("SpecialInstruction2").style.display="none";
-  }
-  else{
-    document.getElementById("SpecialInstruction1").style.display="none";
-    document.getElementById("SpecialInstruction2").style.display="none";
-  }
-
+      <div class="mob mb-2" style="max-width:200px;"> <label class="text-grey mr-4">Time</label> <input class="ml-1" type="time" name="to"> </div>
+      <div class="mt-1 cancel fa fa-times text-danger" style="max-width:15px;"></div>
+  </div>`);
+  });
+  
+  $(".list5").on('click', '.cancel', function(){
+  $(this).parent().remove();
+  });
+  
 });
 
 
-document.getElementById("SpecialTaskType").addEventListener("change", function() {
+$(document).ready(function(){
 
-  if(this.value=="Repeat"){
-    document.getElementById("SpecialTask1").style.display="block";
-    document.getElementById("SpecialTask2").style.display="none";
-
-  }
-  else if(this.value=="manually"){
-    document.getElementById("SpecialTask2").style.display="block";
-    document.getElementById("SpecialTask1").style.display="none";
-  }
-  else{
-    document.getElementById("SpecialTask1").style.display="none";
-    document.getElementById("SpecialTask2").style.display="none";
-  }
-
+  $('.add6').click(function(){
+  $(".list6").append(
+      '<div class="mb-2 row justify-content-between px-3">' +
+          '<textarea class="form-control border-secondary" rows="4" placeholder="Enter Special Instruction ...."></textarea>' +
+          '<div class="mob" style="max-width:280px;">' +
+              '<label class="text-grey mr-1">Date</label>' +
+              '<input class="ml-1" type="date" name="from" >' +
+          '</div>'
+          +
+          '<div class="mt-1 cancel fa fa-times text-danger" style="max-width:15px;">' +
+          '</div>' +
+      '</div>');
+  });
+  
+  $(".list6").on('click', '.cancel', function(){
+  $(this).parent().remove();
+  });
+  
 });
+
+$(document).ready(function(){
+
+  $('.add7').click(function(){
+  $(".list7").append(
+      '<div class="mb-2 row justify-content-between px-3">' +
+          '<textarea class="form-control border-secondary" style="max-width:280px;" rows="4" placeholder="Enter Special Instruction ...."></textarea>' +
+          
+          '<div class="mt-1 cancel fa fa-times text-danger" style="max-width:15px;">' +
+          '</div>' +
+      '</div>');
+  });
+  
+  $(".list7").on('click', '.cancel', function(){
+  $(this).parent().remove();
+  });
+  
+});
+
+
+$(document).ready(function(){
+
+  $('.add8').click(function(){
+  $(".list8").append(
+      `<div class="mb-2 row justify-content-between px-3"> 
+      <input class="mb-2 mob"  type="text"  placeholder="Enter title">
+      <textarea class="form-control border-secondary" rows="4" placeholder="Enter Special Instruction ...."></textarea>
+
+      <div class="mob mb-2" style="max-width:200px;"> <label class="text-grey mr-4">Time</label> <input class="ml-1" type="time" name="to"> </div>
+      <div class="mob mb-2" style="max-width:230px;"> <label class="text-grey mr-4">Date</label> <input class="ml-1" type="date" name="to"> </div>
+      <div class="mt-1 cancel fa fa-times text-danger" style="max-width:15px;"></div>
+  </div>`);
+  });
+  
+  $(".list8").on('click', '.cancel', function(){
+  $(this).parent().remove();
+  });
+  
+});
+
+
+$(document).ready(function(){
+
+  $('.add9').click(function(){
+  $(".list9").append(
+      `<div class="mb-2 row justify-content-between px-3"> 
+      <input class="mb-2 mob"  type="text"  placeholder="Enter title">
+      <textarea class="form-control border-secondary" rows="4" placeholder="Enter Special Instruction ...."></textarea>
+
+      <div class="mob mb-2" style="max-width:200px;"> <label class="text-grey mr-4">Time</label> <input class="ml-1" type="time" name="to"> </div>
+      <div class="mt-1 cancel fa fa-times text-danger" style="max-width:15px;"></div>
+  </div>`);
+  });
+  
+  $(".list9").on('click', '.cancel', function(){
+  $(this).parent().remove();
+  });
+  
+});
+
+
+$(document).ready(function(){
+
+  $('.add10').click(function(){
+  $(".list10").append(
+      '<div class="mb-2 row justify-content-between px-3">' +
+          '<textarea class="form-control border-secondary" rows="4" placeholder="Enter Special Instruction ...."></textarea>' +
+          '<div class="mob" style="max-width:280px;">' +
+              '<label class="text-grey mr-1">Date</label>' +
+              '<input class="ml-1" type="date" name="from" >' +
+          '</div>'
+          +
+          '<div class="mt-1 cancel fa fa-times text-danger" style="max-width:15px;">' +
+          '</div>' +
+      '</div>');
+  });
+  
+  $(".list10").on('click', '.cancel', function(){
+  $(this).parent().remove();
+  });
+  
+});
+
+$(document).ready(function(){
+
+  $('.add11').click(function(){
+  $(".list11").append(
+      '<div class="mb-2 row justify-content-between px-3">' +
+          '<textarea class="form-control border-secondary" style="max-width:280px;" rows="4" placeholder="Enter Special Instruction ...."></textarea>' +
+          
+          '<div class="mt-1 cancel fa fa-times text-danger" style="max-width:15px;">' +
+          '</div>' +
+      '</div>');
+  });
+  
+  $(".list11").on('click', '.cancel', function(){
+  $(this).parent().remove();
+  });
+  
+});
+
+
+$(document).ready(function(){
+
+  $('.add12').click(function(){
+  $(".list12").append(
+      `<div class="mb-2 row justify-content-between px-3"> 
+      <input class="mb-2 mob"  type="text"  placeholder="Enter title">
+      <textarea class="form-control border-secondary" rows="4" placeholder="Enter Special Instruction ...."></textarea>
+
+      <div class="mob mb-2" style="max-width:200px;"> <label class="text-grey mr-4">Time</label> <input class="ml-1" type="time" name="to"> </div>
+      <div class="mob mb-2" style="max-width:230px;"> <label class="text-grey mr-4">Date</label> <input class="ml-1" type="date" name="to"> </div>
+      <div class="mt-1 cancel fa fa-times text-danger" style="max-width:15px;"></div>
+  </div>`);
+  });
+  
+  $(".list12").on('click', '.cancel', function(){
+  $(this).parent().remove();
+  });
+  
+});
+
+$(document).ready(function(){
+
+  $('.add13').click(function(){
+  $(".list13").append(
+      `<div class="mb-2 row justify-content-between px-3"> 
+      <input class="mb-2 mob" style="max-width:120px;" type="date" >
+      <div class="mob" style="max-width:180px;" > <label class="text-grey mr-1">From</label> <input class="ml-1" type="time" name="from"> </div>
+      <div class="mob mb-2" style="max-width:180px;"> <label class="text-grey mr-4">To</label> <input class="ml-1" type="time" name="to"> </div>
+      <div class="mt-1 cancel fa fa-times text-danger" style="max-width:15px;"></div>
+  </div>`);
+  });
+  
+  $(".list13").on('click', '.cancel', function(){
+  $(this).parent().remove();
+  });
+  
+});
+
+
+$(document).ready(function(){
+
+  $('.add14').click(function(){
+  $(".list14").append(
+      `<div class="mb-2 row justify-content-between px-3"> 
+      <input class="mb-2 mob"  type="text"  placeholder="Enter site name">
+      <input class="mb-2 mob"  type="number"  placeholder="Amount">
+      <textarea class="form-control border-secondary" rows="4" placeholder="Enter site address"></textarea>
+      <div class="mt-1 cancel fa fa-times text-danger" style="max-width:15px;"></div>
+  </div>`);
+  });
+  
+  $(".list14").on('click', '.cancel', function(){
+  $(this).parent().remove();
+  });
+  
+});
+
