@@ -1850,23 +1850,7 @@ $(document).ready(function(){
   
 });
 
-$(document).ready(function(){
 
-  $('.add13').click(function(){
-  $(".list13").append(
-      `<div class="mb-2 row justify-content-between px-3"> 
-      <input class="mb-2 mob" style="max-width:120px;" type="date" >
-      <div class="mob" style="max-width:180px;" > <label class="text-grey mr-1">From</label> <input class="ml-1" type="time" name="from"> </div>
-      <div class="mob mb-2" style="max-width:180px;"> <label class="text-grey mr-4">To</label> <input class="ml-1" type="time" name="to"> </div>
-      <div class="mt-1 cancel fa fa-times text-danger" style="max-width:15px;"></div>
-  </div>`);
-  });
-  
-  $(".list13").on('click', '.cancel', function(){
-  $(this).parent().remove();
-  });
-  
-});
 
 
 $(document).ready(function(){
@@ -1887,3 +1871,28 @@ $(document).ready(function(){
   
 });
 
+function addTableTrs(id,data){
+  let tr = "";
+  for (let i = 0; i < data.length; i++) {
+    tr += ` <tr>
+            <td>2014/11/28</td>
+            <td><div class="text-muted text-nowrap">Airi Satou	</div></td>
+            <td><div class="text-muted text-nowrap">lko	</div></td>                        
+            <td><div class="text-muted text-nowrap">Tokyo</div></td>
+            <td><div class="text-muted text-nowrap">Koforidua Central Business	</div></td>
+            <td><div class="text-muted text-nowrap">6am</div></td>
+            <td><div class="text-muted text-nowrap">12pm</div></td>
+            <td><div class="text-muted text-nowrap">6</div></td>
+            <td><div class="text-muted text-nowrap">$100</div></td>
+            <td><div class="text-muted text-nowrap">6am</div></td>
+            <td><div class="text-muted text-nowrap">12pm</div></td>
+            <td><div class="text-muted text-nowrap">6</div></td>
+            <td><div class="text-muted text-nowrap">$600</div></td>
+            </tr>`;
+    if (i + 1 == data.length) {
+        console.log(tr)
+       document.getElementById(id).innerHTML=tr
+    }
+}
+
+} 
