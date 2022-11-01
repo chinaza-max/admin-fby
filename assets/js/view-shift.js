@@ -33,8 +33,8 @@ $.fn.dataTable.ext.search.push(
         var SiteVT = data[4] ;
         var staffNameVT = data[1];
         
-        console.log("first:",customerName,"secon:",customerNameVT)
-      //  console.log(customerName,customerNameVT)
+       // console.log("first:",customerName,"secon:",customerNameVT)
+       // console.log(settings._select)
         if ((customerName ==='')&&(Site ==='' )&&
         (staffName==='' )
         ) {
@@ -96,9 +96,50 @@ $(document).ready(function() {
     });
  
     // DataTables initialisation
-    var table = $('#example').DataTable();
+    console.log("data")
 
+    var table = $('#example').DataTable({
+        select: true,
+        dom: 'Bfrtip',
+        buttons: [
+        'copyHtml5',
+        'excelHtml5',
+        'csvHtml5',
+        'pdfHtml5'
+        ],
+        createdRow: function (row, data, index) {
+            
+            
+            console.log(data["first-name"]);
+            console.log(data["first-name"] == "Airi Satou");
+
+            if (data["first-name"] == "Airi Satou") {
+                $('td', row).css('background-color', 'green ');
+                console.dir(row);
+
+                $('tr', row).addClass('label-warning');
+            }
+        }
+    });
+
+    table.row(0).select();
+
+
+    $('a.toggle-vis').on('click', function (e) {
+        e.preventDefault();
+        // Get the column API object
+        console.log($(this).attr('data-column'))
+        var column = table.column($(this).attr('data-column'));
+        // Toggle the visibility
+        column.visible(!column.visible());
+    });
      
+    var column1 = table.column(0);
+    column1.visible(!column1.visible());
+    var column2 = table.column(2);
+    column2.visible(!column2.visible());
+    var column2 = table.column(3);
+    column2.visible(!column2.visible());
    
     // Refilter the table
     $('#min, #max').on('change', function () {

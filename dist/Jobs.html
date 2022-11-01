@@ -389,8 +389,7 @@
                                     </td>
                                     <td>
                                         <div class="text-muted text-nowrap">
-                                            <button type="button" class="btn btn-outline-primary">View</button>
-
+                                          <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#view-jobDetail">View</button>
                                         </div>
                                       </td>
                                       <td>
@@ -1752,8 +1751,13 @@
                   </div>
 
                   <div class="form-group">
-                    <label>Amount</label>
-                    <input class="form-control" type="tel" placeholder="Enter amount..." required>
+                    <label>Job amount</label>
+                    <input class="form-control" type="tel" placeholder="$500000" disabled>
+                  </div>
+
+                  <div class="form-group">
+                    <label>hourly pay</label>
+                    <input class="form-control" type="tel" placeholder="$4" disabled>
                   </div>
 
                  
@@ -2057,43 +2061,9 @@
 
 
                 </form>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-staff">Add staff</button>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-staff2">Add  staff multiple selection</button>
+                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#add-guard">Add guard</button>
+                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#add-guard2">Add guard multiple selection</button>
 
-              </div>
-            </div>
-  
-            <div class="card">
-              <div class="card-header">
-                Added staff
-              </div>
-              <div class="table-responsive nowrap">
-                <table class="table table-hover">
-                  <thead>
-                  <tr>
-                    <th scope="col">Staff name</th>
-                    <th scope="col">Amount paid per hour</th>
-                    
-                  </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Naza</td>
-                      <td>$1000</td>
-                     
-                    </tr>
-                    <tr>
-                      <td>Naza</td>
-                      <td>$1000</td>
-                     
-                    </tr>
-                    <tr>
-                      <td>Naza</td>
-                      <td>$1000</td>
-                     
-                    </tr>
-                  </tbody>
-                </table>
               </div>
             </div>
   
@@ -2410,6 +2380,132 @@
             <tr>
               <th scope="col">Name</th>
               <th scope="col">Amount per hour</th>
+              <th scope="col">Start date</th>
+              <th scope="col">End date</th>
+              <th scope="col">Detail</th>
+              <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+              <tr>        
+                <td>
+                  <strong>Liam</strong>
+                </td>
+                <td>
+                  <div class="d-flex align-items-center nowrap text-primary">
+                    $30
+                  </div>
+                </td>
+                <td>
+                  <div class="text-muted text-nowrap">9/10/2022</div>
+                </td>
+                <td>
+                  <div class="text-muted text-nowrap">10/11/2022</div>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#single-detail">view</button>
+                </td>
+              
+                <td>
+                  <div class="actions">
+              
+                    <button class="btn btn-error btn-sm btn-square rounded-pill">
+                      <span class="btn-icon icofont-ui-delete"></span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>        
+                <td>
+                  <strong>Liam</strong>
+                </td>
+                <td>
+                  <div class="d-flex align-items-center nowrap text-primary">
+                    $30
+                  </div>
+                </td>
+                <td>
+                  <div class="text-muted text-nowrap">9/10/2022</div>
+                </td>
+                <td>
+                  <div class="text-muted text-nowrap">10/11/2022</div>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#single-detail">view</button>
+                </td>
+                <td>
+                  <div class="actions">
+              
+                    <button class="btn btn-error btn-sm btn-square rounded-pill">
+                      <span class="btn-icon icofont-ui-delete"></span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>        
+                <td>
+                  <strong>Liam</strong>
+                </td>
+                <td>
+                  <div class="d-flex align-items-center nowrap text-primary">
+                    $30
+                  </div>
+                </td>
+                <td>
+                  <div class="text-muted text-nowrap">9/10/2022</div>
+                </td>
+                <td>
+                  <div class="text-muted text-nowrap">10/11/2022</div>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#single-detail">view</button>
+                </td>
+                <td>
+                  <div class="actions">
+              
+                    <button class="btn btn-error btn-sm btn-square rounded-pill">
+                      <span class="btn-icon icofont-ui-delete"></span>
+                    </button>
+                    
+                  </div>
+                </td>
+              </tr>
+           
+            </tbody>
+          </table>
+        </div>
+
+        <div class="modal-footer">
+          <div class="actions">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-guard2">Add</button>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="view-jobDetail" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+        <i class="icofont-close-line"></i>
+      </button>
+
+      <div class="modal-header">
+        <h5 class="modal-title">Staff assigned</h5>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Amount per hour</th>
               <th scope="col">Start time</th>
               <th scope="col">End time</th>
              
@@ -2423,14 +2519,14 @@
                 </td>
                 <td>
                   <div class="d-flex align-items-center nowrap text-primary">
-                    $2000
+                    $30
                   </div>
                 </td>
                 <td>
-                  <div class="text-muted text-nowrap">7:00 AM</div>
+                  <div class="text-muted text-nowrap">9/10/2022</div>
                 </td>
                 <td>
-                  <div class="text-muted text-nowrap">5:00 PM</div>
+                  <div class="text-muted text-nowrap">10/11/2022</div>
                 </td>
               
                 <td>
@@ -2449,14 +2545,14 @@
                 </td>
                 <td>
                   <div class="d-flex align-items-center nowrap text-primary">
-                    $2000
+                    $30
                   </div>
                 </td>
                 <td>
-                  <div class="text-muted text-nowrap">7:00 AM</div>
+                  <div class="text-muted text-nowrap">9/10/2022</div>
                 </td>
                 <td>
-                  <div class="text-muted text-nowrap">5:00 PM</div>
+                  <div class="text-muted text-nowrap">10/11/2022</div>
                 </td>
               
                 <td>
@@ -2475,14 +2571,14 @@
                 </td>
                 <td>
                   <div class="d-flex align-items-center nowrap text-primary">
-                    $2000
+                    $30
                   </div>
                 </td>
                 <td>
-                  <div class="text-muted text-nowrap">7:00 AM</div>
+                  <div class="text-muted text-nowrap">9/10/2022</div>
                 </td>
                 <td>
-                  <div class="text-muted text-nowrap">5:00 PM</div>
+                  <div class="text-muted text-nowrap">10/11/2022</div>
                 </td>
               
                 <td>
@@ -2491,6 +2587,7 @@
                     <button class="btn btn-error btn-sm btn-square rounded-pill">
                       <span class="btn-icon icofont-ui-delete"></span>
                     </button>
+                    
                   </div>
                 </td>
               </tr>
@@ -2498,13 +2595,19 @@
             </tbody>
           </table>
         </div>
+
+        <div class="modal-footer">
+          <div class="actions">
+            <button type="button" class="btn btn-primary">Add</button>
+          </div>
+        </div>
+        
       </div>
     </div>
   </div>
 </div>
 
-
-  <div class="modal fade" id="add-staff" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal fade" id="add-guard" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
@@ -2512,7 +2615,7 @@
         </button>
 
         <div class="modal-header">
-          <h5 class="modal-title">Staff</h5>
+          <h5 class="modal-title">Guard</h5>
         </div>
         <div class="modal-body">
           <form>
@@ -2522,17 +2625,12 @@
               <div class="card-body">
                 <form>
                   <div class="form-group">
-                    <label>Staff</label>
+                    <label>Guard</label>
                     <select class="selectpicker" data-live-search="true">
                       <option data-tokens="ketchup mustard"> Soda</option>
                       <option data-tokens="mustard">Burger</option>
                       <option data-tokens="frosting">Sugar</option>
                     </select>
-                  </div>
-
-                  <div class="form-group">
-                    <label>Amount per Hour</label>
-                    <input class="form-control" type="tel" placeholder="Enter amount..." required>
                   </div>
                   
                   <div class="card text-dark border-dark">  
@@ -2732,7 +2830,7 @@
     </div>
   </div>
 
-  <div class="modal fade" id="add-staff2" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal fade" id="add-guard2" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
@@ -2740,7 +2838,7 @@
         </button>
 
         <div class="modal-header">
-          <h5 class="modal-title">Staff</h5>
+          <h5 class="modal-title">Guard</h5>
         </div>
         <div class="modal-body">
           <form>
@@ -2750,8 +2848,8 @@
             
               <div class="card-body">
                 <form>
-                  <div class="form-group mb-0">
-                    <label>Add multiple staff</label>
+                  <div class="form-group ">
+                    <label>Add multiple Guard</label>
                     <select class="selectpicker" data-live-search="true" multiple>
                       <option data-tokens="ketchup mustard">Soda</option>
                       <option data-tokens="mustard">Smile</option>
@@ -2759,11 +2857,6 @@
                     </select>
                   </div>
 
-                  <div class="form-group">
-                    <label>Amount per Hour</label>
-                    <input class="form-control" type="tel" placeholder="Enter amount..." required>
-                  </div>
-                  
 
                   <div class="card text-dark border-dark">  
                     <div class="card-body">
@@ -2961,6 +3054,25 @@
     </div>
   </div>
 
+
+  <div class="modal fade" id="single-detail" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Job task and instruction</h5>
+        </div>
+        <div class="modal-body">
+          
+        </div>
+        <div class="modal-footer d-block">
+          <div class="actions justify-content-between">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button id="reset-to-default" type="button" class="btn btn-error">Reset to default</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 <!-- Add patients modals -->
 <div class="modal fade" id="settings" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">

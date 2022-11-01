@@ -22,12 +22,18 @@
   <link rel="stylesheet" href="../assets/css/morris.css">
   <link rel="stylesheet" href="../assets/css/leaflet.css">
 
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/select/1.4.0/css/select.dataTables.min.css">
   <!-- Theme CSS -->
   <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/datetime/1.1.2/css/dataTables.dateTime.min.css">
+  <link rel="stylesheet" href="  https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css">
+
+
 </head>
 
 
-<body class="vertical-layout boxed">
+<body class="horizontal-layout boxed">
 <div class="app-loader main-loader">
   <div class="loader-box">
     <div class="bounceball"></div>
@@ -46,7 +52,19 @@
             <span></span><span></span><span></span>
           </button>
 
-              
+        
+          <div class="app-logo">
+            <div class="logo-wrap">
+              <!-- Image logo -->
+              <img src="../assets/img/logo.png" alt="" width="147" height="33" class="logo-img">
+              FBY
+              <!-- end Image logo -->
+
+            
+            </div>
+          </div>
+
+
           <div class="app-actions">
             <div class="dropdown item">
               <button
@@ -149,8 +167,8 @@
 
     <!-- end Horizontal navbar -->
 
-    <!-- Vertical navbar -->
-    <div id="navbar2" class="app-navbar vertical">
+    <!-- Horizontal navbar 2 -->
+    <div id="navbar2" class="app-navbar horizontal horizontal-vertical">
       <div class="navbar-wrap">
         
           <button class="no-style navbar-toggle navbar-close icofont-close-line d-lg-none"></button>
@@ -158,15 +176,14 @@
         
           <div class="app-logo">
             <div class="logo-wrap">
-            
-            <img src="../assets/img/logo.png" alt="" width="147" height="33" class="logo-img">
-             FBY
+                <img src="../assets/img/logo.png" alt="" width="147" height="33" class="logo-img">
+                FBY
             </div>
           </div>
 
         
           <div class="main-menu">
-            <nav class="main-menu-wrap">
+            <nav class="main-menu-wrap pb-3">
               <ul class="menu-ul">
                 <li class="menu-item">
                   <span class="group-title">FBY ADMIN</span>
@@ -245,7 +262,7 @@
                     <span class="link-text">Settlement</span>
                   </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item active">
                   <a class="item-link" href="view-shift.html">
                     <div class="icon icofont-search-job"></div>
                     <span class="link-text">view-shift</span>
@@ -256,6 +273,7 @@
             </nav>
           </div>
 
+        
         
         <div class="navbar-skeleton vertical">
           <div class="top-part">
@@ -307,123 +325,222 @@
       </div>
     </div>
 
-    <!-- end Vertical navbar -->
+    <!-- endHorizontal navbar 2 -->
 
     <main class="main-content">
       <div class="app-loader"><i class="icofont-spinner-alt-4 rotate"></i></div>
 
       <div class="main-content-wrap">
-        <header class="page-header">
-          <h1 class="page-title">Staff account</h1>
-        </header>
-
         <div class="page-content">
-          <div class="row justify-content-center">
-            <div class="col col-12 col-xl-8">
-              <form class="mb-4">
-                <label>Photo</label>
-                <div class="form-group avatar-box d-flex align-items-center">
-                  <img src="../assets/content/user-400-1.jpg" width="100" height="100" alt="" class="rounded-500 me-4">
 
-                  <button class="btn btn-outline-primary" type="button">
-                    Change photo<span class="btn-icon icofont-ui-user ms-2"></span>
-                  </button>
-                </div>
-
-                <div class="form-group">
-                  <label>First name</label>
-                  <input class="form-control" type="text" placeholder="First name" value="Liam">
-                </div>
-
-                <div class="form-group">
-                  <label>Last name</label>
-                  <input class="form-control" type="text" placeholder="Last name" value="Jouns">
-                </div>
-
-                <div class="row">
-                  <div class="col-12 col-sm-6">
-                    <div class="form-group">
-                      <label>Date of birth</label>
-                      <input class="form-control" type="date" >
-                    </div>
-                  </div>
-                  <div class="col-12 col-sm-6">
-                    <div class="form-group">
-                      <label>Gender</label>
-                      <select class="selectpicker" title="Gender">
-                        <option selected>Male</option>
-                        <option>Female</option>
-                      </select>
+            <div class="row">
+              <div class="col-12 col-md-6">
+                <p class="text-muted mb-4">
+                  <h3>This color is for settled shift <span class="badge badge-secondary badge-inside" style="background-color: green;"><div class="icon sli-drop"></div></span></h3>
+                
+                </p>
+              </div>
+              <div class="col-12 col-md-6">
+                <div class="card bg-dark text-white">
+                  <div class="card-body">
+                    <div class="row text-center">
+                      <div class="col-6">
+                        <div>Total hours</div>
+                        <strong class="fs-20 text-success">100</strong>
+                      </div>
+  
+                      <div class="col-6">
+                        <div>Amount pending</div>
+                        <strong class="fs-20 text-danger">$2,540</strong>
+                      </div>
                     </div>
                   </div>
                 </div>
-
-                <div class="form-group">
-                  <label>Phone number</label>
-                  <input class="form-control" type="number" placeholder="Age" value="0126596578">
-                </div>
-
-                <div class="form-group">
-                  <label>Address</label>
-                  <textarea class="form-control" placeholder="Address" rows="3">71 Pilgrim Avenue Chevy Chase, MD 20815</textarea>
-                </div>
-
-                <div class="form-group">
-                  <label>Job description</label>
-                  <textarea class="form-control" placeholder="Address" rows="3">Your job description</textarea>
-
-                </div>
-
-               
-
-                <div class="row">
-                  <div class="col">
-                    <button type="button" class="btn btn-success">Save changes</button>
-                  </div>
-                  <div class="col text-end">
-                    <button type="button" class="btn btn-outline-danger">
-                      <span class="d-none d-sm-block">Delete account</span>
-                      <span class="d-sm-none">Delete</span>
-                    </button>
-                  </div>
-                </div>
-              </form>
-
-              <hr>
-            
-              <h4>Change password</h4>
-
-              <form>
-                <div class="row">
-                  <div class="col-12 col-sm-6">
-                    <div class="form-group">
-                      <label>Current password</label>
-                      <input class="form-control" type="text" placeholder="Current password">
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-12 col-sm-6">
-                    <div class="form-group">
-                      <label>New password</label>
-                      <input class="form-control" type="text" placeholder="New password">
-                    </div>
-                  </div>
-
-                  <div class="col-12 col-sm-6">
-                    <div class="form-group">
-                      <label>Confirm new password</label>
-                      <input class="form-control" type="text" placeholder="Confirm new password">
-                    </div>
-                  </div>
-                </div>
-
-                <button type="button" class="btn btn-outline-dark">Change password</button>
-              </form>
-
+              </div>
             </div>
+  
+           
+            <div class="card">
+              <div class="card-body">
+                <div class="col-12">
+                  <div class="card text-secondary border-secondary">
+                   
+                    <div class="card-body w-100">
+  
+                      <div class="d-flex flex-wrap flex-row justify-content-between bd-highlight mb-3">
+                        <div class="form-group mb-md-0">
+                          <label>Customer name</label>
+                          <select class="selectpicker" id="customerName">
+                            <option  value="" selected>Select</option>
+                            <option value="Tokyo">Tokyo</option>
+                            <option value="desk">desk</option>
+                          </select>
+                        </div>
+                        <div class="form-group mb-md-0">
+                          <label>Site</label>
+                          <select class="selectpicker" id="Site">
+                            <option value="" selected>Select</option>
+                            <option value="Koforidua Central Business">Koforidua Central Business</option>
+                            <option value="Koforidua Business District">Koforidua Business District</option>
+                            <option value="Koforidua Central  District">Koforidua Central  District</option>
+                            <option value="Koforidua Central Business k">Koforidua Central Business k</option>
+                          </select>
+                        </div>
+                        <div class="form-group mb-md-0">
+                          <label>Staff name</label>
+                          <select class="selectpicker" id="staffName">
+                            <option value="" selected>Select</option>
+                            <option value="Airi Satou">Airi Satou</option>
+                            <option  value="Barbecue">Barbecue</option>
+                          </select>
+                        </div>
+  
+                        <table border="0" cellspacing="5" cellpadding="5" >
+                          <tbody><tr>
+                              <td>From :</td>
+                              <td><input type="text" id="min" name="min"></td>
+                            </tr>
+                            <tr>
+                                <td>To :</td>
+                                <td><input type="text" id="max" name="max"></td>
+                            </tr>
+                          </tbody>
+                        </table>
+          
+                        
+                      </div>
+                    </div>
+                  </div>
+                </div>
+  
+               
+      
+                  <div class="card mb-0">
+                 
+                    <div class="card-body">
+                      <div class="alert alert-dark outline mb-0" role="alert" style="width:100%;">
+                        <div>
+                          Toggle column: <a class="toggle-vis" data-column="0">Date</a> - <a class="toggle-vis" data-column="1">First name</a> - <a class="toggle-vis" data-column="2">Last name</a> - <a class="toggle-vis" data-column="3">Customer</a> - <a class="toggle-vis" data-column="4">Site</a>
+                        </div>
+                        <table id="example" class="display" style="width:100%;"
+                        
+                        data-ajax="../assets/data/view-shift.json"
+                        data-columns='[
+                        { "data": "start-date" },
+                        { "data": "first-name" },
+                        { "data": "last-name" },
+                        { "data": "customer" },
+                        { "data": "site" },
+                        { "data": "start-time" },
+                        { "data": "end-time" },
+                        { "data": "shift-hour" },
+                        { "data": "hourly-rate" },
+                        { "data": "check-in" },
+                        { "data": "check-out" },
+                        { "data": "shift-hour2"},
+                        { "data": "total-earn"}
+                        ]'
+                        data-paging="true"
+                        data-info="true"
+                        select="true">
+                            <thead>
+                                <tr>
+                                <th>Date</th>
+                                <th>First name</th>
+                                <th >Last name</th>
+                                <th>Customer </th>
+                                <th>Site</th>
+                                <th >Start time</th>
+                                <th>End time</th>
+                                <th>Shift hour</th>
+                                <th>Hourly rate</th>
+                                <th>Check in</th>
+                                <th>Check out</th>
+                                <th>Shift hour</th>
+                                <th>Total earn</th>
+                                </tr>
+                            </thead>
+                  
+                            <tfoot>
+                                <tr>
+                                  <th>Date</th>
+                                  <th>First name</th>
+                                  <th >Last name</th>
+                                  <th>Customer </th>
+                                  <th>Site</th>
+                                  <th >Start time</th>
+                                  <th>End time</th>
+                                  <th>Shift hour</th>
+                                  <th>Hourly rate</th>
+                                  <th>Check in</th>
+                                  <th>Check out</th>
+                                  <th>Shift hour</th>
+                                  <th>Total earn</th>
+                                </tr>
+                            </tfoot>
+                  
+                          <tbody>
+                            <tr>
+                              <td>Tiger Nixon</td>
+                              <td>System Architect</td>
+                              <td>Edinburgh</td>
+                              <td>61</td>
+                              <td>2011/04/25</td>
+                              <td>$3,120</td>
+                              <td>$3,120</td>
+                              <td>$3,120</td>
+                              <td>$3,120</td>
+                              <td>$3,120</td>
+                            </tr>
+                            <tr>
+                              <td>Garrett Winters</td>
+                              <td>Director</td>
+                              <td>Edinburgh</td>
+                              <td>63</td>
+                              <td>2011/07/25</td>
+                              <td>$5,300</td>
+                              <td>$3,120</td>
+                              <td>$3,120</td>
+                              <td>$3,120</td>
+                              <td>$3,120</td>
+                            </tr>
+                            <tr>
+                              <td>Ashton Cox</td>
+                              <td>Technical Author</td>
+                              <td>San Francisco</td>
+                              <td>66</td>
+                              <td>2009/01/12</td>
+                              <td>$4,800</td>
+                              <td>$3,120</td>
+                              <td>$3,120</td>
+                              <td>$3,120</td>
+                              <td>$3,120</td>
+                            </tr>
+                            <tr>
+                              <td>Cedric Kelly</td>
+                              <td>Javascript Developer</td>
+                              <td>Edinburgh</td>
+                              <td>22</td>
+                              <td>2012/03/29</td>
+                              <td>$3,600</td>
+                              <td>$3,120</td>
+                              <td>$3,120</td>
+                              <td>$3,120</td>
+                              <td>$3,120</td>
+                            </tr>
+                          
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+          
+  
+  
+              </div>
+            </div>
+  
           </div>
-        </div>
       </div>
     </main>
 
@@ -434,19 +551,13 @@
             <ul class="page-breadcrumbs">
               
                 <li class="item">
-                  <a href=# class="link">Apps</a>
+                  <a href=# class="link">Dashboards</a>
 
                   <i class="separator icofont-thin-right"></i>
                 </li>
               
                 <li class="item">
-                  <a href=# class="link">Service pages</a>
-
-                  <i class="separator icofont-thin-right"></i>
-                </li>
-              
-                <li class="item">
-                  <a href=# class="link">Edit account</a>
+                  <a href=# class="link">Default</a>
 
                   <i class="separator icofont-thin-right"></i>
                 </li>
@@ -614,6 +725,19 @@
 
 <script src="../assets/js/main.js"></script>
 
+
+<script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script>
+<script src="https://cdn.datatables.net/datetime/1.1.2/js/dataTables.dateTime.min.js"></script>
+
+<script src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.html5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.html5.min.js"></script>
+<script src="../assets/js/view-shift.js"></script>
 
 </body>
 </html>

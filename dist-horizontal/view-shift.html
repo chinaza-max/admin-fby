@@ -358,7 +358,7 @@
                  
                   <div class="card-body w-100">
 
-                    <div class="d-flex flex-row justify-content-between bd-highlight mb-3">
+                    <div class="d-flex flex-wrap flex-row justify-content-between bd-highlight mb-3">
                       <div class="form-group mb-md-0">
                         <label>Customer name</label>
                         <select class="selectpicker" id="customerName">
@@ -386,17 +386,16 @@
                         </select>
                       </div>
 
-                      <table border="0" cellspacing="5" cellpadding="5">
+                      <table border="0" cellspacing="5" cellpadding="5" >
                         <tbody><tr>
                             <td>From :</td>
                             <td><input type="text" id="min" name="min"></td>
-                        </tr>
-                        <tr>
-                            <td>To :</td>
-                            <td><input type="text" id="max" name="max"></td>
-                        </tr>
-                      </tbody>
-        
+                          </tr>
+                          <tr>
+                              <td>To :</td>
+                              <td><input type="text" id="max" name="max"></td>
+                          </tr>
+                        </tbody>
                       </table>
         
                       
@@ -406,49 +405,90 @@
               </div>
 
              
-              <table
-                id="example" 
+    
+                <div class="card mb-0">
+               
+                  <div class="card-body">
+                    <div class="alert alert-dark outline mb-0" role="alert" style="width:100%;">
+                      <div>
+                        Toggle column: <a class="toggle-vis" data-column="0">Name</a> - <a class="toggle-vis" data-column="1">Position</a> - <a class="toggle-vis" data-column="2">Office</a> - <a class="toggle-vis" data-column="3">Age</a> - <a class="toggle-vis" data-column="4">Start date</a> - <a class="toggle-vis" data-column="5">Salary</a>
+                      </div>
+                      <table id="example" class="display" style="width:100%;">
+                        
                 
-                class="table table-bordered table-striped dataTable no-footer"
-                data-ajax="../assets/data/view-shift.json"
-                data-columns='[
-                  { "data": "start-date" },
-                  { "data": "first-name" },
-                  { "data": "last-name" },
-                  { "data": "customer" },
-                  { "data": "site" },
-                  { "data": "start-time" },
-                  { "data": "end-time" },
-                  { "data": "shift-hour" },
-                  { "data": "hourly-rate" },
-                  { "data": "check-in" },
-                  { "data": "check-out" },
-                  { "data": "shift-hour2"},
-                  { "data": "total-earn"}
-                ]'
-                data-paging="true"
-                data-info="true"
-                select="true"
-              >
-                <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>First name</th>
-                  <th >Last name</th>
-                  <th>Customer </th>
-                  <th>Site</th>
-                  <th >Start time</th>
-                  <th>End time</th>
-                  <th>Shift hour</th>
-                  <th>Hourly rate</th>
-                  <th>Check in</th>
-                  <th>Check out</th>
-                  <th>Shift hour</th>
-                  <th>Total earn</th>
-                </tr>
-                </thead>
-                <tbody></tbody>
-              </table>
+                        <tfoot>
+                          <tr>
+                            <th>Name</th>
+                            <th>Position</th>
+                            <th>Office</th>
+                            <th>Age</th>
+                            <th>Start date</th>
+                            <th>Salary</th>
+                            <th>Salary</th>
+                            <th>Salary</th>
+                            <th>Salary</th>
+                            <th>Salary</th>
+                          </tr>
+                        </tfoot>
+                
+                        <tbody>
+                          <tr>
+                            <td>Tiger Nixon</td>
+                            <td>System Architect</td>
+                            <td>Edinburgh</td>
+                            <td>61</td>
+                            <td>2011/04/25</td>
+                            <td>$3,120</td>
+                            <td>$3,120</td>
+                            <td>$3,120</td>
+                            <td>$3,120</td>
+                            <td>$3,120</td>
+                          </tr>
+                          <tr>
+                            <td>Garrett Winters</td>
+                            <td>Director</td>
+                            <td>Edinburgh</td>
+                            <td>63</td>
+                            <td>2011/07/25</td>
+                            <td>$5,300</td>
+                            <td>$3,120</td>
+                            <td>$3,120</td>
+                            <td>$3,120</td>
+                            <td>$3,120</td>
+                          </tr>
+                          <tr>
+                            <td>Ashton Cox</td>
+                            <td>Technical Author</td>
+                            <td>San Francisco</td>
+                            <td>66</td>
+                            <td>2009/01/12</td>
+                            <td>$4,800</td>
+                            <td>$3,120</td>
+                            <td>$3,120</td>
+                            <td>$3,120</td>
+                            <td>$3,120</td>
+                          </tr>
+                          <tr>
+                            <td>Cedric Kelly</td>
+                            <td>Javascript Developer</td>
+                            <td>Edinburgh</td>
+                            <td>22</td>
+                            <td>2012/03/29</td>
+                            <td>$3,600</td>
+                            <td>$3,120</td>
+                            <td>$3,120</td>
+                            <td>$3,120</td>
+                            <td>$3,120</td>
+                          </tr>
+                        
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+        
+
+
             </div>
           </div>
 
@@ -585,13 +625,7 @@
       </div>
       <div class="modal-body">
         <form>
-          <div class="form-group">
-            <label>Layout</label>
-            <select class="selectpicker" title="Layout" id="layout">
-              <option value="horizontal-layout">Horizontal</option>
-              <option value="vertical-layout">Vertical</option>
-            </select>
-          </div>
+         
 
           <div class="form-group">
             <label>Light/dark topbar</label>
