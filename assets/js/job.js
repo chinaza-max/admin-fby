@@ -191,3 +191,56 @@ document.getElementById("JobTypeOccuranceType").addEventListener("change", funct
   }
 
 });
+
+
+document.getElementById("sheduleType").addEventListener("change", function() {
+
+  if(this.value=="Date and time"){
+    document.getElementById("Typedateselection").style.display="block";
+
+  }
+  else if(this.value=="Instruction"){
+    document.getElementById("SpecialTask2AddStaff2").style.display="block";
+    document.getElementById("SpecialTask1AddStaff2").style.display="none";
+  }
+  else if(this.value=="Task"){
+    document.getElementById("SpecialTask1AddStaff2").style.display="none";
+    document.getElementById("SpecialTask2AddStaff2").style.display="none";
+  }
+
+});
+
+
+
+document.getElementById("randomPickedDate").style.display="none";
+
+document.getElementById("dateSelection").addEventListener("change", function() {
+
+  if(this.value=="Single date and time"){
+    document.getElementById("singleDate").style.display="block";
+
+  }
+  else if(this.value=="Multiple random pick"){
+    document.getElementById("singleDate").style.display="none";
+    document.getElementById("randomPickedDate").style.display="block";
+
+  }
+  else if(this.value=="Range selection"){
+   
+  }
+
+});
+
+
+
+/**
+ * 
+ * reference for multiple date selction which are random 
+ * https://jsfiddle.net/azaret/25bqa6ho/   for source code
+ * 
+ * https://codepen.io/ranjith555/pen/OyKjjm for ui 
+ */
+$('.date').datepicker({
+  multidate: true,
+	format: 'dd-mm-yyyy'
+});

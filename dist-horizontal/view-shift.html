@@ -22,17 +22,18 @@
   <link rel="stylesheet" href="../assets/css/morris.css">
   <link rel="stylesheet" href="../assets/css/leaflet.css">
 
-
   <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/select/1.4.0/css/select.dataTables.min.css">
   <!-- Theme CSS -->
   <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/datetime/1.1.2/css/dataTables.dateTime.min.css">
+  <link rel="stylesheet" href="  https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css">
+
 
 </head>
 
 
-<body class="vertical-layout boxed">
+<body class="horizontal-layout boxed">
 <div class="app-loader main-loader">
   <div class="loader-box">
     <div class="bounceball"></div>
@@ -50,7 +51,20 @@
           <button class="no-style navbar-toggle navbar-open d-lg-none">
             <span></span><span></span><span></span>
           </button>
+
         
+          <div class="app-logo">
+            <div class="logo-wrap">
+              <!-- Image logo -->
+              <img src="../assets/img/logo.png" alt="" width="147" height="33" class="logo-img">
+              FBY
+              <!-- end Image logo -->
+
+            
+            </div>
+          </div>
+
+
           <div class="app-actions">
             <div class="dropdown item">
               <button
@@ -127,6 +141,7 @@
               </div>
             </div>
           </div>
+        
 
         
         <div class="navbar-skeleton horizontal">
@@ -152,30 +167,30 @@
 
     <!-- end Horizontal navbar -->
 
-    <!-- Vertical navbar -->
-    <div id="navbar2" class="app-navbar vertical">
+    <!-- Horizontal navbar 2 -->
+    <div id="navbar2" class="app-navbar horizontal horizontal-vertical">
       <div class="navbar-wrap">
         
           <button class="no-style navbar-toggle navbar-close icofont-close-line d-lg-none"></button>
 
+        
           <div class="app-logo">
             <div class="logo-wrap">
-            
-            <img src="../assets/img/logo.png" alt="" width="147" height="33" class="logo-img">
-             FBY
+                <img src="../assets/img/logo.png" alt="" width="147" height="33" class="logo-img">
+                FBY
             </div>
           </div>
 
         
           <div class="main-menu">
-            <nav class="main-menu-wrap">
+            <nav class="main-menu-wrap pb-3">
               <ul class="menu-ul">
                 <li class="menu-item">
                   <span class="group-title">FBY ADMIN</span>
                 </li>
 
                 <li class="menu-item">
-                  <a class="item-link" href="index.html">
+                  <a class="item-link" href="/dist/index.html">
                     <div class="icon sli-grid"></div>
                     <span class="link-text">Dashboard</span>
                   </a>
@@ -191,21 +206,21 @@
                   <ul class="sub ml-20px">
 
                     <li class="menu-item">
-                      <a class="item-link" href="customer.html">
+                      <a class="item-link" href="/dist/customer.html">
                         <div class="icon icofont-user-alt-2"></div>
                         <span class="link-text">customer</span>
                       </a>
                     </li>
 
                     <li class="menu-item">
-                      <a class="item-link" href="staff.html">
+                      <a class="item-link" href="/dist/staff.html">
                         <div class="icon icofont-business-man"></div>
                         <span class="link-text">staff</span>
                       </a>
                     </li>
 
                     <li class="menu-item">
-                      <a class="item-link" href="guard.html">
+                      <a class="item-link" href="/dist/guard.html">
                         <div class="icon icofont-cop"></div>
                         <span class="link-text">guard</span>
                       </a>
@@ -215,40 +230,40 @@
                 </li>
 
                 <li class="menu-item">
-                  <a class="item-link" href="request.html">
+                  <a class="item-link" href="/dist/request.html">
                     <div class="icon sli-book-open"></div>
                     <span class="link-text">Requests</span>
                   </a>
                 </li>
 
                 <li class="menu-item">
-                  <a class="item-link" href="request.html">
+                  <a class="item-link" href="/dist/request.html">
                     <div class="icon sli-credit-card"></div>
                     <span class="link-text">Invoices</span>
                   </a>
                 </li>
 
                 <li class="menu-item">
-                  <a class="item-link" href="Jobs.html">
+                  <a class="item-link" href="/dist/Jobs.html">
                     <div class="icon icofont-prescription"></div>
                     <span class="link-text">Manage Job</span>
                   </a>
                 </li>
 
                 <li class="menu-item">
-                  <a class="item-link" href="request.html">
+                  <a class="item-link" href="/dist/request.html">
                     <div class="icon icofont-fax"></div>
                     <span class="link-text">Transaction</span>
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a class="item-link" href="request.html">
+                  <a class="item-link" href="/dist/settlement.html">
                     <div class="icon icofont-layers"></div>
                     <span class="link-text">Settlement</span>
                   </a>
                 </li>
                 <li class="menu-item active">
-                  <a class="item-link" href="view-shift.html">
+                  <a class="item-link" href="/dist/view-shift.html">
                     <div class="icon icofont-search-job"></div>
                     <span class="link-text">view-shift</span>
                   </a>
@@ -259,11 +274,6 @@
           </div>
 
         
-
-        
-
-        
-
         
         <div class="navbar-skeleton vertical">
           <div class="top-part">
@@ -315,184 +325,222 @@
       </div>
     </div>
 
-    <!-- end Vertical navbar -->
+    <!-- endHorizontal navbar 2 -->
 
     <main class="main-content">
       <div class="app-loader"><i class="icofont-spinner-alt-4 rotate"></i></div>
 
       <div class="main-content-wrap">
-
         <div class="page-content">
 
-          <div class="row">
-            <div class="col-12 col-md-6">
-              <p class="text-muted mb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, dolorem excepturi facilis magni necessitatibus
-                perspiciatis repellendus sunt veniam? A ad architecto aspernatur cupiditate dignissimos distinctio earum, eligendi eum
-                iusto laboriosam maxime minima necessitatibus nemo nesciunt odio perferendis, quaerat qui quo repellendus sapiente.
-              </p>
-            </div>
-            <div class="col-12 col-md-6">
-              <div class="card bg-dark text-white">
-                <div class="card-body">
-                  <div class="row text-center">
-                    <div class="col-6">
-                      <div>Total hours</div>
-                      <strong class="fs-20 text-success">100</strong>
-                    </div>
-
-                    <div class="col-6">
-                      <div>Amount pending</div>
-                      <strong class="fs-20 text-danger">$2,540</strong>
-                    </div>
-                  </div>
-                </div>
+            <div class="row">
+              <div class="col-12 col-md-6">
+                <p class="text-muted mb-4">
+                  <h4>This color is for settled shift <span class="badge badge-secondary badge-inside" style="background-color: green;"><div class="icon sli-drop"></div></span></h4>
+                  <h4>This color is for ongoing shift <span class="badge badge-secondary badge-inside" style="background-color: #828204;"><div class="icon sli-drop"></div></span></h4>
+                </p>
               </div>
-            </div>
-          </div>
-
-         
-          <div class="card">
-            <div class="card-body">
-              <div class="col-12">
-                <div class="card text-secondary border-secondary">
-                 
-                  <div class="card-body w-100">
-
-                    <div class="d-flex flex-wrap flex-row justify-content-between bd-highlight mb-3">
-                      <div class="form-group mb-md-0">
-                        <label>Customer name</label>
-                        <select class="selectpicker" id="customerName">
-                          <option  value="" selected>Select</option>
-                          <option value="Tokyo">Tokyo</option>
-                          <option value="desk">desk</option>
-                        </select>
-                      </div>
-                      <div class="form-group mb-md-0">
-                        <label>Site</label>
-                        <select class="selectpicker" id="Site">
-                          <option value="" selected>Select</option>
-                          <option value="Koforidua Central Business">Koforidua Central Business</option>
-                          <option value="Koforidua Business District">Koforidua Business District</option>
-                          <option value="Koforidua Central  District">Koforidua Central  District</option>
-                          <option value="Koforidua Central Business k">Koforidua Central Business k</option>
-                        </select>
-                      </div>
-                      <div class="form-group mb-md-0">
-                        <label>Staff name</label>
-                        <select class="selectpicker" id="staffName">
-                          <option value="" selected>Select</option>
-                          <option value="Airi Satou">Airi Satou</option>
-                          <option  value="Barbecue">Barbecue</option>
-                        </select>
-                      </div>
-
-                      <table border="0" cellspacing="5" cellpadding="5" >
-                        <tbody><tr>
-                            <td>From :</td>
-                            <td><input type="text" id="min" name="min"></td>
-                          </tr>
-                          <tr>
-                              <td>To :</td>
-                              <td><input type="text" id="max" name="max"></td>
-                          </tr>
-                        </tbody>
-                      </table>
-        
-                      
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-             
-    
-                <div class="card mb-0">
-               
+              <div class="col-12 col-md-6">
+                <div class="card bg-dark text-white">
                   <div class="card-body">
-                    <div class="alert alert-dark outline mb-0" role="alert" style="width:100%;">
-                      <div>
-                        Toggle column: <a class="toggle-vis" data-column="0">Name</a> - <a class="toggle-vis" data-column="1">Position</a> - <a class="toggle-vis" data-column="2">Office</a> - <a class="toggle-vis" data-column="3">Age</a> - <a class="toggle-vis" data-column="4">Start date</a> - <a class="toggle-vis" data-column="5">Salary</a>
+                    <div class="row text-center">
+                      <div class="col-6">
+                        <div>Total hours</div>
+                        <strong class="fs-20 text-success" id="totalHours">100</strong>
                       </div>
-                      <table id="example" class="display" style="width:100%;">
-                        
-                
-                        <tfoot>
-                          <tr>
-                            <th>Name</th>
-                            <th>Position</th>
-                            <th>Office</th>
-                            <th>Age</th>
-                            <th>Start date</th>
-                            <th>Salary</th>
-                            <th>Salary</th>
-                            <th>Salary</th>
-                            <th>Salary</th>
-                            <th>Salary</th>
-                          </tr>
-                        </tfoot>
-                
-                        <tbody>
-                          <tr>
-                            <td>Tiger Nixon</td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>
-                            <td>61</td>
-                            <td>2011/04/25</td>
-                            <td>$3,120</td>
-                            <td>$3,120</td>
-                            <td>$3,120</td>
-                            <td>$3,120</td>
-                            <td>$3,120</td>
-                          </tr>
-                          <tr>
-                            <td>Garrett Winters</td>
-                            <td>Director</td>
-                            <td>Edinburgh</td>
-                            <td>63</td>
-                            <td>2011/07/25</td>
-                            <td>$5,300</td>
-                            <td>$3,120</td>
-                            <td>$3,120</td>
-                            <td>$3,120</td>
-                            <td>$3,120</td>
-                          </tr>
-                          <tr>
-                            <td>Ashton Cox</td>
-                            <td>Technical Author</td>
-                            <td>San Francisco</td>
-                            <td>66</td>
-                            <td>2009/01/12</td>
-                            <td>$4,800</td>
-                            <td>$3,120</td>
-                            <td>$3,120</td>
-                            <td>$3,120</td>
-                            <td>$3,120</td>
-                          </tr>
-                          <tr>
-                            <td>Cedric Kelly</td>
-                            <td>Javascript Developer</td>
-                            <td>Edinburgh</td>
-                            <td>22</td>
-                            <td>2012/03/29</td>
-                            <td>$3,600</td>
-                            <td>$3,120</td>
-                            <td>$3,120</td>
-                            <td>$3,120</td>
-                            <td>$3,120</td>
-                          </tr>
-                        
-                        </tbody>
-                      </table>
+  
+                      <div class="col-6">
+                        <div>Amount pending</div>
+                        <strong class="fs-20 text-danger" id="amountPending">$2,540</strong>
+                      </div>
                     </div>
                   </div>
                 </div>
-        
-
-
+              </div>
             </div>
+  
+           
+            <div class="card">
+              <div class="card-body">
+                <div class="col-12">
+                  <div class="card text-secondary border-secondary">
+                   
+                    <div class="card-body w-100">
+  
+                      <div class="d-flex flex-wrap flex-row justify-content-between bd-highlight mb-3">
+                        <div class="form-group mb-md-0">
+                          <label>Customer name</label>
+                          <select class="selectpicker" id="customerName">
+                            <option  value="" selected>Select</option>
+                            <option value="Tokyo">Tokyo</option>
+                            <option value="desk">desk</option>
+                          </select>
+                        </div>
+                        <div class="form-group mb-md-0">
+                          <label>Site</label>
+                          <select class="selectpicker" id="Site">
+                            <option value="" selected>Select</option>
+                            <option value="Koforidua Central Business">Koforidua Central Business</option>
+                            <option value="Koforidua Business District">Koforidua Business District</option>
+                            <option value="Koforidua Central  District">Koforidua Central  District</option>
+                            <option value="Koforidua Central Business k">Koforidua Central Business k</option>
+                          </select>
+                        </div>
+                        <div class="form-group mb-md-0">
+                          <label>Staff name</label>
+                          <select class="selectpicker" id="staffName">
+                            <option value="" selected>Select</option>
+                            <option value="Airi Satou">Airi Satou</option>
+                            <option  value="Barbecue">Barbecue</option>
+                          </select>
+                        </div>
+  
+                        <table border="0" cellspacing="5" cellpadding="5" >
+                          <tbody><tr>
+                              <td>From :</td>
+                              <td><input type="text" id="min" name="min"></td>
+                            </tr>
+                            <tr>
+                                <td>To :</td>
+                                <td><input type="text" id="max" name="max"></td>
+                            </tr>
+                          </tbody>
+                        </table>
+          
+                        
+                      </div>
+                    </div>
+                  </div>
+                </div>
+  
+               
+      
+                  <div class="card mb-0">
+                 
+                    <div class="card-body">
+                      <div class="alert alert-dark outline mb-0" role="alert" style="width:100%;">
+                        <div>
+                          Toggle column: <a class="toggle-vis" data-column="0">Date</a> - <a class="toggle-vis" data-column="1">First name</a> - <a class="toggle-vis" data-column="2">Last name</a> - <a class="toggle-vis" data-column="3">Customer</a> - <a class="toggle-vis" data-column="4">Site</a>
+                        </div>
+                        <table id="example" class="display" style="width:100%;"
+                        
+                        data-ajax="../assets/data/view-shift.json"
+                        data-columns='[
+                        { "data": "start-date" },
+                        { "data": "first-name" },
+                        { "data": "last-name" },
+                        { "data": "customer" },
+                        { "data": "site" },
+                        { "data": "start-time" },
+                        { "data": "end-time" },
+                        { "data": "shift-hour" },
+                        { "data": "hourly-rate" },
+                        { "data": "check-in" },
+                        { "data": "check-out" },
+                        { "data": "shift-hour2"},
+                        { "data": "total-earn"}
+                        ]'
+                        data-paging="true"
+                        data-info="true"
+                        select="true">
+                            <thead>
+                                <tr>
+                                <th>Date</th>
+                                <th>First name</th>
+                                <th >Last name</th>
+                                <th>Customer </th>
+                                <th>Site</th>
+                                <th >Start time</th>
+                                <th>End time</th>
+                                <th>Shift hour</th>
+                                <th>Hourly rate</th>
+                                <th>Check in</th>
+                                <th>Check out</th>
+                                <th>Shift hour</th>
+                                <th>Total earn</th>
+                                </tr>
+                            </thead>
+                  
+                            <tfoot>
+                                <tr>
+                                  <th>Date</th>
+                                  <th>First name</th>
+                                  <th >Last name</th>
+                                  <th>Customer </th>
+                                  <th>Site</th>
+                                  <th >Start time</th>
+                                  <th>End time</th>
+                                  <th>Shift hour</th>
+                                  <th>Hourly rate</th>
+                                  <th>Check in</th>
+                                  <th>Check out</th>
+                                  <th>Shift hour</th>
+                                  <th>Total earn</th>
+                                </tr>
+                            </tfoot>
+                  
+                          <tbody>
+                            <tr>
+                              <td>Tiger Nixon</td>
+                              <td>System Architect</td>
+                              <td>Edinburgh</td>
+                              <td>61</td>
+                              <td>2011/04/25</td>
+                              <td>$3,120</td>
+                              <td>$3,120</td>
+                              <td>$3,120</td>
+                              <td>$3,120</td>
+                              <td>$3,120</td>
+                            </tr>
+                            <tr>
+                              <td>Garrett Winters</td>
+                              <td>Director</td>
+                              <td>Edinburgh</td>
+                              <td>63</td>
+                              <td>2011/07/25</td>
+                              <td>$5,300</td>
+                              <td>$3,120</td>
+                              <td>$3,120</td>
+                              <td>$3,120</td>
+                              <td>$3,120</td>
+                            </tr>
+                            <tr>
+                              <td>Ashton Cox</td>
+                              <td>Technical Author</td>
+                              <td>San Francisco</td>
+                              <td>66</td>
+                              <td>2009/01/12</td>
+                              <td>$4,800</td>
+                              <td>$3,120</td>
+                              <td>$3,120</td>
+                              <td>$3,120</td>
+                              <td>$3,120</td>
+                            </tr>
+                            <tr>
+                              <td>Cedric Kelly</td>
+                              <td>Javascript Developer</td>
+                              <td>Edinburgh</td>
+                              <td>22</td>
+                              <td>2012/03/29</td>
+                              <td>$3,600</td>
+                              <td>$3,120</td>
+                              <td>$3,120</td>
+                              <td>$3,120</td>
+                              <td>$3,120</td>
+                            </tr>
+                          
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+          
+  
+  
+              </div>
+            </div>
+  
           </div>
-
-        </div>
       </div>
     </main>
 
@@ -503,19 +551,13 @@
             <ul class="page-breadcrumbs">
               
                 <li class="item">
-                  <a href=# class="link">UI Kit</a>
+                  <a href=# class="link">Dashboards</a>
 
                   <i class="separator icofont-thin-right"></i>
                 </li>
               
                 <li class="item">
-                  <a href=# class="link">Tables</a>
-
-                  <i class="separator icofont-thin-right"></i>
-                </li>
-              
-                <li class="item">
-                  <a href=# class="link">Data tables</a>
+                  <a href=# class="link">Default</a>
 
                   <i class="separator icofont-thin-right"></i>
                 </li>
@@ -625,7 +667,7 @@
       </div>
       <div class="modal-body">
         <form>
-         
+          
 
           <div class="form-group">
             <label>Light/dark topbar</label>
@@ -677,16 +719,19 @@
 
 <script src="../assets/js/main.js"></script>
 
+
+<script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script>
 <script src="https://cdn.datatables.net/datetime/1.1.2/js/dataTables.dateTime.min.js"></script>
 
-
-<!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> -->
-
 <script src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
-
+<script src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.html5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.html5.min.js"></script>
 <script src="../assets/js/view-shift.js"></script>
-
 
 </body>
 </html>
