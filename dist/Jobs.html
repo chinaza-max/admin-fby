@@ -26,6 +26,11 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+ 
+
+  
+  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+ 
 
   <!-- Theme CSS -->
   <link rel="stylesheet" href="../assets/css/style.css">
@@ -1953,23 +1958,23 @@
 
 
         <div class="alert alert-dark outline" role="alert" id="singleDate">
-          <form >
+          <form  id="myShedule3">
             <div class="form-group">
               <label>Date </label>
-              <input class="form-control" type="date" />
+              <input class="form-control" type="date" id="mySingleDate"  required/>
             </div>
   
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
                   <label>Start time</label>
-                  <input class="form-control" type="time" />
+                  <input class="form-control" type="time" id="mySingleStartTime"  required/>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group">
                   <label>End time</label>
-                  <input class="form-control" type="time" />
+                  <input class="form-control" type="time" id="mySingleEndTime" required/>
                 </div>
               </div>
             </div>
@@ -1979,19 +1984,124 @@
         </div>
 
         <div class="alert alert-dark outline" role="alert" id="randomPickedDate">
-          <form >
+          <form id="startEndDateForm">
             <div class="form-group">
-              <label>Date </label>
-              <div class="container">
-                <input type="text" class="form-control date" placeholder="Pick the multiple dates">
-              </div>	      
+
+              <div class="row"> 
+              <div class="col-md-6">
+                <div class="form-group">
+                    <label>Start date </label>
+                    <input class="form-control" type="date" required>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                    <label>End date</label>
+                    <input class="form-control" type="date"  id="endDate" required>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6">
+                <div class="form-group">
+                  <label>Start time</label>      
+                  <input class="form-control" type="time" value="00:00" id="startTimeRandom" required>
+                </div>
+              </div> 
+              <div class="col-12 col-sm-6">
+                <div class="form-group">
+                  <label>End time</label>
+                  <input class="form-control" type="time" value="23:59" id="endTimeRandom" required>
+                </div>
+              </div> 
+            </div>
+            <button class="btn btn-primary"  onclick="applyDateRange()">Apply</button>
+
             </div>
               
-            <button class="btn btn-primary" type="button">ADD</button>
+          </form>
+
+          <form >
+            <div class="form-group">
+              <label>Choose multiple dates click apply to set individual time after selection</label>
+              <div class="container">
+                <input type="text" class="form-control date" id="randomDate" placeholder="Pick the multiple dates">
+              </div>	   
+            </div>
+            <button class="btn btn-primary" type="button" onclick="apply()">Apply</button>
+          </form>
+          <form class="mt-5"  id="myShedule">
+            <h5>Set your time</h5>
+          
+              <div class="row" id="displaySelectedDateRandom">
+                
+              </div>	      
+              
+            <button class="btn btn-primary">create</button>
+          </form>
+
+        </div>
+
+        <div class="alert alert-dark outline" role="alert" id="rangePickedDate">
+          <form id="startEndDateFormRange">
+            <div class="form-group">
+
+              <div class="row"> 
+              <div class="col-md-6">
+                <div class="form-group">
+                    <label>Start date </label>
+                    <input class="form-control" type="date" id="startDateRange" required>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                    <label>End date</label>
+                    <input class="form-control" type="date"  id="endDateRange" required>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6">
+                <div class="form-group">
+                  <label>Start time</label>      
+                  <input class="form-control" type="time" value="00:00" id="startTimeRange" required>
+                </div>
+              </div> 
+              <div class="col-12 col-sm-6">
+                <div class="form-group">
+                  <label>End time</label>
+                  <input class="form-control" type="time" value="23:59" id="endTimeRange" required>
+                </div>
+              </div> 
+            </div>
+            <button class="btn btn-primary" >Apply</button>
+
+            </div>
+              
+          </form>
+
+          <form >
+            <div class="form-group">
+              <label>Choose a range click apply to set individual time after selection</label>
+
+              <div class="input-group">
+              
+                <input type="text" class="form-control" id="dateRange"  name="daterange" >
+              </div>	   
+                 
+            </div>
+              
+            <button class="btn btn-primary" type="button" onclick="applyRange()">Apply</button>
+          </form>
+          <form class="mt-5"  id="myShedule2">
+            <h5>Set your time</h5>
+          
+                  <div class="row" id="displaySelectedDateRange">
+                   
+                  </div>	      
+            
+              
+            <button class="btn btn-primary">create</button>
           </form>
         </div>
-       
-        
       </div>
     </div>
   </div>
@@ -2564,7 +2674,12 @@
 <script src="../assets/js/echarts-gl.min.js"></script>
 
 <script src="../assets/js/main.js"></script>
+
+<!-- Include Date Range Picker -->
+<script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
 <script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
+
 <script src="../assets/js/job.js"></script>
 
 
