@@ -1285,79 +1285,47 @@
         <hr />
         <div class="modal-body">
 
+          <div class="row">
 
-          <div class="alert alert-primary outline" role="alert">
-            Date created: 2021/10/10
-          </div>
+            <div class=" col-md-4">
 
-          <div class="alert alert-primary outline" role="alert">
-            Payment status: paid
+              <div class="alert alert-primary outline" role="alert">
+                Date created: 2021/10/10
+              </div>
+            </div>
+
+            <div class=" col-md-4 col-md-4">
+              <div class="alert alert-info outline " role="alert">
+                Payment status: paid
+              </div>
+
+            </div>
+
+            <div class=" col-md-4 col-md-4">
+              <div class="alert alert-success outline " role="alert">
+                Number of staff: 5
+              </div>
+            </div>
+
           </div>
 
           <div class="card-body">
 
 
-            <h6 class="modal-title"> INSTRUTION => Applied to all staff</h6>
+            <div id="viewDetailsContent">
 
-            <div class="v-timeline">
-              <div class="line"></div>
 
-              <div class="v-timeline">
-                <div class="line"></div>
-                <div class="timeline-box">
-                  <div class="box-label">
-                    <span class="badge badge-success">Event</span>
-                  </div>
-
-                  <div class="box-items">
-                    <div class="item">
-                      <div class="icon-block">
-                        <div class="item-icon icofont-street-view bg-warning"></div>
-                      </div>
-
-                      <div class="content-block">
-                        <div class="item-header">
-                          <h3 class="h5 item-title">perform security check</h3>
-
-                          <div class="item-date"><span>12 pm</span></div>
-                        </div>
-
-                        <div class="item-desc">security check to be perform on project</div>
-                      </div>
-                    </div>
-
-                    <div class="item">
-                      <div class="icon-block">
-                        <div class="item-icon icofont-search-document bg-warning"></div>
-                      </div>
-
-                      <div class="content-block">
-                        <div class="item-header">
-                          <h3 class="h5 item-title">scan QR code</h3>
-
-                          <div class="item-date"><span>10:00 Am </span></div>
-                        </div>
-
-                        <div class="item-desc">located behind the entrance door</div>
-                      </div>
-
-                    </div>
-                  </div>
-                </div>
-              </div>
+            
             </div>
 
-            <h6 class="modal-title"> TASK => Applied to all staff</h6>
 
-
-            <div class="alert alert-success outline mt-3" role="alert">
-              check the balcony
-            </div>
           </div>
 
 
           <div class="modal-footer">
-
+            <div class="actions justify-content-between">
+              <button type="button" class="btn btn-error" data-bs-dismiss="modal">Close</button>
+            </div>
           </div>
 
         </div>
@@ -1436,7 +1404,8 @@
                 <div class="modal-footer d-block">
                   <div class="actions justify-content-between">
                     <button class="btn btn-primary">assign all</button>
-                    <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#addGuardDateShedule1">assign to</button>
+                    <button class="btn btn-primary" type="button" data-bs-toggle="modal"
+                      data-bs-target="#addGuardDateShedule1">assign to</button>
                   </div>
                 </div>
               </form>
@@ -1498,7 +1467,8 @@
                 <div class="modal-footer d-block">
                   <div class="actions justify-content-between">
                     <button class="btn btn-primary">assign all</button>
-                    <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#addGuardDateShedule2">assign to</button>
+                    <button class="btn btn-primary" type="button" data-bs-toggle="modal"
+                      data-bs-target="#addGuardDateShedule2">assign to</button>
                   </div>
                 </div>
               </form>
@@ -1565,7 +1535,8 @@
                 <div class="modal-footer d-block">
                   <div class="actions justify-content-between">
                     <button class="btn btn-primary">assign all</button>
-                    <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#addGuardDateShedule3">assign to</button>
+                    <button class="btn btn-primary" type="button" data-bs-toggle="modal"
+                      data-bs-target="#addGuardDateShedule3">assign to</button>
                   </div>
                 </div>
               </form>
@@ -1631,7 +1602,8 @@
               <div class="modal-footer d-block">
                 <div class="actions justify-content-between">
                   <button class="btn btn-primary">assign all</button>
-                  <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#addGuardDateShedule4">assign to</button>
+                  <button class="btn btn-primary" type="button" data-bs-toggle="modal"
+                    data-bs-target="#addGuardDateShedule4">assign to</button>
                 </div>
               </div>
             </form>
@@ -1686,7 +1658,8 @@
               <div class="modal-footer d-block">
                 <div class="actions justify-content-between">
                   <button class="btn btn-primary">assign all</button>
-                  <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#addGuardDateShedule5">assign to</button>
+                  <button class="btn btn-primary" type="button" data-bs-toggle="modal"
+                    data-bs-target="#addGuardDateShedule5">assign to</button>
                 </div>
               </div>
             </form>
@@ -1741,7 +1714,7 @@
       </div>
     </div>
   </div>
-    
+
 
   <div class="modal fade" id="addGuardDateShedule1" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered ">
@@ -1761,12 +1734,12 @@
                   <div class="form-group ">
                     <label>Add multiple or single Guard</label>
                     <select class="selectpicker" data-live-search="true" id="addGuardDateShedule1V" multiple>
-                     
+
                       <option data-tokens="mustard">guard1</option>
                       <option data-tokens="frosting">guard2</option>
                       <option data-tokens="ketchup mustard">guard3</option>
                       <option data-tokens="mustard">guard4</option>
-                      <option data-tokens="frosting">guard5</option>  
+                      <option data-tokens="frosting">guard5</option>
                       <option data-tokens="mustard">guard6</option>
                       <option data-tokens="frosting">guard7</option>
                       <option data-tokens="ketchup mustard">guard1</option>
@@ -1778,7 +1751,7 @@
                       <option data-tokens="ketchup mustard">guard1</option>
                       <option data-tokens="mustard">guard2</option>
                       <option data-tokens="frosting">guard3</option>
-                      
+
                     </select>
                   </div>
 
@@ -1792,7 +1765,7 @@
         <div class="modal-footer d-block">
           <div class="actions justify-content-between">
             <button type="button" class="btn btn-error" data-bs-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-info"  onclick="addGuardDateShedule1()">Assign</button>
+            <button type="button" class="btn btn-info" onclick="addGuardDateShedule1()">Assign</button>
           </div>
         </div>
       </div>
@@ -1816,15 +1789,12 @@
                   <div class="form-group ">
                     <label>Add multiple or single Guard</label>
                     <select class="selectpicker" data-live-search="true" id="addGuardDateShedule2V" multiple>
-                     
+
                       <option data-tokens="mustard">guard2</option>
                       <option data-tokens="frosting">guard3</option>
                       <option data-tokens="ketchup mustard">guard1</option>
                       <option data-tokens="mustard">guard2</option>
-                      <option data-tokens="frosting">guard3</option>  
-                      <option data-tokens="mustard">guard2</option>
                       <option data-tokens="frosting">guard3</option>
-                      <option data-tokens="ketchup mustard">guard1</option>
                       <option data-tokens="mustard">guard2</option>
                       <option data-tokens="frosting">guard3</option>
                       <option data-tokens="ketchup mustard">guard1</option>
@@ -1833,7 +1803,10 @@
                       <option data-tokens="ketchup mustard">guard1</option>
                       <option data-tokens="mustard">guard2</option>
                       <option data-tokens="frosting">guard3</option>
-                      
+                      <option data-tokens="ketchup mustard">guard1</option>
+                      <option data-tokens="mustard">guard2</option>
+                      <option data-tokens="frosting">guard3</option>
+
                     </select>
                   </div>
 
@@ -1871,12 +1844,12 @@
                   <div class="form-group ">
                     <label>Add multiple or single Guard</label>
                     <select class="selectpicker" data-live-search="true" id="addGuardDateShedule3V" multiple>
-                     
+
                       <option data-tokens="guard1">guard1</option>
                       <option data-tokens="guard2">guard2</option>
                       <option data-tokens="guard3">guard3</option>
                       <option data-tokens="guard4">guard4</option>
-                      <option data-tokens="guard5">guard5</option>  
+                      <option data-tokens="guard5">guard5</option>
                       <option data-tokens="guard6">guard6</option>
                       <option data-tokens="guard7">guard7</option>
                       <option data-tokens="guard8">guard8</option>
@@ -1886,7 +1859,7 @@
                       <option data-tokens="guard12">guard12</option>
                       <option data-tokens="guard13">guard13</option>
                       <option data-tokens="guard14">guard14</option>
-                     
+
                     </select>
                   </div>
 
@@ -1924,15 +1897,12 @@
                   <div class="form-group ">
                     <label>Add multiple or single Guard</label>
                     <select class="selectpicker" data-live-search="true" id="addGuardDateShedule4V" multiple>
-                     
+
                       <option data-tokens="mustard">guard2</option>
                       <option data-tokens="frosting">guard3</option>
                       <option data-tokens="ketchup mustard">guard1</option>
                       <option data-tokens="mustard">guard2</option>
-                      <option data-tokens="frosting">guard3</option>  
-                      <option data-tokens="mustard">guard2</option>
                       <option data-tokens="frosting">guard3</option>
-                      <option data-tokens="ketchup mustard">guard1</option>
                       <option data-tokens="mustard">guard2</option>
                       <option data-tokens="frosting">guard3</option>
                       <option data-tokens="ketchup mustard">guard1</option>
@@ -1941,7 +1911,10 @@
                       <option data-tokens="ketchup mustard">guard1</option>
                       <option data-tokens="mustard">guard2</option>
                       <option data-tokens="frosting">guard3</option>
-                      
+                      <option data-tokens="ketchup mustard">guard1</option>
+                      <option data-tokens="mustard">guard2</option>
+                      <option data-tokens="frosting">guard3</option>
+
                     </select>
                   </div>
 
@@ -1979,12 +1952,12 @@
                   <div class="form-group ">
                     <label>Add multiple or single Guard</label>
                     <select class="selectpicker" data-live-search="true" id="addGuardDateShedule5V" multiple>
-                     
+
                       <option data-tokens="mustard">guard1</option>
                       <option data-tokens="frosting">guard2</option>
                       <option data-tokens="ketchup mustard">guard3</option>
                       <option data-tokens="mustard">guard4</option>
-                      <option data-tokens="frosting">guard5</option>  
+                      <option data-tokens="frosting">guard5</option>
                       <option data-tokens="mustard">guard6</option>
                       <option data-tokens="frosting">guard3</option>
                       <option data-tokens="ketchup mustard">guard1</option>
@@ -1996,7 +1969,7 @@
                       <option data-tokens="ketchup mustard">guard1</option>
                       <option data-tokens="mustard">guard2</option>
                       <option data-tokens="frosting">guard3</option>
-                      
+
                     </select>
                   </div>
 
@@ -2010,7 +1983,7 @@
         <div class="modal-footer d-block">
           <div class="actions justify-content-between">
             <button type="button" class="btn btn-error" data-bs-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-info"  onclick="addGuardDateShedule5()">Assign</button>
+            <button type="button" class="btn btn-info" onclick="addGuardDateShedule5()">Assign</button>
           </div>
         </div>
       </div>
