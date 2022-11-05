@@ -1,5 +1,7 @@
 
 
+
+
 /*new date and time sheduler */
 
 
@@ -1156,8 +1158,205 @@ let duplicatesArray=[
  console.log(removeDateTimeDuplicate(duplicatesArray))
 */
 
-localStorage.setItem("me",5)
-let test1=localStorage.getItem("me")
-test1
-localStorage.setItem("me",10)
-console.log(test1)
+/*THIS PART HANDLES THE FILLINS OF JOB DETAILS */
+
+
+
+console.log(JSON.parse(localStorage.getItem("job")||"[]"))
+
+
+
+
+function viewDetailsContentDisplay(val1){
+  let DomObj=''
+  let table=''
+
+
+
+
+
+
+
+
+  for(let i=0;i<val1.length;i++){
+   DomObj+=`
+   <p>
+   <h4>${val1[i].name}</h4>
+   <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#dateTime"
+     aria-expanded="false" aria-controls="dateTime">Dates and time</button>
+   <a class="btn btn-primary" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button"
+     aria-expanded="false" aria-controls="multiCollapseExample1">view instruction</a>
+   <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+     data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">view
+     task</button>
+   <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target=".multi-collapse"
+     aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2 dateTime">View
+     all</button>
+   </p>
+
+   <div class="collapse multi-collapse" id="dateTime">
+     <div class="card card-body">
+
+       <div class="table-responsive">
+         <table class="table table-bordered">
+           <thead>
+             <tr>
+
+               <th scope="col">Date </th>
+               <th scope="col">Start time</th>
+               <th scope="col">End time</th>
+             </tr>
+           </thead>
+           <tbody>
+             <tr>
+
+               <td>2022/02/02</td>
+               <td>8:00 AM</td>
+               <td>3:00 PM</td>
+             </tr>
+
+             <tr>
+
+               <td>2022/02/02</td>
+               <td>8:00 AM</td>
+               <td>3:00 PM</td>
+             </tr>
+
+             <tr>
+               <td>2022/02/02</td>
+               <td>8:00 AM</td>
+               <td>3:00 PM</td>
+             </tr>
+
+
+
+           </tbody>
+         </table>
+       </div>
+     </div>
+   </div>
+   <div class="row">
+     <div class="col">
+       <div class="collapse multi-collapse" id="multiCollapseExample1">
+         <div class="card card-body">
+
+           <div class="v-timeline">
+             <div class="line"></div>
+
+             <div class="v-timeline">
+               <div class="line"></div>
+               <div class="timeline-box">
+                 <div class="box-label">
+                   <span class="badge badge-success">Instruction</span>
+                 </div>
+
+                 <div class="box-items">
+                   <div class="item">
+                     <div class="icon-block">
+                       <div class="item-icon icofont-street-view bg-warning"></div>
+                     </div>
+
+                     <div class="content-block">
+                       <div class="item-header">
+                         <h3 class="h5 item-title">perform security check</h3>
+
+                         <div class="item-date"><span>Date: 2022/10/10 </span> ---<span> Time : 12 pm</span>
+                         </div>
+                       </div>
+
+                       <div class="item-desc">security check to be perform on project</div>
+                     </div>
+                   </div>
+
+                   <div class="item">
+                     <div class="icon-block">
+                       <div class="item-icon icofont-search-document bg-warning"></div>
+                     </div>
+
+                     <div class="content-block">
+                       <div class="item-header">
+                         <h3 class="h5 item-title">scan QR code</h3>
+                         <div class="item-date"><span>Date: 2022/10/10 </span> ---<span> Time : 12 pm</span>
+                         </div>
+                       </div>
+
+                       <div class="item-desc">located behind the entrance door</div>
+                     </div>
+
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+     <div class="col">
+       <div class="collapse multi-collapse" id="multiCollapseExample2">
+         <div class="card card-body">
+           <div class="v-timeline">
+             <div class="line"></div>
+
+             <div class="v-timeline">
+               <div class="line"></div>
+               <div class="timeline-box">
+                 <div class="box-label">
+                   <span class="badge badge-success">Task</span>
+                 </div>
+
+                 <div class="box-items">
+                   <div class="item">
+                     <div class="icon-block">
+                       <div class="item-icon icofont-street-view bg-warning"></div>
+                     </div>
+
+                     <div class="content-block">
+                       <div class="item-header">
+                         <h3 class="h5 item-title">perform security check</h3>
+
+                         <div class="item-date"><span>Date: 2022/10/10</div>
+                       </div>
+
+                       <div class="item-desc">security check to be perform on project</div>
+                     </div>
+                   </div>
+
+                   <div class="item">
+                     <div class="icon-block">
+                       <div class="item-icon icofont-search-document bg-warning"></div>
+                     </div>
+
+                     <div class="content-block">
+                       <div class="item-header">
+                         <h3 class="h5 item-title">scan QR code</h3>
+
+                         <div class="item-date"><span>Date: 2022/10/10</div>
+                       </div>
+
+                     </div>
+
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+   </div>
+   `
+       if(i==val1.length-1){
+         if(val1!=''){
+           $("#viewDetailsContent").empty();
+           $("#viewDetailsContent").append(
+             `${DomObj} `)
+         }
+        
+       }
+  }
+ 
+}
+
+
+viewDetailsContentDisplay(JSON.parse(localStorage.getItem("job")||"[]"))
+
