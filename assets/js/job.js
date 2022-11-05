@@ -618,6 +618,7 @@ function addGuardDateShedule1(){
   let mySingleStartTime=document.getElementById("mySingleStartTime").value
   let mySingleEndTime=document.getElementById("mySingleEndTime").value
   let addGuardDateShedule1V=document.getElementById("addGuardDateShedule1V")
+  let myjobType=document.getElementById("myjobType").value
   obj.push({date:mySingleDate,startTime:mySingleStartTime,endTime:mySingleEndTime})
  
   for (let i=0;i<addGuardDateShedule1V.length;i++){
@@ -637,7 +638,7 @@ function addGuardDateShedule1(){
   if(test1JobU.length==0){
       const arr=[]
       for(let i=0;i<objGuard.length;i++){
-        arr.push({name:objGuard[i],dateShedule:obj})
+        arr.push({name:objGuard[i],dateShedule:obj,type:myjobType})
         if(i==objGuard.length-1){
           localStorage.setItem("job",JSON.stringify(arr))
         }     
@@ -690,6 +691,7 @@ function addGuardDateShedule2(){
   let randomSTimeSelected=document.querySelectorAll(".randomSTimeSelected")
   let randomETimeSelected=document.querySelectorAll(".randomETimeSelected")
   let addGuardDateShedule2V=document.getElementById("addGuardDateShedule2V")
+  let myjobType=document.getElementById("myjobType").value
 
 
   for(let i=0;i<randomDateSelected.length;i++){
@@ -711,7 +713,7 @@ function addGuardDateShedule2(){
  if(test1JobU.length==0){
     const arr=[]
       for(let i=0;i<objGuard.length;i++){
-        arr.push({name:objGuard[i],dateShedule:obj})
+        arr.push({name:objGuard[i],dateShedule:obj,type:myjobType})
         if(i==objGuard.length-1){
           localStorage.setItem("job",JSON.stringify(arr))
         }     
@@ -1120,7 +1122,6 @@ function removeDateTimeDuplicate3(val1){
   let store={}
   
   val1=val1.filter(function (date, i, array) {
-    console.log(date)
     if(!store[date.date]  ){
       store[date.date]=true
       return true
