@@ -1,6 +1,64 @@
 
 
+/** this handles logs  */
 
+
+
+$(document).ready(function() {
+
+    setTimeout(() => {
+    let  tables= $('table.display').DataTable({
+        select: true,
+        dom: 'Bfrtip',
+        scrollY: '50vh',
+        buttons: [
+        'copyHtml5',
+        'excelHtml5',
+        'csvHtml5',
+        'pdfHtml5',
+        'print'
+        ],
+    });
+
+
+    let ROWDATA=   [{
+      Date: "2/20/22",
+      Time: "9:00 AM",
+      Activity: "test",
+      location: "test"
+    }]
+    
+    console.log(tables)
+    console.log(tables.table(1).row.add(ROWDATA) )
+    console.log(tables.table(2))
+    console.log(tables.table(0))
+
+
+
+     tables.table(1).row.add(ROWDATA).draw( false );
+    
+    }, 2000);
+
+
+  
+  
+});
+
+
+function initializePayOff(){
+  console.log("clear")
+  totalHours=0
+  amountPending=0
+}
+
+
+function calPayOff(val1, val2){
+  
+ 
+
+  document.getElementById("totalHours").innerHTML =val1
+  document.getElementById("amountPending").innerHTML ="$"+val2
+}
 
 /*new date and time sheduler */
 
@@ -1170,6 +1228,11 @@ console.log(JSON.parse(localStorage.getItem("job")||"[]"))
 function viewDetailsContentDisplay(val1){
   let DomObj=''
   let table=''
+  let instruction=''
+  let task=''
+
+
+
 
 
 
@@ -1182,13 +1245,329 @@ function viewDetailsContentDisplay(val1){
    DomObj+=`
    <p>
    <h4>${val1[i].name}</h4>
+   <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#${val1[i].name}dateTime"
+     aria-expanded="false" aria-controls="${val1[i].name}dateTime">Dates and time</button>
+
+     <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+     data-bs-target="#${val1[i].name}logs" aria-expanded="false" aria-controls="${val1[i].name}logs">view
+     logs</button>
+
+   <a class="btn btn-primary" data-bs-toggle="collapse" href="#${val1[i].name}multiCollapseExample1" role="button"
+     aria-expanded="false" aria-controls="${val1[i].name}multiCollapseExample1">view instruction</a>
+
+   <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+     data-bs-target="#${val1[i].name}multiCollapseExample2" aria-expanded="false" aria-controls="${val1[i].name}multiCollapseExample2">view
+     task</button>
+
+   <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target=".${val1[i].name}multi-collapse"
+     aria-expanded="false" aria-controls="${val1[i].name}multiCollapseExample1 ${val1[i].name}multiCollapseExample2 ${val1[i].name}dateTime">View
+     all</button>
+   </p>
+
+
+   <div class="collapse ${val1[i].name}multi-collapse" id="${val1[i].name}logs">
+   <div class="card card-body">
+
+   <table id="logTable" class="display" style="width:100%;"    
+   data-ajax="../assets/data/jobLogs.json"
+   data-columns='[
+    { "data": "Date" },
+    { "data": "Time" },
+    { "data": "Activity" },
+    { "data": "location" }
+  ]'
+   data-info="true"
+   select="true">
+
+       <thead>
+           <tr>
+              <th>Date</th>
+              <th>Time</th>
+              <th >Activity</th>
+              <th>Location </th>
+           </tr>
+       </thead>
+
+     
+     <tbody id="logTable">
+       
+     
+     </tbody>
+   </table>
+
+   </div>
+ </div>
+
+   <div class="collapse ${val1[i].name}multi-collapse" id="${val1[i].name}dateTime">
+     <div class="card card-body">
+
+       <div class="table-responsive">       
+         <table class="table table-bordered">
+           <thead>
+             <tr>
+               <th scope="col">Date </th>     
+               <th scope="col">Start time</th>
+               <th scope="col">End time</th>
+             </tr>
+           </thead>
+           <tbody id=${val1[i].name}tableSchedule>
+             <tr>
+
+               <td>2022/02/02</td>
+               <td>8:00 AM</td>
+               <td>3:00 PM</td>
+             </tr>
+
+             <tr>
+
+               <td>2022/02/02</td>
+               <td>8:00 AM</td>
+               <td>3:00 PM</td>
+             </tr>
+
+             <tr>
+               <td>2022/02/02</td>
+               <td>8:00 AM</td>
+               <td>3:00 PM</td>
+             </tr>
+
+
+            </tbody>
+         </table>
+       </div>
+     </div>
+   </div>
+
+
+   <div class="row">
+     <div class="col">
+       <div class="collapse ${val1[i].name}multi-collapse" id="${val1[i].name}multiCollapseExample1">
+         <div class="card card-body">
+
+           <div class="v-timeline">
+             <div class="line"></div>
+             <div class="v-timeline">
+               <div class="line"></div>
+               <div class="timeline-box">
+                 <div class="box-label">
+                   <span class="badge badge-success">Instruction</span>
+                 </div>
+
+                 <div class="box-items" id="${val1[i].name}timelineInstruction">
+                   
+
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+     <div class="col">
+       <div class="collapse ${val1[i].name}multi-collapse" id="${val1[i].name}multiCollapseExample2">
+         <div class="card card-body">
+           <div class="v-timeline">
+             <div class="line"></div>
+
+             <div class="v-timeline">
+               <div class="line"></div>
+               <div class="timeline-box">
+                 <div class="box-label">
+                   <span class="badge badge-success">Task</span>
+                 </div>
+
+                 <div class="box-items"  id="${val1[i].name}timelineTask">
+                
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+   </div>
+   `
+       if(i==val1.length-1){
+         if(val1!=''){
+           $("#viewDetailsContent").empty();
+           $("#viewDetailsContent").append(
+             `${DomObj} `)
+             DomObj=''
+         }
+        
+       }
+  }
+
+
+
+
+//this handles display of date and time schedule
+  setTimeout(() => {
+    for(let i=0;i<val1.length;i++){
+
+      let count1=val1[i].dateShedule.length
+
+      for(let j=0;j<count1;j++){
+
+       // console.log(val1[i].dateShedule[j])
+
+    
+
+        table+=`
+        <tr>
+          <td>${val1[i].dateShedule[j].date}</td>
+          <td>${val1[i].dateShedule[j].startTime}</td>
+          <td>${val1[i].dateShedule[j].endTime}</td>
+        </tr>
+        `
+        if(j==count1-1){
+          if(val1!=''){
+            $(`#${val1[i].name}tableSchedule`).empty();
+            $(`#${val1[i].name}tableSchedule`).append(
+              `${table} `)
+
+              table=''
+          } 
+        }
+      }
+    }
+  },100);
+
+
+
+  //this handles display instruction schedule
+  setTimeout(() => {
+    for(let i=0;i<val1.length;i++){
+
+      
+      
+      if(val1[i].instructionShedule){
+        let count1=val1[i].instructionShedule.length
+        console.log(val1[i].instructionShedule)
+
+        for(let j=0;j<count1;j++){    
+
+          console.log(val1[i].instructionShedule[j].type)
+
+          if(val1[i].instructionShedule[j].type=="Perform security check"){
+            instruction+=`
+            <div class="item">
+                <div class="icon-block">
+                  <div class="item-icon icofont-street-view bg-warning"></div>
+                </div>
+
+                <div class="content-block">
+                  <div class="item-header">
+                    <h3 class="h5 item-title">perform security check</h3>
+                    <div class="item-date"><span>Date: ${val1[i].instructionShedule[j].date} </span> ---<span> Time : ${val1[i].instructionShedule[j].time}</span></div>
+                  </div>
+
+                  <div class="item-desc">${val1[i].instructionShedule[j].info}</div>
+                </div>
+            </div>
+            `
+          }
+          else if(val1[i].instructionShedule[j].type=="Scan QR code"){
+            instruction+=`
+            <div class="item">
+              <div class="icon-block">
+                <div class="item-icon icofont-search-document bg-warning"></div>
+              </div>
+
+                <div class="content-block">
+                    <div class="item-header">
+                      <h3 class="h5 item-title">scan QR code</h3>
+                      <div class="item-date"><span>Date: ${val1[i].instructionShedule[j].date} </span> ---<span> Time : ${val1[i].instructionShedule[j].time}</span></div>
+                    </div>
+                    <div class="item-desc">${val1[i].instructionShedule[j].info}</div>
+                </div>
+            </div>
+            `
+          }
+       
+          if(j==count1-1){
+            if(val1!=''){
+              $(`#${val1[i].name}timelineInstruction`).empty();
+              $(`#${val1[i].name}timelineInstruction`).append(
+                `${instruction} `)
+
+                instruction=''
+            } 
+          }
+        }
+      }
+      else{
+        continue;
+      }
+    }
+  },100);
+
+
+    //this handles display task schedule
+    setTimeout(() => {
+      for(let i=0;i<val1.length;i++){
+  
+        if(val1[i].taskShedule){
+          let count1=val1[i].taskShedule.length
+          console.log(val1[i].taskShedule)
+  
+          for(let j=0;j<count1;j++){    
+  
+            console.log(val1[i].taskShedule)
+  
+            task+=`
+              <div class="item">
+                  <div class="icon-block">
+                    <div class="item-icon icofont-street-view bg-warning"></div>
+                  </div>
+  
+                  <div class="content-block">
+                    <div class="item-header">
+                      <h3 class="h5 item-title">${val1[i].taskShedule[j].info}</h3>
+                      <div class="item-date"><span>Date: ${val1[i].taskShedule[j].date} </span> </div>
+                    </div>
+  
+                  </div>
+              </div>
+              `
+         
+            if(j==count1-1){
+              if(val1!=''){
+                $(`#${val1[i].name}timelineTask`).empty();
+                $(`#${val1[i].name}timelineTask`).append(
+                  `${task} `)
+  
+                  task=''
+              } 
+            }
+          }
+        }
+        else{
+          continue;
+        }
+      }
+    },100);
+  
+
+}
+
+
+viewDetailsContentDisplay(JSON.parse(localStorage.getItem("job")||"[]"))
+
+
+/*
+<p>
+   <h4>${val1[i].name}</h4>
    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#dateTime"
      aria-expanded="false" aria-controls="dateTime">Dates and time</button>
+     
    <a class="btn btn-primary" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button"
      aria-expanded="false" aria-controls="multiCollapseExample1">view instruction</a>
+
    <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
      data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">view
      task</button>
+
    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target=".multi-collapse"
      aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2 dateTime">View
      all</button>
@@ -1202,7 +1581,7 @@ function viewDetailsContentDisplay(val1){
            <thead>
              <tr>
 
-               <th scope="col">Date </th>
+               <th scope="col">Date </th>     
                <th scope="col">Start time</th>
                <th scope="col">End time</th>
              </tr>
@@ -1343,20 +1722,21 @@ function viewDetailsContentDisplay(val1){
          </div>
        </div>
      </div>
-   </div>
-   `
-       if(i==val1.length-1){
-         if(val1!=''){
-           $("#viewDetailsContent").empty();
-           $("#viewDetailsContent").append(
-             `${DomObj} `)
-         }
-        
-       }
-  }
- 
-}
+   </div> */
 
 
-viewDetailsContentDisplay(JSON.parse(localStorage.getItem("job")||"[]"))
+
+/*
+   $(`#logTable`).append(
+    ` <tr>
+    <td>2/20/22	</td>
+    <td>9:00 AM	</td>
+    <td>Clock In</td>
+    <td>Clock out	 </td>
+ </tr> <tr>
+    <td>2/20/22	</td>
+    <td>9:00 AM	</td>
+    <td>Clock In</td>
+    <td>Clock 	 </td>
+ </tr>`)*/
 

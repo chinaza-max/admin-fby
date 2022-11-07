@@ -23,9 +23,11 @@
   <link rel="stylesheet" href="../assets/css/morris.css">
   <link rel="stylesheet" href="../assets/css/leaflet.css">
 
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
   <link rel="stylesheet" href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css">
 
 
 
@@ -346,7 +348,7 @@
                                 <th scope="col">Type</th>
 
                                 <th scope="col">Job Amount</th>
-                                <th scope="col">Shedule</th>
+                                <th scope="col">Schedule</th>
 
                                 <th scope="col">Job Details</th>
                                 <th scope="col">Guard</th>
@@ -379,7 +381,7 @@
 
                                 <td>
                                   <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
-                                    data-bs-target="#shedule">Add</button>
+                                    data-bs-target="#schedule">Add</button>
                                 </td>
                                 <td>
                                   <div class="text-muted text-nowrap">
@@ -395,6 +397,9 @@
                                 </td>
                                 <td>
                                   <div class="actions">
+                                    <button class="btn btn-dark btn-sm btn-square rounded-pill">
+                                      <span class="btn-icon icofont-external-link"></span>
+                                    </button>
                                     <button class="btn btn-info btn-sm btn-square rounded-pill" data-bs-toggle="modal"
                                       data-bs-target="#edit">
                                       <span class="btn-icon icofont-ui-edit"></span>
@@ -446,10 +451,10 @@
                                 <th scope="col">Type</th>
 
                                 <th scope="col">Job Amount</th>
-                                <th scope="col">View Payment</th>
+
 
                                 <th scope="col">Job Details</th>
-                                <th scope="col">Staff</th>
+                                <th scope="col">Guard</th>
                                 <th scope="col">Actions</th>
                               </tr>
                             </thead>
@@ -457,7 +462,6 @@
                               <tr>
 
                                 <td>
-
                                   <div class="d-flex align-items-center nowrap text-primary">
                                     10 Feb 2018
                                   </div>
@@ -478,9 +482,6 @@
                                 </td>
 
                                 <td>
-                                  <button type="button" class="btn btn-outline-primary">View</button>
-                                </td>
-                                <td>
                                   <div class="text-muted text-nowrap">
                                     <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
                                       data-bs-target="#view-jobDetail">View</button>
@@ -489,7 +490,7 @@
                                 <td>
                                   <div class="text-muted text-nowrap">
                                     <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
-                                      data-bs-target="#view-addedStaff">View</button>
+                                      data-bs-target="#view-addedStaffSuspended">View</button>
                                   </div>
                                 </td>
                                 <td>
@@ -537,15 +538,11 @@
                           <table class="table table-hover nowrap">
                             <thead>
                               <tr>
-
                                 <th scope="col">Date Created</th>
                                 <th scope="col">Customer</th>
                                 <th scope="col">Customer site</th>
                                 <th scope="col">Type</th>
-
                                 <th scope="col">Job Amount</th>
-                                <th scope="col">View Payment</th>
-
                                 <th scope="col">Job Details</th>
                                 <th scope="col">Staff</th>
                                 <th scope="col">Actions</th>
@@ -574,10 +571,6 @@
                                     $10000
                                   </div>
                                 </td>
-
-                                <td>
-                                  <button type="button" class="btn btn-outline-primary">View</button>
-                                </td>
                                 <td>
                                   <div class="text-muted text-nowrap">
                                     <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
@@ -587,11 +580,14 @@
                                 <td>
                                   <div class="text-muted text-nowrap">
                                     <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
-                                      data-bs-target="#view-addedStaff">View</button>
+                                      data-bs-target="#view-addedStaffCompleted">View</button>
                                   </div>
                                 </td>
                                 <td>
                                   <div class="actions">
+                                    <button class="btn btn-info btn-sm btn-square rounded-pill">
+                                      <span class="btn-icon icofont-ui-edit"></span>
+                                    </button>
                                     <button class="btn btn-info btn-sm btn-square rounded-pill" data-bs-toggle="modal"
                                       data-bs-target="#edit">
                                       <span class="btn-icon icofont-ui-edit"></span>
@@ -1142,7 +1138,7 @@
 
   <div class="modal fade" id="view-addedStaff" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
           <i class="icofont-close-line"></i>
@@ -1156,33 +1152,24 @@
             <table class="table table-hover">
               <thead>
                 <tr>
-                  <th scope="col">Name</th>
+                  <th scope="col">First name</th>
+                  <th scope="col">Last name</th>
                   <th scope="col">Amount per hour</th>
-                  <th scope="col">Start date</th>
-                  <th scope="col">End date</th>
-                  <th scope="col">Detail</th>
                   <th scope="col">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td>
-                    <strong>Liam</strong>
+                    <strong>Guard1</strong>
+                  </td>
+                  <td>
+                    <strong>Guard1Tester</strong>
                   </td>
                   <td>
                     <div class="d-flex align-items-center nowrap text-primary">
                       $30
                     </div>
-                  </td>
-                  <td>
-                    <div class="text-muted text-nowrap">9/10/2022</div>
-                  </td>
-                  <td>
-                    <div class="text-muted text-nowrap">10/11/2022</div>
-                  </td>
-                  <td>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                      data-bs-target="#single-detail">view</button>
                   </td>
 
                   <td>
@@ -1194,26 +1181,19 @@
                     </div>
                   </td>
                 </tr>
-
                 <tr>
                   <td>
-                    <strong>Liam</strong>
+                    <strong>Guard1</strong>
+                  </td>
+                  <td>
+                    <strong>Guard1Tester</strong>
                   </td>
                   <td>
                     <div class="d-flex align-items-center nowrap text-primary">
                       $30
                     </div>
                   </td>
-                  <td>
-                    <div class="text-muted text-nowrap">9/10/2022</div>
-                  </td>
-                  <td>
-                    <div class="text-muted text-nowrap">10/11/2022</div>
-                  </td>
-                  <td>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                      data-bs-target="#single-detail">view</button>
-                  </td>
+
                   <td>
                     <div class="actions">
 
@@ -1224,35 +1204,7 @@
                   </td>
                 </tr>
 
-                <tr>
-                  <td>
-                    <strong>Liam</strong>
-                  </td>
-                  <td>
-                    <div class="d-flex align-items-center nowrap text-primary">
-                      $30
-                    </div>
-                  </td>
-                  <td>
-                    <div class="text-muted text-nowrap">9/10/2022</div>
-                  </td>
-                  <td>
-                    <div class="text-muted text-nowrap">10/11/2022</div>
-                  </td>
-                  <td>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                      data-bs-target="#single-detail">view</button>
-                  </td>
-                  <td>
-                    <div class="actions">
 
-                      <button class="btn btn-error btn-sm btn-square rounded-pill">
-                        <span class="btn-icon icofont-ui-delete"></span>
-                      </button>
-
-                    </div>
-                  </td>
-                </tr>
 
               </tbody>
             </table>
@@ -1261,7 +1213,7 @@
           <div class="modal-footer">
             <div class="actions">
               <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                data-bs-target="#add-guard2">Add</button>
+                data-bs-target="#schedule">Add</button>
             </div>
           </div>
 
@@ -1270,6 +1222,130 @@
     </div>
   </div>
 
+  <div class="modal fade" id="view-addedStaffSuspended" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          <i class="icofont-close-line"></i>
+        </button>
+
+        <div class="modal-header">
+          <h5 class="modal-title">Staff assigned</h5>
+        </div>
+        <div class="modal-body">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">First name</th>
+                  <th scope="col">Last name</th>
+                  <th scope="col">Amount per hour</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <strong>Guard1</strong>
+                  </td>
+                  <td>
+                    <strong>Guard1Tester</strong>
+                  </td>
+                  <td>
+                    <div class="d-flex align-items-center nowrap text-primary">
+                      $30
+                    </div>
+                  </td>
+
+                  <td>
+                    <div class="actions">
+
+                      <button class="btn btn-error btn-sm btn-square rounded-pill">
+                        <span class="btn-icon icofont-ui-delete"></span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Guard1</strong>
+                  </td>
+                  <td>
+                    <strong>Guard1Tester</strong>
+                  </td>
+                  <td>
+                    <div class="d-flex align-items-center nowrap text-primary">
+                      $30
+                    </div>
+                  </td>
+
+                  <td>
+                    <div class="actions">
+
+                      <button class="btn btn-error btn-sm btn-square rounded-pill">
+                        <span class="btn-icon icofont-ui-delete"></span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+
+
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="view-addedStaffCompleted" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          <i class="icofont-close-line"></i>
+        </button>
+
+        <div class="modal-header">
+          <h5 class="modal-title">Staff assigned</h5>
+        </div>
+        <div class="modal-body">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">First name</th>
+                  <th scope="col">Last name</th>
+                  <th scope="col">Amount per hour</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <strong>Guard1</strong>
+                  </td>
+                  <td>
+                    <strong>Guard1Tester</strong>
+                  </td>
+                  <td>
+                    <div class="d-flex align-items-center nowrap text-primary">
+                      $30
+                    </div>
+                  </td>
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="modal fade" id="view-jobDetail" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
     aria-hidden="true">
@@ -1307,18 +1383,27 @@
               </div>
             </div>
 
+            <div class=" col-md-4 col-md-4">
+              <div class="alert alert-dark outline mb-0" role="alert">
+                Job Price: $200000
+              </div>
+            </div>
+
+            <div class=" col-md-4 col-md-4">
+              <div class="alert alert-danger outline" role="alert">
+                Amonut paid to guard per hour: $40
+              </div>
+            </div>
+
           </div>
-
+          <hr>
+          <div>CUSTOMER: test tester</div>
+          <div>SITE name: alora</div>
           <div class="card-body">
-
-
             <div id="viewDetailsContent">
 
 
-            
             </div>
-
-
           </div>
 
 
@@ -1333,7 +1418,7 @@
     </div>
   </div>
 
-  <div class="modal fade" id="shedule" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+  <div class="modal fade" id="schedule" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -1343,14 +1428,14 @@
 
         <div class="modal-header">
           <h5 class="modal-title mx-auto">
-            <p class="text-center ">SHEDULE DATE, INSTRUCTION and TASK</p>
+            <p class="text-center ">SCHEDULE DATE, INSTRUCTION and TASK</p>
           </h5>
         </div>
         <hr />
         <div class="modal-body">
 
           <form>
-            <label>Type of shedule</label>
+            <label>Type of schedule</label>
             <select class="selectpicker mb-3" id="sheduleType">
               <option value="Date and time">Date and time</option>
               <option value="Instruction">Instruction</option>
@@ -1405,7 +1490,7 @@
                   <div class="actions justify-content-between">
                     <button class="btn btn-primary">assign all</button>
                     <button class="btn btn-primary" type="button" data-bs-toggle="modal"
-                      data-bs-target="#addGuardDateShedule1">assign to</button>
+                      data-bs-target="#addGuardDateSchedule1">assign to</button>
                   </div>
                 </div>
               </form>
@@ -1468,7 +1553,7 @@
                   <div class="actions justify-content-between">
                     <button class="btn btn-primary">assign all</button>
                     <button class="btn btn-primary" type="button" data-bs-toggle="modal"
-                      data-bs-target="#addGuardDateShedule2">assign to</button>
+                      data-bs-target="#addGuardDateSchedule2">assign to</button>
                   </div>
                 </div>
               </form>
@@ -1536,7 +1621,7 @@
                   <div class="actions justify-content-between">
                     <button class="btn btn-primary">assign all</button>
                     <button class="btn btn-primary" type="button" data-bs-toggle="modal"
-                      data-bs-target="#addGuardDateShedule3">assign to</button>
+                      data-bs-target="#addGuardDateSchedule3">assign to</button>
                   </div>
                 </div>
               </form>
@@ -1603,7 +1688,7 @@
                 <div class="actions justify-content-between">
                   <button class="btn btn-primary">assign all</button>
                   <button class="btn btn-primary" type="button" data-bs-toggle="modal"
-                    data-bs-target="#addGuardDateShedule4">assign to</button>
+                    data-bs-target="#addGuardDateSchedule4">assign to</button>
                 </div>
               </div>
             </form>
@@ -1659,12 +1744,10 @@
                 <div class="actions justify-content-between">
                   <button class="btn btn-primary">assign all</button>
                   <button class="btn btn-primary" type="button" data-bs-toggle="modal"
-                    data-bs-target="#addGuardDateShedule5">assign to</button>
+                    data-bs-target="#addGuardDateSchedule5">assign to</button>
                 </div>
               </div>
             </form>
-
-
           </div>
 
         </div>
@@ -1672,451 +1755,456 @@
     </div>
   </div>
 
-  <div class="modal fade" id="add-guard" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered ">
-      <div class="modal-content">
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-          <i class="icofont-close-line"></i>
-        </button>
-        <div class="modal-header">
-          <h5 class="modal-title">Guard</h5>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="card">
+    <div class="modal fade" id="add-guard" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-content">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+            <i class="icofont-close-line"></i>
+          </button>
+          <div class="modal-header">
+            <h5 class="modal-title">Guard</h5>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="card">
 
-              <div class="card-body">
-                <form>
-                  <div class="form-group ">
-                    <label>Add multiple Guard</label>
-                    <select class="selectpicker" data-live-search="true" multiple>
-                      <option data-tokens="ketchup mustard">Soda</option>
-                      <option data-tokens="mustard">Smile</option>
-                      <option data-tokens="frosting">Sugar</option>
-                    </select>
-                  </div>
+                <div class="card-body">
+                  <form>
+                    <div class="form-group ">
+                      <label>Add multiple Guard</label>
+                      <select class="selectpicker" data-live-search="true" multiple>
+                        <option data-tokens="ketchup mustard">Soda</option>
+                        <option data-tokens="mustard">Smile</option>
+                        <option data-tokens="frosting">Sugar</option>
+                      </select>
+                    </div>
 
-                </form>
+                  </form>
+                </div>
               </div>
-            </div>
-            <div>
+              <div>
 
 
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer d-block">
-          <div class="actions justify-content-between">
-            <button type="button" class="btn btn-error" data-bs-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-info">Add</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <div class="modal fade" id="addGuardDateShedule1" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered ">
-      <div class="modal-content">
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-          <i class="icofont-close-line"></i>
-        </button>
-        <div class="modal-header">
-          <h5 class="modal-title">Guard</h5>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="card">
-
-              <div class="card-body">
-                <form>
-                  <div class="form-group ">
-                    <label>Add multiple or single Guard</label>
-                    <select class="selectpicker" data-live-search="true" id="addGuardDateShedule1V" multiple>
-
-                      <option data-tokens="mustard">guard1</option>
-                      <option data-tokens="frosting">guard2</option>
-                      <option data-tokens="ketchup mustard">guard3</option>
-                      <option data-tokens="mustard">guard4</option>
-                      <option data-tokens="frosting">guard5</option>
-                      <option data-tokens="mustard">guard6</option>
-                      <option data-tokens="frosting">guard7</option>
-                      <option data-tokens="ketchup mustard">guard1</option>
-                      <option data-tokens="mustard">guard2</option>
-                      <option data-tokens="frosting">guard3</option>
-                      <option data-tokens="ketchup mustard">guard1</option>
-                      <option data-tokens="mustard">guard2</option>
-                      <option data-tokens="frosting">guard3</option>
-                      <option data-tokens="ketchup mustard">guard1</option>
-                      <option data-tokens="mustard">guard2</option>
-                      <option data-tokens="frosting">guard3</option>
-
-                    </select>
-                  </div>
-
-                </form>
               </div>
+            </form>
+          </div>
+          <div class="modal-footer d-block">
+            <div class="actions justify-content-between">
+              <button type="button" class="btn btn-error" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-info">Add</button>
             </div>
-            <div>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer d-block">
-          <div class="actions justify-content-between">
-            <button type="button" class="btn btn-error" data-bs-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-info" onclick="addGuardDateShedule1()">Assign</button>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="modal fade" id="addGuardDateShedule2" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered ">
-      <div class="modal-content">
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-          <i class="icofont-close-line"></i>
-        </button>
-        <div class="modal-header">
-          <h5 class="modal-title">Guard</h5>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="card">
 
-              <div class="card-body">
-                <form>
-                  <div class="form-group ">
-                    <label>Add multiple or single Guard</label>
-                    <select class="selectpicker" data-live-search="true" id="addGuardDateShedule2V" multiple>
+    <div class="modal fade" id="addGuardDateSchedule1" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-content">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+            <i class="icofont-close-line"></i>
+          </button>
+          <div class="modal-header">
+            <h5 class="modal-title">Guard</h5>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="card">
 
-                      <option data-tokens="mustard">guard2</option>
-                      <option data-tokens="frosting">guard3</option>
-                      <option data-tokens="ketchup mustard">guard1</option>
-                      <option data-tokens="mustard">guard2</option>
-                      <option data-tokens="frosting">guard3</option>
-                      <option data-tokens="mustard">guard2</option>
-                      <option data-tokens="frosting">guard3</option>
-                      <option data-tokens="ketchup mustard">guard1</option>
-                      <option data-tokens="mustard">guard2</option>
-                      <option data-tokens="frosting">guard3</option>
-                      <option data-tokens="ketchup mustard">guard1</option>
-                      <option data-tokens="mustard">guard2</option>
-                      <option data-tokens="frosting">guard3</option>
-                      <option data-tokens="ketchup mustard">guard1</option>
-                      <option data-tokens="mustard">guard2</option>
-                      <option data-tokens="frosting">guard3</option>
+                <div class="card-body">
+                  <form>
+                    <div class="form-group ">
+                      <label>Add multiple or single Guard</label>
+                      <select class="selectpicker" data-live-search="true" id="addGuardDateShedule1V" multiple>
 
-                    </select>
-                  </div>
+                        <option data-tokens="mustard">guard1</option>
+                        <option data-tokens="frosting">guard2</option>
+                        <option data-tokens="ketchup mustard">guard3</option>
+                        <option data-tokens="mustard">guard4</option>
+                        <option data-tokens="frosting">guard5</option>
+                        <option data-tokens="mustard">guard6</option>
+                        <option data-tokens="frosting">guard7</option>
+                        <option data-tokens="ketchup mustard">guard1</option>
+                        <option data-tokens="mustard">guard2</option>
+                        <option data-tokens="frosting">guard3</option>
+                        <option data-tokens="ketchup mustard">guard1</option>
+                        <option data-tokens="mustard">guard2</option>
+                        <option data-tokens="frosting">guard3</option>
+                        <option data-tokens="ketchup mustard">guard1</option>
+                        <option data-tokens="mustard">guard2</option>
+                        <option data-tokens="frosting">guard3</option>
 
-                </form>
+                      </select>
+                    </div>
+
+                  </form>
+                </div>
               </div>
-            </div>
-            <div>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer d-block">
-          <div class="actions justify-content-between">
-            <button type="button" class="btn btn-error" data-bs-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-info" onclick="addGuardDateShedule2()">Assign</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="modal fade" id="addGuardDateShedule3" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered ">
-      <div class="modal-content">
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-          <i class="icofont-close-line"></i>
-        </button>
-        <div class="modal-header">
-          <h5 class="modal-title">Guard</h5>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="card">
-
-              <div class="card-body">
-                <form>
-                  <div class="form-group ">
-                    <label>Add multiple or single Guard</label>
-                    <select class="selectpicker" data-live-search="true" id="addGuardDateShedule3V" multiple>
-
-                      <option data-tokens="guard1">guard1</option>
-                      <option data-tokens="guard2">guard2</option>
-                      <option data-tokens="guard3">guard3</option>
-                      <option data-tokens="guard4">guard4</option>
-                      <option data-tokens="guard5">guard5</option>
-                      <option data-tokens="guard6">guard6</option>
-                      <option data-tokens="guard7">guard7</option>
-                      <option data-tokens="guard8">guard8</option>
-                      <option data-tokens="guard9">guard9</option>
-                      <option data-tokens="guard10">guard10</option>
-                      <option data-tokens="guard11">guard11</option>
-                      <option data-tokens="guard12">guard12</option>
-                      <option data-tokens="guard13">guard13</option>
-                      <option data-tokens="guard14">guard14</option>
-
-                    </select>
-                  </div>
-
-                </form>
+              <div>
               </div>
+            </form>
+          </div>
+          <div class="modal-footer d-block">
+            <div class="actions justify-content-between">
+              <button type="button" class="btn btn-error" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-info" onclick="addGuardDateShedule1()">Assign</button>
             </div>
-            <div>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer d-block">
-          <div class="actions justify-content-between">
-            <button type="button" class="btn btn-error" data-bs-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-info" onclick="addGuardDateShedule3()">Assign</button>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="modal fade" id="addGuardDateShedule4" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered ">
-      <div class="modal-content">
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-          <i class="icofont-close-line"></i>
-        </button>
-        <div class="modal-header">
-          <h5 class="modal-title">Guard</h5>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="card">
+    <div class="modal fade" id="addGuardDateSchedule2" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-content">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+            <i class="icofont-close-line"></i>
+          </button>
+          <div class="modal-header">
+            <h5 class="modal-title">Guard</h5>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="card">
 
-              <div class="card-body">
-                <form>
-                  <div class="form-group ">
-                    <label>Add multiple or single Guard</label>
-                    <select class="selectpicker" data-live-search="true" id="addGuardDateShedule4V" multiple>
+                <div class="card-body">
+                  <form>
+                    <div class="form-group ">
+                      <label>Add multiple or single Guard</label>
+                      <select class="selectpicker" data-live-search="true" id="addGuardDateShedule2V" multiple>
 
-                      <option data-tokens="mustard">guard2</option>
-                      <option data-tokens="frosting">guard3</option>
-                      <option data-tokens="ketchup mustard">guard1</option>
-                      <option data-tokens="mustard">guard2</option>
-                      <option data-tokens="frosting">guard3</option>
-                      <option data-tokens="mustard">guard2</option>
-                      <option data-tokens="frosting">guard3</option>
-                      <option data-tokens="ketchup mustard">guard1</option>
-                      <option data-tokens="mustard">guard2</option>
-                      <option data-tokens="frosting">guard3</option>
-                      <option data-tokens="ketchup mustard">guard1</option>
-                      <option data-tokens="mustard">guard2</option>
-                      <option data-tokens="frosting">guard3</option>
-                      <option data-tokens="ketchup mustard">guard1</option>
-                      <option data-tokens="mustard">guard2</option>
-                      <option data-tokens="frosting">guard3</option>
+                        <option data-tokens="mustard">guard2</option>
+                        <option data-tokens="frosting">guard3</option>
+                        <option data-tokens="ketchup mustard">guard1</option>
+                        <option data-tokens="mustard">guard2</option>
+                        <option data-tokens="frosting">guard3</option>
+                        <option data-tokens="mustard">guard2</option>
+                        <option data-tokens="frosting">guard3</option>
+                        <option data-tokens="ketchup mustard">guard1</option>
+                        <option data-tokens="mustard">guard2</option>
+                        <option data-tokens="frosting">guard3</option>
+                        <option data-tokens="ketchup mustard">guard1</option>
+                        <option data-tokens="mustard">guard2</option>
+                        <option data-tokens="frosting">guard3</option>
+                        <option data-tokens="ketchup mustard">guard1</option>
+                        <option data-tokens="mustard">guard2</option>
+                        <option data-tokens="frosting">guard3</option>
 
-                    </select>
-                  </div>
+                      </select>
+                    </div>
 
-                </form>
+                  </form>
+                </div>
               </div>
-            </div>
-            <div>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer d-block">
-          <div class="actions justify-content-between">
-            <button type="button" class="btn btn-error" data-bs-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-info" onclick="addGuardDateShedule4()">Assign</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="modal fade" id="addGuardDateShedule5" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered ">
-      <div class="modal-content">
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-          <i class="icofont-close-line"></i>
-        </button>
-        <div class="modal-header">
-          <h5 class="modal-title">Guard</h5>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="card">
-
-              <div class="card-body">
-                <form>
-                  <div class="form-group ">
-                    <label>Add multiple or single Guard</label>
-                    <select class="selectpicker" data-live-search="true" id="addGuardDateShedule5V" multiple>
-
-                      <option data-tokens="mustard">guard1</option>
-                      <option data-tokens="frosting">guard2</option>
-                      <option data-tokens="ketchup mustard">guard3</option>
-                      <option data-tokens="mustard">guard4</option>
-                      <option data-tokens="frosting">guard5</option>
-                      <option data-tokens="mustard">guard6</option>
-                      <option data-tokens="frosting">guard3</option>
-                      <option data-tokens="ketchup mustard">guard1</option>
-                      <option data-tokens="mustard">guard2</option>
-                      <option data-tokens="frosting">guard3</option>
-                      <option data-tokens="ketchup mustard">guard1</option>
-                      <option data-tokens="mustard">guard2</option>
-                      <option data-tokens="frosting">guard3</option>
-                      <option data-tokens="ketchup mustard">guard1</option>
-                      <option data-tokens="mustard">guard2</option>
-                      <option data-tokens="frosting">guard3</option>
-
-                    </select>
-                  </div>
-
-                </form>
+              <div>
               </div>
+            </form>
+          </div>
+          <div class="modal-footer d-block">
+            <div class="actions justify-content-between">
+              <button type="button" class="btn btn-error" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-info" onclick="addGuardDateShedule2()">Assign</button>
             </div>
-            <div>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer d-block">
-          <div class="actions justify-content-between">
-            <button type="button" class="btn btn-error" data-bs-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-info" onclick="addGuardDateShedule5()">Assign</button>
           </div>
         </div>
       </div>
     </div>
-  </div>
-
-
-  <div class="modal fade" id="single-detail" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Job task and instruction</h5>
-        </div>
-        <div class="modal-body">
-
-        </div>
-        <div class="modal-footer d-block">
-          <div class="actions justify-content-between">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            <button id="reset-to-default" type="button" class="btn btn-error">Reset to default</button>
+    <div class="modal fade" id="addGuardDateSchedule3" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-content">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+            <i class="icofont-close-line"></i>
+          </button>
+          <div class="modal-header">
+            <h5 class="modal-title">Guard</h5>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
+          <div class="modal-body">
+            <form>
+              <div class="card">
 
+                <div class="card-body">
+                  <form>
+                    <div class="form-group ">
+                      <label>Add multiple or single Guard</label>
+                      <select class="selectpicker" data-live-search="true" id="addGuardDateShedule3V" multiple>
 
-  <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Job task and instruction</h5>
-        </div>
-        <div class="modal-body">
+                        <option data-tokens="guard1">guard1</option>
+                        <option data-tokens="guard2">guard2</option>
+                        <option data-tokens="guard3">guard3</option>
+                        <option data-tokens="guard4">guard4</option>
+                        <option data-tokens="guard5">guard5</option>
+                        <option data-tokens="guard6">guard6</option>
+                        <option data-tokens="guard7">guard7</option>
+                        <option data-tokens="guard8">guard8</option>
+                        <option data-tokens="guard9">guard9</option>
+                        <option data-tokens="guard10">guard10</option>
+                        <option data-tokens="guard11">guard11</option>
+                        <option data-tokens="guard12">guard12</option>
+                        <option data-tokens="guard13">guard13</option>
+                        <option data-tokens="guard14">guard14</option>
 
+                      </select>
+                    </div>
 
-
-
-          <form>
-            <div class="form-group">
-              <label>Job status</label>
-              <select class="selectpicker">
-                <option value="horizontal">Active</option>
-                <option value="horizontal-layout">Suspended</option>
-                <option value="vertical-layout">Completed</option>
-              </select>
-            </div>
-
-          </form>
-
-        </div>
-        <div class="modal-footer d-block">
-          <div class="actions justify-content-between">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-info">Save</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Add patients modals -->
-  <div class="modal fade" id="settings" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Application's settings</h5>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="form-group">
-              <label>Layout</label>
-              <select class="selectpicker" title="Layout" id="layout">
-                <option value="horizontal-layout">Horizontal</option>
-                <option value="vertical-layout">Vertical</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label>Light/dark topbar</label>
-              <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" id="topbar">
+                  </form>
+                </div>
               </div>
-            </div>
-
-            <div class="form-group">
-              <label>Light/dark sidebar</label>
-              <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" id="sidebar">
+              <div>
               </div>
+            </form>
+          </div>
+          <div class="modal-footer d-block">
+            <div class="actions justify-content-between">
+              <button type="button" class="btn btn-error" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-info" onclick="addGuardDateShedule3()">Assign</button>
             </div>
-
-            <div class="form-group mb-0">
-              <label>Boxed/fullwidth mode</label>
-              <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" id="boxed" checked>
-              </div>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer d-block">
-          <div class="actions justify-content-between">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            <button id="reset-to-default" type="button" class="btn btn-error">Reset to default</button>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <!-- end Add patients modals -->
+    <div class="modal fade" id="addGuardDateSchedule4" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-content">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+            <i class="icofont-close-line"></i>
+          </button>
+          <div class="modal-header">
+            <h5 class="modal-title">Guard</h5>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="card">
 
-  <script src="../assets/js/jquery-3.6.0.min.js"></script>
-  <script src="../assets/js/jquery-migrate-1.4.1.min.js"></script>
-  <script src="../assets/js/popper.min.js"></script>
-  <script src="../assets/js/bootstrap.min.js"></script>
-  <script src="../assets/js/jquery.typeahead.min.js"></script>
-  <script src="../assets/js/datatables.min.js"></script>
-  <script src="../assets/js/bootstrap-select.min.js"></script>
-  <script src="../assets/js/jquery.barrating.min.js"></script>
-  <script src="../assets/js/Chart.min.js"></script>
-  <script src="../assets/js/raphael-min.js"></script>
-  <script src="../assets/js/morris.min.js"></script>
-  <script src="../assets/js/echarts.min.js"></script>
-  <script src="../assets/js/echarts-gl.min.js"></script>
+                <div class="card-body">
+                  <form>
+                    <div class="form-group ">
+                      <label>Add multiple or single Guard</label>
+                      <select class="selectpicker" data-live-search="true" id="addGuardDateShedule4V" multiple>
 
-  <script src="../assets/js/main.js"></script>
+                        <option data-tokens="mustard">guard2</option>
+                        <option data-tokens="frosting">guard3</option>
+                        <option data-tokens="ketchup mustard">guard1</option>
+                        <option data-tokens="mustard">guard2</option>
+                        <option data-tokens="frosting">guard3</option>
+                        <option data-tokens="mustard">guard2</option>
+                        <option data-tokens="frosting">guard3</option>
+                        <option data-tokens="ketchup mustard">guard1</option>
+                        <option data-tokens="mustard">guard2</option>
+                        <option data-tokens="frosting">guard3</option>
+                        <option data-tokens="ketchup mustard">guard1</option>
+                        <option data-tokens="mustard">guard2</option>
+                        <option data-tokens="frosting">guard3</option>
+                        <option data-tokens="ketchup mustard">guard1</option>
+                        <option data-tokens="mustard">guard2</option>
+                        <option data-tokens="frosting">guard3</option>
 
-  <!-- Include Date Range Picker -->
-  <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-  <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
-  <script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
+                      </select>
+                    </div>
 
-  <script src="../assets/js/job.js"></script>
+                  </form>
+                </div>
+              </div>
+              <div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer d-block">
+            <div class="actions justify-content-between">
+              <button type="button" class="btn btn-error" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-info" onclick="addGuardDateShedule4()">Assign</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="addGuardDateSchedule5" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-content">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+            <i class="icofont-close-line"></i>
+          </button>
+          <div class="modal-header">
+            <h5 class="modal-title">Guard</h5>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="card">
+
+                <div class="card-body">
+                  <form>
+                    <div class="form-group ">
+                      <label>Add multiple or single Guard</label>
+                      <select class="selectpicker" data-live-search="true" id="addGuardDateShedule5V" multiple>
+
+                        <option data-tokens="mustard">guard1</option>
+                        <option data-tokens="frosting">guard2</option>
+                        <option data-tokens="ketchup mustard">guard3</option>
+                        <option data-tokens="mustard">guard4</option>
+                        <option data-tokens="frosting">guard5</option>
+                        <option data-tokens="mustard">guard6</option>
+                        <option data-tokens="frosting">guard3</option>
+                        <option data-tokens="ketchup mustard">guard1</option>
+                        <option data-tokens="mustard">guard2</option>
+                        <option data-tokens="frosting">guard3</option>
+                        <option data-tokens="ketchup mustard">guard1</option>
+                        <option data-tokens="mustard">guard2</option>
+                        <option data-tokens="frosting">guard3</option>
+                        <option data-tokens="ketchup mustard">guard1</option>
+                        <option data-tokens="mustard">guard2</option>
+                        <option data-tokens="frosting">guard3</option>
+
+                      </select>
+                    </div>
+
+                  </form>
+                </div>
+              </div>
+              <div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer d-block">
+            <div class="actions justify-content-between">
+              <button type="button" class="btn btn-error" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-info" onclick="addGuardDateShedule5()">Assign</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="modal fade" id="single-detail" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Job task and instruction</h5>
+          </div>
+          <div class="modal-body">
+
+          </div>
+          <div class="modal-footer d-block">
+            <div class="actions justify-content-between">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button id="reset-to-default" type="button" class="btn btn-error">Reset to default</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Job task and instruction</h5>
+          </div>
+          <div class="modal-body">
+
+
+
+
+            <form>
+              <div class="form-group">
+                <label>Job status</label>
+                <select class="selectpicker">
+                  <option value="horizontal">Active</option>
+                  <option value="horizontal-layout">Suspended</option>
+                  <option value="vertical-layout">Completed</option>
+                </select>
+              </div>
+
+            </form>
+
+          </div>
+          <div class="modal-footer d-block">
+            <div class="actions justify-content-between">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-info">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add patients modals -->
+    <div class="modal fade" id="settings" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Application's settings</h5>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label>Layout</label>
+                <select class="selectpicker" title="Layout" id="layout">
+                  <option value="horizontal-layout">Horizontal</option>
+                  <option value="vertical-layout">Vertical</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Light/dark topbar</label>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" id="topbar">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Light/dark sidebar</label>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" id="sidebar">
+                </div>
+              </div>
+
+              <div class="form-group mb-0">
+                <label>Boxed/fullwidth mode</label>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" id="boxed" checked>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer d-block">
+            <div class="actions justify-content-between">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button id="reset-to-default" type="button" class="btn btn-error">Reset to default</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end Add patients modals -->
+
+    <script src="../assets/js/jquery-3.6.0.min.js"></script>
+    <script src="../assets/js/jquery-migrate-1.4.1.min.js"></script>
+    <script src="../assets/js/popper.min.js"></script>
+    <script src="../assets/js/bootstrap.min.js"></script>
+    <script src="../assets/js/jquery.typeahead.min.js"></script>
+    <script src="../assets/js/datatables.min.js"></script>
+    <script src="../assets/js/bootstrap-select.min.js"></script>
+    <script src="../assets/js/jquery.barrating.min.js"></script>
+    <script src="../assets/js/Chart.min.js"></script>
+    <script src="../assets/js/raphael-min.js"></script>
+    <script src="../assets/js/morris.min.js"></script>
+    <script src="../assets/js/echarts.min.js"></script>
+    <script src="../assets/js/echarts-gl.min.js"></script>
+
+    <script src="../assets/js/main.js"></script>
+
+    <!-- Include Date Range Picker -->
+    <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+    <script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
+    
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.html5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="../assets/js/job.js"></script>
 
 
 
