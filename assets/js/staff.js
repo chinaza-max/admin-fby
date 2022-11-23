@@ -1,4 +1,4 @@
-let formAdminReg=document.getElementById("formCustomerReg")
+let formAdminReg=document.getElementById("formAdminReg")
 
 /*
 setTimeout(() => {
@@ -22,38 +22,36 @@ formAdminReg.addEventListener("submit",(e)=>{
     email=formFields.email.value,
     gender=formFields.Gender.value,
     date_of_birth=formFields.dateOfBirth.value,
-    address=formFields.address.value;
+    address=formFields.address.value,
+    password=formFields.password.value;
 
 
     if (typeof email === 'string') {
 
         if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){
 
+
           $.ajax({
-            type: "post", url:`${domain}/api/v1/customer`,
-            headers: {
-              "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
-            },
+            type: "post", url:`${domain}/api/v1/auth/admin/register`,
             data: {
                     first_name,
                     last_name,
                     email,
                     date_of_birth,
                     gender,
+                    password,
                     address,
             },
             success: function (data, text) {
   
-                console.log(data)
-                console.log(text)
-
-                showModal("REGISTERATION SUCCESSFULL")
+                showModal("REGISTRATION SUCCESSFULL")
                 setTimeout(() => {
                         hideModal()
                 }, 3000);
 
                 $("#signInButton").css("display","block")
                 $("#loadingButton").css("display","none")
+
                 clearField()
             },
             error: function (request, status, error) {
@@ -61,9 +59,6 @@ formAdminReg.addEventListener("submit",(e)=>{
                 $("#signInButton").css("display","block")
                 $("#loadingButton").css("display","none")
                 console.log(request)
-                console.log(status)
-                console.log(error)
-                console.log(request.responseJSON.status)
 
                 if(request.responseJSON.status=="conflict-error"){
                     console.log(request.responseJSON.message)
@@ -86,14 +81,6 @@ formAdminReg.addEventListener("submit",(e)=>{
                         hideModalError()
                     }, 3000);
                 }
-                else if(request.responseJSON.status=="bad-request-error"){
-                  console.log(request.responseJSON.message)
-                  showModalError(request.responseJSON.message)
-                  setTimeout(() => {
-                      hideModalError()
-                  }, 3000);
-                  logUserOut()
-              }
              
             }
           });
@@ -113,7 +100,8 @@ formAdminReg.addEventListener("submit",(e)=>{
 
     }
 
-    
+
+
     function  clearField(){
         formFields.firstName.value='',
         formFields.lastName.value='',
@@ -121,7 +109,7 @@ formAdminReg.addEventListener("submit",(e)=>{
         formFields.Gender.value='',
         formFields.dateOfBirth.value='',
         formFields.address.value='',
-  
+        formFields.password.value='';
 
 
         $('select[name=gender]').val("SELECT");

@@ -1,13 +1,25 @@
 
-
-/** this handles logs  */
-
-
-
 $(document).ready(function() {
 
     setTimeout(() => {
-    let  tables= $('table.display').DataTable({
+     
+
+
+    /*  $(`.logTableContentClass`).append(
+        ` <tr>
+        <td>2/20/22	</td>
+        <td>9:00 AM	</td>
+        <td>Clock In</td>
+        <td>Clock out	 </td>
+     </tr> <tr>
+        <td>2/20/22	</td>
+        <td>9:00 AM	</td>
+        <td>Clock In</td>
+        <td>Clock 	 </td>
+     </tr>`)*/
+
+
+    $('table.display').DataTable({
         select: true,
         dom: 'Bfrtip',
         scrollY: '50vh',
@@ -18,6 +30,12 @@ $(document).ready(function() {
         'pdfHtml5',
         'print'
         ],
+        "columns": [
+          { "data": "Date" },
+          { "data": "Time" },
+          { "data": "Activity" },
+          { "data": "location" }
+      ] 
     });
 
 
@@ -28,38 +46,36 @@ $(document).ready(function() {
       location: "test"
     }]
     
-    console.log(tables)
-    console.log(tables.table(1).row.add(ROWDATA) )
-    console.log(tables.table(2))
-    console.log(tables.table(0))
 
 
 
-     tables.table(1).row.add(ROWDATA).draw( false );
-    
-    }, 2000);
 
+   
+    // tables.table(1).row.add(ROWDATA).draw( false );
+      
+
+    }, 200);
+
+    $('#logTableContent tbody').on("click",'td', function () {
+       console.log("am a"); });
 
   
   
 });
 
-
+/*
 function initializePayOff(){
   console.log("clear")
   totalHours=0
   amountPending=0
 }
-
-
+*/
+/*
 function calPayOff(val1, val2){
-  
- 
-
   document.getElementById("totalHours").innerHTML =val1
   document.getElementById("amountPending").innerHTML ="$"+val2
 }
-
+*/
 /*new date and time sheduler */
 
 
@@ -1261,21 +1277,22 @@ function viewDetailsContentDisplay(val1){
 
    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target=".${val1[i].name}multi-collapse"
      aria-expanded="false" aria-controls="${val1[i].name}multiCollapseExample1 ${val1[i].name}multiCollapseExample2 ${val1[i].name}dateTime">View
-     all</button>
+     all
+    </button>
+
+    <button type="button" class="btn btn-primary">
+    Report <span class="badge badge-light badge-inside ms-2">4</span>
+    </button>
    </p>
+
+   
 
 
    <div class="collapse ${val1[i].name}multi-collapse" id="${val1[i].name}logs">
    <div class="card card-body">
 
    <table id="logTable" class="display" style="width:100%;"    
-   data-ajax="../assets/data/jobLogs.json"
-   data-columns='[
-    { "data": "Date" },
-    { "data": "Time" },
-    { "data": "Activity" },
-    { "data": "location" }
-  ]'
+   
    data-info="true"
    select="true">
 
@@ -1289,8 +1306,13 @@ function viewDetailsContentDisplay(val1){
        </thead>
 
      
-     <tbody id="logTable">
-       
+     <tbody id="logTableContent" class="logTableContentClass">
+     <tr>
+     <td>2/20/22	</td>
+     <td>9:00 AM	</td>
+     <td>Clock In</td>
+     <td>Clock out	 </td>
+  </tr>
      
      </tbody>
    </table>

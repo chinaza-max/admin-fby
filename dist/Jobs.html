@@ -93,7 +93,7 @@
               <button class="no-style dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false" data-bs-offset="0, 10">
                 <span class="d-flex align-items-center">
-                  <img src="../assets/content/user-400-1.jpg" alt="" width="40" height="40" class="rounded-500 me-1">
+                  <img src="../assets/content/user-400-1.jpg" id="avatar" alt="" width="40" height="40" class="rounded-500 me-1">
                   <i class="icofont-simple-down"></i>
                 </span>
               </button>
@@ -342,15 +342,15 @@
                             <thead>
                               <tr>
 
-                                <th scope="col">Date Created</th>
+                                <th scope="col">Date created</th>
                                 <th scope="col">Customer</th>
                                 <th scope="col">Customer site</th>
                                 <th scope="col">Type</th>
 
-                                <th scope="col">Job Amount</th>
+                                <th scope="col">Job amount</th>
                                 <th scope="col">Schedule</th>
 
-                                <th scope="col">Job Details</th>
+                                <th scope="col">Job details</th>
                                 <th scope="col">Guard</th>
                                 <th scope="col">Actions</th>
                               </tr>
@@ -397,9 +397,7 @@
                                 </td>
                                 <td>
                                   <div class="actions">
-                                    <button class="btn btn-dark btn-sm btn-square rounded-pill">
-                                      <span class="btn-icon icofont-external-link"></span>
-                                    </button>
+
                                     <button class="btn btn-info btn-sm btn-square rounded-pill" data-bs-toggle="modal"
                                       data-bs-target="#edit">
                                       <span class="btn-icon icofont-ui-edit"></span>
@@ -1384,7 +1382,7 @@
             </div>
 
             <div class=" col-md-4 col-md-4">
-              <div class="alert alert-dark outline mb-0" role="alert">
+              <div class="alert alert-dark outline" role="alert">
                 Job Price: $200000
               </div>
             </div>
@@ -1394,6 +1392,8 @@
                 Amonut paid to guard per hour: $40
               </div>
             </div>
+
+            
 
           </div>
           <hr>
@@ -2190,7 +2190,7 @@
     <script src="../assets/js/morris.min.js"></script>
     <script src="../assets/js/echarts.min.js"></script>
     <script src="../assets/js/echarts-gl.min.js"></script>
-
+    <script src="../assets/js/globalVar.js"></script>
     <script src="../assets/js/main.js"></script>
 
     <!-- Include Date Range Picker -->

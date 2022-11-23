@@ -2,28 +2,29 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>MedicApp - Medical & Hospital HTML5/Bootstrap admin template</title>
-  <meta name="keywords" content="MedicApp">
+  <title>FBY security app</title>   
+  <meta name="keywords" content="FBY app">
   <meta name="description" content="">
   <meta name="author" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- Favicon -->
-  <link rel="shortcut icon" href="../assets/img/favicon.ico">
+  <link rel="shortcut icon" href="/assets/img/favicon.ico"> 
+  <link rel="manifest" href="/manifest.json"></link>
 
   <!-- Plugins CSS -->
-  <link rel="stylesheet" href="../assets/css/bootstrap/bootstrap.css">
-  <link rel="stylesheet" href="../assets/css/icofont.min.css">
-  <link rel="stylesheet" href="../assets/css/simple-line-icons.css">
-  <link rel="stylesheet" href="../assets/css/jquery.typeahead.css">
-  <link rel="stylesheet" href="../assets/css/datatables.min.css">
-  <link rel="stylesheet" href="../assets/css/bootstrap-select.min.css">
-  <link rel="stylesheet" href="../assets/css/Chart.min.css">
-  <link rel="stylesheet" href="../assets/css/morris.css">
-  <link rel="stylesheet" href="../assets/css/leaflet.css">
+  <link rel="stylesheet" href="/assets/css/bootstrap/bootstrap.css">
+  <link rel="stylesheet" href="/assets/css/icofont.min.css">
+  <link rel="stylesheet" href="/assets/css/simple-line-icons.css">
+  <link rel="stylesheet" href="/assets/css/jquery.typeahead.css">
+  <link rel="stylesheet" href="/assets/css/datatables.min.css">
+  <link rel="stylesheet" href="/assets/css/bootstrap-select.min.css">
+  <link rel="stylesheet" href="/assets/css/Chart.min.css">
+  <link rel="stylesheet" href="/assets/css/morris.css">
+  <link rel="stylesheet" href="/assets/css/leaflet.css">
 
   <!-- Theme CSS -->
-  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 
 
@@ -31,7 +32,7 @@
 <div class="app-loader main-loader">
   <div class="loader-box">
     <div class="bounceball"></div>
-    <div class="text">Medic<span>app</span></div>
+    <div class="text">FBY<span>app</span></div>
   </div>
 </div>
 <!-- .main-loader -->
@@ -42,7 +43,8 @@
       <div class="content-header">
         <div class="app-logo">
           <div class="logo-wrap">
-            <img src="../assets/img/logo.svg" alt="" width="147" height="33" class="logo-img">
+            <img src="/assets/img/logo.png"  alt="" width="147" height="33" class="logo-img">
+              <!-- end Image logo --> FBY
           </div>
         </div>
       </div>
@@ -52,30 +54,43 @@
           <h2 class="h4 mt-0 mb-1">Sign in</h2>
           <p class="text-muted">Sign in to access your Account</p>
 
-          <form>
+          <form id="myForm">
             <div class="form-group">
-              <input class="form-control" type="text" placeholder="Login">
+              <span style="color:red;" id="alert1"></span>
+              <input class="form-control" type="email" id="email"  placeholder="Email" required>
+              <span style="color:red;" id="alert2"></span>
             </div>
 
             <div class="form-group">
-              <input class="form-control" type="password" placeholder="Password">
+              <input class="form-control" type="password" id="password" placeholder="Password" required>
             </div>
 
-            <div class="form-check form-switch mb-4">
-              <input type="checkbox" class="form-check-input" id="remember-me" checked>
-              <label class="form-check-label" for="remember-me">Remember me</label>
-            </div>
-
-            <div class="actions justify-content-between">
+            <div class="actions justify-content-between"  id="signInButton">
               <button class="btn btn-primary">
                 <span class="btn-icon icofont-login me-2"></span>Sign in
               </button>
             </div>
+
+            <button type="button" class="btn btn-primary btn-load" id="loadingButton">
+              Primary
+              <span class="btn-loader icofont-spinner"></span>
+            </button>
           </form>
 
-          <p class="mt-5 mb-1"><a href="#">Forgot password?</a></p>
-          <p>Don't have an account? <a href="./sign-up.html">Sign up!</a></p>
+
+          <p class="mt-5 mb-1"><a href="forgotPassword.html">Forgot password?</a></p>
+    
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalWaring" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        Check your internet
       </div>
     </div>
   </div>
@@ -94,9 +109,86 @@
 <script src="../assets/js/morris.min.js"></script>
 <script src="../assets/js/echarts.min.js"></script>
 <script src="../assets/js/echarts-gl.min.js"></script>
-
+<script src="../assets/js/globalVar.js"></script>
 <script src="../assets/js/main.js"></script>
 
 
 </body>
+
+
+<script>
+
+
+ 
+
+  $("#myForm").on("submit", (event) => {
+    event.preventDefault();
+
+    $("#signInButton").css("display","none")
+    $("#loadingButton").css("display","block")
+
+    if (typeof $("#email").val() === 'string') {
+
+      if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test($("#email").val())){
+        
+        console.log($("#email").val())
+        console.log($("#password").val())
+
+
+
+        $.ajax({
+          type: "post", url:`${domain}/api/v1/auth/admin/login`,
+          data: {
+            email:$("#email").val(),
+            password:$("#password").val()
+          },
+          success: function (data, text) {
+
+              console.log(data.data)
+              if(data.data.token){
+                sessionStorage.setItem("hasVisited", true);
+                localStorage.setItem('myUser',btoa(data.data.token))
+                localStorage.setItem('userDetails', btoa(JSON.stringify(data.data.user)));
+                //window.location.replace('https://sunny-kataifi-7adb6f.netlify.app/index.html')
+                // window.location.replace('/index.html')
+                window.location.href =window.location.toString().split('/')[0] + "/dist/index.html"
+                // window.location.href =window.location.toString().split('/')[0] + "https://sunny-kataifi-7adb6f.netlify.app/index.html"
+
+              }
+             
+          },
+          error: function (request, status, error) {
+          
+            $("#signInButton").css("display","block")
+            $("#loadingButton").css("display","none")
+            if(request.readyState===0){ 
+
+              let myModal = new bootstrap.Modal(document.getElementById('modalWaring'), {})
+              myModal.toggle()
+              
+            }
+            else{
+              $("#alert1").text(JSON.parse(request.responseText).message)
+            }
+           
+          }
+        });
+
+      }
+      else {
+        $("#signInButton").css("display","block")
+        $("#loadingButton").css("display","none")
+        $("#alert2").text("wrong type")
+      }
+  
+    } 
+    else {
+      $("#signInButton").css("display","block")
+      $("#loadingButton").css("display","none")
+      $("#alert2").text("wrong type")
+    }
+
+  })
+
+</script>
 </html>

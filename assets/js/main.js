@@ -1547,6 +1547,39 @@
   });
 
   $(window).on('load', function(){
+
+    if((!sessionStorage.getItem("hasVisited"))&&(window.location.pathname!="/dist/sign-in.html")&&(window.location.pathname!="/dist/forgotPassword.html")){
+      window.location.href =window.location.toString().split('/')[0] + "/dist/sign-in.html"
+     
+    }
+    else{
+      if(window.location.pathname!="/dist/sign-in.html"){
+
+        $.ajax({
+          type: "get", url:`${domain}/api/v1/auth/`,
+          headers: {
+              "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+          },
+          success: function (data, text) {
+            $("#profile").attr("src",data.data.user.image);
+          },
+          error: function (request, status, error) {
+              localStorage.removeItem("myUser")
+              localStorage.removeItem("userDetails")
+              if(mode=="development"){
+                window.location.href =window.location.toString().split('/')[0] + "/dist/sign-in.html"
+              }
+              else{
+                    //window.location.replace('https://sunny-kataifi-7adb6f.netlify.app/sign-in.html')
+              }
+
+          }
+        });
+
+        
+      }
+     
+    }
     $.ready.then(function(){
       $('body').addClass('loaded');
     });
@@ -1790,7 +1823,6 @@ $(document).ready(function(){
 
 
 $(document).ready(function(){
-
   $('.add10').click(function(){
   $(".list10").append(
       '<div class="mb-2 row justify-content-between px-3">' +

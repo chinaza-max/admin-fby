@@ -21,9 +21,12 @@
   <link rel="stylesheet" href="../assets/css/Chart.min.css">
   <link rel="stylesheet" href="../assets/css/morris.css">
   <link rel="stylesheet" href="../assets/css/leaflet.css">
+  <link rel="stylesheet" href="../assets/css/map.css">
 
   <!-- Theme CSS -->
   <link rel="stylesheet" href="../assets/css/style.css">
+  <script src="../assets/js/map.js"></script>
+
 </head>
 
 
@@ -95,7 +98,7 @@
                 data-bs-offset="0, 10"
               >
                 <span class="d-flex align-items-center">
-                  <img src="../assets/content/user-400-1.jpg" alt="" width="40" height="40" class="rounded-500 me-1">
+                  <img src="../assets/content/user-400-1.jpg" id="avatar" alt="" width="40" height="40" class="rounded-500 me-1">
                   <i class="icofont-simple-down"></i>
                 </span>
               </button>
@@ -384,10 +387,6 @@
 
 
 
-
-
-
-
               <hr>
 
               <h4>Change password</h4>
@@ -424,38 +423,60 @@
 
               <label>Add site</label>
 
-              <div class="social-list">
-                
-                <div class="social-item">
-                  <div class="row">
-                    <div class="col">
-                      <div class="row">
-                        <div class="col-12 col-sm-6">
-                          <div class="form-group">
-                            <input class="form-control" type="text" placeholder="Enter site name ">
+              <form  id="submitSite" >
+                <div class="social-list">
+                  
+                  <div class="social-item">
+                    <div class="row">
+                      <div class="col">
+                        <div class="row">
+                          <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                              <input class="form-control" type="text" id="inputSiteName" placeholder="Enter site name" required>
+                            </div>
+                          </div>
+                          <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                              <input class="form-control" type="number" id="inputJobCost" placeholder="Cost of job" required>
+                            </div>
                           </div>
                         </div>
-                        <div class="col-12 col-sm-6">
-                          <div class="form-group">
-                            <input class="form-control" type="number" placeholder="Enter amount" >
+                      </div>
+                      <div class="col col-auto">
+                        <button class="btn btn-outline-primary btn-square rounded-pill"  type="submit">
+                          <span class="btn-icon icofont-plus"></span>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="row">
+                          <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                              <input class="form-control" type="number" id="radius" placeholder="expand circumference default(20m)">
+                            </div>
+                          </div>
+                          <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                              <input class="form-control" type="number" id="inputGuardAmount" placeholder="Guard payment per hour" required>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div class="col col-auto">
-                      <button class="btn btn-outline-primary btn-square rounded-pill" type="button">
-                        <span class="btn-icon icofont-plus"></span>
-                      </button>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="form-group">
-                      <textarea class="form-control" rows="4" placeholder="Enter site full Address....." ></textarea>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
+                    <div class="row">
+                      <div class="form-group">
+                        <textarea class="form-control" rows="4" placeholder="Enter site full Address....." id="pac-input"></textarea>
+                      </div>
+                    </div>
+                  </div>
+              
+                </div>
+
+            </form>
+
+              <div id="map"></div>
               <hr>
               <div class="form-group mt-4">
                 <label>Sites</label>
@@ -716,8 +737,13 @@
 <script src="../assets/js/morris.min.js"></script>
 <script src="../assets/js/echarts.min.js"></script>
 <script src="../assets/js/echarts-gl.min.js"></script>
-
+<script src="../assets/js/globalVar.js"></script>
 <script src="../assets/js/main.js"></script>
+
+<script
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqoyaPtHf5BcoTX_iNvCzXjVj6BpGl2do&callback=initAutocomplete&libraries=places&v=weekly"
+defer
+></script>
 
 
 </body>

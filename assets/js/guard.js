@@ -1,4 +1,4 @@
-let formAdminReg=document.getElementById("formCustomerReg")
+let formAdminReg=document.getElementById("formguardReg")
 
 /*
 setTimeout(() => {
@@ -22,7 +22,8 @@ formAdminReg.addEventListener("submit",(e)=>{
     email=formFields.email.value,
     gender=formFields.Gender.value,
     date_of_birth=formFields.dateOfBirth.value,
-    address=formFields.address.value;
+    address=formFields.address.value,
+    password=formFields.password.value;
 
 
     if (typeof email === 'string') {
@@ -30,23 +31,19 @@ formAdminReg.addEventListener("submit",(e)=>{
         if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){
 
           $.ajax({
-            type: "post", url:`${domain}/api/v1/customer`,
-            headers: {
-              "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
-            },
+            type: "post", url:`${domain}/api/v1/auth/register`,
             data: {
                     first_name,
                     last_name,
                     email,
                     date_of_birth,
                     gender,
+                    password,
                     address,
             },
             success: function (data, text) {
   
-                console.log(data)
-                console.log(text)
-
+                console.log(data.message)
                 showModal("REGISTERATION SUCCESSFULL")
                 setTimeout(() => {
                         hideModal()
@@ -86,14 +83,6 @@ formAdminReg.addEventListener("submit",(e)=>{
                         hideModalError()
                     }, 3000);
                 }
-                else if(request.responseJSON.status=="bad-request-error"){
-                  console.log(request.responseJSON.message)
-                  showModalError(request.responseJSON.message)
-                  setTimeout(() => {
-                      hideModalError()
-                  }, 3000);
-                  logUserOut()
-              }
              
             }
           });
@@ -121,7 +110,7 @@ formAdminReg.addEventListener("submit",(e)=>{
         formFields.Gender.value='',
         formFields.dateOfBirth.value='',
         formFields.address.value='',
-  
+        formFields.password.value='';
 
 
         $('select[name=gender]').val("SELECT");
