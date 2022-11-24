@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>FBY admin Dashboard</title>
-  <meta name="keywords" content="MedicApp">
+    <meta name="keywords" content="MedicApp">
   <meta name="description" content="">
   <meta name="author" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,12 +21,9 @@
   <link rel="stylesheet" href="../assets/css/Chart.min.css">
   <link rel="stylesheet" href="../assets/css/morris.css">
   <link rel="stylesheet" href="../assets/css/leaflet.css">
-  <link rel="stylesheet" href="../assets/css/map.css">
 
   <!-- Theme CSS -->
   <link rel="stylesheet" href="../assets/css/style.css">
-  <script src="../assets/js/map.js"></script>
-
 </head>
 
 
@@ -49,9 +46,7 @@
             <span></span><span></span><span></span>
           </button>
 
-        
-          
-        
+
           <div class="app-actions">
             <div class="dropdown item">
               <button
@@ -128,8 +123,6 @@
               </div>
             </div>
           </div>
-
-        
         
         <div class="navbar-skeleton horizontal">
           <div class="left-part d-flex align-items-center">
@@ -160,6 +153,8 @@
         
           <button class="no-style navbar-toggle navbar-close icofont-close-line d-lg-none"></button>
 
+        
+        
           <div class="app-logo">
             <div class="logo-wrap">
             
@@ -260,15 +255,6 @@
             </nav>
           </div>
 
-        
-          <div class="assistant-menu">
-            <a class="link" href="#" data-bs-toggle="modal" data-bs-target="#settings">
-              <span class="link-icon icofont-ui-settings"></span>Settings
-            </a>
-            <a class="link" href="#">
-              <span class="link-icon icofont-question-square"></span>FAQ &amp; Support
-            </a>
-          </div>
 
         
 
@@ -332,46 +318,82 @@
 
       <div class="main-content-wrap">
         <header class="page-header">
-          <h1 class="page-title">Customer account</h1>
+          <h1 class="page-title">Customer Profile</h1>
         </header>
 
         <div class="page-content">
           <div class="row justify-content-center">
             <div class="col col-12 col-xl-8">
-              <form class="mb-4">
+
+
                 <label>Photo</label>
                 <div class="form-group avatar-box d-flex align-items-center">
-                  <img src="../assets/content/user-400-1.jpg" width="100" height="100" alt="" class="rounded-500 me-4">
+                  <img src="../assets/content/user-400-1.jpg" id="avatar2" width="100" height="100" alt="" class="rounded-500 me-4">
 
-                  <button class="btn btn-outline-primary" type="button">
+                  <button class="btn btn-outline-primary" type="button" onClick="document.getElementById('profilePicturePath').click()">
                     Change photo<span class="btn-icon icofont-ui-user ms-2"></span>
                   </button>
+                  <input type='file' onchange="checkImg(this)" id="profilePicturePath" style="display: none;" accept=".jpg, .jpeg, .png"/> 
+
                 </div>
+
+
+              <form class="mb-4" id="updateUser">
+
 
                 <div class="form-group">
                   <label>First name</label>
-                  <input class="form-control" type="text" placeholder="First name" value="Liam">
+                  <input class="form-control" type="text" id="firstName" name="firstName" placeholder="Type first name..." required>
                 </div>
 
-                <div class="form-group">
-                  <label>Last name</label>
-                  <input class="form-control" type="text" placeholder="Last name" value="Jouns">
-                </div>
+              
 
-                <div class="form-group">
-                  <label>Phone number</label>
-                  <input class="form-control" type="number" placeholder="Age" value="0126596578">
-                </div>
 
-                <div class="form-group">
-                  <label>Address</label>
-                  <textarea class="form-control" placeholder="Address" rows="3">71 Pilgrim Avenue Chevy Chase, MD 20815</textarea>
+                <div class="row">
+                  <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                      <label>Last name</label>
+                      <input class="form-control" id="lastName" name="lastName" type="text" placeholder="Last name" value="Jouns">
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                      <label>Last name</label>
+                      <input class="form-control" id="email" name="email" type="text" placeholder="email address" value="Jouns">
+                    </div>
+                  </div>
                 </div>
 
 
                 <div class="row">
+                  <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                      <label>Date of birth</label>
+                      <input class="form-control" id="dataOfBirth" name="dataOfBirth" type="date" >
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                      <label>Gender</label>
+                      <select class="selectpicker gender" name="gender" title="Gender" required>
+                        <option value="NOT_SPECIFIED">NOT_SPECIFIED</option>
+                        <option value="MALE" >MALE</option>
+                        <option value="FEMALE" >FEMALE</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>Address</label>
+                  <textarea class="form-control" name="address" id="address" placeholder="Address" rows="3">71 Pilgrim Avenue Chevy Chase, MD 20815</textarea>
+                </div>
+
+              
+
+                <div class="row">
                   <div class="col">
-                    <button type="button" class="btn btn-success">Save changes</button>
+                    <button type="submit" class="btn btn-success">Save changes</button>
                   </div>
                   <div class="col text-end">
                     <button type="button" class="btn btn-outline-danger">
@@ -382,226 +404,8 @@
                 </div>
               </form>
 
-
-              
-
-
-
               <hr>
-
-              <h4>Change password</h4>
-
-              <form>
-                <div class="row">
-                  <div class="col-12 col-sm-6">
-                    <div class="form-group">
-                      <label>Current password</label>
-                      <input class="form-control" type="text" placeholder="Current password">
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-12 col-sm-6">
-                    <div class="form-group">
-                      <label>New password</label>
-                      <input class="form-control" type="text" placeholder="New password">
-                    </div>
-                  </div>
-
-                  <div class="col-12 col-sm-6">
-                    <div class="form-group">
-                      <label>Confirm new password</label>
-                      <input class="form-control" type="text" placeholder="Confirm new password">
-                    </div>
-                  </div>
-                </div>
-
-                <button type="button" class="btn btn-outline-dark">Change password</button>
-              </form>
-              
-              <hr class="mt-4">
-
-              <label>Add site</label>
-
-              <form  id="submitSite" >
-                <div class="social-list">
-                  
-                  <div class="social-item">
-                    <div class="row">
-                      <div class="col">
-                        <div class="row">
-                          <div class="col-12 col-sm-6">
-                            <div class="form-group">
-                              <input class="form-control" type="text" id="inputSiteName" placeholder="Enter site name" required>
-                            </div>
-                          </div>
-                          <div class="col-12 col-sm-6">
-                            <div class="form-group">
-                              <input class="form-control" type="number" id="inputJobCost" placeholder="Cost of job" required>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col col-auto">
-                        <button class="btn btn-outline-primary btn-square rounded-pill"  type="submit">
-                          <span class="btn-icon icofont-plus"></span>
-                        </button>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col">
-                        <div class="row">
-                          <div class="col-12 col-sm-6">
-                            <div class="form-group">
-                              <input class="form-control" type="number" id="radius" placeholder="expand circumference default(20m)">
-                            </div>
-                          </div>
-                          <div class="col-12 col-sm-6">
-                            <div class="form-group">
-                              <input class="form-control" type="number" id="inputGuardAmount" placeholder="Guard payment per hour" required>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="form-group">
-                        <textarea class="form-control" rows="4" placeholder="Enter site full Address....." id="pac-input"></textarea>
-                      </div>
-                    </div>
-                  </div>
-              
-                </div>
-
-            </form>
-
-              <div id="map"></div>
-              <hr>
-              <div class="form-group mt-4">
-                <label>Sites</label>
-
-                <div class="social-list">
-                  <div class="social-item">
-                    <div class="row">
-                      <div class="col">
-                        <div class="row">
-                          <div class="col-12 col-sm-6">
-                            <div class="form-group">
-                              <input class="form-control" type="text" placeholder="Koforidua Central Business District,"  readonly>
-                            </div>
-                          </div>
-                          <div class="col-12 col-sm-6">
-                            <div class="form-group">
-                              <input class="form-control" type="text" placeholder="$20000" readonly>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col col-auto">
-                        <button class="btn btn-outline-danger btn-square rounded-pill" type="button">
-                          <span class="btn-icon icofont-ui-delete"></span>
-                        </button>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="form-group">
-                        <textarea class="form-control" rows="4" placeholder="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English." readonly></textarea>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="social-item">
-                    <div class="row">
-                      <div class="col">
-                        <div class="row">
-                          <div class="col-12 col-sm-6">
-                            <div class="form-group">
-                              <input class="form-control" type="text" placeholder="Koforidua Central Business District,"  readonly>
-                            </div>
-                          </div>
-                          <div class="col-12 col-sm-6">
-                            <div class="form-group">
-                              <input class="form-control" type="text" placeholder="$20000" readonly>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col col-auto">
-                        <button class="btn btn-outline-danger btn-square rounded-pill" type="button">
-                          <span class="btn-icon icofont-ui-delete"></span>
-                        </button>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="form-group">
-                        <textarea class="form-control" rows="4" placeholder="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English." readonly></textarea>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="social-item">
-                    <div class="row">
-                      <div class="col">
-                        <div class="row">
-                          <div class="col-12 col-sm-6">
-                            <div class="form-group">
-                              <input class="form-control" type="text" placeholder="Koforidua Central Business District,"  readonly>
-                            </div>
-                          </div>
-                          <div class="col-12 col-sm-6">
-                            <div class="form-group">
-                              <input class="form-control" type="text" placeholder="$20000" readonly>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col col-auto">
-                        <button class="btn btn-outline-danger btn-square rounded-pill" type="button">
-                          <span class="btn-icon icofont-ui-delete"></span>
-                        </button>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="form-group">
-                        <textarea class="form-control" rows="4" placeholder="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English." readonly></textarea>
-                      </div>
-                    </div>
-                  </div>
-
-
-                  <div class="social-item">
-                    <div class="row">
-                      <div class="col">
-                        <div class="row">
-                          <div class="col-12 col-sm-6">
-                            <div class="form-group">
-                              <input class="form-control" type="text" placeholder="Koforidua Central Business District,"  readonly>
-                            </div>
-                          </div>
-                          <div class="col-12 col-sm-6">
-                            <div class="form-group">
-                              <input class="form-control" type="text" placeholder="$20000" readonly>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col col-auto">
-                        <button class="btn btn-outline-danger btn-square rounded-pill" type="button">
-                          <span class="btn-icon icofont-ui-delete"></span>
-                        </button>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="form-group">
-                        <textarea class="form-control" rows="4" placeholder="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English." readonly></textarea>
-                      </div>
-                    </div>
-                  </div>
-                  
-                </div>
-
-              
-              </div>
+                          
 
             </div>
           </div>
@@ -671,7 +475,37 @@
   </div>
 </div>
 
+<div class="modal fade" id="RegisterationError" style="z-index:10000;" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body" id="RegisterationErrorContent">
+      </div>
+    </div>
+  </div>
+</div>
 
+
+
+<div class="modal fade" id="RegisterationSuccessFull" style="z-index:10000;" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+          <div  id="RegisterationSuccessFullContent" class="alert alert-primary outline  text-center" role="alert">
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="PasswordResetInfo" style="z-index:10000;" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body" id="PasswordResetInfoContent">
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Add patients modals -->
 <div class="modal fade" id="settings" tabindex="-1" role="dialog" aria-hidden="true">
@@ -682,13 +516,6 @@
       </div>
       <div class="modal-body">
         <form>
-          <div class="form-group">
-            <label>Layout</label>
-            <select class="selectpicker" title="Layout" id="layout">
-              <option value="horizontal-layout">Horizontal</option>
-              <option value="vertical-layout">Vertical</option>
-            </select>
-          </div>
 
           <div class="form-group">
             <label>Light/dark topbar</label>
@@ -738,12 +565,8 @@
 <script src="../assets/js/echarts.min.js"></script>
 <script src="../assets/js/echarts-gl.min.js"></script>
 <script src="../assets/js/globalVar.js"></script>
+<script src="../assets/js/customer-profile.js"></script>
 <script src="../assets/js/main.js"></script>
-
-<script
-src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqoyaPtHf5BcoTX_iNvCzXjVj6BpGl2do&callback=initAutocomplete&libraries=places&v=weekly"
-defer
-></script>
 
 
 </body>

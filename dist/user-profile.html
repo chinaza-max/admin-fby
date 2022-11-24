@@ -324,7 +324,8 @@
         <div class="page-content">
           <div class="row justify-content-center">
             <div class="col col-12 col-xl-8">
-              <form class="mb-4">
+
+
                 <label>Photo</label>
                 <div class="form-group avatar-box d-flex align-items-center">
                   <img src="../assets/content/user-400-1.jpg" id="avatar2" width="100" height="100" alt="" class="rounded-500 me-4">
@@ -335,32 +336,49 @@
                   <input type='file' onchange="checkImg(this)" id="profilePicturePath" style="display: none;" accept=".jpg, .jpeg, .png"/> 
 
                 </div>
-                <button type="button" class="btn btn-success mb-5" id="saveChangeImg">Save changes</button>
+
+
+              <form class="mb-4" id="updateUser">
 
 
                 <div class="form-group">
                   <label>First name</label>
-                  <input class="form-control" id="firstName" type="text" placeholder="First name" value="Liam">
+                  <input class="form-control" type="text" id="firstName" name="firstName" placeholder="Type first name..." required>
                 </div>
 
-                <div class="form-group">
-                  <label>Last name</label>
-                  <input class="form-control" id="lastName" type="text" placeholder="Last name" value="Jouns">
+              
+
+
+                <div class="row">
+                  <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                      <label>Last name</label>
+                      <input class="form-control" id="lastName" name="lastName" type="text" placeholder="Last name" value="Jouns">
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                      <label>Last name</label>
+                      <input class="form-control" id="email" name="email" type="text" placeholder="email address" value="Jouns">
+                    </div>
+                  </div>
                 </div>
+
 
                 <div class="row">
                   <div class="col-12 col-sm-6">
                     <div class="form-group">
                       <label>Date of birth</label>
-                      <input class="form-control" id="dataOfBirth" type="date" >
+                      <input class="form-control" id="dataOfBirth" name="dataOfBirth" type="date" >
                     </div>
                   </div>
                   <div class="col-12 col-sm-6">
                     <div class="form-group">
                       <label>Gender</label>
-                      <select class="selectpicker" title="Gender">
-                        <option selected>Male</option>
-                        <option>Female</option>
+                      <select class="selectpicker gender" name="gender" title="Gender" required>
+                        <option value="NOT_SPECIFIED">NOT_SPECIFIED</option>
+                        <option value="MALE" >MALE</option>
+                        <option value="FEMALE" >FEMALE</option>
                       </select>
                     </div>
                   </div>
@@ -368,14 +386,14 @@
 
                 <div class="form-group">
                   <label>Address</label>
-                  <textarea class="form-control" id="address" placeholder="Address" rows="3">71 Pilgrim Avenue Chevy Chase, MD 20815</textarea>
+                  <textarea class="form-control" name="address" id="address" placeholder="Address" rows="3">71 Pilgrim Avenue Chevy Chase, MD 20815</textarea>
                 </div>
 
               
 
                 <div class="row">
                   <div class="col">
-                    <button type="button" class="btn btn-success">Save changes</button>
+                    <button type="submit" class="btn btn-success">Save changes</button>
                   </div>
                   <div class="col text-end">
                     <button type="button" class="btn btn-outline-danger">
@@ -471,6 +489,20 @@
     </div>
   </div>
 </div>
+
+
+
+<div class="modal fade" id="RegisterationSuccessFull" style="z-index:10000;" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+          <div  id="RegisterationSuccessFullContent" class="alert alert-primary outline  text-center" role="alert">
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <div class="modal fade" id="PasswordResetInfo" style="z-index:10000;" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog">

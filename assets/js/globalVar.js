@@ -1,5 +1,5 @@
 let mode="development"
-
+let activeUserID= localStorage.getItem("storeCurrentUserID")
 
 let domain=''
 if(mode=="development"){
@@ -9,7 +9,12 @@ else{
     domain=''
 }
 
+function storeCurrentUserID(val){
 
+    console.log(val)
+    localStorage.setItem("storeCurrentUserID",val)
+   
+}
 
 function showModal(val){
     $("#RegisterationSuccessFullContent").text(val);
@@ -68,7 +73,7 @@ function logUserOut(){
 
 
 
-console.log(localStorage.getItem("myUser"))
+//console.log(localStorage.getItem("myUser"))
 const userDeatils=JSON.parse(atob(localStorage.getItem("userDetails")))
 const userEmail=userDeatils.email
 console.log(userDeatils)

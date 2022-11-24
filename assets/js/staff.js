@@ -1,3 +1,5 @@
+
+
 let formAdminReg=document.getElementById("formAdminReg")
 
 /*
@@ -119,3 +121,336 @@ formAdminReg.addEventListener("submit",(e)=>{
 
 
 })
+
+
+
+
+
+
+let limit=15,
+offset=0,
+limit2=15,
+offset2=0
+
+
+let getTableDate=''
+let getTableDate2=''
+
+$(document).ready(function(){
+
+
+
+    //FOR ALL CUSTOMER
+    getTableDate=function (limit,offset){
+        $.ajax({
+            type: "get", url:`${domain}/api/v1/user/getAllStaff?role=ADMIN&limit=${limit}&offset=${offset}`,
+            headers: {
+                "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+            },
+          
+            success: function (data,text){
+
+                console.log(data.data)
+                CreateTable(data.data)
+
+                /*
+                showModal("REGISTRATION SUCCESSFULL")
+                setTimeout(() => {
+                        hideModal()
+                }, 3000);
+
+                $("#signInButton").css("display","block")
+                $("#loadingButton").css("display","none")
+
+        */
+            },
+            error: function (request, status, error) {
+
+                console.log(request)
+
+                if(request.responseJSON.status=="conflict-error"){
+                    console.log(request.responseJSON.message)
+                    showModalError(request.responseJSON.message)
+                    setTimeout(() => {
+                        hideModalError()
+                    }, 3000);
+                }
+                else if(request.responseJSON.status=="validation-error"){
+                    console.log(request.responseJSON.errors.message)
+                    showModalError(request.responseJSON.errors[0].message)
+                    setTimeout(() => {
+                        hideModalError()
+                    }, 3000);
+                }
+                else if(request.responseJSON.status=="server-error"){
+                    console.log(request.responseJSON.message)
+                    showModalError(request.responseJSON.message)
+                    setTimeout(() => {
+                        hideModalError()
+                    }, 3000);
+                }
+             
+            }
+          });
+    }
+
+    getTableDate(limit,offset)
+
+    
+    function CreateTable(val){
+        let data=''
+
+            for(let i=0; i<val.length; i++){
+                data+= `  <tr>
+                <td>
+                  <img src=${val[i].image} alt="" width="40" height="40" class="rounded-500">
+                </td>
+                <td>
+                  <strong>${val[i].full_name}</strong>
+                </td>
+                
+                <td>
+                  <div class="text-muted text-nowrap">${val[i].date_of_birth}</div>
+                </td>
+                <td>
+                  <div class="address-col">${val[i].address}</div>
+                </td>
+                <td>
+                  <div class="d-flex align-items-center nowrap text-primary">
+                  ${val[i].email}
+                  </div>
+                </td>
+                <td>
+                  <div class="text-muted text-nowrap">${val[i].gender}</div>
+                </td>
+                <td>
+                  <div class="actions">
+                 
+                    <a href="#" onclick="storeCurrentUserID(${val[i].id})"  class="btn btn-info btn-sm btn-square rounded-pill">
+                      <span class="btn-icon icofont-ui-edit"></span>
+                    </a>
+                    <button class="btn btn-error btn-sm btn-square rounded-pill">
+                      <span class="btn-icon icofont-ui-delete"></span>
+                    </button>
+                  </div>
+                </td>
+              </tr>`
+
+                if(i==val.length-1){
+
+                    $('#mytable1').children().remove();
+                    $("#mytable1").append(data)
+                }
+            }
+
+
+
+    }
+    
+    
+    //FOR SUSPENDED CUSTOMER
+    getTableDate2=function ( limit,offset){
+        $.ajax({
+            type: "get", url:`${domain}/api/v1/custome?limit=${limit}&offset=${offset}`,
+            headers: {
+                "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+            },
+          
+            success: function (data, text) {
+
+
+                console.log(data.data)
+
+                CreateTable2(data.data)
+                /*
+                showModal("REGISTRATION SUCCESSFULL")
+                setTimeout(() => {
+                        hideModal()
+                }, 3000);
+
+                $("#signInButton").css("display","block")
+                $("#loadingButton").css("display","none")
+
+        */
+            },
+            error: function (request, status, error) {
+
+                console.log(request)
+
+                if(request.responseJSON.status=="conflict-error"){
+                    console.log(request.responseJSON.message)
+                    showModalError(request.responseJSON.message)
+                    setTimeout(() => {
+                        hideModalError()
+                    }, 3000);
+                }
+                else if(request.responseJSON.status=="validation-error"){
+                    console.log(request.responseJSON.errors.message)
+                    showModalError(request.responseJSON.errors[0].message)
+                    setTimeout(() => {
+                        hideModalError()
+                    }, 3000);
+                }
+                else if(request.responseJSON.status=="server-error"){
+                    console.log(request.responseJSON.message)
+                    showModalError(request.responseJSON.message)
+                    setTimeout(() => {
+                        hideModalError()
+                    }, 3000);
+                }
+             
+            }
+          });
+    }
+
+    getTableDate2(limit2,offset2)
+
+    function CreateTable2(val){
+        let data=''
+
+            for(let i=0; i<val.length; i++){
+                data+= `  <tr>
+                <td>
+                  <img src=${val[i].image} alt="" width="40" height="40" class="rounded-500">
+                </td>
+                <td>
+                  <strong>${val[i].full_name}</strong>
+                </td>
+                
+                <td>
+                  <div class="text-muted text-nowrap">${val[i].sites.length}</div>
+                </td>
+                <td>
+                  <div class="address-col">${val[i].address}</div>
+                </td>
+                <td>
+                  <div class="d-flex align-items-center nowrap text-primary">
+                  ${val[i].email}
+                  </div>
+                </td>
+                <td>
+                  <div class="text-muted text-nowrap">${val[i].gender}</div>
+                </td>
+                <td>
+                  <div class="actions">
+               
+                    <a href="addSite.html" onclick="storeCurrentUserID(${val[i].id})"  class="btn btn-info btn-sm btn-square rounded-pill">
+                      <span class="btn-icon icofont-ui-edit"></span>
+                    </a>
+                    <button class="btn btn-error btn-sm btn-square rounded-pill">
+                      <span class="btn-icon icofont-ui-delete"></span>
+                    </button>
+                  </div>
+                </td>
+              </tr>`
+
+                if(i==val.length-1){
+
+                    $('#mytable2').children().remove();
+                    $("#mytable2").append(data)
+                }
+            }
+
+
+
+    }
+    
+  });
+
+  
+//FOR ALL
+function Previous(){
+    if(offset==0){
+        $("#Previous").addClass("disabled");
+    }
+    else{
+        $("#Previous").removeClass("disabled");
+        offset=offset-(limit+1)
+        getTableDate(limit,offset)
+        $(".page-item").removeClass("active");
+        $("#Previous").addClass("active");
+
+    }
+}
+
+function Next(){
+    offset=offset+limit+1
+    getTableDate(limit,offset)
+    $(".page-item").removeClass("active");
+    $("#Next").addClass("active");
+
+}
+
+function page(val){
+
+    if(val==1){
+        offset=0
+        $(".page-item").removeClass("active");
+        $("#page1").addClass("active");
+    }
+    else if(val==2){
+        offset=16
+        $(".page-item").removeClass("active");
+        $("#page2").addClass("active");
+
+    }
+    else if(val==3){
+        offset=32
+        $(".page-item").removeClass("active");
+        $("#page3").addClass("active");
+    }
+    
+    getTableDate(limit,offset)
+}
+  
+
+
+
+
+
+//FOR SUSPENDED
+
+function Previous2(){
+    if(offset2==0){
+        $("#Previous2").addClass("disabled");
+    }
+    else{
+        $("#Previous2").removeClass("disabled");
+        offset2=offset2-(limit2+1)
+        getTableDate2(limit,offset)
+        $(".page-item2").removeClass("active");
+        $("#Previous2").addClass("active");
+
+    }
+}
+
+function Next2(){
+    offset=offset+limit+1
+    getTableDate2(limit,offset)
+    $(".page-item2").removeClass("active");
+    $("#Next2").addClass("active");
+
+}
+  
+
+function page2(val){
+
+    if(val==1){
+        offset2=0
+        $(".page-item2").removeClass("active");
+        $("#page12").addClass("active");
+    }
+    else if(val==2){
+        offset2=16
+        $(".page-item2").removeClass("active");
+        $("#page22").addClass("active");
+
+    }
+    else if(val==3){
+        offset2=32
+        $(".page-item2").removeClass("active");
+        $("#page32").addClass("active");
+    }
+    
+    getTableDate2(limit2,offset2)
+}

@@ -1,17 +1,12 @@
 
-
-
-
-
-
-
-function initAutocomplete() {
-
-
   let radius=20
   let cityCircle='';
   let position = [9.072264, 7.491302];
   let contentString ="";
+
+
+
+function initAutocomplete() {
   let myRadius=document.getElementById("radius")
 
   let latlng = new google.maps.LatLng(position[0], position[1]);
@@ -54,6 +49,22 @@ function initAutocomplete() {
       let lat=places[0].geometry.location.lat()
 
        transition([lat,lng]);
+
+       geocoder.geocode({
+        'latLng': places[0].geometry.location
+        }, function(results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+            if (results[0]) {
+              console.log(results)
+
+              contentString=results[0].formatted_address
+
+                infowindow.setContent(contentString);
+
+                console.log(contentString)
+            }
+          }
+        });
   
       // Clear out the old markers.
       markers.forEach((marker) => {
@@ -108,7 +119,6 @@ function initAutocomplete() {
 
     const infowindow = new google.maps.InfoWindow({
       content: contentString,
-  
     });
 
     marker.addListener("click", () => {
@@ -124,6 +134,9 @@ function initAutocomplete() {
       position=[ev.latLng.lat(),ev.latLng.lng()]
       console.log(ev.latLng.lat())
       console.log(ev.latLng.lng())
+      console.log(ev)
+      console.log(ev.latLng)
+
 
       geocoder.geocode({
         'latLng': ev.latLng
@@ -224,7 +237,6 @@ function initAutocomplete() {
     }
 
     myRadius.addEventListener("change", (e)=>{
-
         radius=parseInt(e.target.value)
         removeCircumference()
         drawCircumference(position[0], position[1])
