@@ -14,7 +14,7 @@ function initAutocomplete() {
     center: latlng,
     zoom: 19,
     mapTypeId: "roadmap",
-  };
+  }
 
     const geocoder = new google.maps.Geocoder();
     const map = new google.maps.Map(document.getElementById("map"), myOptions);

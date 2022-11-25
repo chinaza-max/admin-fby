@@ -159,6 +159,8 @@
           },
           error: function (request, status, error) {
           
+
+            console.log(request)
             $("#signInButton").css("display","block")
             $("#loadingButton").css("display","none")
             if(request.readyState===0){ 

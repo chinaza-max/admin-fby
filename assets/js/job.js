@@ -3,8 +3,6 @@ $(document).ready(function() {
 
     setTimeout(() => {
      
-
-
     /*  $(`.logTableContentClass`).append(
         ` <tr>
         <td>2/20/22	</td>
@@ -1577,188 +1575,239 @@ function viewDetailsContentDisplay(val1){
 viewDetailsContentDisplay(JSON.parse(localStorage.getItem("job")||"[]"))
 
 
-/*
-<p>
-   <h4>${val1[i].name}</h4>
-   <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#dateTime"
-     aria-expanded="false" aria-controls="dateTime">Dates and time</button>
-     
-   <a class="btn btn-primary" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button"
-     aria-expanded="false" aria-controls="multiCollapseExample1">view instruction</a>
-
-   <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
-     data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">view
-     task</button>
-
-   <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target=".multi-collapse"
-     aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2 dateTime">View
-     all</button>
-   </p>
-
-   <div class="collapse multi-collapse" id="dateTime">
-     <div class="card card-body">
-
-       <div class="table-responsive">
-         <table class="table table-bordered">
-           <thead>
-             <tr>
-
-               <th scope="col">Date </th>     
-               <th scope="col">Start time</th>
-               <th scope="col">End time</th>
-             </tr>
-           </thead>
-           <tbody>
-             <tr>
-
-               <td>2022/02/02</td>
-               <td>8:00 AM</td>
-               <td>3:00 PM</td>
-             </tr>
-
-             <tr>
-
-               <td>2022/02/02</td>
-               <td>8:00 AM</td>
-               <td>3:00 PM</td>
-             </tr>
-
-             <tr>
-               <td>2022/02/02</td>
-               <td>8:00 AM</td>
-               <td>3:00 PM</td>
-             </tr>
 
 
 
-           </tbody>
-         </table>
-       </div>
-     </div>
-   </div>
-   <div class="row">
-     <div class="col">
-       <div class="collapse multi-collapse" id="multiCollapseExample1">
-         <div class="card card-body">
 
-           <div class="v-timeline">
-             <div class="line"></div>
 
-             <div class="v-timeline">
-               <div class="line"></div>
-               <div class="timeline-box">
-                 <div class="box-label">
-                   <span class="badge badge-success">Instruction</span>
-                 </div>
+//POPULATE  JOB CREATION FORM
 
-                 <div class="box-items">
-                   <div class="item">
-                     <div class="icon-block">
-                       <div class="item-icon icofont-street-view bg-warning"></div>
-                     </div>
+//GETTING ALL THE CUSTOMERS
+let myPaymentStatus,
+ siteIdForJob,
+ myCstomer_id;
 
-                     <div class="content-block">
-                       <div class="item-header">
-                         <h3 class="h5 item-title">perform security check</h3>
+$.ajax({
+  type: "get", url:`${domain}/api/v1/customer`,
+  headers: {
+      "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+  },
 
-                         <div class="item-date"><span>Date: 2022/10/10 </span> ---<span> Time : 12 pm</span>
-                         </div>
-                       </div>
+  success: function (data, text) {
 
-                       <div class="item-desc">security check to be perform on project</div>
-                     </div>
-                   </div>
+      
+      console.log(data.data)
 
-                   <div class="item">
-                     <div class="icon-block">
-                       <div class="item-icon icofont-search-document bg-warning"></div>
-                     </div>
+      displayCustomer(data.data)
+  },
+  error: function (request, status, error) {
 
-                     <div class="content-block">
-                       <div class="item-header">
-                         <h3 class="h5 item-title">scan QR code</h3>
-                         <div class="item-date"><span>Date: 2022/10/10 </span> ---<span> Time : 12 pm</span>
-                         </div>
-                       </div>
+      console.log(request)
+      analyzeError(request)
+   
+  }
+});
 
-                       <div class="item-desc">located behind the entrance door</div>
-                     </div>
+function displayCustomer(val){
+  let data=`<option value="">--Select--</option>`
 
-                   </div>
-                 </div>
-               </div>
-             </div>
-           </div>
-         </div>
-       </div>
-     </div>
-     <div class="col">
-       <div class="collapse multi-collapse" id="multiCollapseExample2">
-         <div class="card card-body">
-           <div class="v-timeline">
-             <div class="line"></div>
+  for(let i=0; i<val.length; i++){
+          data+= `
+          <option data-tokens=${val[i].id}>${val[i].full_name}</option>
+        `
+      if(i==val.length-1){
 
-             <div class="v-timeline">
-               <div class="line"></div>
-               <div class="timeline-box">
-                 <div class="box-label">
-                   <span class="badge badge-success">Task</span>
-                 </div>
+          $('#viewCustomer').children().remove();
+          $("#viewCustomer").append(data)
+          $('.selectpicker').selectpicker('refresh')
 
-                 <div class="box-items">
-                   <div class="item">
-                     <div class="icon-block">
-                       <div class="item-icon icofont-street-view bg-warning"></div>
-                     </div>
+      }
+  }
+}
 
-                     <div class="content-block">
-                       <div class="item-header">
-                         <h3 class="h5 item-title">perform security check</h3>
 
-                         <div class="item-date"><span>Date: 2022/10/10</div>
-                       </div>
+function updatesite(){
 
-                       <div class="item-desc">security check to be perform on project</div>
-                     </div>
-                   </div>
+  $('.selectpicker1').on("changed.bs.select", function() {
+    let dataTypeAttribute = $('option:selected', this).attr("data-tokens");
+    getSite(dataTypeAttribute)
+  });
 
-                   <div class="item">
-                     <div class="icon-block">
-                       <div class="item-icon icofont-search-document bg-warning"></div>
-                     </div>
+}
 
-                     <div class="content-block">
-                       <div class="item-header">
-                         <h3 class="h5 item-title">scan QR code</h3>
 
-                         <div class="item-date"><span>Date: 2022/10/10</div>
-                       </div>
+function getSite(val){
+  console.log(val)
+    $.ajax({
+        type: "get", url:`${domain}/api/v1/customer/one?id=${val}`,
+        headers: {
+            "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+        },
+        success: function (data, text) {
 
-                     </div>
+            //myEmail=data.data[0].email
+            console.log(data)
+            myCstomer_id=data.data[0].id
+            disPlaySite(data.data[0].sites)
+        },
+        error: function (request, status, error) {
+            console.log(request)
+            analyzeError(request)
+        }
+    });
+}
 
-                   </div>
-                 </div>
-               </div>
-             </div>
-           </div>
-         </div>
-       </div>
-     </div>
-   </div> */
 
+function disPlaySite(val){
+  let data=`<option value="">--Select--</option>`
+  console.log(val)
+
+  for(let i=0; i<val.length; i++){
+          data+= `
+          <option data-tokens=${val[i].id} client_charge=${val[i].client_charge} guard_charge=${val[i].guard_charge}>${val[i].site_name}</option>
+        `
+      if(i==val.length-1){
+          $('#viewSites').children().remove();
+          $("#viewSites").append(data)
+          $('.selectpicker2').selectpicker('refresh')
+      }
+  }
+
+}
+
+function updateMoney(){
+
+
+  $('.selectpicker2').on("changed.bs.select", function() {
+    console.log($('option:selected', this).attr("client_charge"))
+    siteIdForJob=$('option:selected', this).attr("data-tokens")
+    $("#inputJobCost").val($('option:selected', this).attr("client_charge"))
+    $("#inputGuardAmount").val($('option:selected', this).attr("guard_charge"))
+  });
+}
+
+function paymentStatus(){
+  $('.selectpicker3').on("changed.bs.select", function() {
+    myPaymentStatus = $('option:selected', this).attr("data-tokens");
+   
+  });
+}
+
+
+
+//POST JOB BEGIN HERE
+
+
+let formAdminReg=document.getElementById("addJobs")
+
+
+
+
+formAdminReg.addEventListener("submit",(e)=>{
+  e.preventDefault()
+
+  $("#signInButton").css("display","none")
+  $("#loadingButton").css("display","block")
+
+  const form = e.target;
+  const formFields = form.elements,
+  client_charge = formFields.inputJobCost.value,
+  staff_charge=formFields.inputGuardAmount.value,
+  description=formFields.description.value;
+
+  $('select[name=status]').val("Available");
+  $('.selectpicker').selectpicker('refresh')
+
+  console.log(client_charge,  staff_charge ,  description , myCstomer_id,   siteIdForJob,   myPaymentStatus)
+
+  
 
 
 /*
-   $(`#logTable`).append(
-    ` <tr>
-    <td>2/20/22	</td>
-    <td>9:00 AM	</td>
-    <td>Clock In</td>
-    <td>Clock out	 </td>
- </tr> <tr>
-    <td>2/20/22	</td>
-    <td>9:00 AM	</td>
-    <td>Clock In</td>
-    <td>Clock 	 </td>
- </tr>`)*/
+        $.ajax({
+          type: "post", url:`${domain}/api/v1/auth/register`,
+          data: {
+                  first_name,
+                  last_name,
+                  email,
+                  date_of_birth,
+                  gender,
+                  password,
+                  address,
+          },
+          success: function (data, text) {
+
+              console.log(data.message)
+              showModal("REGISTERATION SUCCESSFULL")
+              setTimeout(() => {
+                      hideModal()
+              }, 3000);
+
+              $("#signInButton").css("display","block")
+              $("#loadingButton").css("display","none")
+              clearField()
+          },
+          error: function (request, status, error) {
+
+              $("#signInButton").css("display","block")
+              $("#loadingButton").css("display","none")
+              console.log(request)
+              console.log(status)
+              console.log(error)
+              console.log(request.responseJSON.status)
+
+              if(request.responseJSON.status=="conflict-error"){
+                  console.log(request.responseJSON.message)
+                  showModalError(request.responseJSON.message)
+                  setTimeout(() => {
+                      hideModalError()
+                  }, 3000);
+              }
+              else if(request.responseJSON.status=="validation-error"){
+                  console.log(request.responseJSON.errors.message)
+                  showModalError(request.responseJSON.errors[0].message)
+                  setTimeout(() => {
+                      hideModalError()
+                  }, 3000);
+              }
+              else if(request.responseJSON.status=="server-error"){
+                  console.log(request.responseJSON.message)
+                  showModalError(request.responseJSON.message)
+                  setTimeout(() => {
+                      hideModalError()
+                  }, 3000);
+              }
+           
+          }
+        });
+
+ */
+ 
+
+  /*
+  function  clearField(){
+      formFields.firstName.value='',
+      formFields.lastName.value='',
+      formFields.email.value='',
+      formFields.Gender.value='',
+      formFields.dateOfBirth.value='',
+      formFields.address.value='',
+      formFields.password.value='';
+
+
+      $('select[name=gender]').val("SELECT");
+      $('.selectpicker').selectpicker('refresh')
+  }
+*/
+
+
+})
+
+
+
+
+
+
+
+
 

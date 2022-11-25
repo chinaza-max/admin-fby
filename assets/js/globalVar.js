@@ -1,6 +1,6 @@
 let mode="development"
 let activeUserID= localStorage.getItem("storeCurrentUserID")
-
+let alertLifeSpan=5000
 let domain=''
 if(mode=="development"){
     domain="http://localhost:3000"
@@ -73,14 +73,51 @@ function logUserOut(){
 
 
 
-//console.log(localStorage.getItem("myUser"))
-const userDeatils=JSON.parse(atob(localStorage.getItem("userDetails")))
-const userEmail=userDeatils.email
-console.log(userDeatils)
-$("#avatar").attr("src",userDeatils.image);
+//console.log(localStorage.getItem("userDetails"))
+let userDeatils=''
+let userEmail=''
+if(localStorage.getItem("userDetails")!=null){
+
+userDeatils=JSON.parse(atob(localStorage.getItem("userDetails")))
+    userEmail=userDeatils.email
+    console.log(userDeatils)
+    $("#avatar").attr("src",userDeatils.image);
+}
 
 
 
 
 
 
+
+
+function analyzeError(request){
+    if(request.responseJSON.status=="conflict-error"){
+        console.log(request.responseJSON.message)
+        showModalError(request.responseJSON.message)
+        setTimeout(() => {
+            hideModalError()
+        }, alertLifeSpan);
+    }
+    else if(request.responseJSON.status=="validation-error"){
+        console.log(request.responseJSON.errors.message)
+        showModalError(request.responseJSON.errors[0].message)
+        setTimeout(() => {
+            hideModalError()
+        }, alertLifeSpan);
+    }
+    else if(request.responseJSON.status=="server-error"){
+        console.log(request.responseJSON.message)
+        showModalError(request.responseJSON.message)
+        setTimeout(() => {
+            hideModalError()
+        }, alertLifeSpan);
+    }
+    else if(request.responseJSON.status=="bad-request-error"){
+        console.log(request.responseJSON.message)
+        showModalError(request.responseJSON.message)
+        setTimeout(() => {
+            hideModalError()
+        }, alertLifeSpan);
+    }
+}

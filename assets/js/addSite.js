@@ -1,9 +1,10 @@
 let submitSite=document.getElementById("submitSite")
+let updateForm=''
 let myID=activeUserID
 let myEmail=''
 let position2 =position;
 let myCstomer_id=''
-
+let deleteButtonWasClick=false
 
 
 getSite()
@@ -50,58 +51,69 @@ function getSite(){
 }
 
 function disPlayData(val){
+
     $("#siteOwner").text(`SITE OWNER: ${ val.full_name}`);
     $("#siteOwner2").text(`${ val.full_name} SITES`);
     let data=''
 
-
+            console.log(val.sites)
             for(let i=0; i<val.sites.length; i++){
                 data+= `
                 <div class="col-12 col-md-6" >
-                <div class="card" style="border: 1px solid blue; padding: 20px 5px 20px 5px">
+                 <div class="card" style="border: 1px solid blue; padding: 20px 5px 20px 5px">
                  
                   <div class="card-body">
-                    <form>
+                    <form  class="updateForm>
                       <div class="form-group">
                         <label>Site name</label>
-                        <input class="form-control" type="text" id="siteName" value="${val.sites[i].site_name}">
+                        <input class="form-control update${val.sites[i].id}" type="text" name="siteName" id="siteName" value="${val.sites[i].site_name}" readonly>
                       </div>
   
-                      <div class="form-group">
-                        <label>Parameter constraints</label>
-                        <input class="form-control" type="text" id="radius" value=${val.sites[i].operations_area_constraint}>
+                      <label>Parameter constraints</label>
+                      <div class="input-group mb-3">
+                        <input class="form-control update${val.sites[i].id}" type="text" name="radius" id="radius" value=${val.sites[i].operations_area_constraint} required>
+                        <span class="input-group-text">Meter</span>
                       </div>
   
-                      <div class="form-group">
-                        <label>Job amount </label>
+                      <label>Job amount </label>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text">$</span>
+                        <input class="form-control ${"update"+val.sites[i].id}" type="text"  name="jobAmount"  id="jobAmount" value=${val.sites[i].client_charge} required>
+                      </div>
+  
 
-                        <input class="form-control" type="text" id="jobAmount" value=$${val.sites[i].client_charge}>
+                      <label>Guard pay Per/H</label>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text">$</span>
+                        <input class="form-control update${val.sites[i].id}" type="text" name="perHour"  id="perHour"  value=${val.sites[i].guard_charge} required>
                       </div>
   
                       <div class="form-group">
-                        <label>Guard pay Per/H</label>
-                        <input class="form-control" type="text"  id="perHour"  value=$${val.sites[i].guard_charge}>
-                      </div>
-  
-                      <div class="form-group">
-                        <textarea class="form-control" rows="4" id="address" placeholder="${val.sites[i].address}" readonly></textarea>
+                        <textarea class="form-control" rows="4"  id="address" placeholder="${val.sites[i].address}" readonly></textarea>
                       </div>
   
                       <div class="d-flex justify-content-between">
-                        <button type="button" class="btn btn-error" >Remove site</button>
-                        <button type="button" class="btn btn-info">Update site</button>
+                        <button type="button" class="btn btn-error" onclick="deleteSite(${val.sites[i].id})">Remove site</button>
+                        <button type="button" class="btn btn-info" onclick="updateSite(${val.sites[i].id},${val.sites[i].facility_location_id})" >Update site</button>
                       </div> 
                     </form>
                   </div>
                 </div>
               </div>
-                `
+              `
 
                 if(i==val.sites.length-1){
+
+                  console.log("refreshed done")
 
                     $('#siteContainer').children().remove();
                     $("#siteContainer").append(data)
                 }
+            }
+
+            if(val.sites.length===0&&deleteButtonWasClick){
+                window.location.reload();
+                deleteButtonWasClick=false
             }
 
 
@@ -109,9 +121,6 @@ function disPlayData(val){
     
 
 }
-
-
-
 
 
 submitSite.addEventListener("submit",(e)=>{
@@ -122,41 +131,38 @@ submitSite.addEventListener("submit",(e)=>{
     const form = e.target;
     const formFields = form.elements,
     site_name = formFields.inputSiteName.value,
-    email=myEmail,
-    address=contentString,
     guard_charge=formFields.inputGuardAmount.value,
     client_charge=formFields.inputJobCost.value,
-    operations_area_constraint=formFields.radius.value,
-    longitude=position2[i],
+    operations_area_constraint=formFields.radius.value||20,
+    longitude=position2[1],
     latitude=position2[0],
     customer_id=myCstomer_id;
 
-
-    console.log(site_name,email,address,guard_charge,client_charge,operations_area_constraint,longitude,latitude,customer_id  )
-
-/*
-    if (typeof email === 'string') {
-
-        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){
-
+    //console.log(site_name,address,guard_charge,client_charge,operations_area_constraint,longitude,latitude,customer_id  )
+    
           $.ajax({
-            type: "post", url:`${domain}/api/v1/auth/register`,
-            data: {
-                    first_name,
-                    last_name,
-                    email,
-                    date_of_birth,
-                    gender,
-                    password,
-                    address,
-            },
+            type: "post", url:`${domain}/api/v1/customer/createFacility`,
+            headers: {
+              "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+          },
+            data:{
+              longitude,
+               latitude,
+               operations_area_constraint,
+               client_charge:client_charge,
+               guard_charge:guard_charge,
+               address:contentString,
+               site_name,
+               email:myEmail,
+               customer_id
+         },
             success: function (data, text) {
   
-                console.log(data.message)
-                showModal("REGISTERATION SUCCESSFULL")
+                showModal("SITE REGISTERATION SUCCESSFULL")
+                getSite()
                 setTimeout(() => {
                         hideModal()
-                }, 3000);
+                }, alertLifeSpan);
 
                 $("#signInButton").css("display","block")
                 $("#loadingButton").css("display","none")
@@ -171,61 +177,109 @@ submitSite.addEventListener("submit",(e)=>{
                 console.log(error)
                 console.log(request.responseJSON.status)
 
-                if(request.responseJSON.status=="conflict-error"){
-                    console.log(request.responseJSON.message)
-                    showModalError(request.responseJSON.message)
-                    setTimeout(() => {
-                        hideModalError()
-                    }, 3000);
-                }
-                else if(request.responseJSON.status=="validation-error"){
-                    console.log(request.responseJSON.errors.message)
-                    showModalError(request.responseJSON.errors[0].message)
-                    setTimeout(() => {
-                        hideModalError()
-                    }, 3000);
-                }
-                else if(request.responseJSON.status=="server-error"){
-                    console.log(request.responseJSON.message)
-                    showModalError(request.responseJSON.message)
-                    setTimeout(() => {
-                        hideModalError()
-                    }, 3000);
-                }
+                analyzeError(request)
              
             }
           });
   
-        }
-        else {
-          $("#signInButton").css("display","block")
-          $("#loadingButton").css("display","none")
-          $("#emailAlert").text("wrong type")
-        }
-    
-    } 
-    else {
-    $("#signInButton").css("display","block")
-    $("#loadingButton").css("display","none")
-    $("#emailAlert").text("wrong type")
-
-    }
 
     
     function  clearField(){
-        formFields.firstName.value='',
-        formFields.lastName.value='',
-        formFields.email.value='',
-        formFields.Gender.value='',
-        formFields.dateOfBirth.value='',
-        formFields.address.value='',
-        formFields.password.value='';
-
-
-        $('select[name=gender]').val("SELECT");
-        $('.selectpicker').selectpicker('refresh')
+        formFields.inputSiteName.value='',
+        formFields.inputGuardAmount.value='',
+        formFields.inputJobCost.value='';
     }
 
-*/
+
 
 })
+
+
+
+//FOR UPDATING OF UPDATE DATA
+function updateSite(val,val2){
+
+  let ele=document.querySelectorAll(".update"+val)
+  let  client_charge2=ele[2].value
+  let  guard_charge2=ele[3].value
+  let operations_area_constraint=ele[1].value
+  let site_name=ele[0].value
+
+
+        $.ajax({
+          type: "post", url:`${domain}/api/v1/customer/updateFacility`,
+          headers: {
+            "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+        },
+          data:{
+            operations_area_constraint,
+            client_charge:client_charge2,
+            guard_charge:guard_charge2,
+            site_name,
+            facility_location_id:val2,
+            site_id:val
+       },
+          success: function (data, text) {
+
+              showModal("SITE UPDATE SUCCESSFULL")
+              getSite()
+              setTimeout(() => {
+                      hideModal()
+              }, alertLifeSpan);
+
+          },
+          error: function (request, status, error) {
+
+      
+              console.log(request)
+              console.log(status)
+              console.log(error)
+              console.log(request.responseJSON.status)
+              analyzeError(request)
+           
+           
+          }
+        });
+
+
+}
+
+
+
+
+// DELETE SITE 
+function deleteSite(val){
+
+
+        $.ajax({
+          type: "post", url:`${domain}/api/v1/customer/deleteFacility`,
+          headers: {
+            "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+        },
+          data:{
+            site_id:val
+       },
+          success: function (data, text) {
+            deleteButtonWasClick=true
+            getSite()
+              showModal("SITE UPDATE SUCCESSFULL")
+              setTimeout(() => {
+                      hideModal()
+              }, alertLifeSpan);
+
+          },
+          error: function (request, status, error) {
+
+      
+              console.log(request)
+              console.log(status)
+              console.log(error)
+              console.log(request.responseJSON.status)
+              analyzeError(request)
+           
+           
+          }
+        });
+
+
+}

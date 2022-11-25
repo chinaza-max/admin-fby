@@ -350,10 +350,13 @@
                             </div>
                           </div>
                           <div class="col-12 col-sm-6">
-                            <div class="form-group">
-                              <input class="form-control" type="number" name="inputJobCost" id="inputJobCost" placeholder="Cost of job"
-                                required>
+                       
+                            <div class="input-group mb-3">
+                              <span class="input-group-text">$</span>
+                              <input type="text" class="form-control" type="number" name="inputJobCost" id="inputJobCost" placeholder="Cost of job"  required>
                             </div>
+
+                            
                           </div>
                         </div>
                       </div>
@@ -362,14 +365,16 @@
                     <div class="row">
                       <div class="col">
                         <div class="row">
-                          <div class="col-12 col-sm-6">
-                            <div class="form-group">
-                              <input class="form-control" type="number" id="radius" name="radius" placeholder="expand circumference default(20m)">
+                          <div class="col-12 col-sm-6" >
+                            <div class="input-group mb-3">
+                              <input class="form-control" type="number"  id="radius" name="radius"  placeholder="parameter default(20m)">
+                              <span class="input-group-text">Meter</span>
                             </div>
                           </div>
                           <div class="col-12 col-sm-6">
-                            <div class="form-group">
-                              <input class="form-control" type="number" id="inputGuardAmount" name="inputGuardAmount"  placeholder="Guard payment per hour" required>
+                            <div class="input-group mb-3">
+                              <span class="input-group-text">$</span>
+                              <input  class="form-control" type="number" id="inputGuardAmount" name="inputGuardAmount"  placeholder="Guard payment per hour"  required>
                             </div>
                           </div>
                         </div>
@@ -383,7 +388,13 @@
                       </div>
                     </div>
                   </div>
-                  <button class="btn w-100 btn-dark mb-4" type="submit">ADD SITE</button>
+
+                  <button class="btn w-100 btn-dark mb-4" id="signInButton" type="submit">ADD SITE</button>
+                  <button type="button" class="btn btn-primary btn-load w-100"  id="loadingButton">
+                    Primary
+                    <span class="btn-loader icofont-spinner"></span>
+                  </button>
+
                 </form>
               </div>
 
