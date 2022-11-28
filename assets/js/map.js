@@ -137,6 +137,8 @@ function initAutocomplete() {
       console.log(ev)
       console.log(ev.latLng)
 
+      marker.setTitle("Latitude:"+ev.latLng.lat()+" | Longitude:"+ev.latLng.lng());
+
 
       geocoder.geocode({
         'latLng': ev.latLng

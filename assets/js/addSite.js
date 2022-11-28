@@ -136,6 +136,7 @@ submitSite.addEventListener("submit",(e)=>{
     operations_area_constraint=formFields.radius.value||20,
     longitude=position2[1],
     latitude=position2[0],
+    siteAddress=formFields.siteAddress.value,
     customer_id=myCstomer_id;
 
     //console.log(site_name,address,guard_charge,client_charge,operations_area_constraint,longitude,latitude,customer_id  )
@@ -151,9 +152,10 @@ submitSite.addEventListener("submit",(e)=>{
                operations_area_constraint,
                client_charge:client_charge,
                guard_charge:guard_charge,
-               address:contentString,
+               address:siteAddress ,
                site_name,
                email:myEmail,
+               google_address:contentString,
                customer_id
          },
             success: function (data, text) {
@@ -188,6 +190,7 @@ submitSite.addEventListener("submit",(e)=>{
         formFields.inputSiteName.value='',
         formFields.inputGuardAmount.value='',
         formFields.inputJobCost.value='';
+        formFields.siteAddress.value='';
     }
 
 

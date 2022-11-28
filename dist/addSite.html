@@ -354,6 +354,7 @@
                             <div class="input-group mb-3">
                               <span class="input-group-text">$</span>
                               <input type="text" class="form-control" type="number" name="inputJobCost" id="inputJobCost" placeholder="Cost of job"  required>
+                              <span class="input-group-text">Job amount</span>
                             </div>
 
                             
@@ -375,16 +376,26 @@
                             <div class="input-group mb-3">
                               <span class="input-group-text">$</span>
                               <input  class="form-control" type="number" id="inputGuardAmount" name="inputGuardAmount"  placeholder="Guard payment per hour"  required>
+                              <span class="input-group-text">hourly pay</span>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
 
+                    
+                    <div class="row">
+                      <div class="form-group">
+                        <label for="">TO BE USED BY GUARD FOR LOCATING PLACE OF INTEREST </label>
+                        <textarea maxlength="1000" class="form-control" rows="4" placeholder="Enter full address of location " id="siteAddress" name="siteAddress" required></textarea>
+                      </div>
+                    </div>
+
+
                     <div class="row">
                       <div class="form-group">
                         <label for="">THE ADDRESS YOU ENTER HERE IS ONLY USE TO SEARCH THROUGH THE MAP </label>
-                        <textarea class="form-control" rows="4" placeholder="Auto complete google map address" id="pac-input"></textarea>
+                        <textarea class="form-control"  rows="4" placeholder="Auto complete google map address" id="pac-input"></textarea>
                       </div>
                     </div>
                   </div>
