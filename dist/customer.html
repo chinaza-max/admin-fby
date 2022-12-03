@@ -586,19 +586,30 @@
             <input class="form-control" type="email" name="email"  placeholder="Type email..." required>
           </div>
 
-          <div class="form-group">
-            <label>Date of birth</label>
-            <input class="form-control" name="dateOfBirth" type="date" required>
+
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label>Date of birth</label>
+                <input class="form-control" name="dateOfBirth" type="date" required>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label>Gender</label>
+                <select class="selectpicker gender" name="Gender" title="Gender" required>
+                  <option value="NOT_SPECIFIED">NOT_SPECIFIED</option>
+                  <option value="MALE" >MALE</option>
+                  <option value="FEMALE" >FEMALE</option>
+                </select>
+              </div>
+            </div>
+
           </div>
 
-          <div class="form-group">
-            <label>Gender</label>
-            <select class="selectpicker gender" name="Gender" title="Gender" required>
-              <option value="NOT_SPECIFIED">NOT_SPECIFIED</option>
-              <option value="MALE" >MALE</option>
-              <option value="FEMALE" >FEMALE</option>
-            </select>
-          </div>
+          
+
+      
 
           <div class="form-group">
             <label>Address</label>

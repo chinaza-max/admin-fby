@@ -100,6 +100,7 @@ function analyzeError(request){
         }, alertLifeSpan);
     }
     else if(request.responseJSON.status=="validation-error"){
+        console.log(request)
         console.log(request.responseJSON.errors.message)
         showModalError(request.responseJSON.errors[0].message)
         setTimeout(() => {

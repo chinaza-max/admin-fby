@@ -1585,6 +1585,7 @@ viewDetailsContentDisplay(JSON.parse(localStorage.getItem("job")||"[]"))
 //GETTING ALL THE CUSTOMERS
 let myPaymentStatus,
  siteIdForJob,
+ myJobType,
  myCstomer_id;
 
 $.ajax({
@@ -1613,7 +1614,7 @@ function displayCustomer(val){
 
   for(let i=0; i<val.length; i++){
           data+= `
-          <option data-tokens=${val[i].id}>${val[i].full_name}</option>
+          <option data-tokens=${val[i].id}>${val[i].full_name} (site=${val[i].sites.length} ) </option>
         `
       if(i==val.length-1){
 
@@ -1662,21 +1663,30 @@ function disPlaySite(val){
   let data=`<option value="">--Select--</option>`
   console.log(val)
 
-  for(let i=0; i<val.length; i++){
+  if(val.length==0){
+    $('#viewSites').children().remove();
+    $("#viewSites").append(data)
+    $('.selectpicker2').selectpicker('refresh')
+    $("#inputJobCost").val("")
+    $("#inputGuardAmount").val("")
+  }else{
+    
+        for(let i=0; i<val.length; i++){
           data+= `
           <option data-tokens=${val[i].id} client_charge=${val[i].client_charge} guard_charge=${val[i].guard_charge}>${val[i].site_name}</option>
-        `
-      if(i==val.length-1){
-          $('#viewSites').children().remove();
-          $("#viewSites").append(data)
-          $('.selectpicker2').selectpicker('refresh')
-      }
+          `
+          if(i==val.length-1){
+              $('#viewSites').children().remove();
+              $("#viewSites").append(data)
+              $('.selectpicker2').selectpicker('refresh')
+          }
+        }
   }
+
 
 }
 
 function updateMoney(){
-
 
   $('.selectpicker2').on("changed.bs.select", function() {
     console.log($('option:selected', this).attr("client_charge"))
@@ -1692,6 +1702,14 @@ function paymentStatus(){
    
   });
 }
+
+function jobType(){
+  $('.selectpicker4').on("changed.bs.select", function() {
+    myJobType = $('option:selected', this).attr("data-tokens");
+   
+  });
+}
+
 
 
 
@@ -1718,34 +1736,33 @@ formAdminReg.addEventListener("submit",(e)=>{
   $('select[name=status]').val("Available");
   $('.selectpicker').selectpicker('refresh')
 
-  console.log(client_charge,  staff_charge ,  description , myCstomer_id,   siteIdForJob,   myPaymentStatus)
+  console.log(client_charge,  staff_charge ,  description , myCstomer_id,   siteIdForJob,   myJobType,   myPaymentStatus)
 
   
 
-
-/*
         $.ajax({
-          type: "post", url:`${domain}/api/v1/auth/register`,
+          type: "post", url:`${domain}/api/v1/job/`,
           data: {
-                  first_name,
-                  last_name,
-                  email,
-                  date_of_birth,
-                  gender,
-                  password,
-                  address,
+            client_charge:client_charge,
+            staff_charge:staff_charge ,
+            description , 
+            job_status:"ACTIVE",
+            customer_id:myCstomer_id,
+            site_id:siteIdForJob,
+            job_type:myJobType,
+            payment_status:myPaymentStatus
           },
           success: function (data, text) {
 
               console.log(data.message)
-              showModal("REGISTERATION SUCCESSFULL")
+              showModal(data.message)
               setTimeout(() => {
                       hideModal()
               }, 3000);
 
               $("#signInButton").css("display","block")
               $("#loadingButton").css("display","none")
-              clearField()
+             
           },
           error: function (request, status, error) {
 
@@ -1756,52 +1773,18 @@ formAdminReg.addEventListener("submit",(e)=>{
               console.log(error)
               console.log(request.responseJSON.status)
 
-              if(request.responseJSON.status=="conflict-error"){
-                  console.log(request.responseJSON.message)
-                  showModalError(request.responseJSON.message)
-                  setTimeout(() => {
-                      hideModalError()
-                  }, 3000);
-              }
-              else if(request.responseJSON.status=="validation-error"){
-                  console.log(request.responseJSON.errors.message)
-                  showModalError(request.responseJSON.errors[0].message)
-                  setTimeout(() => {
-                      hideModalError()
-                  }, 3000);
-              }
-              else if(request.responseJSON.status=="server-error"){
-                  console.log(request.responseJSON.message)
-                  showModalError(request.responseJSON.message)
-                  setTimeout(() => {
-                      hideModalError()
-                  }, 3000);
-              }
+              analyzeError(request)
            
           }
         });
 
- */
- 
-
-  /*
-  function  clearField(){
-      formFields.firstName.value='',
-      formFields.lastName.value='',
-      formFields.email.value='',
-      formFields.Gender.value='',
-      formFields.dateOfBirth.value='',
-      formFields.address.value='',
-      formFields.password.value='';
-
-
-      $('select[name=gender]').val("SELECT");
-      $('.selectpicker').selectpicker('refresh')
-  }
-*/
-
-
 })
+
+
+
+//THIS SECTION GET JOB AND DISPLAY THEM
+
+
 
 
 

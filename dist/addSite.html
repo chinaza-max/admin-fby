@@ -391,15 +391,15 @@
                       </div>
                     </div>
 
-
-                    <div class="row">
+                    
+                    <div class="row " id="mapView"  >
                       <div class="form-group">
                         <label for="">THE ADDRESS YOU ENTER HERE IS ONLY USE TO SEARCH THROUGH THE MAP </label>
                         <textarea class="form-control"  rows="4" placeholder="Auto complete google map address" id="pac-input"></textarea>
                       </div>
                     </div>
                   </div>
-
+                  
                   <button class="btn w-100 btn-dark mb-4" id="signInButton" type="submit">ADD SITE</button>
                   <button type="button" class="btn btn-primary btn-load w-100"  id="loadingButton">
                     Primary
@@ -409,9 +409,10 @@
                 </form>
               </div>
 
-            
               <div>NOTE: THE POSITION OF THE MARKER WILL BE USE AS YOUR ADDRESS</div>
               <div id="map"></div>
+              <a href="#mapView" id="scrollMapTOView"></a>
+
               <hr>
               <div class="form-group mt-4">
                 <div class="alert alert-info" style="text-align:center ;" id="siteOwner2" role="alert">

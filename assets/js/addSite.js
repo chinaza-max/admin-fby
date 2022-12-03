@@ -60,7 +60,7 @@ function disPlayData(val){
             for(let i=0; i<val.sites.length; i++){
                 data+= `
                 <div class="col-12 col-md-6" >
-                 <div class="card" style="border: 1px solid blue; padding: 20px 5px 20px 5px">
+                 <div class="card " style="border: 1px solid #d3d3e7; padding: 20px 5px 20px 5px">
                  
                   <div class="card-body">
                     <form  class="updateForm>
@@ -75,17 +75,19 @@ function disPlayData(val){
                         <span class="input-group-text">Meter</span>
                       </div>
   
-                      <label>Job amount </label>
                       <div class="input-group mb-3">
                         <span class="input-group-text">$</span>
                         <input class="form-control ${"update"+val.sites[i].id}" type="text"  name="jobAmount"  id="jobAmount" value=${val.sites[i].client_charge} required>
+                        <span class="input-group-text"> Job amount </span>
+
                       </div>
   
 
-                      <label>Guard pay Per/H</label>
                       <div class="input-group mb-3">
                         <span class="input-group-text">$</span>
                         <input class="form-control update${val.sites[i].id}" type="text" name="perHour"  id="perHour"  value=${val.sites[i].guard_charge} required>
+                        <span class="input-group-text">hourly pay</span>
+
                       </div>
   
                       <div class="form-group">
@@ -286,3 +288,20 @@ function deleteSite(val){
 
 
 }
+
+
+
+//CSS FUNCTION TO SCROLL
+let moveViewToMap=0
+$("#pac-input").focus(function() {
+
+
+  if(moveViewToMap==0){
+    let scrollMapTOView=document.getElementById("scrollMapTOView")
+    scrollMapTOView.click()
+    moveViewToMap=2
+  }
+  
+
+});
+

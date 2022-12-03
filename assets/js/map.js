@@ -274,9 +274,145 @@ submitSite.addEventListener("submit",(e)=>{
 
 
 
-
-
-
-
   //for moving marker 
   //https://www.codexworld.com/google-map-move-marker-smoothly-javascript-api/#:~:text=JavaScript%20Code,click%20on%20the%20Google%20map.
+
+
+
+
+  class CircularGeofenceRegion {
+    constructor(opts) {
+      Object.assign(this, opts)
+    }
+  
+    inside(lat2, lon2) {
+      const lat1 = this.latitude
+      const lon1 = this.longitude
+          const R = 63710; // Earth's radius in m
+  
+      return Math.acos(Math.sin(lat1)*Math.sin(lat2) + 
+                       Math.cos(lat1)*Math.cos(lat2) *
+                       Math.cos(lon2-lon1)) * R < this.radius;
+    }
+  }
+
+  class SquareGeofenceRegion {
+    constructor(opts) {
+      Object.assign(this, opts)
+    }
+  
+    inside(lat, lon) {
+      const x = this.latitude
+      const y = this.longitude
+      const { axis } = this
+  
+      return lat > (x - axis) && 
+             lat < (x + axis) &&
+             lon > (y - axis) &&
+             lon < (y + axis)
+    }
+  }
+  
+/*
+  const fenceA = new CircularGeofenceRegion({
+    name: 'myfence',
+    latitude: 9.056648590533307,
+    longitude:7.459991219296747,
+    radius: 10 // meters
+  });
+  const fenceB = new CircularGeofenceRegion({
+    name: 'myfence',
+    latitude: 9.056648590533307,
+    longitude: 7.459991219296747,
+    radius: 10 // meters
+  });*/
+/*
+const fenceA = new CircularGeofenceRegion({
+    name: 'myfence',
+    latitude: 9.056045105757647,
+    longitude:7.458677855882203,
+    radius: 600 // meters
+  });
+  const fenceB = new CircularGeofenceRegion({
+    name: 'myfence',
+    latitude: 9.056045105757647,
+    longitude:7.458677855882203,
+    radius:600 // meters
+  });*/ 
+
+  /*
+  const fenceA = new CircularGeofenceRegion({
+    name: 'myfence',
+    latitude: 9.056546316915917,
+    longitude:7.459947975454759,
+    radius: 10 // meters
+  });
+  const fenceB = new CircularGeofenceRegion({
+    name: 'myfence',
+    latitude: 9.056546316915917,
+    longitude:7.459947975454759,
+    radius:10 // meters
+  }); */
+
+  const fenceA = new CircularGeofenceRegion({
+    name: 'myfence',
+    latitude: 9.0565,
+    longitude:7.4599,
+    radius: 100 // meters
+  });
+  const fenceB = new CircularGeofenceRegion({
+    name: 'myfence',
+    latitude:9.0565,
+    longitude:7.4599,
+    radius:100 // meters
+  });
+
+const fences = [fenceA, fenceB]
+const options = {}
+
+navigator.geolocation.watchPosition(({coords}) => {
+
+  for (const fence of fences) {
+    const lat = coords.latitude
+    const lon = coords.longitude
+    console.log(lat)
+    console.log(lon)
+
+
+    if (fence.inside(lat, lon)) {
+      // do some logic
+      console.log("i am in location")
+    }
+    else{
+      console.log("am out of location")
+
+    }
+  }
+  console.log(options)
+
+
+}, (e)=>{console.log(e)}, options);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqoyaPtHf5BcoTX_iNvCzXjVj6BpGl2do&callback=initAutocomplete&libraries=places&v=weekly"
+    defer></script> */
