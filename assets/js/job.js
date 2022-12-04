@@ -58,6 +58,7 @@ $(document).ready(function() {
        console.log("am a"); });
 
   
+
   
 });
 
@@ -1756,6 +1757,11 @@ formAdminReg.addEventListener("submit",(e)=>{
 
               console.log(data.message)
               showModal(data.message)
+                
+              limit=15
+              offset=0
+                
+              getTableData(limit,offset)
               setTimeout(() => {
                       hideModal()
               }, 3000);
@@ -1783,6 +1789,280 @@ formAdminReg.addEventListener("submit",(e)=>{
 
 
 //THIS SECTION GET JOB AND DISPLAY THEM
+let getTableData='',
+ getTableData2='',
+ getTableData3='',
+  limit=15,
+  offset=0,
+  limit2=15,
+  offset2=0,
+  limit3=15,
+  offset3=0,
+  myJobStatus="ACTIVE",
+  statusChangeIdForJob
+
+
+//THIS HANDLES STYLING FOR PAGINATION FOR ACTIVE JOB
+
+
+
+$(document).ready(function(){
+
+
+  //FOR ACTIVE JOB
+  getTableData=function ( limit,offset){
+
+    $.ajax({
+        type: "get", url:`${domain}/api/v1/job/allJobs?type=ACTIVE&limit=${limit}&offset=${offset}`,
+        headers: {
+            "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+        },
+      
+        success: function (data, text) {
+
+
+            console.log(data.data)
+            CreateTable(data.data)
+            /*
+            showModal("REGISTRATION SUCCESSFULL")
+            setTimeout(() => {
+                    hideModal()
+            }, 3000);
+
+            $("#signInButton").css("display","block")
+            $("#loadingButton").css("display","none")
+
+    */
+        },
+        error: function (request, status, error) {
+
+            console.log(request)
+            analyzeError(request)
+         
+        }
+    });
+  }
+  getTableData(limit,offset)
+  function CreateTable(val){
+      let data=''
+          
+      if(val.length!=0){
+        for(let i=0; i<val.length; i++){
+          let convertedDate=moment( val[i].create).format("YYYY-MM-DD hh-mm-ss a")
+
+            data+= `<tr>
+
+            <td>
+            ${offset+i+1}
+          </td>
+            <td>
+              <div class="d-flex align-items-center nowrap text-primary">
+              ${convertedDate}
+              </div>
+            </td>
+            <td>
+            ${val[i].customer}
+
+            </td>
+            <td>
+            ${val[i].site}
+
+            </td>
+            <td>
+              <div class="text-muted text-nowrap">
+            
+              <span class="badge badge-success">  ${val[i].status}</span>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center nowrap text-primary">
+              $${val[i].client_charge}
+
+              </div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center nowrap text-primary">
+              $${val[i].staff_payment}
+
+              </div>
+            </td>
+
+          
+            <td>
+              <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
+                data-bs-target="#schedule">Add</button>
+            </td>
+            <td>
+              <div class="actions">
+              ${val[i].id}
+                <a href="guard-in-job.html" onclick="storeCurrentUserID(${val[i].id})"  class="btn btn-dark btn-sm btn-square rounded-pill">
+                <span class="btn-icon icofont-external-link"></span>
+                </a>
+                <button class="btn btn-info btn-sm btn-square rounded-pill" data-bs-toggle="modal"
+                  data-bs-target="#edit"   onclick="updateJobStatusId(${val[i].id})">
+                  <span class="btn-icon icofont-ui-edit"></span>
+                </button>
+                <button onclick="deleteJob(${val[i].id})" class="btn btn-error btn-sm btn-square rounded-pill">
+                  <span class="btn-icon icofont-ui-delete"></span>
+                </button>
+              </div>
+            </td>
+          </tr>`
+
+            if(i==val.length-1){
+
+                $('#mytable1').children().remove();
+                $("#mytable1").append(data)
+            }
+        }
+      }else{
+
+        $('#mytable1').children().remove();
+        $("#mytable1").append(`    <tr>
+        <td colspan="1000">
+        
+        <div class="alert alert-light outline text-dark " role="alert" style="text-align:center;">
+        YOU HAVE NO active JOB
+      </div>
+        </td>
+      </tr>`)
+      }
+
+       
+
+  }
+
+
+
+
+
+
+
+  //FOR PENDING JOB
+  getTableData2=function ( limit,offset){
+
+    $.ajax({
+        type: "get", url:`${domain}/api/v1/job/allJobs?type=PENDING&limit=${limit}&offset=${offset}`,
+        headers: {
+            "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+        },
+      
+        success: function (data, text) {
+
+
+            console.log(data.data)
+            CreateTable2(data.data)
+            /*
+            showModal("REGISTRATION SUCCESSFULL")
+            setTimeout(() => {
+                    hideModal()
+            }, 3000);
+
+            $("#signInButton").css("display","block")
+            $("#loadingButton").css("display","none")
+
+    */
+        },
+        error: function (request, status, error) {
+
+            console.log(request)
+            analyzeError(request)
+         
+        }
+    });
+  }
+
+  getTableData2(limit2,offset2)
+  function CreateTable2(val){
+
+
+
+      let data=''
+
+
+      if(val.length!=0){
+        for(let i=0; i<val.length; i++){
+          let convertedDate=moment( val[i].create).format("YYYY-MM-DD hh-mm-ss a")
+
+            data+= `<tr>
+
+            <td>
+            ${offset+i+1}
+          </td>
+            <td>
+              <div class="d-flex align-items-center nowrap text-primary">
+              ${convertedDate}
+              </div>
+            </td>
+            <td>
+            ${val[i].customer}
+
+            </td>
+            <td>
+            ${val[i].site}
+
+            </td>
+            <td>
+              <div class="text-muted text-nowrap">
+              
+              <span class="badge badge-warning">${val[i].status}  </span>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center nowrap text-primary">
+              $${val[i].client_charge}
+
+              </div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center nowrap text-primary">
+              $${val[i].staff_payment}
+
+              </div>
+            </td>
+
+            <td>
+              <div class="actions">
+                <a href="guard-in-job.html" onclick="storeCurrentUserID(${val[i].id})"  class="btn btn-dark btn-sm btn-square rounded-pill">
+                <span class="btn-icon icofont-external-link"></span>
+                </a>
+                <button class="btn btn-info btn-sm btn-square rounded-pill" data-bs-toggle="modal"
+                  data-bs-target="#edit2"   onclick="updateJobStatusId(${val[i].id})">
+                  <span class="btn-icon icofont-ui-edit"></span>
+                </button>
+                <button onclick="deleteJob(${val[i].id})" class="btn btn-error btn-sm btn-square rounded-pill">
+                  <span class="btn-icon icofont-ui-delete"></span>
+                </button>
+              </div>
+            </td>
+          </tr>`
+
+            if(i==val.length-1){
+
+                $('#mytable2').children().remove();
+                $("#mytable2").append(data)
+            }
+        }
+      }
+      else{
+        $('#mytable2').children().remove();
+        $("#mytable2").append(`
+        
+        <tr>
+        <td colspan="1000">
+        
+        <div class="alert alert-light outline text-dark " role="alert" style="text-align:center;">
+        YOU HAVE NO PENDING JOB
+      </div>
+        </td>
+      </tr>
+        
+        `)
+      }
+
+         
+
+  }
 
 
 
@@ -1792,5 +2072,407 @@ formAdminReg.addEventListener("submit",(e)=>{
 
 
 
+  //FOR COMPLETED JOB
+
+  getTableData3=function ( limit,offset){
+
+    $.ajax({
+        type: "get", url:`${domain}/api/v1/job/allJobs?type=COMPLETED&limit=${limit}&offset=${offset}`,
+        headers: {
+            "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+        },
+      
+        success: function (data, text) {
 
 
+            console.log(data.data)
+            CreateTable3(data.data)
+            /*
+            showModal("REGISTRATION SUCCESSFULL")
+            setTimeout(() => {
+                    hideModal()
+            }, 3000);
+
+            $("#signInButton").css("display","block")
+            $("#loadingButton").css("display","none")
+
+    */
+        },
+        error: function (request, status, error) {
+
+            console.log(request)
+            analyzeError(request)
+         
+        }
+    });
+  }
+
+  getTableData3(limit3,offset3)
+  function CreateTable3(val){
+
+
+
+      let data=''
+
+
+      if(val.length!=0){
+        for(let i=0; i<val.length; i++){
+          let convertedDate=moment( val[i].create).format("YYYY-MM-DD hh-mm-ss a")
+
+            data+= `<tr>
+
+            <td>
+            ${offset+i+1}
+          </td>
+            <td>
+              <div class="d-flex align-items-center nowrap text-primary">
+              ${convertedDate}
+              </div>
+            </td>
+            <td>
+            ${val[i].customer}
+
+            </td>
+            <td>
+            ${val[i].site}
+
+            </td>
+            <td>
+              <div class="text-muted text-nowrap">
+             
+              <span class="badge badge-info"> ${val[i].status}</span>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center nowrap text-primary">
+              $${val[i].client_charge}
+
+              </div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center nowrap text-primary">
+              $${val[i].staff_payment}
+
+              </div>
+            </td>
+
+            <td>
+              <div class="actions">
+                <a href="guard-in-job.html" onclick="storeCurrentUserID(${val[i].id})"  class="btn btn-dark btn-sm btn-square rounded-pill">
+                <span class="btn-icon icofont-external-link"></span>
+                </a>
+                <button class="btn btn-info btn-sm btn-square rounded-pill" data-bs-toggle="modal"
+                  data-bs-target="#edit3"   onclick="updateJobStatusId(${val[i].id})">
+                  <span class="btn-icon icofont-ui-edit"></span>
+                </button>
+                <button onclick="deleteJob(${val[i].id})" class="btn btn-error btn-sm btn-square rounded-pill">
+                  <span class="btn-icon icofont-ui-delete"></span>
+                </button>
+              </div>
+            </td>
+          </tr>`
+
+            if(i==val.length-1){
+
+                $('#mytable3').children().remove();
+                $("#mytable3").append(data)
+            }
+        }
+      }
+      else{
+        $('#mytable3').children().remove();
+        $("#mytable3").append(`
+        
+        <tr>
+        <td colspan="1000">
+        
+        <div class="alert alert-light outline text-dark " role="alert" style="text-align:center;">
+        YOU HAVE NO COMPLETED JOB
+      </div>
+        </td>
+      </tr>
+        
+        `)
+      }
+
+         
+
+  }
+
+
+
+})
+
+
+
+//FOR ACTIVE JOB
+
+function Previous(){
+  if(offset==0){
+      $("#Previous").addClass("disabled");
+  }
+  else{
+      $("#Previous").removeClass("disabled");
+      offset=offset-(limit+1)
+      getTableData(limit,offset)
+      $(".page-item").removeClass("active");
+      $("#Previous").addClass("active");
+
+  }
+}
+
+function Next(){
+  offset=offset+limit+1
+  getTableData(limit,offset)
+  $(".page-item").removeClass("active");
+  $("#Next").addClass("active");
+
+}
+
+function page(val){
+  if(val==1){
+      offset=0
+      $(".page-item").removeClass("active");
+      $("#page1").addClass("active");
+  }
+  else if(val==2){
+      offset=16
+      $(".page-item").removeClass("active");
+      $("#page2").addClass("active");
+
+  }
+  else if(val==3){
+      offset=32
+      $(".page-item").removeClass("active");
+      $("#page3").addClass("active");
+  }
+  
+
+  
+  getTableData(limit,offset)
+}
+
+
+
+//FOR PENDING JOB
+
+function Previous2(){
+  if(offset2==0){
+      $("#Previous2").addClass("disabled");
+  }
+  else{
+      $("#Previous2").removeClass("disabled");
+      offset2=offset2-(limit2+1)
+      getTableData2(limit2,offset2)
+      $(".page-item2").removeClass("active");
+      $("#Previous2").addClass("active");
+
+  }
+}
+
+function Next2(){
+  offset2=offset2+limit2+1
+  getTableData(limit2,offset2)
+  $(".page-item2").removeClass("active");
+  $("#Next2").addClass("active");
+
+}
+
+function page2(val){
+  if(val==1){
+      offset2=0
+      $(".page-item2").removeClass("active");
+      $("#page12").addClass("active");
+  }
+  else if(val==2){
+      offset2=16
+      $(".page-item2 ").removeClass("active");
+      $("#page22").addClass("active");
+
+  }
+  else if(val==3){
+      offset2=32
+      $(".page-item2 ").removeClass("active");
+      $("#page32").addClass("active");
+  }
+  
+
+  getTableData2(limit2,offset2)
+}
+
+
+
+
+
+
+//FOR COMPLETED JOB
+
+function Previous3(){
+  if(offset3==0){
+      $("#Previous3").addClass("disabled");
+  }
+  else{
+      $("#Previous3").removeClass("disabled");
+      offset3=offset3-(limit3+1)
+      getTableData2(limit3,offset3)
+      $(".page-item3").removeClass("active");
+      $("#Previous3").addClass("active");
+
+  }
+}
+
+function Next3(){
+  offset3=offset3+limit3+1
+  getTableData(limit3,offset3)
+  $(".page-item3").removeClass("active");
+  $("#Next3").addClass("active");
+
+}
+
+function page3(val){
+  if(val==1){
+      offset3=0
+      $(".page-item3").removeClass("active");
+      $("#page13").addClass("active");
+  }
+  else if(val==2){
+      offset2=16
+      $(".page-item3 ").removeClass("active");
+      $("#page23").addClass("active");
+
+  }
+  else if(val==3){
+      offset2=32
+      $(".page-item3 ").removeClass("active");
+      $("#page33").addClass("active");
+  }
+  
+
+  getTableData3(limit3,offset3)
+}
+
+
+
+
+
+//UPDATE JOB STATUS
+function updateJobStatusId(val){
+  statusChangeIdForJob=val
+  console.log(statusChangeIdForJob)
+}
+function updateJobStatus(){
+  $('.selectpickerStatusChange').on("changed.bs.select", function() {
+    myJobStatus = $('option:selected', this).attr("data-tokens");
+    console.log(myJobStatus)
+
+  });
+}
+$("#loadingButton2").css("display","none")
+
+function changeJobStatus(){
+
+
+  $("#saveButton").css("display","none")
+  $("#loadingButton2").css("display","block")
+  
+  $.ajax({
+    type: "post", url:`${domain}/api/v1/job/updateJobStatus`,
+    data: {
+      job_id:statusChangeIdForJob,
+      status_value:myJobStatus ,
+      
+    },
+    success: function (data, text) {
+
+        console.log(data.message)
+        showModal(data.message)
+      
+          getTableData2(limit2,offset2)
+          getTableData3(limit3,offset3)
+          getTableData(limit,offset)
+      
+
+          
+        getTableData(limit,offset)
+        setTimeout(() => {
+                hideModal()
+        }, 3000);
+
+        $("#saveButton").css("display","block")
+        $("#loadingButton2").css("display","none")
+       
+    },
+    error: function (request, status, error) {
+
+        $("#saveButton").css("display","block")
+        $("#loadingButton2").css("display","none")
+        console.log(request)
+        console.log(status)
+        console.log(error)
+        console.log(request.responseJSON.status)
+
+        analyzeError(request)
+     
+    }
+  });
+
+}
+
+
+
+
+function deleteJob(job_id){
+
+
+
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+  }).then((result) => {
+
+    if (result.isConfirmed) {
+      $.ajax({
+        type: "post", url:`${domain}/api/v1/job/delete_job`,
+        data: {
+          job_id      
+        },
+        success: function (data, text) {
+    
+            console.log(data.message)
+            showModal(data.message)
+          
+              getTableData2(limit2,offset2)
+              getTableData(limit,offset)
+              getTableData3(limit3,offset3)
+          
+  
+            setTimeout(() => {
+                    hideModal()
+            }, 3000);
+    
+          
+           
+        },
+        error: function (request, status, error) {
+    
+            console.log(request)
+            console.log(status)
+            console.log(error)
+            console.log(request.responseJSON.status)
+    
+            analyzeError(request)
+         
+        }
+      });
+    }
+  
+  })
+
+
+
+}

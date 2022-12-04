@@ -1,4 +1,5 @@
 let mode="development"
+
 let activeUserID= localStorage.getItem("storeCurrentUserID")
 let alertLifeSpan=5000
 let domain=''

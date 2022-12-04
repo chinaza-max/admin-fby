@@ -150,9 +150,6 @@ let getTableDate=''
 let getTableDate2=''
 
 $(document).ready(function(){
-
-
-
     //FOR ALL CUSTOMER
     getTableDate=function ( limit,offset){
         $.ajax({
@@ -190,9 +187,13 @@ $(document).ready(function(){
     getTableDate(limit,offset)
     function CreateTable(val){
         let data=''
+        if(val.length!=0){
 
             for(let i=0; i<val.length; i++){
                 data+= `  <tr>
+                <td>
+                ${offset+i+1}
+              </td>
                 <td>
                   <img src=${val[i].image} alt="" width="40" height="40" class="rounded-500">
                 </td>
@@ -235,7 +236,18 @@ $(document).ready(function(){
                     $("#mytable1").append(data)
                 }
             }
+          }else{
 
+            $('#mytable1').children().remove();
+            $("#mytable1").append(`    <tr>
+            <td colspan="1000">
+            
+            <div class="alert alert-light outline text-dark " role="alert" style="text-align:center;">
+            YOU HAVE NO CUSTOMER 
+          </div>
+            </td>
+          </tr>`)
+          }
 
 
     }
@@ -304,6 +316,7 @@ $(document).ready(function(){
             for(let i=0; i<val.length; i++){
                 console.log("kkk")
                 data+= `  <tr>
+           
                 <td>
                   <img src=${val[i].image} alt="" width="40" height="40" class="rounded-500">
                 </td>
@@ -347,11 +360,7 @@ $(document).ready(function(){
                 }
             }
 
-
-
     }
-    
-
 
   });
 

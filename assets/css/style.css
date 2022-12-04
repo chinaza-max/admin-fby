@@ -3542,6 +3542,9 @@ body > div.daterangepicker.dropdown-menu.ltr.show-calendar.opensright.dropup {
 #loadingButton{
   display: none;
 }
+#loadingButton2{
+  display: none;
+}
 #saveChangeImg{
   display: none;
 }
