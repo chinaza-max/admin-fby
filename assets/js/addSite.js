@@ -57,6 +57,8 @@ function disPlayData(val){
     let data=''
 
             console.log(val.sites)
+
+            
             for(let i=0; i<val.sites.length; i++){
                 data+= `
                 <div class="col-12 col-md-6" >
@@ -114,8 +116,16 @@ function disPlayData(val){
             }
 
             if(val.sites.length===0&&deleteButtonWasClick){
-                window.location.reload();
-                deleteButtonWasClick=false
+        //        window.location.reload();
+          //      deleteButtonWasClick=false
+
+
+
+                $('#siteContainer').children().remove();
+                $("#siteContainer").append(` <div class="alert alert-primary outline" role="alert">
+                NO SITE HAS BEEN ADDED
+              </div>`)
+               
             }
 
 

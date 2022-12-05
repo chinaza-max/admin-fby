@@ -311,165 +311,130 @@
 
       <div class="main-content-wrap">
         <header class="page-header">
-          <h1 class="page-title">Patients</h1>
         </header>
 
         <div class="page-content">
+
           <div class="card">
-  
+            <div class="card-header">
+              SETTLEMENT
+            </div>
             <div class="card-body">
-              <ul class="nav nav-tabs mb-3" role="tablist">
+              <ul class="nav nav-pills mb-3" role="tablist">
                 <li class="nav-item" role="presentation">
-                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-1" type="button" role="tab" aria-controls="tab-1" aria-selected="true">unsettle</button>
+                  <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#tab-1" type="button"
+                    role="tab" aria-selected="true">UNSETTLED</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-2" type="button" role="tab" aria-controls="tab-2" aria-selected="false">settled</button>
+                  <button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-2" type="button" role="tab"
+                    aria-selected="false">SETTLED</button>
                 </li>
-               
+
               </ul>
               <div class="tab-content">
                 <div class="tab-pane fade show active" id="tab-1" role="tabpanel">
                   <div class="card mb-0">
                     <div class="card-body">
                       <div class="table-responsive">
-                        <table class="table table-hover">
+                        <table class="table table-hover nowrap">
                           <thead>
-                          <tr class="bg-primary text-white">
-                            <th scope="col">FirstName</th>
-                            <th scope="col">LastName</th>
-                            <th scope="col">Hours Worked</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Action</th>
-        
-                        
-                          </tr>
-                          </thead>
-                          <tbody>
-                          <tr>
-                            <td>
-                                test     
-                            </td>
-                            <td>
-                               tester
-                            </td>
-                            <td>
-                              <div>1000</div>
-                            </td>
-                            <td>
-                              <div>$5000</div>
-                            </td>
-                        
+                            <tr>
+                              <th scope="col">Firt name </th>
+                              <th scope="col">Last name</th>
+                              <th scope="col">Hours worked</th>
+                              <th scope="col">Amount earned</th>
+                              <th scope="col">Action</th>
                             
-                            <td>
-                              <div class="actions">
-                                <a href="#"  class="btn btn-dark btn-sm btn-square rounded-pill"   data-bs-toggle="modal" data-bs-target="#view-detail">
-                                  <span class="btn-icon icofont-external-link"></span>
-                                </a>
-                               
-                                <button type="button" class="btn btn-primary">settle</button>
-
-                              </div>
-                            </td>
-                          </tr>
-                          
-               
+                            </tr>
+                          </thead>
+                          <tbody id="mytable1">
+                            
                           </tbody>
                         </table>
                       </div>
-        
+
                       <nav class="mt-4">
                         <ul class="pagination">
-                          <li class="page-item disabled">
+                          <li id="Previous" class="page-item page-item1 disabled" onclick="Previous()">
                             <a class="page-link" href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
                               <span class="icofont-simple-left"></span>
                             </a>
                           </li>
-                          <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
-                          <li class="page-item"><a class="page-link" href="#">2</a></li>
-                          <li class="page-item"><a class="page-link" href="#">3</a></li>
-                          <li class="page-item">
+                          <li class="page-item page-item1 active" aria-current="page" id="page1" onclick="page(1)"><a class="page-link" href="#">1</a></li>
+                          <li class="page-item page-item1"  id="page2"><a class="page-link" href="#"  onclick="page(2)">2</a></li>
+                          <li class="page-item page-item1"  id="page3"><a class="page-link" href="#"  onclick="page(3)">3</a></li>
+                          <li id="Next" class="page-item page-item1" onclick="Next()">
                             <a class="page-link" href="#" aria-label="Next">
                               <span class="icofont-simple-right"></span>
                             </a>
                           </li>
                         </ul>
                       </nav>
-                      
+
                     </div>
                   </div>
                 </div>
+
                 <div class="tab-pane fade" id="tab-2" role="tabpanel">
                   <div class="card mb-0">
                     <div class="card-body">
                       <div class="table-responsive">
-                        <table class="table table-hover">
+                        <table class="table table-hover nowrap">
                           <thead>
-                          <tr class="bg-primary text-white">
-                            <th scope="col">FirstName</th>
-                            <th scope="col">LastName</th>
-                            <th scope="col">Hours Worked</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Action</th>
-        
-                        
-                          </tr>
+                            <tr>
+                              <th scope="col">Site name</th>
+                              <th scope="col">Name</th>
+                              <th scope="col"  class="text-nowrap">Start date</th>
+                              <th scope="col"  class="text-nowrap">Start time</th>
+                              <th scope="col"  class="text-nowrap">End date</th>
+                              <th scope="col"  class="text-nowrap">End time</th>
+                              <th scope="col">Hours</th>
+                              <th scope="col"  class="text-nowrap">Check in date</th>
+                              <th scope="col"  class="text-nowrap">Check in time</th>
+                              <th scope="col"  class=" text-nowrap">Check out date</th>
+                              <th scope="col"  class="text-nowrap">Check out time</th>
+                              <th scope="col">Hours</th>
+                              <th scope="col">Charge</th>
+                              <th scope="col"  class="text-nowrap">Total earn</th>
+                              <th scope="col">Actions</th>
+                            </tr>
                           </thead>
-                          <tbody>
-                          <tr>
-                            <td>
-                                test     
-                            </td>
-                            <td>
-                               tester
-                            </td>
-                            <td>
-                              <div>1000</div>
-                            </td>
-                            <td>
-                              <div>$5000</div>
-                            </td>
-                        
+                          <tbody id="mytable2">
                             
-                            <td>
-                              <div class="actions">
-                                <a href="#"  class="btn btn-dark btn-sm btn-square rounded-pill"   data-bs-toggle="modal" data-bs-target="#view-detail">
-                                  <span class="btn-icon icofont-external-link"></span>
-                                </a>
-                              </div>
-                            </td>
-                          </tr>
-                          
-               
+
                           </tbody>
                         </table>
                       </div>
-        
+
                       <nav class="mt-4">
                         <ul class="pagination">
-                          <li class="page-item disabled">
+                          <li id="Previous2" class="page-item page-item2 disabled" onclick="Previous2()">
                             <a class="page-link" href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
                               <span class="icofont-simple-left"></span>
                             </a>
                           </li>
-                          <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
-                          <li class="page-item"><a class="page-link" href="#">2</a></li>
-                          <li class="page-item"><a class="page-link" href="#">3</a></li>
-                          <li class="page-item">
+                          <li class="page-item page-item2 active" aria-current="page" id="page12" onclick="page2(1)"><a class="page-link" href="#">1</a></li>
+                          <li class="page-item page-item2"  id="page22"><a class="page-link" href="#"  onclick="page2(2)">2</a></li>
+                          <li class="page-item page-item2"  id="page32"><a class="page-link" href="#"  onclick="page2(3)">3</a></li>
+                          <li id="Next2" class="page-item page-item2" onclick="Next2()">
                             <a class="page-link" href="#" aria-label="Next">
                               <span class="icofont-simple-right"></span>
                             </a>
                           </li>
                         </ul>
                       </nav>
-                      
                     </div>
                   </div>
                 </div>
+
              
               </div>
             </div>
           </div>
 
+     
+
+     
         </div>
       </div>
     </main>
@@ -639,131 +604,68 @@
 <!-- end Add patients modals -->
 
 
+
+
+<div class="modal fade" id="RegisterationSuccessFull" style="z-index:10000;" tabindex="-1" role="dialog"
+aria-hidden="true">
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-body">
+      <div id="RegisterationSuccessFullContent" class="alert alert-primary outline  text-center" role="alert">
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+<div class="modal fade" id="RegisterationError" style="z-index:10000;" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-body" id="RegisterationErrorContent"  >
+    </div>
+  </div>
+</div>
+</div>
+
+
 <div class="modal fade" id="view-detail" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
-      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" >
         <i class="icofont-close-line"></i>
       </button>
 
       <div class="modal-header">
-        <h5 class="modal-title">Staff assigned</h5>
+        <h5 class="modal-title">Details on guard scroll left to view Complete</h5>
       </div>
       <div class="modal-body">
         <div class="table-responsive">
           <table class="table table-hover">
             <thead>
             <tr>
-              <th scope="col">Date</th>
-              <th scope="col">First name</th>
-              <th scope="col">Last name</th>
-              <th scope="col">Customer</th>
-              <th scope="col">Site</th>
-              <th scope="col">Start time</th>
-              <th scope="col">End  time</th>
-              <th scope="col">Shift hour</th>
-              <th scope="col">Hourly rate</th>
-              <th scope="col">Check in</th>
-              <th scope="col">Check out</th>
-              <th scope="col">Shift hour</th>
-              <th scope="col">Total earn</th>
+              <th scope="col">Site name</th>
+              <th scope="col">Name</th>
+              <th scope="col"  class="text-nowrap">Start date</th>
+              <th scope="col"  class="text-nowrap">Start time</th>
+              <th scope="col"  class="text-nowrap">End date</th>
+              <th scope="col"  class="text-nowrap">End time</th>
+              <th scope="col">Hours</th>
+              <th scope="col"  class="text-nowrap">Check in date</th>
+              <th scope="col"  class="text-nowrap">Check in time</th>
+              <th scope="col"  class=" text-nowrap">Check out date</th>
+              <th scope="col"  class="text-nowrap">Check out time</th>
+              <th scope="col">Hours</th>
+              <th scope="col">Charge</th>
+              <th scope="col"  class="text-nowrap">Total earn</th>
               <th scope="col">Actions</th>
             </tr>
             </thead>
-            <tbody>
-              <tr>        
-                <td class="nowrap">
-                  2022/10/10
-                </td>
-                <td>
-                    test
-                </td>
-                <td>
-                  tester
-                </td>
-                <td>
-                  Tokyo
-                </td>
-                <td>
-                  Koforidua Central Business street
-                </td>
+            <tbody id="displayDetail">
              
-                <td>
-                  <div class="text-muted text-nowrap">7:00 AM</div>
-                </td>
-                <td>
-                  <div class="text-muted text-nowrap">5:00 PM</div>
-                </td>
-                <td>
-                  <div class="text-muted text-nowrap">10</div>
-                </td>
-                <td>
-                  <div class="text-muted text-nowrap">$20</div>
-                </td>
-                <td>
-                  <div class="text-muted text-nowrap">7:00 AM</div>
-                </td>
-                <td>
-                  <div class="text-muted text-nowrap">5:00 PM</div>
-                </td>
-                <td>
-                  <div class="text-muted text-nowrap">10</div>
-                </td>
-                <td>
-                  <div class="text-muted text-nowrap">$120</div>
-                </td>
 
-                <td>
-                  <button type="button" class="btn btn-primary">settle</button>
-                </td>
-              </tr>
-
-              <tr>        
-                <td class="nowrap">
-                  2022/10/10
-                </td>
-                <td>
-                    test
-                </td>
-                <td>
-                  tester
-                </td>
-                <td>
-                  Tokyo
-                </td>
-                <td>
-                  Koforidua Central Business street
-                </td>
-             
-                <td>
-                  <div class="text-muted text-nowrap">7:00 AM</div>
-                </td>
-                <td>
-                  <div class="text-muted text-nowrap">5:00 PM</div>
-                </td>
-                <td>
-                  <div class="text-muted text-nowrap">10</div>
-                </td>
-                <td>
-                  <div class="text-muted text-nowrap">$20</div>
-                </td>
-                <td>
-                  <div class="text-muted text-nowrap">7:00 AM</div>
-                </td>
-                <td>
-                  <div class="text-muted text-nowrap">5:00 PM</div>
-                </td>
-                <td>
-                  <div class="text-muted text-nowrap">10</div>
-                </td>
-                <td>
-                  <div class="text-muted text-nowrap">$120</div>
-                </td>
-
-                <td>
-                  <button type="button" class="btn btn-primary">settle</button>
-                </td>
-              </tr>
+           
 
             </tbody>
           </table>
@@ -792,6 +694,7 @@
 <script src="../assets/js/echarts.min.js"></script>
 <script src="../assets/js/echarts-gl.min.js"></script>
 <script src="../assets/js/globalVar.js"></script>
+<script src="../assets/js/settlement.js"></script>
 <script src="../assets/js/main.js"></script>
 
 

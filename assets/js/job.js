@@ -1935,9 +1935,6 @@ $(document).ready(function(){
 
 
 
-
-
-
   //FOR PENDING JOB
   getTableData2=function ( limit,offset){
 
@@ -2215,7 +2212,7 @@ function Previous(){
       $("#Previous").removeClass("disabled");
       offset=offset-(limit+1)
       getTableData(limit,offset)
-      $(".page-item").removeClass("active");
+      $(".page-item1").removeClass("active");
       $("#Previous").addClass("active");
 
   }
@@ -2224,7 +2221,7 @@ function Previous(){
 function Next(){
   offset=offset+limit+1
   getTableData(limit,offset)
-  $(".page-item").removeClass("active");
+  $(".page-item1").removeClass("active");
   $("#Next").addClass("active");
 
 }
@@ -2232,18 +2229,18 @@ function Next(){
 function page(val){
   if(val==1){
       offset=0
-      $(".page-item").removeClass("active");
+      $(".page-item1").removeClass("active");
       $("#page1").addClass("active");
   }
   else if(val==2){
       offset=16
-      $(".page-item").removeClass("active");
+      $(".page-item1").removeClass("active");
       $("#page2").addClass("active");
 
   }
   else if(val==3){
       offset=32
-      $(".page-item").removeClass("active");
+      $(".page-item1").removeClass("active");
       $("#page3").addClass("active");
   }
   
