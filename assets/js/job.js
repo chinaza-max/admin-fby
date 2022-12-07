@@ -197,19 +197,78 @@ let MAX_TIMESTAMP = 8640000000000000;
   }
 
  })
- 
- myShedule3.addEventListener("submit",(e)=>{
-  e.preventDefault()
-  let obj=[]
 
-  let mySingleDate=document.getElementById("mySingleDate").value
+
+ //SCHEDULE  FOR SINGLE SHIFT
+ 
+ myShedule3.addEventListener("submit",async (e)=>{
+  e.preventDefault()
+
+  let obj=[]
+  let mySingleStartDate=document.getElementById("mySingleStartDate").value
+  let mySingleEndDate=document.getElementById("mySingleEndDate").value
   let mySingleStartTime=document.getElementById("mySingleStartTime").value
   let mySingleEndTime=document.getElementById("mySingleEndTime").value
-  obj.push({date:mySingleDate,startTime:mySingleStartTime,endTime:mySingleEndTime})
- 
-  
- console.log(obj)
+  obj.push({fullStartDate:new Date(mySingleStartDate+' '+mySingleStartTime),fullEndDate:new Date(mySingleEndDate+' '+mySingleEndTime)})
+  if(await checkIfDateIsInCorrectOrder(obj)){
+    console.log("we are good to go")
+    $('#addGuardDateSchedule1').modal('show');
+
+  }
+  else{
+    console.log("wrong wrong wrong wrong ")
+
+  }
 })
+
+
+function checkIfFormIsEmpty(){
+  
+  let mySingleStartDate=document.getElementById("mySingleStartDate").value
+  let mySingleEndDate=document.getElementById("mySingleEndDate").value
+  let mySingleStartTime=document.getElementById("mySingleStartTime").value
+  let mySingleEndTime=document.getElementById("mySingleEndTime").value
+
+
+  if(!mySingleStartDate||!mySingleEndDate||!mySingleStartTime||!mySingleEndTime){
+    show_warming_no_guard()
+  }
+  else{
+
+    console.log("kjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj")
+  }
+}
+
+
+
+
+async function checkIfDateIsInCorrectOrder(val){
+
+  for(let i=0; i<val.length;i++){
+
+    if(moment(val[i].fullStartDate).isBefore(val[i].fullEndDate)){
+
+    }
+    else{
+      console.log("yeah")
+      return false
+    }
+
+    if(i==val.length-1){
+        return true
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
 
  date.setDate(date.getDate())
 
@@ -684,15 +743,83 @@ createTask.addEventListener("submit",(e)=>{
 
 
 
-/*partial sheduling with guard */
+
 
 function addGuardDateShedule1(){
-  let obj=[]
-  let objGuard=[]
-  let mySingleDate=document.getElementById("mySingleDate").value
+
+
+
+
+  let mySingleStartDate=document.getElementById("mySingleStartDate").value
+  let mySingleEndDate=document.getElementById("mySingleEndDate").value
   let mySingleStartTime=document.getElementById("mySingleStartTime").value
   let mySingleEndTime=document.getElementById("mySingleEndTime").value
   let addGuardDateShedule1V=document.getElementById("addGuardDateShedule1V")
+  let detail=[]
+  let mySchedule=[]
+  //let detail=[]
+  let guard_id_array = $("#addGuardDateShedule1V option:selected").map(function() {
+    return $(this).data("name");
+  }).get();
+
+  console.log(guard_id_array);
+
+
+
+
+
+
+  mySchedule.push({check_in_date:mySingleStartDate+' '+mySingleStartTime,
+                  check_out_date:mySingleEndDate+' '+mySingleEndTime,
+                  start_time:mySingleStartTime,
+                  end_time:mySingleEndTime,
+                  status_per_staff:"PENDING",
+                  job_id:4,
+                  schedule_length:"LIMITED",
+                })
+
+  
+
+  for(let i=0; i <guard_id_array.length;i++){
+ 
+    for(let j=0; j <mySchedule.length;j++){
+      let obj={}
+
+      obj["guard_id"]=guard_id_array[i]
+      obj["check_in_date"]=mySchedule[i].check_in_date
+      obj["check_out_date"]=mySchedule[i]["check_out_date"]
+      obj["start_time"]=mySchedule[i]["start_time"]
+      obj["end_time"]=mySchedule[i]["end_time"]
+      obj["status_per_staff"]=mySchedule[i]["status_per_staff"]
+      obj["job_id"]=mySchedule[i]["job_id"]
+      obj["schedule_length"]=mySchedule[i]["schedule_length"]
+      
+      detail.push(obj)
+    }
+
+    if(i==guard_id_array.length-1){
+      console.log(detail)
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+return
+  let obj=[]
+  let objGuard=[]
+  let mySingleDate=document.getElementById("mySingleDate").value
+ // let mySingleStartTime=document.getElementById("mySingleStartTime").value
+ // let mySingleEndTime=document.getElementById("mySingleEndTime").value
+  //let addGuardDateShedule1V=document.getElementById("addGuardDateShedule1V")
   let myjobType=document.getElementById("myjobType").value
   obj.push({date:mySingleDate,startTime:mySingleStartTime,endTime:mySingleEndTime})
  

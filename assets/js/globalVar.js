@@ -122,4 +122,23 @@ function analyzeError(request){
             hideModalError()
         }, alertLifeSpan);
     }
+    else if(request.responseJSON.status=="notFound-error"){
+        console.log(request.responseJSON.message)
+        showModalError(request.responseJSON.message)
+        setTimeout(() => {
+            hideModalError()
+        }, alertLifeSpan);
+    }
+}
+
+
+function show_warming_no_guard(){
+
+    $('#no_guard').modal('toggle');
+    $("#no_guard_content").text("ENTER SCHEDULE");
+
+
+    setTimeout(() => {
+        $('#no_guard').modal('hide');
+    }, 3000);
 }

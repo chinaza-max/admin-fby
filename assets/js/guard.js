@@ -8,15 +8,6 @@ offset2=0;
 
 let formAdminReg=document.getElementById("formguardReg")
 
-/*
-setTimeout(() => {
-    showModalError("REGISTERATION SUCCESSFULL")
-
-    setTimeout(() => {
-        hideModal()
-    }, 5000);
-}, 1000);
-*/
 
 formAdminReg.addEventListener("submit",(e)=>{
     e.preventDefault()
@@ -32,7 +23,10 @@ formAdminReg.addEventListener("submit",(e)=>{
     date_of_birth=formFields.dateOfBirth.value,
     address=formFields.address.value,
     password=formFields.password.value;
+    phone_number=formFields.phone_number.value;
 
+
+    
 
     if (typeof email === 'string') {
 
@@ -48,10 +42,15 @@ formAdminReg.addEventListener("submit",(e)=>{
                     gender,
                     password,
                     address,
+                    phone_number
             },
             success: function (data, text) {
   
                 console.log(data.message)
+
+                limit=15,
+                offset=0
+                getTableDate(limit,offset)
                 showModal("REGISTERATION SUCCESSFULL")
                 setTimeout(() => {
                         hideModal()
@@ -70,27 +69,7 @@ formAdminReg.addEventListener("submit",(e)=>{
                 console.log(error)
                 console.log(request.responseJSON.status)
 
-                if(request.responseJSON.status=="conflict-error"){
-                    console.log(request.responseJSON.message)
-                    showModalError(request.responseJSON.message)
-                    setTimeout(() => {
-                        hideModalError()
-                    }, 3000);
-                }
-                else if(request.responseJSON.status=="validation-error"){
-                    console.log(request.responseJSON.errors.message)
-                    showModalError(request.responseJSON.errors[0].message)
-                    setTimeout(() => {
-                        hideModalError()
-                    }, 3000);
-                }
-                else if(request.responseJSON.status=="server-error"){
-                    console.log(request.responseJSON.message)
-                    showModalError(request.responseJSON.message)
-                    setTimeout(() => {
-                        hideModalError()
-                    }, 3000);
-                }
+                analyzeError(request)
              
             }
           });
@@ -119,6 +98,7 @@ formAdminReg.addEventListener("submit",(e)=>{
         formFields.dateOfBirth.value='',
         formFields.address.value='',
         formFields.password.value='';
+        formFields.phone_number.value=''
 
 
         $('select[name=gender]').val("SELECT");
@@ -205,6 +185,8 @@ $(document).ready(function(){
     function CreateTable(val){
         let data=''
 
+        if(val.length!=0){
+
             for(let i=0; i<val.length; i++){
                 data+= `  <tr>
                 <td>
@@ -226,6 +208,11 @@ $(document).ready(function(){
                   </div>
                 </td>
                 <td>
+                  <div class="d-flex align-items-center nowrap text-primary">
+                  ${val[i].phone_number}
+                  </div>
+                </td>
+                <td>
                   <div class="text-muted text-nowrap">${val[i].gender}</div>
                 </td>
                 <td>
@@ -234,7 +221,7 @@ $(document).ready(function(){
                     <a href="#" onclick="storeCurrentUserID(${val[i].id})"  class="btn btn-info btn-sm btn-square rounded-pill">
                       <span class="btn-icon icofont-ui-edit"></span>
                     </a>
-                    <button class="btn btn-error btn-sm btn-square rounded-pill">
+                    <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteGuard(${val[i].id})"  >
                       <span class="btn-icon icofont-ui-delete"></span>
                     </button>
                   </div>
@@ -247,9 +234,18 @@ $(document).ready(function(){
                     $("#mytable1").append(data)
                 }
             }
-
-
-
+        }
+        else{
+            $('#mytable1').children().remove();
+            $("#mytable1").append(`    <tr>
+            <td colspan="1000">
+            
+            <div class="alert alert-light outline text-dark " role="alert" style="text-align:center;">
+            YOU HAVE NO REGISTERED  GUARD
+          </div>
+            </td>
+          </tr>`)
+        }    
     }
     
     
@@ -459,3 +455,61 @@ function page2(val){
     
     getTableDate2(limit2,offset2)
 }
+
+
+
+
+function deleteGuard(id){
+
+
+
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+  
+      if (result.isConfirmed) {
+        $.ajax({
+          type: "post", url:`${domain}/api/v1/user/deleteStaff`,
+          data: {
+            id      
+          },
+          success: function (data, text) {
+      
+              console.log(data)
+              showModal(data.message)
+              limit=15
+              offset=0
+              getTableDate(limit,offset)
+            
+    
+              setTimeout(() => {
+                      hideModal()
+              }, 3000);
+      
+            
+             
+          },
+          error: function (request, status, error) {
+      
+              console.log(request)
+              console.log(status)
+              console.log(error)
+              console.log(request.responseJSON.status)
+      
+              analyzeError(request)
+           
+          }
+        });
+      }
+    
+    })
+  
+  
+  
+  }

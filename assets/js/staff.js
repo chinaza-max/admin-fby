@@ -26,6 +26,10 @@ formAdminReg.addEventListener("submit",(e)=>{
     date_of_birth=formFields.dateOfBirth.value,
     address=formFields.address.value,
     password=formFields.password.value;
+    phone_number=formFields.phone_number.value;
+
+
+    
 
 
     if (typeof email === 'string') {
@@ -43,10 +47,16 @@ formAdminReg.addEventListener("submit",(e)=>{
                     gender,
                     password,
                     address,
+                    phone_number
             },
             success: function (data, text) {
   
                 showModal("REGISTRATION SUCCESSFULL")
+                limit=15
+                offset=0
+
+                getTableDate(limit,offset)
+
                 setTimeout(() => {
                         hideModal()
                 }, 3000);
@@ -200,6 +210,8 @@ $(document).ready(function(){
     function CreateTable(val){
         let data=''
 
+        
+        if(val.length!=0){
             for(let i=0; i<val.length; i++){
                 data+= `  <tr>
                 <td>
@@ -212,14 +224,23 @@ $(document).ready(function(){
                 <td>
                   <div class="text-muted text-nowrap">${val[i].date_of_birth}</div>
                 </td>
+
                 <td>
                   <div class="address-col">${val[i].address}</div>
                 </td>
                 <td>
-                  <div class="d-flex align-items-center nowrap text-primary">
-                  ${val[i].email}
-                  </div>
+                    <div class="d-flex align-items-center nowrap text-primary">
+                    ${val[i].email}
+                    </div>
                 </td>
+
+              <td>
+
+                    <div class="d-flex align-items-center nowrap text-primary">
+                        <span class="icofont-ui-cell-phone p-0 me-2"></span>
+                        ${val[i].phone_number}
+                    </div>
+              </td>
                 <td>
                   <div class="text-muted text-nowrap">${val[i].gender}</div>
                 </td>
@@ -242,7 +263,18 @@ $(document).ready(function(){
                     $("#mytable1").append(data)
                 }
             }
-
+        }else{
+            
+            $('#mytable1').children().remove();
+            $("#mytable1").append(`    <tr>
+            <td colspan="1000">
+            
+            <div class="alert alert-light outline text-dark " role="alert" style="text-align:center;">
+            YOU HAVE NO REGISTERED STAFF 
+          </div>
+            </td>
+          </tr>`)
+        }
 
 
     }
@@ -337,7 +369,7 @@ $(document).ready(function(){
                     <a href="addSite.html" onclick="storeCurrentUserID(${val[i].id})"  class="btn btn-info btn-sm btn-square rounded-pill">
                       <span class="btn-icon icofont-ui-edit"></span>
                     </a>
-                    <button class="btn btn-error btn-sm btn-square rounded-pill">
+                    <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteAdmin(${val[i].id})"  >
                       <span class="btn-icon icofont-ui-delete"></span>
                     </button>
                   </div>
@@ -454,3 +486,60 @@ function page2(val){
     
     getTableDate2(limit2,offset2)
 }
+
+
+
+
+
+function deleteAdmin(id){
+
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+  
+      if (result.isConfirmed) {
+        $.ajax({
+          type: "post", url:`${domain}/api/v1/user/deleteStaff`,
+          data: {
+            id      
+          },
+          success: function (data, text) {
+      
+              console.log(data.message)
+              showModal(data.message)
+              limit=15
+              offset=0
+                getTableDate(limit,offset)
+            
+    
+              setTimeout(() => {
+                      hideModal()
+              }, 3000);
+      
+            
+             
+          },
+          error: function (request, status, error) {
+      
+              console.log(request)
+              console.log(status)
+              console.log(error)
+              console.log(request.responseJSON.status)
+      
+              analyzeError(request)
+           
+          }
+        });
+      }
+    
+    })
+  
+  
+  
+  }

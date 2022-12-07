@@ -34,6 +34,7 @@ formAdminReg.addEventListener("submit",(e)=>{
     email=formFields.email.value,
     gender=formFields.Gender.value,
     date_of_birth=formFields.dateOfBirth.value,
+    Phone_number=formFields.Phone_number.value,
     address=formFields.address.value;
 
 
@@ -53,6 +54,7 @@ formAdminReg.addEventListener("submit",(e)=>{
                     date_of_birth,
                     gender,
                     address,
+                    phone_number:Phone_number
             },
             success: function (data, text) {
   
@@ -133,6 +135,11 @@ formAdminReg.addEventListener("submit",(e)=>{
         formFields.Gender.value='',
         formFields.dateOfBirth.value='',
         formFields.address.value='',
+        formFields.Phone_number.value='';
+
+
+
+        
   
 
 
@@ -211,6 +218,14 @@ $(document).ready(function(){
                   <div class="d-flex align-items-center nowrap text-primary">
                   ${val[i].email}
                   </div>
+                </td>
+
+                <td>
+
+                  <div class="d-flex align-items-center nowrap text-primary">
+                        <span class="icofont-ui-cell-phone p-0 me-2"></span>
+                        ${val[i].phone_number}
+                      </div>
                 </td>
                 <td>
                   <div class="text-muted text-nowrap">${val[i].gender}</div>

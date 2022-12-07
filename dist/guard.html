@@ -25,6 +25,7 @@
   
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 
@@ -346,6 +347,7 @@
                         <th scope="col " class="text-nowrap">Date of birth</th>
                         <th scope="col">Address</th>
                         <th scope="col">Email</th>
+                        <th scope="col">Phone</th> 
                         <th scope="col">Gender</th>
                         <th scope="col">Actions</th>
                       </tr>
@@ -581,25 +583,47 @@
             <input class="form-control" type="text"  name="lastName" placeholder="Type last name..." required>
           </div>
 
-          <div class="form-group">
-            <label>Email</label>
-            <div id="emailAlert" style="color:red ;"></div>
-            <input class="form-control" type="email" name="email"  placeholder="Type email..." required>
+
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label>Email</label>
+                <div id="emailAlert" style="color:red ;"></div>
+                <input class="form-control" type="email" name="email" placeholder="Enter email..." required>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label>Phone number</label>
+                <input class="form-control" type="number" name="phone_number" placeholder="Enter phone number"
+                  required>
+              </div>
+            </div>
+
           </div>
 
-          <div class="form-group">
-            <label>Date of birth</label>
-            <input class="form-control" name="dateOfBirth" type="date" required>
+
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label>Date of birth</label>
+                <input class="form-control" name="dateOfBirth" type="date" required>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label>Gender</label>
+                <select class="selectpicker gender" name="Gender" title="Gender" required>
+                  <option value="NOT_SPECIFIED">NOT_SPECIFIED</option>
+                  <option value="MALE" >MALE</option>
+                  <option value="FEMALE" >FEMALE</option>
+                </select>
+              </div>
+            </div>
+
           </div>
 
-          <div class="form-group">
-            <label>Gender</label>
-            <select class="selectpicker gender" name="Gender" title="Gender" required>
-              <option value="NOT_SPECIFIED">NOT_SPECIFIED</option>
-              <option value="MALE" >MALE</option>
-              <option value="FEMALE" >FEMALE</option>
-            </select>
-          </div>
+          
 
           <div class="form-group">
             <label>Address</label>

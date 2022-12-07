@@ -7,6 +7,11 @@ var test="Software Engineer";
 let totalHours=0
 let amountPending=0
 
+let initiallze=true
+let dateSearch=true
+let userSearch=true
+
+
 
 
 
@@ -15,113 +20,238 @@ let amountPending=0
 // Custom filtering function which will search data in column four between two values
 
 $.fn.dataTable.ext.search.push(
+
+  
+
     function( settings, data, dataIndex ) {
-        var min = minDate.val();
-        var max = maxDate.val();
-        var date = new Date( data[4] );
-        var date2 = new Date( data[6] );
 
-        if (
-            ( min === null && max === null ) ||
-            ( min === null && date <= max ) ||
-            ( min <= date   && max === null ) ||
-            ( min <= date   && date <= max )
+      console.log("ooooooooooooooooooooooooooooooooooooooo")
 
-            ||( min === null && date2 <= max )||
-            ( min <= date2   && max === null ) ||
-            ( min <= date2   && date2 <= max )
-        ) {
-            return true;
+      console.log(dateSearch)
+      console.log("ooooooooooooooooooooooooooooooooooooooo")
+
+        if(dateSearch){
+  
+          var min = minDate.val();
+          var max = maxDate.val();
+          var date = new Date( data[3] );
+          var date2 = new Date( data[5] );
+            
+          if (
+              ( min === null && max === null ) ||
+              ( min === null &&  moment(date).isSameOrBefore(max)) ||
+              ( moment(min).isSameOrBefore(date)  && max === null ) ||
+              ( moment(min).isSameOrBefore(date)   && moment(date).isSameOrBefore(max) )
+  
+              ||( min === null &&   moment(date2).isSameOrBefore(max)   )||
+              ( moment(min).isSameOrBefore(date2)   && max === null ) ||
+              ( moment(min).isSameOrBefore(date2)   &&     moment(date2).isSameOrBefore(max) )
+          ) {
+  
+            console.log(data)
+            //console.log(data[16])
+  
+          
+            if(data[16]=="false"&&!initiallze){
+  
+              console.log(data[10])
+              console.log(data[12])
+  
+              calPayPerSchedule(data[10] ,data[12])
+              }       
+              return true;
+          }
+          return false;
         }
-        return false;
+        else{
+
+          console.log("ssssssssssssssssssssssssssssssssssssssssss")
+
+            var customerNameVT = data[1];
+            var SiteVT = data[2] ;
+            var staffNameVT = data[0];
+            
+    
+            if ((customerName ==='')&&(Site ==='' )&&(staffName==='')) {
+    
+                if(data[16]=="false"&&!initiallze){
+                  calPayPerSchedule(data[10] ,data[12])
+                }
+              
+                
+                return true;
+            }
+            else if((customerName===customerNameVT)&&(Site==='')&&(staffName==='')){
+                console.log("2")
+    
+                if(data[16]=="false"&&!initiallze){
+                  calPayPerSchedule(data[10] ,data[12])
+                 }
+                
+                return true
+            }
+            else if((customerName===customerNameVT)&&(Site===SiteVT)&&(staffName==='')){
+                console.log("3")
+               
+                if(data[16]=="false" &&!initiallze){
+                  calPayPerSchedule(data[10] ,data[12])
+                }
+                return true
+            }
+            else if((customerName==='')&&(Site===SiteVT)&&(staffName==='')){
+                console.log("4")
+    
+                if(data[16]=="false" &&!initiallze){
+                  calPayPerSchedule(data[10] ,data[12])
+                }
+                return true
+            }
+            else if((customerName==='')&&(Site===SiteVT)&&(staffName===staffNameVT)){
+                
+              if(data[16]=="false" &&!initiallze){ 
+                calPayPerSchedule(data[10] ,data[12])
+              }
+                return true
+            }
+            else if((customerName==='')&&(Site==='')&&(staffName===staffNameVT)){
+                
+              if(data[16]=="false"&&!initiallze){
+                calPayPerSchedule(data[10] ,data[12])
+              }
+                return true
+            }
+            else if((customerName===customerNameVT)&&(Site==='')&&(staffName===staffNameVT)){
+                
+              if(data[16]=="false"&&!initiallze){  
+                calPayPerSchedule(data[10] ,data[12])
+              }
+                return true
+            }
+            else if((customerName===customerNameVT)&&(Site===SiteVT)&&(staffName===staffNameVT)){
+               
+              if(data[16]=="false"&&!initiallze){
+                calPayPerSchedule(data[10] ,data[12])
+               }
+                return true
+            }
+            
+            //calPayOff(totalHours ,amountPending)
+    
+            return false;
+          
+        }
     }
+
 )
 
 
+/*
 $.fn.dataTable.ext.search.push(
     function( settings, data, dataIndex ) {
         
-        var customerNameVT = data[1];
-        var SiteVT = data[2] ;
-        var staffNameVT = data[0];
-        
-
-        if ((customerName ==='')&&(Site ==='' )&&(staffName==='')) {
-            console.log("1")
-
-            if(data[17]==false){
-            
-            calPayPerSchedule(data[11] ,data[12])
-            }
+        if(userSearch){
+          var customerNameVT = data[1];
+          var SiteVT = data[2] ;
+          var staffNameVT = data[0];
           
+  
+          if ((customerName ==='')&&(Site ==='' )&&(staffName==='')) {
+  
+              if(data[16]=="false"&&!initiallze){
+                calPayPerSchedule(data[10] ,data[12])
+              }
             
-            return true;
-        }
-        else if((customerName===customerNameVT)&&(Site==='')&&(staffName==='')){
-            console.log("2")
-
-            if(data[17]==false){
-              calPayPerSchedule(data[11] ,data[12])
+              
+              return true;
+          }
+          else if((customerName===customerNameVT)&&(Site==='')&&(staffName==='')){
+              console.log("2")
+  
+              if(data[16]=="false"&&!initiallze){
+                calPayPerSchedule(data[10] ,data[12])
+               }
+              
+              return true
+          }
+          else if((customerName===customerNameVT)&&(Site===SiteVT)&&(staffName==='')){
+              console.log("3")
+             
+              if(data[16]=="false" &&!initiallze){
+                calPayPerSchedule(data[10] ,data[12])
+              }
+              return true
+          }
+          else if((customerName==='')&&(Site===SiteVT)&&(staffName==='')){
+              console.log("4")
+  
+              if(data[16]=="false" &&!initiallze){
+                calPayPerSchedule(data[10] ,data[12])
+              }
+              return true
+          }
+          else if((customerName==='')&&(Site===SiteVT)&&(staffName===staffNameVT)){
+              
+            if(data[16]=="false" &&!initiallze){ 
+              calPayPerSchedule(data[10] ,data[12])
+            }
+              return true
+          }
+          else if((customerName==='')&&(Site==='')&&(staffName===staffNameVT)){
+              
+            if(data[16]=="false"&&!initiallze){
+              calPayPerSchedule(data[10] ,data[12])
+            }
+              return true
+          }
+          else if((customerName===customerNameVT)&&(Site==='')&&(staffName===staffNameVT)){
+              
+            if(data[16]=="false"&&!initiallze){  
+              calPayPerSchedule(data[10] ,data[12])
+            }
+              return true
+          }
+          else if((customerName===customerNameVT)&&(Site===SiteVT)&&(staffName===staffNameVT)){
+             
+            if(data[16]=="false"&&!initiallze){
+              calPayPerSchedule(data[10] ,data[12])
              }
-            
-            return true
-        }
-        else if((customerName===customerNameVT)&&(Site===SiteVT)&&(staffName==='')){
-            console.log("3")
-           
-            if(data[17]==false){
-              calPayPerSchedule(data[11] ,data[12])
-            }
-            return true
-        }
-        else if((customerName==='')&&(Site===SiteVT)&&(staffName==='')){
-            console.log("4")
-
-            if(data[17]==false){
-              calPayPerSchedule(data[11] ,data[12])
-            }
-            return true
-        }
-        else if((customerName==='')&&(Site===SiteVT)&&(staffName===staffNameVT)){
-            
-          if(data[17]==false){ 
-            calPayPerSchedule(data[11] ,data[12])
+              return true
           }
-            return true
+          
+          //calPayOff(totalHours ,amountPending)
+  
+          return false;
         }
-        else if((customerName==='')&&(Site==='')&&(staffName===staffNameVT)){
-            
-          if(data[17]==false){
-            calPayPerSchedule(data[11] ,data[12])
-          }
-            return true
-        }
-        else if((customerName===customerNameVT)&&(Site==='')&&(staffName===staffNameVT)){
-            
-          if(data[17]==false){  
-            calPayPerSchedule(data[11] ,data[12])
-          }
-            return true
-        }
-        else if((customerName===customerNameVT)&&(Site===SiteVT)&&(staffName===staffNameVT)){
-           
-          if(data[17]==false){
-            calPayPerSchedule(data[11] ,data[12])
-           }
-            return true
-        }
-        
-        calPayOff(totalHours ,amountPending)
-
-        return false;
+       
     }
 );
+
+*/
+
+
+
+
+
+
+
+
 
 
 function calPayPerSchedule(money ,hour){
 
- totalHours+=hour
- amountPending+=money*hour
+
+
+
+  console.log(hour)
+
+ totalHours+=Number(hour)
+ 
+ amountPending+= Number(money)*Number(hour)
+
+
+ console.log(totalHours ,amountPending)
+
+
  calPayOff(totalHours ,amountPending)
  
 } 
@@ -187,17 +317,13 @@ $(document).ready(function() {
         ,
             createdRow: function (row, data, index) {
 
+              console.log("lllllllllllllllllllllllllllllllllllllllllll")
 
               if(data["settlement_status"]==false){
-
                   calPayPerSchedule(data["guard_charge"],data["hours_worked"])
               }
-              else{
-                console.log(data)
-
-              }
-              
-
+      
+            
     
                 if (data["job_status"] == "ACTIVE") {
                     $('td', row).css('background-color', '#828204');
@@ -237,8 +363,8 @@ $(document).ready(function() {
     column1.visible(!column1.visible());
     var column2 = table.column(15);
     column2.visible(!column2.visible());
-    var column3 = table.column(16);
-    column3.visible(!column3.visible());
+    //var column3 = table.column(16);
+    //column3.visible(!column3.visible());
         /*
     var column1 = table.column(0);
     column1.visible(!column1.visible());
@@ -253,24 +379,37 @@ $(document).ready(function() {
     // Refilter the table
     $('#min, #max').on('change', function () {
         initializePayOff()
+        dateSearch=true
+        userSearch=false
         table.draw();
+        initiallze=false
+       
     });
      // Refilter the table
     $('#staffName').on('change', function (e) {
         initializePayOff()
+        initiallze=false
         staffName=this.value
+        dateSearch=false
+        userSearch=true
         table.draw();
 
         
     });
     $('#Site').on('change', function (e) {
         initializePayOff()
+        initiallze=false
         Site=this.value
+        dateSearch=false
+        userSearch=true
         table.draw();
     });
     $('#customerName').on('change', function (e) {
         initializePayOff()
+        initiallze=false
         customerName=this.value
+        dateSearch=false
+        userSearch=true
         table.draw();
     });
     
@@ -278,9 +417,10 @@ $(document).ready(function() {
 
 
 function initializePayOff(){
-    console.log("clear")
     totalHours=0
     amountPending=0
+    calPayOff(totalHours ,amountPending)
+
 }
 
 
