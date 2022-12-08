@@ -1397,7 +1397,7 @@
 
                 <div class="modal-footer d-block">
                   <div class="actions justify-content-between">
-                    <button class="btn btn-primary">Assign all</button>
+                    <button class="btn btn-primary disabled">Assign all</button>
                     <button class="btn btn-primary"   onclick="checkIfFormIsEmpty()" >Assign to</button>
                   </div>
                 </div>
@@ -1461,7 +1461,7 @@
                 </div>
                 <div class="modal-footer d-block">
                   <div class="actions justify-content-between">
-                    <button class="btn btn-primary">assign all</button>
+                    <button class="btn btn-primary disabled">assign all</button>
                     <button class="btn btn-primary" onclick="checkIfFormIsEmptyRandom()">assign to</button>
                   </div>
                 </div>
@@ -1470,15 +1470,10 @@
             </div>
 
 
-
-
-
-
-
-
-
-
             <div class="alert alert-dark outline" role="alert" id="rangePickedDate">
+              <marquee width="100%" direction="left" height="20px">
+                THIS SECTION HELP TO RESTRICT THE DATE PICKER AND INITIALIZE TIME AFTER YOU APPLY
+                  </marquee>
               <form id="startEndDateFormRange">
                 <div class="form-group">
 
@@ -1540,9 +1535,8 @@
 
                 <div class="modal-footer d-block">
                   <div class="actions justify-content-between">
-                    <button class="btn btn-primary">assign all</button>
-                    <button class="btn btn-primary" type="button" data-bs-toggle="modal"
-                      data-bs-target="#addGuardDateSchedule3">assign to</button>
+                    <button class="btn btn-primary disabled">assign all</button>
+                    <button class="btn btn-primary"  onclick="checkIfFormIsEmptyRange()" >Assign to </button>
                   </div>
                 </div>
               </form>
@@ -1607,7 +1601,7 @@
               </div>
               <div class="modal-footer d-block">
                 <div class="actions justify-content-between">
-                  <button class="btn btn-primary">assign all</button>
+                  <button class="btn btn-primary disabled">assign all</button>
                   <button class="btn btn-primary" type="button" data-bs-toggle="modal"
                     data-bs-target="#addGuardDateSchedule4">assign to</button>
                 </div>
@@ -1781,7 +1775,7 @@
               <div class="card-body">
                 <form>
                   <div class="form-group ">
-                    <label>Add multiple or single Guard</label>
+                    <label>Add multiple or single Guard </label>
                     <select class="selectpicker" data-live-search="true" id="addGuardDateShedule2V" multiple>
 
                        <option data-name="1">guard1</option>
@@ -1810,6 +1804,7 @@
       </div>
     </div>
   </div>
+  
   <div class="modal fade" id="addGuardDateSchedule3" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered ">
       <div class="modal-content">
@@ -1826,23 +1821,15 @@
               <div class="card-body">
                 <form>
                   <div class="form-group ">
-                    <label>Add multiple or single Guard</label>
+                    <label>Add multiple or single Guard </label>
                     <select class="selectpicker" data-live-search="true" id="addGuardDateShedule3V" multiple>
 
-                      <option data-tokens="guard1">guard1</option>
-                      <option data-tokens="guard2">guard2</option>
-                      <option data-tokens="guard3">guard3</option>
-                      <option data-tokens="guard4">guard4</option>
-                      <option data-tokens="guard5">guard5</option>
-                      <option data-tokens="guard6">guard6</option>
-                      <option data-tokens="guard7">guard7</option>
-                      <option data-tokens="guard8">guard8</option>
-                      <option data-tokens="guard9">guard9</option>
-                      <option data-tokens="guard10">guard10</option>
-                      <option data-tokens="guard11">guard11</option>
-                      <option data-tokens="guard12">guard12</option>
-                      <option data-tokens="guard13">guard13</option>
-                      <option data-tokens="guard14">guard14</option>
+                      <option data-name="1">guard1</option>
+                      <option data-name="2">guard2</option>
+                      <option data-name="5">guard3</option>
+                      <option data-name="6">guard4</option>
+                      <option data-name="7">guard5</option>
+                      <option data-name="8">guard6</option>
 
                     </select>
                   </div>

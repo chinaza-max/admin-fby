@@ -135,11 +135,16 @@ function analyzeError(request){
 
 function show_warming_no_guard(val){
 
-    $('#no_guard').modal('toggle');
-    $("#no_guard_content").text(val);
-
-
-    setTimeout(() => {
-        $('#no_guard').modal('hide');
-    }, 3000);
+    Swal.fire({
+        title:val,
+        icon: 'warning',
+        confirmButtonColor: '#3085d6',
+        showClass: {
+          popup: 'animate__animated animate__fadeInDown'
+        },
+        hideClass: {
+          popup: 'animate__animated animate__fadeOutUp'
+        },
+        timer: 2000
+    })
 }
