@@ -165,18 +165,36 @@ let MAX_TIMESTAMP = 8640000000000000;
 
  })
 
- myShedule.addEventListener("submit",(e)=>{
+ myShedule.addEventListener("submit",async(e)=>{
   e.preventDefault()
   let obj=[]
-  let randomDateSelected=document.querySelectorAll(".randomDateSelected")
+  let randomDateSelectedStart=document.querySelectorAll(".randomDateSelectedStart")
+  let randomDateSelectedEnd=document.querySelectorAll(".randomDateSelectedEnd")
   let randomSTimeSelected=document.querySelectorAll(".randomSTimeSelected")
   let randomETimeSelected=document.querySelectorAll(".randomETimeSelected")
   
 
-  for(let i=0;i<randomDateSelected.length;i++){
-      obj.push({date:randomDateSelected[i].value,startTime:randomSTimeSelected[i].value,endTime:randomETimeSelected[i].value})
-    if(i==randomDateSelected.length-1){
-      console.log(obj)
+  for(let i=0;i<randomDateSelectedStart.length;i++){
+    
+      obj.push({fullStartDate:new Date(randomDateSelectedStart[i].value+' '+randomSTimeSelected[i].value),fullEndDate:new Date(randomDateSelectedEnd[i].value+' '+randomETimeSelected[i].value)})
+
+      if(i==randomDateSelectedStart.length-1){
+          console.log(obj)
+        if(await checkIfDateIsInCorrectOrder(obj)){
+
+          if(await checkIfDateAreApart(obj)){
+
+            $('#addGuardDateSchedule2').modal('show');
+          }
+          else{
+            show_warming_no_guard("SCHEDULE MUST BE 60 MINUTE APART")
+          }
+
+          // $('#addGuardDateSchedule1').modal('show');
+        }
+        else{
+              
+        }
     }
   }
 
@@ -199,8 +217,7 @@ let MAX_TIMESTAMP = 8640000000000000;
  })
 
 
- //SCHEDULE  FOR SINGLE SHIFT
- 
+ //NEW SCHEDULE  FOR SINGLE SHIFT
  myShedule3.addEventListener("submit",async (e)=>{
   e.preventDefault()
 
@@ -210,18 +227,36 @@ let MAX_TIMESTAMP = 8640000000000000;
   let mySingleStartTime=document.getElementById("mySingleStartTime").value
   let mySingleEndTime=document.getElementById("mySingleEndTime").value
   obj.push({fullStartDate:new Date(mySingleStartDate+' '+mySingleStartTime),fullEndDate:new Date(mySingleEndDate+' '+mySingleEndTime)})
+  
   if(await checkIfDateIsInCorrectOrder(obj)){
-    console.log("we are good to go")
+    
     $('#addGuardDateSchedule1').modal('show');
-
+    
   }
   else{
-    console.log("wrong wrong wrong wrong ")
 
   }
 })
+ //END SCHEDULE  FOR SINGLE SHIFT
 
 
+
+//NEW CHECK IF FORM IS FILL OR NOT FOR RANDOM SCHEDULE ENTERING
+function checkIfFormIsEmptyRandom(){
+  
+  let randomDateSelectedStart=document.querySelectorAll(".randomDateSelectedStart")
+
+  if(randomDateSelectedStart.length==0){
+    show_warming_no_guard("ENTER SCHEDULE")
+  }
+  else{
+
+  }
+}
+//END CHECK IF FORM IS FILL OR NOT FOR RANDOM SCHEDULE ENTERING
+
+
+//NEW CHECK IF FORM IS FILL OR NOT FOR SINGLE SCHEDULE ENTERING
 function checkIfFormIsEmpty(){
   
   let mySingleStartDate=document.getElementById("mySingleStartDate").value
@@ -231,17 +266,17 @@ function checkIfFormIsEmpty(){
 
 
   if(!mySingleStartDate||!mySingleEndDate||!mySingleStartTime||!mySingleEndTime){
-    show_warming_no_guard()
+    show_warming_no_guard("ENTER SCHEDULE")
   }
   else{
 
-    console.log("kjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj")
   }
 }
+//END CHECK IF FORM IS FILL OR NOT FOR SINGLE SCHEDULE ENTERING
 
 
 
-
+//NEW CHECK IF THE START DATE AND END DATE ARE IN CORRECT ORDER
 async function checkIfDateIsInCorrectOrder(val){
 
   for(let i=0; i<val.length;i++){
@@ -250,7 +285,7 @@ async function checkIfDateIsInCorrectOrder(val){
 
     }
     else{
-      console.log("yeah")
+      show_warming_no_guard("START DATE MUST COME BEFORE END DATE")
       return false
     }
 
@@ -259,7 +294,7 @@ async function checkIfDateIsInCorrectOrder(val){
     }
   }
 }
-
+//END CHECK IF THE START DATE AND END DATE ARE IN CORRECT ORDER
 
 
 
@@ -292,18 +327,25 @@ async function checkIfDateIsInCorrectOrder(val){
  
 function apply(){
   let randomDate=document.getElementById("randomDate").value
-  randomDate=randomDate.split(",")
-  function sortByDate(a, b) {
-    if (a < b) {
-        return 1;
+
+  if(randomDate){
+    randomDate=randomDate.split(",")
+    function sortByDate(a, b) {
+      if (a < b) {
+          return 1;
+      }
+      if (a > b) {
+          return -1;
+      }
+      return 0;
     }
-    if (a > b) {
-        return -1;
-    }
-    return 0;
+    const sorted = randomDate.sort(sortByDate);
+    displayConfigTime(sorted)
   }
-  const sorted = randomDate.sort(sortByDate);
-  displayConfigTime(sorted)
+  else{
+    show_warming_no_guard("ENTER SCHEDULE")
+  }
+
 }
 
 function applyDateRange(){
@@ -313,8 +355,19 @@ function applyDateRange(){
   if(endDate){
     datepickerFunc(endDate,startDate)
   }
+
+
+  $("#applyDateRestrictionContent").text("APPLIED");
+  $('#applyDateRestriction').modal('show');
+
+  setTimeout(() => {
+    $('#applyDateRestriction').modal('hide');
+}, 1000);
+
 }
 
+
+//NEW DISPLAY DATE AND TIME FOR PREVIEW ON RANDOM SELECT
 
 function displayConfigTime(val1){
    let DomObj=''
@@ -325,12 +378,21 @@ function displayConfigTime(val1){
    for(let i=0;i<val1.length;i++){
 
 
-    DomObj+=`<div class="col-12">
-        <div class="form-group">
-          <label>Date </label>
-          <input class="form-control randomDateSelected" value=${val1[i]} type="date" required>
-        </div>
+    DomObj+=`
+        <div class="col-12 col-sm-6">
+          <div class="form-group">
+            <label>Start date </label>
+            <input class="form-control randomDateSelectedStart" value=${val1[i]} type="date" required>
+          </div>
         </div> 
+
+        <div class="col-12 col-sm-6">
+          <div class="form-group">
+            <label>End date </label>
+            <input class="form-control randomDateSelectedEnd" value=${val1[i]} type="date" required>
+          </div>
+        </div> 
+
         <div class="col-12 col-sm-6">
           <div class="form-group">
             <label>Start time</label>
@@ -342,7 +404,13 @@ function displayConfigTime(val1){
             <label>End time</label>
             <input class="form-control randomETimeSelected"  value=${eTime}  type="time" required>
           </div>
-        </div> `
+        </div> 
+        <div class="col-12">
+        SCHEDULE(${i+1})
+        <hr/> 
+        </div> 
+        
+        `
         if(i==val1.length-1){
           if(val1!=''){
             $("#displaySelectedDateRandom").empty();
@@ -354,6 +422,10 @@ function displayConfigTime(val1){
    }
   
 }
+//END DISPLAY DATE AND TIME FOR PREVIEW ON RANDOM SELECT
+
+
+
 
 /*for range date selection */
 
@@ -742,19 +814,59 @@ createTask.addEventListener("submit",(e)=>{
 })
 
 
+//NEW FOR POSTING SCHEDULE
+function postSchedule(obj){
+
+  $.ajax({
+    type: "post", url:`${domain}/api/v1/job/add_shedule_date_staff`,
+    headers: {
+      "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+    },
+    data: {
+      date_time_staff_shedule:obj
+    },
+    success: function (data, text) {
+
+        console.log(data)
+        console.log(text)
+
+        showModal("REGISTERATION SUCCESSFULL")
+        setTimeout(() => {
+                hideModal()
+        }, 3000);
+
+        $("#signInButton").css("display","block")
+        $("#loadingButton").css("display","none")
+        clearField()
+    },
+    error: function (request, status, error) {
+
+        $("#signInButton").css("display","block")
+        $("#loadingButton").css("display","none")
+        console.log(request)
+        console.log(status)
+        console.log(error)
+        console.log(request.responseJSON.status)
+
+      analyzeError(request)
+     
+    }
+  });
+}
+//NEW END
 
 
 
+
+
+
+//NEW FOR HANDLING ONE SCHEDULE
 function addGuardDateShedule1(){
-
-
-
 
   let mySingleStartDate=document.getElementById("mySingleStartDate").value
   let mySingleEndDate=document.getElementById("mySingleEndDate").value
   let mySingleStartTime=document.getElementById("mySingleStartTime").value
   let mySingleEndTime=document.getElementById("mySingleEndTime").value
-  let addGuardDateShedule1V=document.getElementById("addGuardDateShedule1V")
   let detail=[]
   let mySchedule=[]
   //let detail=[]
@@ -762,203 +874,95 @@ function addGuardDateShedule1(){
     return $(this).data("name");
   }).get();
 
-  console.log(guard_id_array);
-
-
-
-
-
-
-  mySchedule.push({check_in_date:mySingleStartDate+' '+mySingleStartTime,
-                  check_out_date:mySingleEndDate+' '+mySingleEndTime,
-                  start_time:mySingleStartTime,
-                  end_time:mySingleEndTime,
+  mySchedule.push({check_in_date:moment(new Date(mySingleStartDate+' '+mySingleStartTime)).format("YYYY-MM-DD hh:mm:ss a"),
+                  check_out_date:moment(new Date(mySingleEndDate+' '+mySingleEndTime )).format("YYYY-MM-DD hh:mm:ss a"),
+                  start_time:moment(new Date(mySingleStartDate+' '+mySingleStartTime)).format("hh:mm:ss a"),
+                  end_time:moment(new Date(mySingleEndDate+' '+mySingleEndTime )).format("hh:mm:ss a"),
                   status_per_staff:"PENDING",
                   job_id:4,
                   schedule_length:"LIMITED",
                 })
 
   
-
   for(let i=0; i <guard_id_array.length;i++){
  
     for(let j=0; j <mySchedule.length;j++){
       let obj={}
 
+
       obj["guard_id"]=guard_id_array[i]
-      obj["check_in_date"]=mySchedule[i].check_in_date
-      obj["check_out_date"]=mySchedule[i]["check_out_date"]
-      obj["start_time"]=mySchedule[i]["start_time"]
-      obj["end_time"]=mySchedule[i]["end_time"]
-      obj["status_per_staff"]=mySchedule[i]["status_per_staff"]
-      obj["job_id"]=mySchedule[i]["job_id"]
-      obj["schedule_length"]=mySchedule[i]["schedule_length"]
+      obj["check_in_date"]=mySchedule[j]["check_in_date"]
+      obj["check_out_date"]=mySchedule[j]["check_out_date"]
+      obj["start_time"]=mySchedule[j]["start_time"]
+      obj["end_time"]=mySchedule[j]["end_time"]
+      obj["status_per_staff"]=mySchedule[j]["status_per_staff"]
+      obj["job_id"]=mySchedule[j]["job_id"]
+      obj["schedule_length"]=mySchedule[j]["schedule_length"]
       
       detail.push(obj)
     }
-
     if(i==guard_id_array.length-1){
       console.log(detail)
     }
   }
-
-
-
-
-
-
-
-
-
-
-
-
-return
-  let obj=[]
-  let objGuard=[]
-  let mySingleDate=document.getElementById("mySingleDate").value
- // let mySingleStartTime=document.getElementById("mySingleStartTime").value
- // let mySingleEndTime=document.getElementById("mySingleEndTime").value
-  //let addGuardDateShedule1V=document.getElementById("addGuardDateShedule1V")
-  let myjobType=document.getElementById("myjobType").value
-  obj.push({date:mySingleDate,startTime:mySingleStartTime,endTime:mySingleEndTime})
- 
-  for (let i=0;i<addGuardDateShedule1V.length;i++){
-     if (addGuardDateShedule1V[i].selected)
-     {
-      objGuard.push(addGuardDateShedule1V[i].value);
-     }
-  }
-
-
-
-
-  const dummy1={name:"chi",dateShedule:[{},{}],instructionShedule:[{},{}]
-  ,taskShedule:[{},{}]}
- 
-  let test1JobU=JSON.parse(localStorage.getItem("job")||"[]")
-  if(test1JobU.length==0){
-      const arr=[]
-      for(let i=0;i<objGuard.length;i++){
-        arr.push({name:objGuard[i],dateShedule:obj,type:myjobType})
-        if(i==objGuard.length-1){
-          localStorage.setItem("job",JSON.stringify(arr))
-        }     
-      } 
-  }
-  else{
-   let conter=objGuard.length
-   for(let i=0;i<conter;i++){   
-     let myGuard=objGuard[i];
-     let conter2=test1JobU.length
-     for(let j=0;j<conter2;j++){
-      
-      console.log(myGuard==test1JobU[j].name)
-       if(myGuard==test1JobU[j].name){
-       
-         let myNewShedule=test1JobU[j].dateShedule?test1JobU[j].dateShedule.concat(obj):obj;
-         
-         let myPromise = new Promise(function(myResolve, myReject) {
-           myResolve(arrangeDate(myNewShedule));
-         });
-         myPromise.then(
-           function(value) {
-              test1JobU[j].dateShedule=value
-               localStorage.setItem("job",JSON.stringify(test1JobU))
-             }
-         )
-         break
-       }
-       if(j==conter2-1){
-         test1JobU.push({name:myGuard, dateShedule:obj})
-         localStorage.setItem("job",JSON.stringify(test1JobU))
-         
-       }
- 
-     } 
-    
-   } 
- 
- 
-  }
-  console.log(objGuard)
-  console.log(obj)
 }
+//END FOR HANDLING ONE SCHEDULE
 
 function addGuardDateShedule2(){
-  let obj=[]
-  let objGuard=[]
-
-  let randomDateSelected=document.querySelectorAll(".randomDateSelected")
+ 
+  let randomDateSelectedStart=document.querySelectorAll(".randomDateSelectedStart")
+  let randomDateSelectedEnd=document.querySelectorAll(".randomDateSelectedEnd")
   let randomSTimeSelected=document.querySelectorAll(".randomSTimeSelected")
   let randomETimeSelected=document.querySelectorAll(".randomETimeSelected")
-  let addGuardDateShedule2V=document.getElementById("addGuardDateShedule2V")
-  let myjobType=document.getElementById("myjobType").value
+  let detail=[]
+  let mySchedule=[]
+  let guard_id_array = $("#addGuardDateShedule2V option:selected").map(function() {
+    return $(this).data("name");
+  }).get();
 
 
-  for(let i=0;i<randomDateSelected.length;i++){
-      obj.push({date:randomDateSelected[i].value,startTime:randomSTimeSelected[i].value,endTime:randomETimeSelected[i].value})
-    if(i==randomDateSelected.length-1){
-      console.log(obj)
-    }
+  for(let i=0;i<randomDateSelectedStart.length;i++){
+    
+    mySchedule.push({check_in_date: moment(new Date(randomDateSelectedStart[i].value+' '+randomSTimeSelected[i].value)).format("YYYY-MM-DD hh:mm:ss a"),
+                     check_out_date:  moment( new Date(randomDateSelectedEnd[i].value+' '+randomETimeSelected[i].value)).format("YYYY-MM-DD hh:mm:ss a"),
+                     start_time:  moment(new Date(randomDateSelectedStart[i].value+' '+randomSTimeSelected[i].value)).format("hh:mm:ss a"),
+                     end_time: moment(new Date(randomDateSelectedEnd[i].value+' '+randomETimeSelected[i].value)).format("hh:mm:ss a"),
+                     status_per_staff:"PENDING",
+                     job_id:4,
+                     schedule_length:"LIMITED"
+                     })
+
+      if(i==randomDateSelectedStart.length-1){
+        for(let k=0; k <guard_id_array.length;k++){
+ 
+          for(let j=0; j <mySchedule.length;j++){
+            let obj={}
+      
+            console.log(mySchedule)
+            console.log(mySchedule[j])
+      
+            obj["guard_id"]=guard_id_array[k]
+            obj["check_in_date"]=mySchedule[j].check_in_date
+            obj["check_out_date"]=mySchedule[j]["check_out_date"]
+            obj["start_time"]=mySchedule[j]["start_time"]
+            obj["end_time"]=mySchedule[j]["end_time"]
+            obj["status_per_staff"]=mySchedule[j]["status_per_staff"]
+            obj["job_id"]=mySchedule[j]["job_id"]
+            obj["schedule_length"]=mySchedule[j]["schedule_length"]
+            
+            detail.push(obj)
+          }
+          if(i==guard_id_array.length-1){
+            console.log(detail)
+          }
+        }
+      }
   }
 
-  for (let i=0;i<addGuardDateShedule2V.length;i++){
-    if (addGuardDateShedule2V[i].selected)
-    {
-     objGuard.push(addGuardDateShedule2V[i].value);
-    }
- }
 
 
- let test1JobU=JSON.parse(localStorage.getItem("job")||"[]")
- if(test1JobU.length==0){
-    const arr=[]
-      for(let i=0;i<objGuard.length;i++){
-        arr.push({name:objGuard[i],dateShedule:obj,type:myjobType})
-        if(i==objGuard.length-1){
-          localStorage.setItem("job",JSON.stringify(arr))
-        }     
-      } 
- }
- else{
-  let conter=objGuard.length
-  for(let i=0;i<conter;i++){   
-    let myGuard=objGuard[i];
-    let conter2=test1JobU.length
-    for(let j=0;j<conter2;j++){
-     
-      console.log(myGuard==test1JobU[j].name)
-      if(myGuard==test1JobU[j].name){
-      
-        let myNewShedule=test1JobU[j].dateShedule?test1JobU[j].dateShedule.concat(obj):obj;
-        
-        let myPromise = new Promise(function(myResolve, myReject) {
-          myResolve(arrangeDate(myNewShedule));
-        });
-        myPromise.then(
-          function(value) {
-             test1JobU[j].dateShedule=value
-              localStorage.setItem("job",JSON.stringify(test1JobU))
-            }
-        )
-        break
-      }
-      if(j==conter2-1){
-        test1JobU.push({name:myGuard, dateShedule:obj})
-        localStorage.setItem("job",JSON.stringify(test1JobU))
-        
-      }
-
-    } 
-   
-  } 
 
 
- }
-
- console.log(objGuard)
- console.log(obj)
 
 }
 
@@ -1320,6 +1324,45 @@ function removeDateTimeDuplicate2(val1){
  return val1
  
 }
+
+
+//NEW FUNCTION TO CHECK ID DATE ARE 60MIN APART FROM EACH OTHER
+async function checkIfDateAreApart(val){
+
+    for(let i=0;i<val.length ;i++){
+
+      for(let j=0;j<val.length;j++){
+
+        if(i==j){
+          continue
+        }
+        if(moment(val[i].fullStartDate).isBefore(val[j].fullStartDate)){
+            if(moment(val[i].fullEndDate).add(60, 'minutes').isBefore(val[j].fullStartDate)){
+              
+            }
+            else{
+      
+              return false
+            }
+        }
+        else if(moment(val[i].fullStartDate).subtract(60, 'minutes').isAfter(val[j].fullEndDate)){
+
+        }
+        else{
+
+          console.log("second check  second check")
+          console.log(i , j)
+
+          return false
+        }
+      }
+      if(i==val.length-1){
+          return true
+      }
+    }
+}
+//END FUNCTION TO CHECK ID DATE ARE 60MIN APART FROM EACH OTHER
+
 function removeDateTimeDuplicate3(val1){
   let store={}
   

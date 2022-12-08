@@ -79,35 +79,7 @@ formAdminReg.addEventListener("submit",(e)=>{
                 console.log(error)
                 console.log(request.responseJSON.status)
 
-                if(request.responseJSON.status=="conflict-error"){
-                    console.log(request.responseJSON.message)
-                    showModalError(request.responseJSON.message)
-                    setTimeout(() => {
-                        hideModalError()
-                    }, 3000);
-                }
-                else if(request.responseJSON.status=="validation-error"){
-                    console.log(request.responseJSON.errors.message)
-                    showModalError(request.responseJSON.errors[0].message)
-                    setTimeout(() => {
-                        hideModalError()
-                    }, 3000);
-                }
-                else if(request.responseJSON.status=="server-error"){
-                    console.log(request.responseJSON.message)
-                    showModalError(request.responseJSON.message)
-                    setTimeout(() => {
-                        hideModalError()
-                    }, 3000);
-                }
-                else if(request.responseJSON.status=="bad-request-error"){
-                  console.log(request.responseJSON.message)
-                  showModalError(request.responseJSON.message)
-                  setTimeout(() => {
-                      hideModalError()
-                  }, 3000);
-                  logUserOut()
-              }
+              analyzeError(request)
              
             }
           });
@@ -294,30 +266,9 @@ $(document).ready(function(){
         */
             },
             error: function (request, status, error) {
-
                 console.log(request)
-
-                if(request.responseJSON.status=="conflict-error"){
-                    console.log(request.responseJSON.message)
-                    showModalError(request.responseJSON.message)
-                    setTimeout(() => {
-                        hideModalError()
-                    }, 3000);
-                }
-                else if(request.responseJSON.status=="validation-error"){
-                    console.log(request.responseJSON.errors.message)
-                    showModalError(request.responseJSON.errors[0].message)
-                    setTimeout(() => {
-                        hideModalError()
-                    }, 3000);
-                }
-                else if(request.responseJSON.status=="server-error"){
-                    console.log(request.responseJSON.message)
-                    showModalError(request.responseJSON.message)
-                    setTimeout(() => {
-                        hideModalError()
-                    }, 3000);
-                }
+                analyzeError(request)
+             
              
             }
           });

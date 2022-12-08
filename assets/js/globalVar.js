@@ -121,6 +121,7 @@ function analyzeError(request){
         setTimeout(() => {
             hideModalError()
         }, alertLifeSpan);
+        logUserOut()
     }
     else if(request.responseJSON.status=="notFound-error"){
         console.log(request.responseJSON.message)
@@ -132,10 +133,10 @@ function analyzeError(request){
 }
 
 
-function show_warming_no_guard(){
+function show_warming_no_guard(val){
 
     $('#no_guard').modal('toggle');
-    $("#no_guard_content").text("ENTER SCHEDULE");
+    $("#no_guard_content").text(val);
 
 
     setTimeout(() => {

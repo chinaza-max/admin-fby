@@ -318,6 +318,7 @@
 
             <div class="card">
               <div class="card-header">
+                
                 Job
               </div>
               <div class="card-body">
@@ -1334,8 +1335,8 @@
 
         <div class="modal-header">
           <h5 class="modal-title mx-auto">
-            <marquee behavior="" direction=""></marquee>
             <p class="text-center ">SCHEDULE DATE, INSTRUCTION and TASK</p>
+            
           </h5>
         </div>
         <hr />
@@ -1354,7 +1355,7 @@
             <form id="Typedateselection">
               <label>Type of date selection</label>
               <select class="selectpicker mb-3" id="dateSelection">
-                <option value="Single date and time">Single date and time</option>
+                <option value="Single date and time">Single Schedule</option>
                 <option value="Multiple random pick">Multiple random pick</option>
                 <option value="Range selection">Range selection</option>
               </select>
@@ -1404,9 +1405,11 @@
             </div>
 
             <div class="alert alert-dark outline" role="alert" id="randomPickedDate">
+              <marquee width="100%" direction="left" height="20px">
+              THIS SECTION HELP TO RESTRICT THE DATE PICKER AND INITIALIZE TIME AFTER YOU APPLY
+                </marquee>
               <form id="startEndDateForm">
                 <div class="form-group">
-
                   <div class="row">
                     <div class="col-12 col-md-6">
                       <div class="form-group">
@@ -1459,13 +1462,21 @@
                 <div class="modal-footer d-block">
                   <div class="actions justify-content-between">
                     <button class="btn btn-primary">assign all</button>
-                    <button class="btn btn-primary" type="button" data-bs-toggle="modal"
-                      data-bs-target="#addGuardDateSchedule2">assign to</button>
+                    <button class="btn btn-primary" onclick="checkIfFormIsEmptyRandom()">assign to</button>
                   </div>
                 </div>
               </form>
 
             </div>
+
+
+
+
+
+
+
+
+
 
             <div class="alert alert-dark outline" role="alert" id="rangePickedDate">
               <form id="startEndDateFormRange">
@@ -1739,6 +1750,7 @@
 
                 </form>
               </div>
+
             </div>
             <div>
             </div>
@@ -1772,22 +1784,12 @@
                     <label>Add multiple or single Guard</label>
                     <select class="selectpicker" data-live-search="true" id="addGuardDateShedule2V" multiple>
 
-                      <option data-tokens="mustard">guard2</option>
-                      <option data-tokens="frosting">guard3</option>
-                      <option data-tokens="ketchup mustard">guard1</option>
-                      <option data-tokens="mustard">guard2</option>
-                      <option data-tokens="frosting">guard3</option>
-                      <option data-tokens="mustard">guard2</option>
-                      <option data-tokens="frosting">guard3</option>
-                      <option data-tokens="ketchup mustard">guard1</option>
-                      <option data-tokens="mustard">guard2</option>
-                      <option data-tokens="frosting">guard3</option>
-                      <option data-tokens="ketchup mustard">guard1</option>
-                      <option data-tokens="mustard">guard2</option>
-                      <option data-tokens="frosting">guard3</option>
-                      <option data-tokens="ketchup mustard">guard1</option>
-                      <option data-tokens="mustard">guard2</option>
-                      <option data-tokens="frosting">guard3</option>
+                       <option data-name="1">guard1</option>
+                      <option data-name="2">guard2</option>
+                      <option data-name="5">guard3</option>
+                      <option data-name="6">guard4</option>
+                      <option data-name="7">guard5</option>
+                      <option data-name="8">guard6</option>
 
                     </select>
                   </div>
@@ -2122,6 +2124,16 @@
     </div>
   </div>
 
+
+  <div class="modal fade" id="applyDateRestriction" style="z-index:10000;" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body" id="applyDateRestrictionContent" style="color:green ;text-align: center;">
+         
+        </div>
+      </div>
+    </div>
+  </div>
 
   
 
