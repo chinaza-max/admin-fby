@@ -148,8 +148,12 @@ let formforGettingTask=document.getElementById("formforGettingTask")
 let formforGettingInstructionInfo=document.getElementById("formforGettingInstructionInfo")
 let startEndDateForm=document.getElementById("startEndDateForm")
 let startEndDateFormRange=document.getElementById("startEndDateFormRange")
+
+//RANDOM SCHEDULE
 let myShedule=document.getElementById("myShedule")
+//RANGE SCHEDULE
 let myShedule2=document.getElementById("myShedule2")
+//SINGLE SCHEDULE
 let myShedule3=document.getElementById("myShedule3")
 
 
@@ -185,6 +189,7 @@ let MAX_TIMESTAMP = 8640000000000000;
         if(await checkIfDateIsInCorrectOrder(obj)){
 
           if(await checkIfDateAreApart(obj)){
+            getAvailableGuard("addGuardDateShedule2V", "selectpickerRandom")
 
             $('#addGuardDateSchedule2').modal('show');
           }
@@ -223,7 +228,7 @@ let MAX_TIMESTAMP = 8640000000000000;
         if(await checkIfDateIsInCorrectOrder(obj)){
 
           if(await checkIfDateAreApart(obj)){
-
+            getAvailableGuard("addGuardDateShedule3V","selectpickerRange")
             $('#addGuardDateSchedule3').modal('show');
           }
           else{
@@ -254,6 +259,8 @@ let MAX_TIMESTAMP = 8640000000000000;
   obj.push({fullStartDate:new Date(mySingleStartDate+' '+mySingleStartTime),fullEndDate:new Date(mySingleEndDate+' '+mySingleEndTime)})
   
   if(await checkIfDateIsInCorrectOrder(obj)){
+
+    getAvailableGuard("addGuardDateShedule1V","selectpickerSingleSchedule")
     
     $('#addGuardDateSchedule1').modal('show');
     
@@ -265,6 +272,65 @@ let MAX_TIMESTAMP = 8640000000000000;
  //END SCHEDULE  FOR SINGLE SHIFT
 
 
+
+ //START GET AVAILABLE GUARD 
+
+function getAvailableGuard(modalId,picker){
+  $.ajax({
+    type: "post", url:`${domain}/api/v1/job/getGuard`,
+    data: {
+      job_id:job_id_for_schedule,
+    },
+    success: function (data, text) {
+
+        console.log(data.data)
+  
+      
+          displayGuard(data.data, modalId,picker)
+        setTimeout(() => {
+                hideModal()
+        }, 3000);
+
+    },
+    error: function (request, status, error) {
+
+        console.log(request)
+        console.log(status)
+        console.log(error)
+        console.log(request.responseJSON.status)
+        analyzeError(request)
+     
+    }
+  });
+
+}
+//START GET AVAILABLE GUARD 
+
+function displayGuard(val, modalId,picker){
+    let data=''
+
+   
+      for(let i=0;i<val.length;i++){
+          data+=`
+          <option data-name=${val[i].guard_id}>${val[i].full_name}</option>
+          `
+          if(i==val.length-1){
+
+            console.log(`#${modalId}`)
+            $(`#${modalId}`).children().remove();
+            $(`#${modalId}`).append(data)
+            $('.selectpicker').selectpicker('refresh')
+
+          }
+      }
+      if(val.length==0){
+        $(`#${modalId}`).children().remove();
+        $(`.${picker}`).selectpicker('refresh')
+
+      }
+
+
+}
 
 
 //NEW CHECK IF FORM IS FILL OR NOT FOR RANDOM SCHEDULE ENTERING
@@ -339,8 +405,10 @@ async function checkIfDateIsInCorrectOrder(val){
 }
 //END CHECK IF THE START DATE AND END DATE ARE IN CORRECT ORDER
 
-$('#addGuardDateSchedule1').on('hidden.bs.modal', function () {
-  //$("#schedule").reset()
+
+
+$("#addGuardDateSchedule2").on('hidden.bs.modal', function() {
+
 
   $("#schedule").modal('hide');
 
@@ -349,15 +417,12 @@ $('#addGuardDateSchedule1').on('hidden.bs.modal', function () {
 
   },500);
 
+
 })
 
-$("#addGuardDateSchedule2").on("close", function() {
-  console.log("reset reset")
-  $("#schedule").resetDefault()
-})
+$("#addGuardDateSchedule3").on('hidden.bs.modal', function() {
 
-$("#addGuardDateSchedule3").on("close", function() {
- 
+
   $("#schedule").modal('hide');
 
   setTimeout(() => {
@@ -366,14 +431,17 @@ $("#addGuardDateSchedule3").on("close", function() {
   },500);
 })
 
-$("#addGuardDateSchedule1").on("close", function() {
- 
+$("#addGuardDateSchedule1").on('hidden.bs.modal', function() {
+
+  
   $("#schedule").modal('hide');
 
   setTimeout(() => {
     $("#schedule").modal('show');
 
   },500);
+  
+
 })
 
 
@@ -415,7 +483,7 @@ function apply(){
       return 0;
     }
     const sorted = randomDate.sort(sortByDate);
-    displayConfigTime(sorted)
+    displayConfigTime(sorted.reverse())
   }
   else{
     show_warming_no_guard("ENTER SCHEDULE")
@@ -619,7 +687,12 @@ function displayConfigTime2(val1){
            <label>End time</label>
            <input class="form-control rangeETimeSelected"  value=${eTime}  type="time" required>
          </div>
-       </div> `
+       </div> 
+       
+       <div class="col-12">
+        SCHEDULE(${i+1})
+        <hr/> 
+        </div> `
        if(i==val1.length-1){
          if(val1!=''){
            $("#displaySelectedDateRange").empty();
@@ -920,6 +993,7 @@ function update_job_id_for_schedule(id){
 }
 
 function postSchedule(obj){
+  console.log("kkkkkkkkkkkkkkkkkkkkkkkk")
 
   $.ajax({
     type: "post", url:`${domain}/api/v1/job/add_shedule_date_staff`,
@@ -927,7 +1001,7 @@ function postSchedule(obj){
       "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
     },
     data: {
-      date_time_staff_shedule:obj
+      date_time_staff_shedule:JSON.stringify(obj)
     },
     success: function (data, text) {
 
@@ -939,18 +1013,28 @@ function postSchedule(obj){
                 hideModal()
         }, 3000);
 
-        $("#signInButton").css("display","block")
-        $("#loadingButton").css("display","none")
-        clearField()
     },
     error: function (request, status, error) {
 
-        $("#signInButton").css("display","block")
-        $("#loadingButton").css("display","none")
+ 
         console.log(request)
         console.log(status)
         console.log(error)
         console.log(request.responseJSON.status)
+
+
+        let obj=JSON.parse(request.responseJSON.status)
+
+        console.log(obj.TimeError)
+        console.log(obj.TimeError.message)
+
+
+        Swal.fire({
+          icon: 'error',
+          title:obj.message,
+          text: obj.solution,
+          footer: '<a href="">Why do I have this issue?</a>'
+        })
 
       analyzeError(request)
      
@@ -1007,6 +1091,7 @@ function addGuardDateShedule1(){
     }
     if(i==guard_id_array.length-1){
       console.log(detail)
+      postSchedule(detail)
     }
   }
 }
@@ -1056,6 +1141,7 @@ function addGuardDateShedule2(){
           }
           if(k==guard_id_array.length-1){
             console.log(detail)
+            postSchedule(detail)
           }
         }
       }
@@ -1109,6 +1195,7 @@ function addGuardDateShedule3(){
           }
           if(k==guard_id_array.length-1){
             console.log(detail)
+            postSchedule(detail)
           }
         }
       }
@@ -1407,10 +1494,12 @@ async function checkIfDateAreApart(val){
         }
         if(moment(val[i].fullStartDate).isBefore(val[j].fullStartDate)){
             if(moment(val[i].fullEndDate).add(60, 'minutes').isBefore(val[j].fullStartDate)){
+
               
             }
             else{
-      
+              schedule1=i+1
+              schedule2=j+1
               return false
             }
         }
@@ -1418,10 +1507,8 @@ async function checkIfDateAreApart(val){
 
         }
         else{
-
-          console.log("second check  second check")
-          console.log(i , j)
-
+          schedule1=i+1
+          schedule2=j+1
           return false
         }
       }

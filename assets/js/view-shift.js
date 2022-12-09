@@ -25,11 +25,6 @@ $.fn.dataTable.ext.search.push(
 
     function( settings, data, dataIndex ) {
 
-      console.log("ooooooooooooooooooooooooooooooooooooooo")
-
-      console.log(dateSearch)
-      console.log("ooooooooooooooooooooooooooooooooooooooo")
-
         if(dateSearch){
   
           var min = minDate.val();
@@ -145,104 +140,9 @@ $.fn.dataTable.ext.search.push(
 )
 
 
-/*
-$.fn.dataTable.ext.search.push(
-    function( settings, data, dataIndex ) {
-        
-        if(userSearch){
-          var customerNameVT = data[1];
-          var SiteVT = data[2] ;
-          var staffNameVT = data[0];
-          
-  
-          if ((customerName ==='')&&(Site ==='' )&&(staffName==='')) {
-  
-              if(data[16]=="false"&&!initiallze){
-                calPayPerSchedule(data[10] ,data[12])
-              }
-            
-              
-              return true;
-          }
-          else if((customerName===customerNameVT)&&(Site==='')&&(staffName==='')){
-              console.log("2")
-  
-              if(data[16]=="false"&&!initiallze){
-                calPayPerSchedule(data[10] ,data[12])
-               }
-              
-              return true
-          }
-          else if((customerName===customerNameVT)&&(Site===SiteVT)&&(staffName==='')){
-              console.log("3")
-             
-              if(data[16]=="false" &&!initiallze){
-                calPayPerSchedule(data[10] ,data[12])
-              }
-              return true
-          }
-          else if((customerName==='')&&(Site===SiteVT)&&(staffName==='')){
-              console.log("4")
-  
-              if(data[16]=="false" &&!initiallze){
-                calPayPerSchedule(data[10] ,data[12])
-              }
-              return true
-          }
-          else if((customerName==='')&&(Site===SiteVT)&&(staffName===staffNameVT)){
-              
-            if(data[16]=="false" &&!initiallze){ 
-              calPayPerSchedule(data[10] ,data[12])
-            }
-              return true
-          }
-          else if((customerName==='')&&(Site==='')&&(staffName===staffNameVT)){
-              
-            if(data[16]=="false"&&!initiallze){
-              calPayPerSchedule(data[10] ,data[12])
-            }
-              return true
-          }
-          else if((customerName===customerNameVT)&&(Site==='')&&(staffName===staffNameVT)){
-              
-            if(data[16]=="false"&&!initiallze){  
-              calPayPerSchedule(data[10] ,data[12])
-            }
-              return true
-          }
-          else if((customerName===customerNameVT)&&(Site===SiteVT)&&(staffName===staffNameVT)){
-             
-            if(data[16]=="false"&&!initiallze){
-              calPayPerSchedule(data[10] ,data[12])
-             }
-              return true
-          }
-          
-          //calPayOff(totalHours ,amountPending)
-  
-          return false;
-        }
-       
-    }
-);
-
-*/
-
-
-
-
-
-
-
-
-
 
 function calPayPerSchedule(money ,hour){
 
-
-
-
-  console.log(hour)
 
  totalHours+=Number(hour)
  
@@ -279,6 +179,7 @@ $(document).ready(function() {
             { "width": "200px", "targets": [8] },             
             { "width": "20px", "targets": [10,11]}
           ] ,
+         
           columns:[
             { data: "name" },
             { data: "customer" },
@@ -290,10 +191,19 @@ $(document).ready(function() {
             { data: "hours"},
             { data: "check_in" },
             { data: "check_out"},
-            { data: "guard_charge"},
-            { data: "client_charge" },
+            { data: "guard_charge" ,
+            fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
+                $(nTd).text('$'+sData);
+            }},
+            { data: "client_charge" ,
+            fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
+                $(nTd).text('$'+sData);
+            }},
             { data: "hours_worked" },
-            { data: "earned" },
+            { data: "earned" ,
+            fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
+                $(nTd).text('$'+sData);
+            }},
             { data: "job_status" },
             { data: "description" },
             { data: "settlement_status" },
@@ -358,11 +268,13 @@ $(document).ready(function() {
      
     setTimeout(() => {
 
-
-    var column1 = table.column(14);
+    var column1 = table.column(15);
     column1.visible(!column1.visible());
-    var column2 = table.column(15);
+    var column2 = table.column(16);
     column2.visible(!column2.visible());
+    var column3 = table.column(14);
+    column3.visible(!column3.visible());
+    
     //var column3 = table.column(16);
     //column3.visible(!column3.visible());
         /*

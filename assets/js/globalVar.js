@@ -133,10 +133,17 @@ function analyzeError(request){
 }
 
 
+
+
+
+//THIS SHOWS THE TWO SCHEDULE CLASHING 
+let schedule1=0
+let schedule2=0
 function show_warming_no_guard(val){
 
     Swal.fire({
         title:val,
+        text:`check Schedule (${schedule1}) and  Schedule(${schedule2})`,
         icon: 'warning',
         confirmButtonColor: '#3085d6',
         showClass: {
