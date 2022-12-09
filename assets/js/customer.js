@@ -61,7 +61,11 @@ formAdminReg.addEventListener("submit",(e)=>{
                 console.log(data)
                 console.log(text)
 
-                showModal("REGISTERATION SUCCESSFULL")
+                showModal(data.message)
+                limit=15
+                offset=0
+                getTableDate(limit,offset)
+
                 setTimeout(() => {
                         hideModal()
                 }, 3000);
@@ -210,7 +214,7 @@ $(document).ready(function(){
                     <a  onclick="storeCurrentUserID(${val[i].id})" href="#"  class="btn btn-info btn-sm btn-square rounded-pill">
                       <span class="btn-icon icofont-ui-edit"></span>
                     </a>
-                    <button class="btn btn-error btn-sm btn-square rounded-pill">
+                    <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteCustomer(${val[i].id})">
                       <span class="btn-icon icofont-ui-delete"></span>
                     </button>
                   </div>
@@ -280,7 +284,7 @@ $(document).ready(function(){
         let data=''
 
             for(let i=0; i<val.length; i++){
-                console.log("kkk")
+
                 data+= `  <tr>
            
                 <td>
@@ -426,4 +430,58 @@ function page2(val){
     }
     
     getTableDate2(limit2,offset2)
+}
+
+
+
+function deleteCustomer(id){
+
+
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+  }).then((result) => {
+
+    if (result.isConfirmed) {
+      $.ajax({
+        type: "post", url:`${domain}/api/v1/customer/deleteCustomer`,
+        data: {
+          customer_id:id      
+        },
+        success: function (data, text) {
+    
+            showModal(data.message)
+            limit=15
+            offset=0
+            getTableDate(limit,offset)
+          
+  
+            setTimeout(() => {
+                    hideModal()
+            }, 3000);
+    
+          
+           
+        },
+        error: function (request, status, error) {
+    
+            console.log(request)
+            console.log(status)
+            console.log(error)
+            console.log(request.responseJSON.status)
+    
+            analyzeError(request)
+         
+        }
+      });
+    }
+  
+  })
+
+
 }

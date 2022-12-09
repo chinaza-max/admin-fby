@@ -22,10 +22,12 @@ let userSearch=true
 $.fn.dataTable.ext.search.push(
 
   
-
     function( settings, data, dataIndex ) {
 
-        if(dateSearch){
+      console.log("ok ok ok ok o o ko ok o ok ok ok ok ok ko ok ")
+
+
+        if(dateSearch==true){
   
           var min = minDate.val();
           var max = maxDate.val();
@@ -43,24 +45,27 @@ $.fn.dataTable.ext.search.push(
               ( moment(min).isSameOrBefore(date2)   &&     moment(date2).isSameOrBefore(max) )
           ) {
   
-            console.log(data)
-            //console.log(data[16])
-  
           
             if(data[16]=="false"&&!initiallze){
-  
-              console.log(data[10])
-              console.log(data[12])
-  
-              calPayPerSchedule(data[10] ,data[12])
-              }       
+            //  calPayPerSchedule(data[10] ,data[12])
+            }       
               return true;
           }
           return false;
         }
+        else if(dateSearch=="none"){
+          console.log(data[10])
+          console.log(data[12])
+
+
+          if(data[16]=="false"&&!initiallze){
+          //  calPayPerSchedule(data[10] ,data[12])
+          } 
+         // calPayPerSchedule(data[10] ,data[12])
+          return true
+        }
         else{
 
-          console.log("ssssssssssssssssssssssssssssssssssssssssss")
 
             var customerNameVT = data[1];
             var SiteVT = data[2] ;
@@ -70,7 +75,7 @@ $.fn.dataTable.ext.search.push(
             if ((customerName ==='')&&(Site ==='' )&&(staffName==='')) {
     
                 if(data[16]=="false"&&!initiallze){
-                  calPayPerSchedule(data[10] ,data[12])
+                  //calPayPerSchedule(data[10] ,data[12])
                 }
               
                 
@@ -80,7 +85,7 @@ $.fn.dataTable.ext.search.push(
                 console.log("2")
     
                 if(data[16]=="false"&&!initiallze){
-                  calPayPerSchedule(data[10] ,data[12])
+                //  calPayPerSchedule(data[10] ,data[12])
                  }
                 
                 return true
@@ -89,7 +94,7 @@ $.fn.dataTable.ext.search.push(
                 console.log("3")
                
                 if(data[16]=="false" &&!initiallze){
-                  calPayPerSchedule(data[10] ,data[12])
+                //  calPayPerSchedule(data[10] ,data[12])
                 }
                 return true
             }
@@ -97,35 +102,35 @@ $.fn.dataTable.ext.search.push(
                 console.log("4")
     
                 if(data[16]=="false" &&!initiallze){
-                  calPayPerSchedule(data[10] ,data[12])
+                //  calPayPerSchedule(data[10] ,data[12])
                 }
                 return true
             }
             else if((customerName==='')&&(Site===SiteVT)&&(staffName===staffNameVT)){
                 
               if(data[16]=="false" &&!initiallze){ 
-                calPayPerSchedule(data[10] ,data[12])
+               // calPayPerSchedule(data[10] ,data[12])
               }
                 return true
             }
             else if((customerName==='')&&(Site==='')&&(staffName===staffNameVT)){
                 
               if(data[16]=="false"&&!initiallze){
-                calPayPerSchedule(data[10] ,data[12])
+               // calPayPerSchedule(data[10] ,data[12])
               }
                 return true
             }
             else if((customerName===customerNameVT)&&(Site==='')&&(staffName===staffNameVT)){
                 
               if(data[16]=="false"&&!initiallze){  
-                calPayPerSchedule(data[10] ,data[12])
+               // calPayPerSchedule(data[10] ,data[12])
               }
                 return true
             }
             else if((customerName===customerNameVT)&&(Site===SiteVT)&&(staffName===staffNameVT)){
                
               if(data[16]=="false"&&!initiallze){
-                calPayPerSchedule(data[10] ,data[12])
+               // calPayPerSchedule(data[10] ,data[12])
                }
                 return true
             }
@@ -135,18 +140,16 @@ $.fn.dataTable.ext.search.push(
             return false;
           
         }
-    }
+
+      }
 
 )
 
 
-
 function calPayPerSchedule(money ,hour){
 
-
  totalHours+=Number(hour)
- 
- amountPending+= Number(money)*Number(hour)
+ amountPending+= Number(money.slice(1))*Number(hour)
 
 
  console.log(totalHours ,amountPending)
@@ -191,19 +194,10 @@ $(document).ready(function() {
             { data: "hours"},
             { data: "check_in" },
             { data: "check_out"},
-            { data: "guard_charge" ,
-            fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
-                $(nTd).text('$'+sData);
-            }},
-            { data: "client_charge" ,
-            fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
-                $(nTd).text('$'+sData);
-            }},
+            { data: "guard_charge"},
+            { data: "client_charge" },
             { data: "hours_worked" },
-            { data: "earned" ,
-            fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
-                $(nTd).text('$'+sData);
-            }},
+            { data: "earned"},
             { data: "job_status" },
             { data: "description" },
             { data: "settlement_status" },
@@ -219,7 +213,8 @@ $(document).ready(function() {
             'pdfHtml5',
             'print'
             ],
-          
+            order:[[ 3, 'dsc']]
+            ,
         rowReorder: {
             selector: 'td:nth-child(2)'
         },
@@ -227,14 +222,10 @@ $(document).ready(function() {
         ,
             createdRow: function (row, data, index) {
 
-              console.log("lllllllllllllllllllllllllllllllllllllllllll")
 
-              if(data["settlement_status"]==false){
-                  calPayPerSchedule(data["guard_charge"],data["hours_worked"])
-              }
-      
             
-    
+      
+
                 if (data["job_status"] == "ACTIVE") {
                     $('td', row).css('background-color', '#828204');
                     $('td', row).css('color', 'white');
@@ -249,12 +240,21 @@ $(document).ready(function() {
                     $('td', row).css('color', 'white');
                 }
             }
+            ,
+            rowCallback: function( row, data, index ) {
+
+              if(data["settlement_status"]==false){
+                calPayPerSchedule(data["guard_charge"],data["hours_worked"])
+            }
+              
+          }
    
     })
+    table.on( 'search.dt', function () {
+      initializePayOff()
 
+    } );
 
-    
-    console.log(table)
     table.row(0).select();
 
 
@@ -270,8 +270,8 @@ $(document).ready(function() {
 
     var column1 = table.column(15);
     column1.visible(!column1.visible());
-    var column2 = table.column(16);
-    column2.visible(!column2.visible());
+    //var column2 = table.column(16);
+   // column2.visible(!column2.visible());
     var column3 = table.column(14);
     column3.visible(!column3.visible());
     
@@ -290,17 +290,17 @@ $(document).ready(function() {
    
     // Refilter the table
     $('#min, #max').on('change', function () {
-        initializePayOff()
+       // initializePayOff()
         dateSearch=true
         userSearch=false
         table.draw();
-        initiallze=false
+        //initiallze=false
        
     });
      // Refilter the table
     $('#staffName').on('change', function (e) {
-        initializePayOff()
-        initiallze=false
+        //initializePayOff()
+       // initiallze=false
         staffName=this.value
         dateSearch=false
         userSearch=true
@@ -309,16 +309,16 @@ $(document).ready(function() {
         
     });
     $('#Site').on('change', function (e) {
-        initializePayOff()
-        initiallze=false
+        //initializePayOff()
+       // initiallze=false
         Site=this.value
         dateSearch=false
         userSearch=true
         table.draw();
     });
     $('#customerName').on('change', function (e) {
-        initializePayOff()
-        initiallze=false
+        //initializePayOff()
+        //initiallze=false
         customerName=this.value
         dateSearch=false
         userSearch=true
@@ -332,7 +332,6 @@ function initializePayOff(){
     totalHours=0
     amountPending=0
     calPayOff(totalHours ,amountPending)
-
 }
 
 
@@ -352,15 +351,12 @@ function calPayOff(val1, val2){
     },
   
     success: function (data, text) {
-        console.log(data.data)
-  
         displayCustomer(data.data)
     },
     error: function (request, status, error) {
   
         console.log(request)
         analyzeError(request)
-     
     }
   });
   function displayCustomer(val){
@@ -384,16 +380,6 @@ function calPayOff(val1, val2){
       $('.selectpickerCustomer').selectpicker('refresh')
     }
   }
-
-
-
-
-
-
-
-
-
-
 
   
 //GET GUARD AND DISPLAY
@@ -479,3 +465,5 @@ function displayGetAllSite(val){
     $('.selectpickerSite').selectpicker('refresh')
   }
 }
+
+

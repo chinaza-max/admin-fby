@@ -250,7 +250,7 @@ $(document).ready(function(){
                     <a href="#" onclick="storeCurrentUserID(${val[i].id})"  class="btn btn-info btn-sm btn-square rounded-pill">
                       <span class="btn-icon icofont-ui-edit"></span>
                     </a>
-                    <button class="btn btn-error btn-sm btn-square rounded-pill">
+                    <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteAdmin(${val[i].id})">
                       <span class="btn-icon icofont-ui-delete"></span>
                     </button>
                   </div>
@@ -283,17 +283,14 @@ $(document).ready(function(){
     //FOR SUSPENDED CUSTOMER
     getTableDate2=function ( limit,offset){
         $.ajax({
-            type: "get", url:`${domain}/api/v1/custome?limit=${limit}&offset=${offset}`,
+            type: "get", url:`${domain}/api/v1/customer?limit=${limit}&offset=${offset}`,
             headers: {
                 "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
             },
           
             success: function (data, text) {
 
-
-                console.log(data.data)
-
-                CreateTable2(data.data)
+                CreateTable2([])
                 /*
                 showModal("REGISTRATION SUCCESSFULL")
                 setTimeout(() => {
@@ -486,6 +483,8 @@ function page2(val){
     
     getTableDate2(limit2,offset2)
 }
+
+
 
 
 

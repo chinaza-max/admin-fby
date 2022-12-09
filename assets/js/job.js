@@ -1008,7 +1008,7 @@ function postSchedule(obj){
         console.log(data)
         console.log(text)
 
-        showModal("REGISTERATION SUCCESSFULL")
+        showModal(data.message)
         setTimeout(() => {
                 hideModal()
         }, 3000);
@@ -1022,18 +1022,17 @@ function postSchedule(obj){
         console.log(error)
         console.log(request.responseJSON.status)
 
-
-        let obj=JSON.parse(request.responseJSON.status)
-
-        console.log(obj.TimeError)
-        console.log(obj.TimeError.message)
+        let obj=request.responseJSON.status
+        let  obj2=JSON.parse(obj.slice(11, obj.length))
+        console.log(obj2)
+        console.log(obj2.message)
 
 
         Swal.fire({
           icon: 'error',
-          title:obj.message,
-          text: obj.solution,
-          footer: '<a href="">Why do I have this issue?</a>'
+          title:obj2.message,
+          text: obj2.solution,
+          footer: "NOTE : date should be 60minite apart for earch guard"
         })
 
       analyzeError(request)

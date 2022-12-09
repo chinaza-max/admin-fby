@@ -48,9 +48,10 @@ $(document).ready(function(){
 
         let data=''
                 
-        if(val){
+        if(val.guard.length!=0){
 
             let guard=val.guard
+
 
             for(let i=0; i<guard.length; i++){
 
