@@ -1024,9 +1024,6 @@ function postSchedule(obj){
 
         let obj=request.responseJSON.status
         let  obj2=JSON.parse(obj.slice(11, obj.length))
-        console.log(obj2)
-        console.log(obj2.message)
-
 
         Swal.fire({
           icon: 'error',
@@ -2117,12 +2114,15 @@ formAdminReg.addEventListener("submit",(e)=>{
 let getTableData='',
  getTableData2='',
  getTableData3='',
+ getTableData4='',
   limit=15,
   offset=0,
   limit2=15,
   offset2=0,
   limit3=15,
   offset3=0,
+  limit4=15,
+  offset4=0,
   myJobStatus="ACTIVE",
   statusChangeIdForJob
 
@@ -2297,11 +2297,7 @@ $(document).ready(function(){
   getTableData2(limit2,offset2)
   function CreateTable2(val){
 
-
-
       let data=''
-
-
       if(val.length!=0){
         for(let i=0; i<val.length; i++){
           let convertedDate=moment( val[i].create).format("YYYY-MM-DD hh-mm-ss a")
@@ -2388,12 +2384,6 @@ $(document).ready(function(){
 
 
 
-
-
-
-
-
-
   //FOR COMPLETED JOB
 
   getTableData3=function ( limit,offset){
@@ -2432,11 +2422,7 @@ $(document).ready(function(){
   getTableData3(limit3,offset3)
   function CreateTable3(val){
 
-
-
       let data=''
-
-
       if(val.length!=0){
         for(let i=0; i<val.length; i++){
           let convertedDate=moment( val[i].create).format("YYYY-MM-DD hh-mm-ss a")
@@ -2522,6 +2508,96 @@ $(document).ready(function(){
   }
 
 
+
+   //FOR DECLINE JOB
+   getTableData4=function ( limit,offset){
+
+    $.ajax({
+        type: "get", url:`${domain}/api/v1/job/getDeclinedJob`,
+        headers: {
+            "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+        },
+      
+        success: function (data, text) {
+
+            console.log(data.data)
+            CreateTable4(data.data)
+        
+        },
+        error: function (request, status, error) {
+
+            console.log(request)
+            analyzeError(request)
+         
+        }
+    });
+  }
+  getTableData4(limit,offset)
+  function CreateTable4(val){
+      let data=''
+          
+      if(val.length!=0){
+        for(let i=0; i<val.length; i++){
+
+            data+= `
+            <tr>
+            <td>
+            ${i+1}
+          </td>
+            <td>
+              ${val[i].date}
+            </td>
+            <td>
+            ${val[i].Name}
+
+
+            </td>
+            <td>
+            ${val[i].Phone_number}
+
+
+            </td>
+            <td>
+            ${val[i].customer_name}
+
+            </td>
+            <td>
+            ${val[i].facility_name}
+            </td>
+          
+            <td>
+              <div class="actions">
+                <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteGuardSchedule(${val[i].job_id},${val[i].guard_id})">
+                  <span class="btn-icon icofont-ui-delete"></span>
+                </button>
+                <button type="button" class="btn btn-outline-primary"  onclick="reAssign(${val[i].job_id},${val[i].guard_id})">Re-assign</button>
+              </div>
+            </td>
+          </tr>
+            `
+
+            if(i==val.length-1){
+
+                $('#mytable4').children().remove();
+                $("#mytable4").append(data)
+            }
+        }
+      }else{
+
+        $('#mytable4').children().remove();
+        $("#mytable4").append(`    <tr>
+        <td colspan="1000">
+        
+        <div class="alert alert-light outline text-dark " role="alert" style="text-align:center;">
+        YOU HAVE NO DECLINED JOB FROM GUARD 
+      </div>
+        </td>
+      </tr>`)
+      }
+
+       
+
+  }
 
 })
 
@@ -2677,6 +2753,56 @@ function page3(val){
 
 
 
+//FOR DECLINE JOB
+
+function Previous4(){
+  if(offset4==0){
+      $("#Previous4").addClass("disabled");
+  }
+  else{
+      $("#Previous4").removeClass("disabled");
+      offset4=offset4-(limit4+1)
+      getTableData4(limit4,offset4)
+      $(".page-item4").removeClass("active");
+      $("#Previous4").addClass("active");
+
+  }
+}
+
+function Next4(){
+  offset4=offset4+limit4+1
+  getTableData4(limit4,offset4)
+  $(".page-item4").removeClass("active");
+  $("#Next4").addClass("active");
+
+}
+
+function page4(val){
+  if(val==1){
+      offset4=0
+      $(".page-item4").removeClass("active");
+      $("#page14").addClass("active");
+  }
+  else if(val==2){
+      offset4=16
+      $(".page-item4").removeClass("active");
+      $("#page24").addClass("active");
+
+  }
+  else if(val==3){
+      offset4=32
+      $(".page-item4").removeClass("active");
+      $("#page34").addClass("active");
+  }
+  
+
+  getTableData4(limit4,offset4)
+}
+
+
+
+
+
 //UPDATE JOB STATUS
 function updateJobStatusId(val){
   statusChangeIdForJob=val
@@ -2767,6 +2893,21 @@ function deleteJob(job_id){
     
             console.log(data.message)
             showModal(data.message)
+
+
+            let limit=15,
+            offset=0,
+            limit2=15,
+            offset2=0,
+            limit3=15,
+            offset3=0,
+            limit4=15,
+            offset4=0;
+    
+              getTableData2(limit2,offset2)
+              getTableData(limit,offset)
+              getTableData3(limit3,offset3)
+              getTableData4(limit4,offset4)
           
               getTableData2(limit2,offset2)
               getTableData(limit,offset)
@@ -2797,4 +2938,121 @@ function deleteJob(job_id){
 
 
 
+}
+
+
+
+function deleteGuardSchedule(job_id,guard_id){
+
+
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+  }).then((result) => {
+
+    if (result.isConfirmed) {
+        
+  $.ajax({
+    type: "post", url:`${domain}/api/v1/job/re_asign_or_delete-job`,
+    data: {
+      job_id,
+      guard_id,
+      accept:true 
+    },
+    success: function (data, text) {
+
+        console.log(data.message)
+        showModal(data.message)
+
+        let limit=15,
+        offset=0,
+        limit2=15,
+        offset2=0,
+        limit3=15,
+        offset3=0,
+        limit4=15,
+        offset4=0;
+
+          getTableData2(limit2,offset2)
+          getTableData(limit,offset)
+          getTableData3(limit3,offset3)
+          getTableData4(limit4,offset4)
+
+
+        setTimeout(() => {
+                hideModal()
+        }, 3000);
+
+      
+       
+    },
+    error: function (request, status, error) {
+
+        console.log(request)
+        console.log(status)
+        console.log(error)
+        console.log(request.responseJSON.status)
+
+        analyzeError(request)
+     
+    }
+  });
+    }
+  
+  })
+}
+
+
+function reAssign(job_id,guard_id){
+
+  $.ajax({
+    type: "post", url:`${domain}/api/v1/job/re_asign_or_delete-job`,
+    data: {
+      job_id,
+      guard_id,
+      accept:false 
+    },
+    success: function (data, text) {
+
+        console.log(data.message)
+        showModal(data.message)
+
+        let limit=15,
+        offset=0,
+        limit2=15,
+        offset2=0,
+        limit3=15,
+        offset3=0,
+        limit4=15,
+        offset4=0;
+
+          getTableData2(limit2,offset2)
+          getTableData(limit,offset)
+          getTableData3(limit3,offset3)
+          getTableData4(limit4,offset4)
+
+
+        setTimeout(() => {
+                hideModal()
+        }, 3000);
+
+      
+       
+    },
+    error: function (request, status, error) {
+
+        console.log(request)
+        console.log(status)
+        console.log(error)
+        console.log(request.responseJSON.status)
+
+        analyzeError(request)
+     
+    }
+  });
 }

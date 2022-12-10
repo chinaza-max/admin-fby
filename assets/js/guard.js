@@ -221,7 +221,7 @@ $(document).ready(function(){
                     <a href="#" onclick="storeCurrentUserID(${val[i].id})"  class="btn btn-info btn-sm btn-square rounded-pill">
                       <span class="btn-icon icofont-ui-edit"></span>
                     </a>
-                    <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteGuard(${val[i].id})"  >
+                    <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteGuard(${val[i].address_id})"  >
                       <span class="btn-icon icofont-ui-delete"></span>
                     </button>
                   </div>
@@ -252,7 +252,7 @@ $(document).ready(function(){
     //FOR SUSPENDED CUSTOMER
     getTableDate2=function ( limit,offset){
         $.ajax({
-            type: "get", url:`${domain}/api/v1/custome?limit=${limit}&offset=${offset}`,
+            type: "get", url:`${domain}/api/v1/customer?limit=${limit}&offset=${offset}`,
             headers: {
                 "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
             },
@@ -460,7 +460,7 @@ function page2(val){
 function deleteGuard(id){
 
 
-
+  console.log(id)
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",

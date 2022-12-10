@@ -107,6 +107,14 @@ $(document).ready(function(){
                                                     Report <span class="badge badge-light badge-inside ms-2">4</span>
                                                 </button>
                                             </td>
+                                            <td>
+                                            <div class="actions">
+                                              <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteGuardSchedule(${guard[i].guard_id})">
+                                                <span class="btn-icon icofont-ui-delete"></span>
+                                              </button>
+                                            </div>
+                                          </td>
+                                            
                                         </tr>
                  `
 
@@ -261,6 +269,13 @@ function displaySchedule(val){
                     data-bs-target="#view_schedule">select</button>
             </div>
         </td>
+        <td>
+              <div class="actions">
+                <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteSingleGuardSchedule(${val[i].shedule_id},${val[i].guard_id},${val[i].job_id})">
+                  <span class="btn-icon icofont-ui-delete"></span>
+                </button>
+              </div>
+            </td>
       </tr>
          `
 
@@ -269,6 +284,17 @@ function displaySchedule(val){
             $('#myschedule').children().remove();
             $("#myschedule").append(data)
         }
+    }
+    if(val.length==0){
+        $('#myschedule').children().remove();
+        $("#myschedule").append(`<tr>
+        <td colspan="1000">
+        
+        <div class="alert alert-light outline text-dark " role="alert" style="text-align:center;">
+        YOU HAVE NO SCHEDULE  
+      </div>
+        </td>
+      </tr>`)
     }
 
 }
@@ -385,3 +411,108 @@ function displayLog(val){
 
 }
 
+
+
+function deleteSingleGuardSchedule(schedule_id,guard_id,job_id){
+
+
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+  
+      if (result.isConfirmed) {
+          
+    $.ajax({
+      type: "post", url:`${domain}/api/v1/job/remove_guard_single_shedule`,
+      data: {
+        schedule_id,
+        guard_id
+      },
+      success: function (data, text) {
+  
+          console.log(data.message)
+          showModal(data.message)
+  
+          getSchedule(guard_id ,job_id)
+          getTableData(limit,offset)
+
+          setTimeout(() => {
+                  hideModal()
+          }, 3000);
+  
+        
+         
+      },
+      error: function (request, status, error) {
+  
+          console.log(request)
+          console.log(status)
+          console.log(error)
+          console.log(request.responseJSON.status)
+  
+          analyzeError(request)
+       
+      }
+    });
+      }
+    
+    })
+  }
+  
+
+
+  function deleteGuardSchedule(guard_id){
+        
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+    
+        if (result.isConfirmed) {
+            
+      $.ajax({
+        type: "post", url:`${domain}/api/v1/job/remove_guard_shedule`,
+        data: {
+            job_id,
+          guard_id
+        },
+        success: function (data, text) {
+    
+            console.log(data.message)
+            showModal(data.message)
+    
+            getTableData(limit,offset)
+  
+            setTimeout(() => {
+                    hideModal()
+            }, 3000);
+    
+          
+           
+        },
+        error: function (request, status, error) {
+    
+            console.log(request)
+            console.log(status)
+            console.log(error)
+            console.log(request.responseJSON.status)
+    
+            analyzeError(request)
+         
+        }
+      });
+        }
+      
+      })
+  }

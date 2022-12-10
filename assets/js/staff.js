@@ -250,7 +250,7 @@ $(document).ready(function(){
                     <a href="#" onclick="storeCurrentUserID(${val[i].id})"  class="btn btn-info btn-sm btn-square rounded-pill">
                       <span class="btn-icon icofont-ui-edit"></span>
                     </a>
-                    <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteAdmin(${val[i].id})">
+                    <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteAdmin(${val[i].address_id})">
                       <span class="btn-icon icofont-ui-delete"></span>
                     </button>
                   </div>
@@ -366,7 +366,7 @@ $(document).ready(function(){
                     <a href="addSite.html" onclick="storeCurrentUserID(${val[i].id})"  class="btn btn-info btn-sm btn-square rounded-pill">
                       <span class="btn-icon icofont-ui-edit"></span>
                     </a>
-                    <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteAdmin(${val[i].id})"  >
+                    <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteAdmin(${val[i].address_id})"  >
                       <span class="btn-icon icofont-ui-delete"></span>
                     </button>
                   </div>

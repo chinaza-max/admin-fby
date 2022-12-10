@@ -180,6 +180,7 @@ $(document).ready(function(){
                 <td>
                   <img src=${val[i].image} alt="" width="40" height="40" class="rounded-500">
                 </td>
+                
                 <td>
                   <strong>${val[i].full_name}</strong>
                 </td>
@@ -214,7 +215,7 @@ $(document).ready(function(){
                     <a  onclick="storeCurrentUserID(${val[i].id})" href="#"  class="btn btn-info btn-sm btn-square rounded-pill">
                       <span class="btn-icon icofont-ui-edit"></span>
                     </a>
-                    <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteCustomer(${val[i].id})">
+                    <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteCustomer(${val[i].address_id})">
                       <span class="btn-icon icofont-ui-delete"></span>
                     </button>
                   </div>
@@ -451,7 +452,7 @@ function deleteCustomer(id){
       $.ajax({
         type: "post", url:`${domain}/api/v1/customer/deleteCustomer`,
         data: {
-          customer_id:id      
+          address_id:id      
         },
         success: function (data, text) {
     
