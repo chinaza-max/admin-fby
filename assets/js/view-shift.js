@@ -175,7 +175,10 @@ $(document).ready(function() {
     var table = $('#example').DataTable({
         ajax: {
             url: `${domain}/api/v1/job/allJobs/generalshift`,
-            method: "get"
+            method: "get",
+            headers: {
+              "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+          },
           } ,
           columnDefs: [
             { "width": "200px", "targets": [5,6] },   

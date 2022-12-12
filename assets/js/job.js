@@ -251,6 +251,7 @@ let MAX_TIMESTAMP = 8640000000000000;
  myShedule3.addEventListener("submit",async (e)=>{
   e.preventDefault()
 
+
   let obj=[]
   let mySingleStartDate=document.getElementById("mySingleStartDate").value
   let mySingleEndDate=document.getElementById("mySingleEndDate").value
@@ -259,6 +260,8 @@ let MAX_TIMESTAMP = 8640000000000000;
   obj.push({fullStartDate:new Date(mySingleStartDate+' '+mySingleStartTime),fullEndDate:new Date(mySingleEndDate+' '+mySingleEndTime)})
   
   if(await checkIfDateIsInCorrectOrder(obj)){
+
+   
 
     getAvailableGuard("addGuardDateShedule1V","selectpickerSingleSchedule")
     
@@ -276,8 +279,14 @@ let MAX_TIMESTAMP = 8640000000000000;
  //START GET AVAILABLE GUARD 
 
 function getAvailableGuard(modalId,picker){
+
+
+  
   $.ajax({
     type: "post", url:`${domain}/api/v1/job/getGuard`,
+    headers: {
+      "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+    },
     data: {
       job_id:job_id_for_schedule,
     },
@@ -298,7 +307,7 @@ function getAvailableGuard(modalId,picker){
         console.log(status)
         console.log(error)
         console.log(request.responseJSON.status)
-        analyzeError(request)
+       // analyzeError(request)
      
     }
   });
@@ -3012,6 +3021,9 @@ function reAssign(job_id,guard_id){
 
   $.ajax({
     type: "post", url:`${domain}/api/v1/job/re_asign_or_delete-job`,
+    headers: {
+      "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+    },
     data: {
       job_id,
       guard_id,

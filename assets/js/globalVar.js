@@ -141,19 +141,38 @@ let schedule1=0
 let schedule2=0
 function show_warming_no_guard(val){
 
-    Swal.fire({
-        title:val,
-        text:`check Schedule (${schedule1}) and  Schedule(${schedule2})`,
-        icon: 'warning',
-        confirmButtonColor: '#3085d6',
-        showClass: {
-          popup: 'animate__animated animate__fadeInDown'
-        },
-        hideClass: {
-          popup: 'animate__animated animate__fadeOutUp'
-        },
-        timer: 2000
-    })
+    if(schedule1==0&&schedule2==0){
+        Swal.fire({
+            title:val,
+            text:`check your schedule date `,
+            icon: 'warning',
+            confirmButtonColor: '#3085d6',
+            showClass: {
+              popup: 'animate__animated animate__fadeInDown'
+            },
+            hideClass: {
+              popup: 'animate__animated animate__fadeOutUp'
+            },
+            timer: 2000
+        })
+    }
+    else{
+        Swal.fire({
+            title:val,
+            text:`check Schedule (${schedule1}) and  Schedule(${schedule2})`,
+            icon: 'warning',
+            confirmButtonColor: '#3085d6',
+            showClass: {
+              popup: 'animate__animated animate__fadeInDown'
+            },
+            hideClass: {
+              popup: 'animate__animated animate__fadeOutUp'
+            },
+            timer: 2000
+        })
+    }
+
+  
 }
 
 
