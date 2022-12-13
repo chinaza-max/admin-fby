@@ -146,6 +146,8 @@ $.fn.dataTable.ext.search.push(
 )
 
 
+
+
 function calPayPerSchedule(money ,hour){
 
  totalHours+=Number(hour)

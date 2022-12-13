@@ -2074,7 +2074,10 @@ formAdminReg.addEventListener("submit",(e)=>{
 
         $.ajax({
           type: "post", url:`${domain}/api/v1/job/`,
-          data: {
+          headers: {
+            "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+          },
+            data: {
             client_charge:client_charge,
             staff_charge:staff_charge ,
             description , 
@@ -2834,6 +2837,9 @@ function changeJobStatus(){
   
   $.ajax({
     type: "post", url:`${domain}/api/v1/job/updateJobStatus`,
+    headers: {
+      "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+   },
     data: {
       job_id:statusChangeIdForJob,
       status_value:myJobStatus ,
@@ -2895,6 +2901,9 @@ function deleteJob(job_id){
     if (result.isConfirmed) {
       $.ajax({
         type: "post", url:`${domain}/api/v1/job/delete_job`,
+        headers: {
+          "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+        },
         data: {
           job_id      
         },
@@ -2968,6 +2977,9 @@ function deleteGuardSchedule(job_id,guard_id){
         
   $.ajax({
     type: "post", url:`${domain}/api/v1/job/re_asign_or_delete-job`,
+    headers: {
+      "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+    },
     data: {
       job_id,
       guard_id,

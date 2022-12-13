@@ -377,6 +377,9 @@ function Previous(){
     guard_id_been_viewed=guard_id
     $.ajax({
         type: "post", url:`${domain}/api/v1/job/getAllUnsettleShiftOneGuard`,
+        headers: {
+          "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+        },
         data: {
             guard_id,
             settlement:false  
@@ -525,6 +528,9 @@ function Previous(){
 
         $.ajax({
             type: "post", url:`${domain}/api/v1/job/settleShift`,
+            headers: {
+              "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+            },
             data: {
                 schedule_id:JSON.stringify(val),
                 

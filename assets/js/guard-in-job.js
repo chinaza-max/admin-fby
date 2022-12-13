@@ -430,6 +430,9 @@ function deleteSingleGuardSchedule(schedule_id,guard_id,job_id){
           
     $.ajax({
       type: "post", url:`${domain}/api/v1/job/remove_guard_single_shedule`,
+      headers: {
+        "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+        },
       data: {
         schedule_id,
         guard_id
@@ -483,6 +486,9 @@ function deleteSingleGuardSchedule(schedule_id,guard_id,job_id){
             
       $.ajax({
         type: "post", url:`${domain}/api/v1/job/remove_guard_shedule`,
+        headers: {
+            "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+        },
         data: {
             job_id,
           guard_id
