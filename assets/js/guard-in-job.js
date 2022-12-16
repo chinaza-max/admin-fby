@@ -52,7 +52,7 @@ $(document).ready(function(){
 
             let guard=val.guard
 
-
+            console.log(guard)
             for(let i=0; i<guard.length; i++){
 
                 data+= `
@@ -103,9 +103,9 @@ $(document).ready(function(){
                                                 </div>
                                             </td>
                                             <td>
-                                                <button type="button" class="btn btn-primary">
+                                                <a    onclick="setGuardName('${guard[i].first_name} ${guard[i].last_name}'); setGuardId(${guard[i].guard_id})" href="../dist-horizontal/reportPerGuard.html" class="btn btn-primary"  >
                                                     Report <span class="badge badge-light badge-inside ms-2">4</span>
-                                                </button>
+                                                </a>    
                                             </td>
                                             <td>
                                             <div class="actions">
@@ -522,3 +522,21 @@ function deleteSingleGuardSchedule(schedule_id,guard_id,job_id){
       
       })
   }
+
+
+
+function setGuardName(val){
+
+    console.log(val)
+    const encodedData = btoa(val)
+    localStorage.setItem("guardName",encodedData)
+}
+
+
+function setGuardId(val){
+
+
+    console.log(val)
+    const encodedData = btoa(val);
+    localStorage.setItem("guardId",encodedData)
+}

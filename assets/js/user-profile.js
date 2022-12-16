@@ -72,6 +72,8 @@ updateUser.addEventListener("submit",(e)=>{
     gender=formFields.gender.value,
     date_of_birth=formFields.dataOfBirth.value,
     address=formFields.address.value;
+    phoneNumber=formFields.phoneNumber.value;
+
 
 
     for (const file of inputFile.files) {
@@ -85,6 +87,8 @@ updateUser.addEventListener("submit",(e)=>{
     formData.append("date_of_birth", date_of_birth);
     formData.append("gender", gender);
     formData.append("address",address);
+    formData.append("phone_number",phoneNumber);
+
 
 
 
@@ -107,7 +111,8 @@ updateUser.addEventListener("submit",(e)=>{
                     console.log('Success:', data);
                   
                     $("#signInButton").css("display","block")
-                        $("#loadingButton").css("display","none")
+                    $("#loadingButton").css("display","none")
+
                     if(data.status==200){
                         showModal(data.message  )
                         setTimeout(() => {
@@ -153,9 +158,7 @@ updateUser.addEventListener("submit",(e)=>{
                 })
                 .catch((error) => {
                     console.error('Error:', error);
-
-                    
-                });
+                })
 
 
 
@@ -170,7 +173,10 @@ function checkImg(e){
 
 
 
-//update user profile
+
+$(document).ready(function(){
+
+    //update user profile
 $.ajax({
     type: "get", url:`${domain}/api/v1/auth`,
     headers: {
@@ -178,13 +184,14 @@ $.ajax({
     },
     success: function (data, text) {
         
-        //console.log(data)
+
         $("#avatar2").attr("src",data.data.user.image);
         $("#firstName").val(data.data.user.first_name);
         $("#lastName").val(data.data.user.last_name);
         $("#email").val(data.data.user.email);
         $("#address").val(data.data.user.address);
         $("#dataOfBirth").val(data.data.user.date_of_birth);
+        $("#phoneNumber").val(data.data.user.phone_number);
 
 
        // console.log(data.data.user.is_archived)
@@ -219,6 +226,10 @@ $.ajax({
 
     }
   });
+
+})
+
+
 
 
 

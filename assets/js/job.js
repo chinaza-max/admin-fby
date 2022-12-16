@@ -2259,7 +2259,7 @@ $(document).ready(function(){
         <td colspan="1000">
         
         <div class="alert alert-light outline text-dark " role="alert" style="text-align:center;">
-        YOU HAVE NO active JOB
+        YOU HAVE NO ACTIVE JOB
       </div>
         </td>
       </tr>`)
@@ -2268,8 +2268,6 @@ $(document).ready(function(){
        
 
   }
-
-
 
 
   //FOR PENDING JOB
@@ -2393,7 +2391,6 @@ $(document).ready(function(){
          
 
   }
-
 
 
   //FOR COMPLETED JOB
@@ -2746,13 +2743,12 @@ function page3(val){
       $("#page13").addClass("active");
   }
   else if(val==2){
-      offset2=16
+      offset3=16
       $(".page-item3 ").removeClass("active");
       $("#page23").addClass("active");
-
   }
   else if(val==3){
-      offset2=32
+      offset3=32
       $(".page-item3 ").removeClass("active");
       $("#page33").addClass("active");
   }

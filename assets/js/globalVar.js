@@ -1,7 +1,9 @@
 let mode="development"
 
 let activeUserID= localStorage.getItem("storeCurrentUserID")
-let alertLifeSpan=5000
+let alertLifeSpan=2000
+let alertLifeSpan2=2000
+
 let domain=''
 if(mode=="development"){
     domain="http://localhost:3000"
@@ -10,9 +12,13 @@ else{
     domain=''
 }
 
+
+
+
+
+
 function storeCurrentUserID(val){
 
-    console.log(val)
     localStorage.setItem("storeCurrentUserID",val)
    
 }

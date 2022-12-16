@@ -57,8 +57,6 @@ function disPlayData(val){
     let data=''
 
             console.log(val.sites)
-
-            
             for(let i=0; i<val.sites.length; i++){
                 data+= `
                 <div class="col-12 col-md-6" >
@@ -108,18 +106,16 @@ function disPlayData(val){
 
                 if(i==val.sites.length-1){
 
-                  console.log("refreshed done")
-
                     $('#siteContainer').children().remove();
                     $("#siteContainer").append(data)
                 }
             }
 
-            if(val.sites.length===0&&deleteButtonWasClick){
-        //        window.location.reload();
-          //      deleteButtonWasClick=false
+            console.log(val.sites.length)
+            console.log(val.sites)
 
-
+            if(val.sites.length==0){
+              console.log("yes yes yes yes ")
 
                 $('#siteContainer').children().remove();
                 $("#siteContainer").append(` <div class="alert alert-primary outline" role="alert">
@@ -275,12 +271,14 @@ function deleteSite(val){
             site_id:val
        },
           success: function (data, text) {
-            deleteButtonWasClick=true
-            getSite()
+
+             
               showModal("SITE UPDATE SUCCESSFULL")
+
               setTimeout(() => {
+                      getSite()
                       hideModal()
-              }, alertLifeSpan);
+              }, alertLifeSpan2);
 
           },
           error: function (request, status, error) {

@@ -28,6 +28,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    
+    
+    <!--START OF DATA TABLE -->
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/select/1.4.0/css/select.dataTables.min.css">
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/datetime/1.1.2/css/dataTables.dateTime.min.css">
+    <link rel="stylesheet" href="  https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css">
+    <!--END OF DATA TABLE -->
+
 
 
     <!-- Theme CSS -->
@@ -309,66 +320,36 @@
                 <div class="app-loader"><i class="icofont-spinner-alt-4 rotate"></i></div>
 
                 <div class="main-content-wrap">
+                    <ul class="nav">
+                        <li class="nav-item">
+                          <a class="nav-link active" aria-current="page" href="./guard-in-job.html">Back</a>
+                        </li>
+                      </ul>
+
+                      <header class="page-header">
+                        <h1 class="page-title mt-3" id="headingTItle">Report</h1>
+                      </header>
                     <div class="page-content">
 
 
-
-                        <div class="row">
-
-                            <div class=" col-md-4">
-
-                                <div class="alert alert-primary outline overflow-auto" role="alert" style="height:81px ;" id="des">
-                                
-                                </div>
-                            </div>
-
-                            <div class=" col-md-4 col-md-4 ">
-                                <div class="alert alert-info outline overflow-auto" role="alert" style="height:81px ;"  id="name">
-                            
-                                </div>
-
-                            </div>
-
-                            <div class=" col-md-4 col-md-4">
-                                <div class="alert alert-success outline overflow-auto" style="height:81px ;" role="alert" id="timeZone">
-                            
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="card">
-                            <div class="card-header">
-                                Assigned guards
-                            </div>
-
-
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr class="bg-primary text-white">
-                                            <th scope="col">ID</th>
-                                            <th scope="col">Photo</th>
-                                            <th scope="col">Name</th>
-                                            <th scope="col " class="text-nowrap">Email</th>
-                                            <th scope="col">Money earned</th>
-                                            <th scope="col">Schedule</th>
-                                            <th scope="col">Log</th>   
-                                            <th scope="col">Instruction</th>
-                                            <th scope="col">Task</th>
-                                            <th scope="col">Report</th>
-                                            <th scope="col">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="mytable1">
-
-
-
-                                    </tbody>
-                                </table>
-                            </div>
-
-                        </div>
+                        
+                        <table id="example" class="display nowrap" style="width:100%">
+                            <thead>
+                              <tr>
+                                <th class="text-nowrap">Created at</th>
+                                <th>Message</th>
+                                <th>file_url</th>
+                                <th class="text-nowrap">Report type</th>
+                                <th class="text-nowrap">Emergency</th>
+                                <th class="text-nowrap">Read</th>
+                                <th class="text-nowrap">Who has it</th>
+                                <th class="text-nowrap">Mime type</th>
+                                <th class="text-nowrap">Report id</th>
+                              </tr>
+                            </thead>
+                            <tbody></tbody>
+            
+                        </table>
 
                     </div>
                 </div>
@@ -435,110 +416,6 @@
 
 
 
-<div class="modal fade" id="view_log" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-
-            <div class="modal-body">
-
-                <div class="card">
-                    <div class="card-header">
-                      LOGS
-                    </div>
-                    <div class="card-body">
-                      <div class="table-responsive">
-                        <table class="table table-bordered">
-                          <thead>
-                          <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">Check in date </th>
-                            <th scope="col">Check in time </th>
-                            <th scope="col">Check out date </th>
-                            <th scope="col">Check out time </th>
-                            <th scope="col">Hours</th>
-                            <th scope="col">location_message</th>
-                            <th scope="col">Action </th>
-
-
-                          </tr>
-                          </thead>
-                          <tbody id="myLog">
-                         
-                     
-                     
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-
-
-                <div class="modal-footer">
-                    <div class="actions justify-content-between">
-                        <button type="button" class="btn btn-error" data-bs-dismiss="modal">Close</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-
-    <div class="modal fade" id="view_schedule" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-
-                <div class="modal-body">
-
-                    <div class="card">
-                        <div class="card-header">
-                          SCHEDULE
-                        </div>
-                        <div class="card-body">
-                          <div class="table-responsive">
-                            <table class="table table-bordered">
-                              <thead>
-                              <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">Start date </th>
-                                <th scope="col">Start time </th>
-                                <th scope="col">End date </th>
-                                <th scope="col">End time </th>
-                                <th scope="col">Hours</th>
-                                <th scope="col">Check in</th>
-                                <th scope="col">Check out</th>
-                                <th scope="col">Action</th>
-
-
-
-                              </tr>
-                              </thead>
-                              <tbody id="myschedule">
-                             
-                         
-                         
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                      </div>
-
-
-                    <div class="modal-footer">
-                        <div class="actions justify-content-between">
-                            <button type="button" class="btn btn-error" data-bs-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-
 
     <div class="modal fade" id="RegisterationSuccessFull" style="z-index:10000;" tabindex="-1" role="dialog"
         aria-hidden="true">
@@ -600,9 +477,10 @@
                         </div>
                     </form>
                 </div>
+
                 <div class="modal-footer d-block">
                     <div class="actions justify-content-between">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cancel</button>
                         <button id="reset-to-default" type="button" class="btn btn-error">Reset to default</button>
                     </div>
                 </div>
@@ -616,7 +494,7 @@
 
 
 
-    <script src="../assets/js/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="../assets/js/jquery-migrate-1.4.1.min.js"></script>
     <script src="../assets/js/popper.min.js"></script>
     <script src="../assets/js/bootstrap.min.js"></script>
@@ -630,11 +508,35 @@
     <script src="../assets/js/echarts.min.js"></script>
     <script src="../assets/js/echarts-gl.min.js"></script>
     <script src="../assets/js/globalVar.js"></script>
-    <script src="../assets/js/guard-in-job.js"></script>
+    <script src="../assets/js/singleReport.js"></script>
     <script src="../assets/js/main.js"></script>
 
 
-       
+        <!--START OF DATA TABLE -->
+
+
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/select/1.5.0/js/dataTables.select.min.js"></script>
+    
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script>
+    <script src="https://cdn.datatables.net/datetime/1.1.2/js/dataTables.dateTime.min.js"></script>
+    <script src="https://cdn.datatables.net/rowreorder/1.3.1/js/dataTables.rowReorder.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
+
+
+
+
+    
+
+        <!--END OF DATA TABLE -->
 
 </body>
 
