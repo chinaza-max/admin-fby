@@ -6,7 +6,9 @@ job_id=activeUserID
 
 
 $(document).ready(function(){
-    //FOR ALL CUSTOMER
+
+
+
     getTableData=function ( limit,offset){
         $.ajax({
             type: "post", url:`${domain}/api/v1/job/allJobs/guard`,
@@ -69,7 +71,10 @@ $(document).ready(function(){
                                             </td>
 
                                             <td>
-                                                <div class="text-muted text-nowrap">${guard[i].email}</div>
+                                                <div class="d-flex align-items-center nowrap text-primary">
+                                                    <span class="icofont-ui-cell-phone p-0 me-2"></span>
+                                                    ${guard[i].phone_number}
+                                                </div>
                                             </td>
                                             <td>
                                                 <div class="address-col">$${guard[i].money_earned*val.job.guard_charge}</div>
