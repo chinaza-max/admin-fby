@@ -24,8 +24,6 @@ $.fn.dataTable.ext.search.push(
   
     function( settings, data, dataIndex ) {
 
-      console.log("ok ok ok ok o o ko ok o ok ok ok ok ok ko ok ")
-
 
         if(dateSearch==true){
   
@@ -184,8 +182,26 @@ $(document).ready(function() {
           } ,
           columnDefs: [
             { "width": "200px", "targets": [5,6] },   
-            { "width": "200px", "targets": [8] },             
-            { "width": "20px", "targets": [10,11]}
+            { "min-width": "300px", "targets": [8,9] }, 
+            {
+              render: function (data, type, full, meta) {
+                  return "<div class='text-wrap width-200'>" + data + "</div>";
+              },
+              targets: 15
+            }, 
+            {
+              render: function (data, type, full, meta) {
+                  return "<div class='text-wrap' style='min-width: 200px'>" + data + "</div>";
+              },
+              targets: 8
+            } 
+            , 
+            {
+              render: function (data, type, full, meta) {
+                  return "<div class='text-wrap' style='min-width: 200px;'>" + data + "</div>";
+              },
+              targets: 9
+            }         
           ] ,
          
           columns:[
@@ -223,36 +239,34 @@ $(document).ready(function() {
         rowReorder: {
             selector: 'td:nth-child(2)'
         },
-        responsive: true
-        ,
-            createdRow: function (row, data, index) {
+        responsive: true,
+        createdRow: function (row, data, index) {
 
 
-            
-      
+        
+  
 
-                if (data["job_status"] == "ACTIVE") {
-                    $('td', row).css('background-color', '#828204');
-                    $('td', row).css('color', 'white');
+            if (data["job_status"] == "ACTIVE") {
+                $('td', row).css('background-color', '#828204');
+                $('td', row).css('color', 'white');
 
-                }
-                else if(data["job_status"] == "PENDING"){
-                    $('td', row).css('background-color','#b60707');
-                    $('td', row).css('color', 'white');
-                }
-                else if(data["job_status"] == "COMPLETED"){
-                    $('td', row).css('background-color', 'green ');
-                    $('td', row).css('color', 'white');
-                }
             }
-            ,
-            rowCallback: function( row, data, index ) {
-
-              if(data["settlement_status"]==false){
-                calPayPerSchedule(data["guard_charge"],data["hours_worked"])
+            else if(data["job_status"] == "PENDING"){
+                $('td', row).css('background-color','#b60707');
+                $('td', row).css('color', 'white');
             }
-              
-          }
+            else if(data["job_status"] == "COMPLETED"){
+                $('td', row).css('background-color', 'green');
+                $('td', row).css('color', 'white');
+            }
+        },
+        rowCallback: function( row, data, index ) {
+
+          if(data["settlement_status"]==false){
+            calPayPerSchedule(data["guard_charge"],data["hours_worked"])
+          } 
+        
+        }
    
     })
     table.on( 'search.dt', function () {
@@ -261,24 +275,35 @@ $(document).ready(function() {
     } );
 
     table.row(0).select();
+    table
+        .on('order', function () {
 
+           // console.log("order order order order order order")
+        })
+        .on('search', function () {
+         // console.log("search search search search search ")
+
+        })
+        .on('page', function () {
+          initializePayOff()
+        });
 
     $('a.toggle-vis').on('click', function (e) {
         e.preventDefault();
       
-        var column = table.column($(this).attr('data-column'));
+       var column = table.column($(this).attr('data-column'));
         // Toggle the visibility
         column.visible(!column.visible());
     });
      
     setTimeout(() => {
 
-    var column1 = table.column(15);
-    column1.visible(!column1.visible());
+    //var column1 = table.column(15);
+   // column1.visible(!column1.visible());
     //var column2 = table.column(16);
    // column2.visible(!column2.visible());
-    var column3 = table.column(14);
-    column3.visible(!column3.visible());
+   // var column3 = table.column(14);
+   // column3.visible(!column3.visible());
     
     //var column3 = table.column(16);
     //column3.visible(!column3.visible());

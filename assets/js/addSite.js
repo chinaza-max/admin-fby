@@ -133,6 +133,32 @@ function disPlayData(val){
 
 submitSite.addEventListener("submit",(e)=>{
     e.preventDefault()
+
+
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition, () => {
+
+        Swal.fire({
+          title: 'Action Required',
+          text: "Location permission is required to proceed!",
+          icon: 'warning',
+          confirmButtonColor: '#1c0d2e',
+          confirmButtonText: 'ok'
+        })
+
+        switchHandle.animate({
+          left: 0
+        }, 100)
+    
+      });
+      
+    } else { 
+      console.log("Geolocation is not supported by this browser.")
+    }
+    function showPosition(position) {
+
+
     $("#signInButton").css("display","none")
     $("#loadingButton").css("display","block")
 
@@ -155,8 +181,10 @@ submitSite.addEventListener("submit",(e)=>{
               "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
           },
             data:{
-              longitude,
+               longitude,
                latitude,
+               latitude_admin: position.coords.latitude,
+               longitude_admin:position.coords.longitude,
                operations_area_constraint,
                client_charge:client_charge,
                guard_charge:guard_charge,
@@ -201,7 +229,7 @@ submitSite.addEventListener("submit",(e)=>{
         formFields.siteAddress.value='';
     }
 
-
+  }
 
 })
 

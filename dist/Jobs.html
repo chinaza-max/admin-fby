@@ -323,20 +323,20 @@
               </div>
               <div class="card-body">
                 <ul class="nav nav-pills mb-3" role="tablist">
-                  <li class="nav-item" role="presentation">
-                    <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#tab-1" type="button"
+                  <li class="nav-item" role="presentation" >
+                    <button class="nav-link active" id="active" onclick="updateNavLinkStatus('active')" data-bs-toggle="pill" data-bs-target="#tab-1" type="button"
                       role="tab" aria-selected="true">Active</button>
                   </li>
-                  <li class="nav-item" role="presentation">
-                    <button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-2" type="button" role="tab"
+                  <li class="nav-item" role="presentation" id="pendingContainer">
+                    <button class="nav-link" id="pending" onclick="updateNavLinkStatus('pending')" data-bs-toggle="pill" data-bs-target="#tab-2" type="button" role="tab"
                       aria-selected="false">Pending</button>
                   </li>
                   <li class="nav-item" role="presentation">
-                    <button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-3" type="button" role="tab"
+                    <button class="nav-link" id="completed" onclick="updateNavLinkStatus('completed')" data-bs-toggle="pill" data-bs-target="#tab-3" type="button" role="tab"
                       aria-selected="false">Completed</button>
                   </li>
                   <li class="nav-item" role="presentation">
-                    <button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-4" type="button" role="tab"
+                    <button class="nav-link" id="decline" data-bs-toggle="pill" onclick="updateNavLinkStatus('decline')" data-bs-target="#tab-4" type="button" role="tab"
                       aria-selected="false">Decline</button>
                   </li>
 
@@ -1005,8 +1005,6 @@
                     <option value="">--Select--</option>
                   </select>
                 </div>
-
-
 
                 <div class="row">
                   <div class="col"></div>

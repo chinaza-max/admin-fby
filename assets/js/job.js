@@ -279,8 +279,6 @@ let MAX_TIMESTAMP = 8640000000000000;
  //START GET AVAILABLE GUARD 
 
 function getAvailableGuard(modalId,picker){
-
-
   
   $.ajax({
     type: "post", url:`${domain}/api/v1/job/getGuard`,
@@ -1002,49 +1000,80 @@ function update_job_id_for_schedule(id){
 }
 
 function postSchedule(obj){
-  console.log("kkkkkkkkkkkkkkkkkkkkkkkk")
 
-  $.ajax({
-    type: "post", url:`${domain}/api/v1/job/add_shedule_date_staff`,
-    headers: {
-      "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
-    },
-    data: {
-      date_time_staff_shedule:JSON.stringify(obj)
-    },
-    success: function (data, text) {
 
-        console.log(data)
-        console.log(text)
 
-        showModal(data.message)
-        setTimeout(() => {
-                hideModal()
-        }, 3000);
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition, () => {
 
-    },
-    error: function (request, status, error) {
+      Swal.fire({
+        title: 'Action Required',
+        text: "Location permission is required to proceed!",
+        icon: 'warning',
+        confirmButtonColor: '#1c0d2e',
+        confirmButtonText: 'ok'
+      })
 
- 
-        console.log(request)
-        console.log(status)
-        console.log(error)
-        console.log(request.responseJSON.status)
+      switchHandle.animate({
+        left: 0
+      }, 100)
+  
+    });
+    
+  } else { 
+    console.log("Geolocation is not supported by this browser.")
+  }
+  function showPosition(position) {
 
-        let obj=request.responseJSON.status
-        let  obj2=JSON.parse(obj.slice(11, obj.length))
 
-        Swal.fire({
-          icon: 'error',
-          title:obj2.message,
-          text: obj2.solution,
-          footer: "NOTE : date should be 60minite apart for earch guard"
-        })
 
-      analyzeError(request)
-     
-    }
-  });
+    $.ajax({
+      type: "post", url:`${domain}/api/v1/job/add_shedule_date_staff`,
+      headers: {
+        "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+      },
+      data: {
+        date_time_staff_shedule:JSON.stringify(obj),
+        latitude: position.coords.latitude,
+        longitude:position.coords.longitude
+      },
+      success: function (data, text) {
+
+          console.log(data)
+          console.log(text)
+
+          showModal(data.message)
+          setTimeout(() => {
+                  hideModal()
+          }, 3000);
+
+      },
+      error: function (request, status, error) {
+
+  
+          console.log(request)
+          console.log(status)
+          console.log(error)
+          console.log(request.responseJSON.status)
+
+          let obj=request.responseJSON.status
+          let  obj2=JSON.parse(obj.slice(11, obj.length))
+
+          Swal.fire({
+            icon: 'error',
+            title:obj2.message,
+            text: obj2.solution,
+            footer: "NOTE : date should be 60minite apart for earch guard"
+          })
+
+        analyzeError(request)
+      
+      }
+    })
+
+
+  }
+
 }
 //NEW END
 
@@ -2056,67 +2085,100 @@ let formAdminReg=document.getElementById("addJobs")
 formAdminReg.addEventListener("submit",(e)=>{
   e.preventDefault()
 
-  $("#signInButton").css("display","none")
-  $("#loadingButton").css("display","block")
 
-  const form = e.target;
-  const formFields = form.elements,
-  client_charge = formFields.inputJobCost.value,
-  staff_charge=formFields.inputGuardAmount.value,
-  description=formFields.description.value;
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition, () => {
 
-  $('select[name=status]').val("Available");
-  $('.selectpicker').selectpicker('refresh')
+      Swal.fire({
+        title: 'Action Required',
+        text: "Location permission is required to proceed!",
+        icon: 'warning',
+        confirmButtonColor: '#1c0d2e',
+        confirmButtonText: 'ok'
+      })
 
-  console.log(client_charge,  staff_charge ,  description , myCstomer_id,   siteIdForJob,   myJobType,   myPaymentStatus)
+      switchHandle.animate({
+        left: 0
+      }, 100)
+  
+    });
+    
+  } else { 
+    console.log("Geolocation is not supported by this browser.")
+  }
 
+
+  function showPosition(position) {
+
+    $("#signInButton").css("display","none")
+    $("#loadingButton").css("display","block")
+  
+    const form = e.target;
+    const formFields = form.elements,
+    client_charge = formFields.inputJobCost.value,
+    staff_charge=formFields.inputGuardAmount.value,
+    description=formFields.description.value;
+  
+    $('select[name=status]').val("Available");
+    $('.selectpicker').selectpicker('refresh')
+  
+    console.log(client_charge,  staff_charge ,  description , myCstomer_id,   siteIdForJob,   myJobType,   myPaymentStatus)
+          $.ajax({
+            type: "post", url:`${domain}/api/v1/job/`,
+            headers: {
+              "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+            },
+              data: {
+              client_charge:client_charge,
+              staff_charge:staff_charge ,
+              description , 
+              job_status:"ACTIVE",
+              customer_id:myCstomer_id,
+              site_id:siteIdForJob,
+              job_type:myJobType,
+              latitude: position.coords.latitude,
+              longitude:position.coords.longitude,
+              payment_status:myPaymentStatus
+            },
+            success: function (data, text) {
+  
+                console.log(data.message)
+                showModal(data.message)
+                  
+                limit=15
+                offset=0
+                  
+                getTableData(limit,offset)
+                setTimeout(() => {
+                        hideModal()
+                }, 3000);
+  
+                $("#signInButton").css("display","block")
+                $("#loadingButton").css("display","none")
+               
+            },
+            error: function (request, status, error) {
+  
+                $("#signInButton").css("display","block")
+                $("#loadingButton").css("display","none")
+                console.log(request)
+                console.log(status)
+                console.log(error)
+                console.log(request.responseJSON.status)
+  
+                analyzeError(request)
+             
+            }
+          });
+  
+  
   
 
-        $.ajax({
-          type: "post", url:`${domain}/api/v1/job/`,
-          headers: {
-            "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
-          },
-            data: {
-            client_charge:client_charge,
-            staff_charge:staff_charge ,
-            description , 
-            job_status:"ACTIVE",
-            customer_id:myCstomer_id,
-            site_id:siteIdForJob,
-            job_type:myJobType,
-            payment_status:myPaymentStatus
-          },
-          success: function (data, text) {
+  }
 
-              console.log(data.message)
-              showModal(data.message)
-                
-              limit=15
-              offset=0
-                
-              getTableData(limit,offset)
-              setTimeout(() => {
-                      hideModal()
-              }, 3000);
 
-              $("#signInButton").css("display","block")
-              $("#loadingButton").css("display","none")
-             
-          },
-          error: function (request, status, error) {
 
-              $("#signInButton").css("display","block")
-              $("#loadingButton").css("display","none")
-              console.log(request)
-              console.log(status)
-              console.log(error)
-              console.log(request.responseJSON.status)
 
-              analyzeError(request)
-           
-          }
-        });
 
 })
 
@@ -2143,8 +2205,38 @@ let getTableData='',
 
 
 
-$(document).ready(function(){
+$(function(){
 
+
+  setNavLinkStatus()
+  function setNavLinkStatus(){
+
+    let id=localStorage.getItem("navLinkSatus")
+  
+    if(id){
+
+
+      var someTabTriggerEl = document.querySelector(`#${id}`)
+      var tab = new bootstrap.Tab(someTabTriggerEl)
+    
+      tab.show()
+
+      /*
+      $(".nav-link").removeClass("active");
+      $(`#${id}`).addClass("active");
+
+
+      let Button = document.getElementById(`pendingContainer`);
+      console.log(Button)
+
+      Button.click()
+
+      console.log(Button)
+      */
+     // $(`#${id}`).trigger("click");
+    }
+   
+  }
 
   //FOR ACTIVE JOB
   getTableData=function ( limit,offset){
@@ -3076,3 +3168,10 @@ function reAssign(job_id,guard_id){
     }
   });
 }
+
+
+
+function updateNavLinkStatus(id){
+  localStorage.setItem("navLinkSatus",id)
+}
+

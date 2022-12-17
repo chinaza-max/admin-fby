@@ -26,6 +26,12 @@
   <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.2.8/css/rowReorder.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css">
+
+
+
 </head>
 
 
@@ -387,11 +393,35 @@
           </div>
 
           <div class="card">
-           
-            <div class="card-body">
-              <div class="alert alert-primary outline" role="alert">
-                WORK IN PROGRESS
-              </div>
+            <div class="card-body   mt-5">
+              <table id="example" class="display nowrap " style="width:100%">
+                <thead>
+                    <th colspan="10">ON GOING SCHEDULE</th>
+                    <tr>
+                      <th class="text-nowrap">Name</th>
+                      <th>Customer</th>
+                      <th>Site</th>
+                      <th class="text-nowrap">Start date</th>
+                      <th class="text-nowrap">Start time</th>
+                      <th class="text-nowrap">End date</th>
+                      <th class="text-nowrap">End time </th>
+                      <th>Hours</th>
+                      <th class="text-nowrap">Check in</th>
+                      <th class="text-nowrap">Check out</th>
+                      <th class="text-nowrap">Guard charge</th>
+                      <th class="text-nowrap">Client charge</th>
+                      <th class="text-nowrap">Hours worked</th>
+                      <th class="text-nowrap">Total earn</th>
+                      <th class="text-nowrap">Job status</th>
+                      <th class="text-nowrap">Description</th>
+                      <th class="text-nowrap">Settlement status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                 
+                </tbody>
+            
+            </table>
             </div>
           </div>
 
@@ -598,6 +628,10 @@
 <script src="../assets/js/index.js"></script>
 
 
+
+<script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/rowreorder/1.2.8/js/dataTables.rowReorder.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
 
 </body>
 </html>
