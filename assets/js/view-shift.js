@@ -243,8 +243,6 @@ $(document).ready(function() {
         createdRow: function (row, data, index) {
 
 
-        
-  
 
             if (data["job_status"] == "ACTIVE") {
                 $('td', row).css('background-color', '#828204');
@@ -261,7 +259,6 @@ $(document).ready(function() {
             }
         },
         rowCallback: function( row, data, index ) {
-
           if(data["settlement_status"]==false){
             calPayPerSchedule(data["guard_charge"],data["hours_worked"])
           } 

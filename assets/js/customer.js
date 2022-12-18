@@ -24,6 +24,37 @@ setTimeout(() => {
 
 formAdminReg.addEventListener("submit",(e)=>{
     e.preventDefault()
+
+
+
+
+
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition, () => {
+
+        Swal.fire({
+          title: 'Action Required',
+          text: "Location permission is required to proceed!",
+          icon: 'warning',
+          confirmButtonColor: '#1c0d2e',
+          confirmButtonText: 'ok'
+        })
+
+        switchHandle.animate({
+          left: 0
+        }, 100)
+    
+      });
+      
+    } else { 
+      console.log("Geolocation is not supported by this browser.")
+    }
+    function showPosition(position) {
+
+
+
+
     $("#signInButton").css("display","none")
     $("#loadingButton").css("display","block")
 
@@ -54,6 +85,8 @@ formAdminReg.addEventListener("submit",(e)=>{
                     date_of_birth,
                     gender,
                     address,
+                    latitude: position.coords.latitude,
+                    longitude:position.coords.longitude,
                     phone_number:Phone_number
             },
             success: function (data, text) {
@@ -123,7 +156,7 @@ formAdminReg.addEventListener("submit",(e)=>{
         $('.selectpicker').selectpicker('refresh')
     }
 
-
+  }
 
 })
 
