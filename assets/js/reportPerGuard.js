@@ -56,10 +56,12 @@ $(document).ready(function() {
             { data: "message" },
             { data: "file_url" ,
             "render": function ( data,index) {
-              if(data.includes("image")){
+
+              console.log(data)
+              if(data.endsWith("jpeg")||data.endsWith("png")||data.endsWith("jpg")){
                 return `<img src="${data}" width="90px">  <a href="${data}" download>download</a>`;
               }
-              else if(data.includes("video")){
+              else if(data.endsWith("mp4")){
                 return ` <video  src="${data}"  width="120px" height="100px"  controls></video>`;
               }
               else{

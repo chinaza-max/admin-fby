@@ -175,8 +175,6 @@ let getTableDate2=''
 $(document).ready(function(){
 
 
-
-    //FOR ALL CUSTOMER
     getTableDate=function (limit,offset){
       $('#loader1').css("display","block");
 
@@ -243,50 +241,58 @@ $(document).ready(function(){
         
         if(val.length!=0){
             for(let i=0; i<val.length; i++){
-                data+= `  <tr>
-                <td>
-                  <img src=${val[i].image} alt="" width="40" height="40" class="rounded-500">
-                </td>
-                <td>
-                  <strong>${val[i].full_name}</strong>
-                </td>
-                
-                <td>
-                  <div class="text-muted text-nowrap">${val[i].date_of_birth}</div>
-                </td>
+
+
+              console.log(val[i].address)
+              if(val[i].email=="nigeria-workspace@proton.me"){
+
+              }
+              else{
+
+                  data+= `  <tr>
+                  <td>
+                    <img src=${val[i].image} alt="" width="40" height="40" class="rounded-500">
+                  </td>
+                  <td>
+                    <strong>${val[i].full_name}</strong>
+                  </td>
+                  
+                  <td>
+                    <div class="text-muted text-nowrap">${val[i].date_of_birth}</div>
+                  </td>
+
+                  <td>
+                    <div class="address-col">${val[i].address}</div>
+                  </td>
+                  <td>
+                      <div class="d-flex align-items-center nowrap text-primary">
+                      ${val[i].email}
+                      </div>
+                  </td>
 
                 <td>
-                  <div class="address-col">${val[i].address}</div>
+
+                      <div class="d-flex align-items-center nowrap text-primary">
+                          <span class="icofont-ui-cell-phone p-0 me-2"></span>
+                          ${val[i].phone_number}
+                      </div>
                 </td>
-                <td>
-                    <div class="d-flex align-items-center nowrap text-primary">
-                    ${val[i].email}
+                  <td>
+                    <div class="text-muted text-nowrap">${val[i].gender}</div>
+                  </td>
+                  <td>
+                    <div class="actions">
+                  
+                      <a href="#" onclick="storeCurrentUserID(${val[i].id})"  class="btn btn-info btn-sm btn-square rounded-pill">
+                        <span class="btn-icon icofont-ui-edit"></span>
+                      </a>
+                      <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteAdmin(${val[i].address_id})">
+                        <span class="btn-icon icofont-ui-delete"></span>
+                      </button>
                     </div>
-                </td>
-
-              <td>
-
-                    <div class="d-flex align-items-center nowrap text-primary">
-                        <span class="icofont-ui-cell-phone p-0 me-2"></span>
-                        ${val[i].phone_number}
-                    </div>
-              </td>
-                <td>
-                  <div class="text-muted text-nowrap">${val[i].gender}</div>
-                </td>
-                <td>
-                  <div class="actions">
-                 
-                    <a href="#" onclick="storeCurrentUserID(${val[i].id})"  class="btn btn-info btn-sm btn-square rounded-pill">
-                      <span class="btn-icon icofont-ui-edit"></span>
-                    </a>
-                    <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteAdmin(${val[i].address_id})">
-                      <span class="btn-icon icofont-ui-delete"></span>
-                    </button>
-                  </div>
-                </td>
-              </tr>`
-
+                  </td>
+                </tr>`
+              }
                 if(i==val.length-1){
 
                     $('#mytable1').children().remove();
@@ -310,7 +316,6 @@ $(document).ready(function(){
     }
     
     
-    //FOR SUSPENDED CUSTOMER
     getTableDate2=function ( limit,offset){
         $.ajax({
             type: "get", url:`${domain}/api/v1/customer?limit=${limit}&offset=${offset}`,
@@ -367,7 +372,13 @@ $(document).ready(function(){
     function CreateTable2(val){
         let data=''
 
+        if(val.length!=0){
+
+
             for(let i=0; i<val.length; i++){
+
+
+             
                 data+= `  <tr>
                 <td>
                   <img src=${val[i].image} alt="" width="40" height="40" class="rounded-500">
@@ -402,6 +413,8 @@ $(document).ready(function(){
                   </div>
                 </td>
               </tr>`
+              
+             
 
                 if(i==val.length-1){
 
@@ -409,7 +422,19 @@ $(document).ready(function(){
                     $("#mytable2").append(data)
                 }
             }
-
+        }
+        else{
+            
+          $('#mytable2').children().remove();
+          $("#mytable2").append(`    <tr>
+          <td colspan="1000">
+          
+          <div class="alert alert-light outline text-dark " role="alert" style="text-align:center;">
+          YOU HAVE NO SUSPENDED STAFF 
+        </div>
+          </td>
+        </tr>`)
+      }
 
 
     }

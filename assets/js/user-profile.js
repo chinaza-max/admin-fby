@@ -190,8 +190,7 @@ $(document).ready(function(){
             },
             success: function (data, text) {
                 
-
-                console.log(data.data)
+                console.log(data.data.user)
                 localStorage.setItem('userDetails', btoa(JSON.stringify(data.data.user)));
 
                 $("#avatar").attr("src",data.data.user.image);

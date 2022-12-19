@@ -109,7 +109,7 @@ $(document).ready(function(){
                                             </td>
                                             <td>
                                                 <a    onclick="setGuardName('${guard[i].first_name} ${guard[i].last_name}'); setGuardId(${guard[i].guard_id})" href="../dist-horizontal/reportPerGuard.html" class="btn btn-primary"  >
-                                                    Report <span class="badge badge-light badge-inside ms-2">4</span>
+                                                    Report <span class="badge badge-light badge-inside ms-2">${guard[i].no_of_report}</span>
                                                 </a>    
                                             </td>
                                             <td>

@@ -87,6 +87,12 @@ if(localStorage.getItem("userDetails")!=null){
 
 userDeatils=JSON.parse(atob(localStorage.getItem("userDetails")))
     userEmail=userDeatils.email
+
+    console.log(userDeatils)
+    avatarURL=userDeatils.image
+
+    $("#avatar").attr("src",avatarURL);
+
 }
 
 
@@ -182,6 +188,65 @@ function show_warming_no_guard(val){
 
 
 
+
+
+
+
+
+$(document).ready(function(){
+    let value=localStorage.getItem("setRTopNavColor")
+    if(value=="true"){
+        setTimeout(() => {
+            $("#topbar").click()
+        }, 1000);
+    }
+
+
+    let value2=localStorage.getItem("setLeftNavColor")
+    console.log(value2)
+    if(value2=="true"){
+        setTimeout(() => {
+            $("#sidebar").click()
+        }, 1000);
+    }
+
+})
+
+
+let checkbox=document.querySelector("#topbar")
+checkbox.addEventListener('change', function() {
+    checkbox.addEventListener('change', function() {
+        if (this.checked) {
+            console.log("is checked ")
+
+        localStorage.setItem("setRTopNavColor",true)
+
+        } else {
+            console.log("not checked ")
+
+        localStorage.setItem("setRTopNavColor",false)
+        }
+    });
+  });
+
+
+
+let checkbox2=document.querySelector("#sidebar")
+checkbox2.addEventListener('change', function() {
+    checkbox2.addEventListener('change', function() {
+        if (this.checked) {
+        localStorage.setItem("setLeftNavColor",true)
+        console.log("is checked ")
+
+        } else {
+
+       console.log("not checked ")
+        localStorage.setItem("setLeftNavColor",false)
+
+        }
+    });
+
+  });
 
 
 
