@@ -2214,26 +2214,9 @@ $(function(){
     let id=localStorage.getItem("navLinkSatus")
   
     if(id){
-
-
       var someTabTriggerEl = document.querySelector(`#${id}`)
       var tab = new bootstrap.Tab(someTabTriggerEl)
-    
       tab.show()
-
-      /*
-      $(".nav-link").removeClass("active");
-      $(`#${id}`).addClass("active");
-
-
-      let Button = document.getElementById(`pendingContainer`);
-      console.log(Button)
-
-      Button.click()
-
-      console.log(Button)
-      */
-     // $(`#${id}`).trigger("click");
     }
    
   }
@@ -2241,6 +2224,7 @@ $(function(){
   //FOR ACTIVE JOB
   getTableData=function ( limit,offset){
 
+    $('#loader1').css("display","block");
     $.ajax({
         type: "get", url:`${domain}/api/v1/job/allJobs?type=ACTIVE&limit=${limit}&offset=${offset}`,
         headers: {
@@ -2251,6 +2235,8 @@ $(function(){
 
 
             console.log(data.data)
+            $('#loader1').css("display","none");
+
             CreateTable(data.data)
             /*
             showModal("REGISTRATION SUCCESSFULL")
@@ -2266,6 +2252,8 @@ $(function(){
         error: function (request, status, error) {
 
             console.log(request)
+            $('#loader1').css("display","none");
+
             analyzeError(request)
          
         }
@@ -2365,6 +2353,8 @@ $(function(){
   //FOR PENDING JOB
   getTableData2=function ( limit,offset){
 
+    $('#loader2').css("display","block");
+
     $.ajax({
         type: "get", url:`${domain}/api/v1/job/allJobs?type=PENDING&limit=${limit}&offset=${offset}`,
         headers: {
@@ -2375,6 +2365,8 @@ $(function(){
 
 
             console.log(data.data)
+            $('#loader2').css("display","none");
+
             CreateTable2(data.data)
             /*
             showModal("REGISTRATION SUCCESSFULL")
@@ -2390,6 +2382,8 @@ $(function(){
         error: function (request, status, error) {
 
             console.log(request)
+            $('#loader2').css("display","none");
+
             analyzeError(request)
          
         }
@@ -2489,6 +2483,9 @@ $(function(){
 
   getTableData3=function ( limit,offset){
 
+
+    $('#loader3').css("display","block");
+
     $.ajax({
         type: "get", url:`${domain}/api/v1/job/allJobs?type=COMPLETED&limit=${limit}&offset=${offset}`,
         headers: {
@@ -2499,6 +2496,7 @@ $(function(){
 
 
             console.log(data.data)
+            $('#loader3').css("display","none");
             CreateTable3(data.data)
             /*
             showModal("REGISTRATION SUCCESSFULL")
@@ -2514,6 +2512,8 @@ $(function(){
         error: function (request, status, error) {
 
             console.log(request)
+            $('#loader3').css("display","none");
+
             analyzeError(request)
          
         }
@@ -2613,6 +2613,9 @@ $(function(){
    //FOR DECLINE JOB
    getTableData4=function ( limit,offset){
 
+
+    $('#loader4').css("display","block");
+
     $.ajax({
         type: "get", url:`${domain}/api/v1/job/getDeclinedJob`,
         headers: {
@@ -2622,12 +2625,15 @@ $(function(){
         success: function (data, text) {
 
             console.log(data.data)
+            $('#loader4').css("display","none");
+
             CreateTable4(data.data)
         
         },
         error: function (request, status, error) {
 
             console.log(request)
+            $('#loader4').css("display","none");
             analyzeError(request)
          
         }

@@ -87,8 +87,6 @@ if(localStorage.getItem("userDetails")!=null){
 
 userDeatils=JSON.parse(atob(localStorage.getItem("userDetails")))
     userEmail=userDeatils.email
-    console.log(userDeatils)
-    $("#avatar").attr("src",userDeatils.image);
 }
 
 

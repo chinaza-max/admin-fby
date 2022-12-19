@@ -178,6 +178,8 @@ $(document).ready(function(){
 
     //FOR ALL CUSTOMER
     getTableDate=function (limit,offset){
+      $('#loader1').css("display","block");
+
         $.ajax({
             type: "get", url:`${domain}/api/v1/user/getAllStaff?role=ADMIN&limit=${limit}&offset=${offset}`,
             headers: {
@@ -187,6 +189,7 @@ $(document).ready(function(){
             success: function (data,text){
 
                 console.log(data.data)
+                $('#loader1').css("display","none");
                 CreateTable(data.data)
 
                 /*
@@ -202,7 +205,8 @@ $(document).ready(function(){
             },
             error: function (request, status, error) {
 
-                console.log(request)
+              $('#loader1').css("display","none");
+              console.log(request)
 
                 if(request.responseJSON.status=="conflict-error"){
                     console.log(request.responseJSON.message)

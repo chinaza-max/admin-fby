@@ -152,6 +152,9 @@ $(document).ready(function(){
 
     //FOR ALL CUSTOMER
     getTableDate=function ( limit,offset){
+
+        $('#loader1').css("display","block");
+
         $.ajax({
             type: "get", url:`${domain}/api/v1/user/getAllStaff?role=GUARD&limit=${limit}&offset=${offset}`,
             headers: {
@@ -162,7 +165,7 @@ $(document).ready(function(){
 
 
                 console.log(data.data)
-
+                $('#loader1').css("display","none");
                 CreateTable(data.data)
                 /*
                 showModal("REGISTRATION SUCCESSFULL")
@@ -178,6 +181,7 @@ $(document).ready(function(){
             error: function (request, status, error) {
 
                 console.log(request)
+                $('#loader1').css("display","none");
 
                 if(request.responseJSON.status=="conflict-error"){
                     console.log(request.responseJSON.message)
