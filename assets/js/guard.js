@@ -504,6 +504,9 @@ function deleteGuard(id){
       if (result.isConfirmed) {
         $.ajax({
           type: "post", url:`${domain}/api/v1/user/deleteStaff`,
+          headers: {
+            "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+          },
           data: {
             id      
           },

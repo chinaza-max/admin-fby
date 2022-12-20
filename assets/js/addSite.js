@@ -69,7 +69,7 @@ function disPlayData(val){
                         <input class="form-control update${val.sites[i].id}" type="text" name="siteName" id="siteName" value="${val.sites[i].site_name}" readonly>
                       </div>
   
-                      <label>Parameter constraints</label>
+                      <label  class="mt-3">Parameter constraints</label>
                       <div class="input-group mb-3">
                         <input class="form-control update${val.sites[i].id}" type="text" name="radius" id="radius" value=${val.sites[i].operations_area_constraint} required>
                         <span class="input-group-text">Meter</span>
@@ -89,8 +89,11 @@ function disPlayData(val){
                         <span class="input-group-text">hourly pay</span>
 
                       </div>
-  
-                      <div class="form-group">
+
+
+                      <div class="form-group mt-3">
+                        <label>Address</label>
+
                         <textarea class="form-control" rows="4"  id="address" placeholder="${val.sites[i].address}" readonly></textarea>
                       </div>
   
@@ -134,11 +137,15 @@ function disPlayData(val){
 submitSite.addEventListener("submit",(e)=>{
     e.preventDefault()
 
+    $("#signInButton").css("display","none")
+    $("#loadingButton").css("display","block")
 
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(showPosition, () => {
 
+        $("#signInButton").css("display","block")
+        $("#loadingButton").css("display","none")
         Swal.fire({
           title: 'Action Required',
           text: "Location permission is required to proceed!",
@@ -154,27 +161,31 @@ submitSite.addEventListener("submit",(e)=>{
       });
       
     } else { 
+      $("#signInButton").css("display","block")
+      $("#loadingButton").css("display","none")
       console.log("Geolocation is not supported by this browser.")
     }
     function showPosition(position) {
 
 
-    $("#signInButton").css("display","none")
-    $("#loadingButton").css("display","block")
+      
 
     const form = e.target;
     const formFields = form.elements,
     site_name = formFields.inputSiteName.value,
     guard_charge=formFields.inputGuardAmount.value,
     client_charge=formFields.inputJobCost.value,
-    operations_area_constraint=formFields.radius.value||20,
+    operations_area_constraint=formFields.radius.value||40,
     longitude=position2[1],
     latitude=position2[0],
     siteAddress=formFields.siteAddress.value,
     customer_id=myCstomer_id;
 
-    //console.log(site_name,address,guard_charge,client_charge,operations_area_constraint,longitude,latitude,customer_id  )
+    console.log(site_name,address,guard_charge,client_charge,operations_area_constraint,longitude,latitude,customer_id  )
     
+
+    console.log("sent sent sent sent")
+
           $.ajax({
             type: "post", url:`${domain}/api/v1/customer/createFacility`,
             headers: {

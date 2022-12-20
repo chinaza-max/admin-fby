@@ -488,6 +488,9 @@ function deleteCustomer(id){
     if (result.isConfirmed) {
       $.ajax({
         type: "post", url:`${domain}/api/v1/customer/deleteCustomer`,
+        headers: {
+          "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+        },
         data: {
           address_id:id      
         },

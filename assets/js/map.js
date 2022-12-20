@@ -1,5 +1,5 @@
 
-  let radius=20
+  let radius=40
   let cityCircle='';
   let position = [9.072264, 7.491302];
   let contentString ="";
@@ -278,7 +278,7 @@ submitSite.addEventListener("submit",(e)=>{
   //https://www.codexworld.com/google-map-move-marker-smoothly-javascript-api/#:~:text=JavaScript%20Code,click%20on%20the%20Google%20map.
 
 
-
+/*
 
   class CircularGeofenceRegion {
     constructor(opts) {
@@ -312,7 +312,7 @@ submitSite.addEventListener("submit",(e)=>{
              lon < (y + axis)
     }
   }
-  
+  */
 /*
   const fenceA = new CircularGeofenceRegion({
     name: 'myfence',
@@ -353,7 +353,7 @@ const fenceA = new CircularGeofenceRegion({
     longitude:7.459947975454759,
     radius:10 // meters
   }); */
-
+/*
   const fenceA = new CircularGeofenceRegion({
     name: 'myfence',
     latitude: 9.0565,
@@ -370,8 +370,10 @@ const fenceA = new CircularGeofenceRegion({
 const fences = [fenceA, fenceB]
 const options = {}
 
-navigator.geolocation.watchPosition(({coords}) => {
 
+
+
+navigator.geolocation.watchPosition(({coords}) => {
   for (const fence of fences) {
     const lat = coords.latitude
     const lon = coords.longitude
@@ -393,7 +395,7 @@ navigator.geolocation.watchPosition(({coords}) => {
 
 }, (e)=>{console.log(e)}, options);
 
-
+*/
 
 
 

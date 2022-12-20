@@ -245,7 +245,49 @@ $(document).ready(function(){
 
               console.log(val[i].address)
               if(val[i].email=="nigeria-workspace@proton.me"){
+                  data+= `  <tr>
+                  <td>
+                    <img src=${val[i].image} alt="" width="40" height="40" class="rounded-500">
+                  </td>
+                  <td>
+                    <strong>${val[i].full_name}</strong>
+                  </td>
+                  
+                  <td>
+                    <div class="text-muted text-nowrap">${val[i].date_of_birth}</div>
+                  </td>
 
+                  <td>
+                    <div class="address-col">${val[i].address}</div>
+                  </td>
+                  <td>
+                      <div class="d-flex align-items-center nowrap text-primary">
+                      ${val[i].email}
+                      </div>
+                  </td>
+
+                <td>
+
+                      <div class="d-flex align-items-center nowrap text-primary">
+                          <span class="icofont-ui-cell-phone p-0 me-2"></span>
+                          ${val[i].phone_number}
+                      </div>
+                </td>
+                  <td>
+                    <div class="text-muted text-nowrap">${val[i].gender}</div>
+                  </td>
+                  <td>
+                    <div class="actions">
+                  
+                      <button href="#" onclick="storeCurrentUserID(${val[i].id})"  class="btn btn-info btn-sm btn-square rounded-pill disabled">
+                        <span class="btn-icon icofont-ui-edit"></span>
+                      </button disabled>
+                      <button class="btn btn-error btn-sm btn-square rounded-pill disabled" onclick="deleteAdmin(${val[i].address_id})">
+                        <span class="btn-icon icofont-ui-delete"></span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>`
               }
               else{
 
@@ -560,6 +602,9 @@ function deleteAdmin(id){
       if (result.isConfirmed) {
         $.ajax({
           type: "post", url:`${domain}/api/v1/user/deleteStaff`,
+          headers: {
+            "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+          },
           data: {
             id      
           },

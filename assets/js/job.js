@@ -2311,7 +2311,7 @@ $(function(){
             </td>
             <td>
               <div class="actions">
-              ${val[i].id}
+            
                 <a href="guard-in-job.html" onclick="storeCurrentUserID(${val[i].id})"  class="btn btn-dark btn-sm btn-square rounded-pill">
                 <span class="btn-icon icofont-external-link"></span>
                 </a>
