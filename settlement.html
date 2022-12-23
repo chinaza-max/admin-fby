@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>FBY admin Dashboard</title>
+  <title>FBY Admin Panel</title>
   <meta name="keywords" content="MedicApp">
   <meta name="description" content="">
   <meta name="author" content="">
@@ -31,7 +31,7 @@
 <div class="app-loader main-loader">
   <div class="loader-box">
     <div class="bounceball"></div>
-    <div class="text">FBY<span>app</span></div>
+    <div class="text">FBY<span>TEAM</span></div>
   </div>
 </div>
 <!-- .main-loader -->
@@ -190,21 +190,21 @@
                     <li class="menu-item">
                       <a class="item-link" href="customer.html">
                         <div class="icon icofont-user-alt-2"></div>
-                        <span class="link-text">customer</span>
+                        <span class="link-text">Customer</span>
                       </a>
                     </li>
 
                     <li class="menu-item">
                       <a class="item-link" href="staff.html">
                         <div class="icon icofont-business-man"></div>
-                        <span class="link-text">staff</span>
+                        <span class="link-text">Staff</span>
                       </a>
                     </li>
 
                     <li class="menu-item">
                       <a class="item-link" href="guard.html">
                         <div class="icon icofont-cop"></div>
-                        <span class="link-text">guard</span>
+                        <span class="link-text">Guard</span>
                       </a>
                     </li>
 
@@ -212,14 +212,14 @@
                 </li>
 
                 <li class="menu-item">
-                  <a class="item-link" href="request.html">
+                  <a class="item-link" href="#">
                     <div class="icon sli-book-open"></div>
                     <span class="link-text">Requests</span>
                   </a>
                 </li>
 
                 <li class="menu-item">
-                  <a class="item-link" href="request.html">
+                  <a class="item-link" href="#">
                     <div class="icon sli-credit-card"></div>
                     <span class="link-text">Invoices</span>
                   </a>
@@ -233,24 +233,23 @@
                 </li>
 
                 <li class="menu-item">
-                  <a class="item-link" href="request.html">
+                  <a class="item-link" href="#">
                     <div class="icon icofont-fax"></div>
                     <span class="link-text">Transaction</span>
                   </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item active">
                   <a class="item-link" href="settlement.html">
                     <div class="icon icofont-layers"></div>
                     <span class="link-text">Settlement</span>
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a class="item-link" href="/dist-horizontal/view-shift.html">
+                  <a class="item-link" href="/view-shift.html">
                     <div class="icon icofont-search-job"></div>
                     <span class="link-text">view-shift</span>
                   </a>
                 </li>
-            
               </ul>
             </nav>
           </div>
@@ -312,79 +311,130 @@
 
       <div class="main-content-wrap">
         <header class="page-header">
-          <h1 class="page-title">Patients</h1>
         </header>
 
         <div class="page-content">
-          <div class="card mb-0">
+
+          <div class="card">
+            <div class="card-header">
+              Settlement
+            </div>
             <div class="card-body">
-              <div class="table-responsive">
-                <table class="table table-hover">
-                  <thead>
-                  <tr class="bg-primary text-white">
-                    <th scope="col">FirstName</th>
-                    <th scope="col">LastName</th>
-                    <th scope="col">Hours Worked</th>
-                    <th scope="col">Amount</th>
-                    <th scope="col">Action</th>
+              <ul class="nav nav-pills mb-3" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#tab-1" type="button"
+                    role="tab" aria-selected="true">Un settled</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-2" type="button" role="tab"
+                    aria-selected="false">Settled</button>
+                </li>
 
-                
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr>
-                    <td>
-                        test     
-                    </td>
-                    <td>
-                       tester
-                    </td>
-                    <td>
-                      <div>1000</div>
-                    </td>
-                    <td>
-                      <div>$5000</div>
-                    </td>
-                
-                    
-                    <td>
-                      <div class="actions">
-                        <a href="#"  class="btn btn-dark btn-sm btn-square rounded-pill"   data-bs-toggle="modal" data-bs-target="#view-request">
-                          <span class="btn-icon icofont-external-link"></span>
-                        </a>
-                       
-                        <button class="btn btn-error btn-sm btn-square rounded-pill">
-                          <span class="btn-icon icofont-ui-delete"></span>
-                        </button>
+              </ul>
+              <div class="tab-content">
+                <div class="tab-pane fade show active" id="tab-1" role="tabpanel">
+                  <div class="card mb-0">
+                    <div class="card-body">
+                      <div class="table-responsive">
+                        <table class="table table-hover nowrap">
+                          <thead>
+                            <tr>
+                              <th scope="col">Firt name </th>
+                              <th scope="col">Last name</th>
+                              <th scope="col">Hours worked</th>
+                              <th scope="col">Amount earned</th>
+                              <th scope="col">Action</th>
+                            
+                            </tr>
+                          </thead>
+                          <tbody id="mytable1">
+                            
+                          </tbody>
+                        </table>
                       </div>
-                    </td>
-                  </tr>
-                  
-       
-                  </tbody>
-                </table>
-              </div>
 
-              <nav class="mt-4">
-                <ul class="pagination">
-                  <li class="page-item disabled">
-                    <a class="page-link" href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
-                      <span class="icofont-simple-left"></span>
-                    </a>
-                  </li>
-                  <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
-                      <span class="icofont-simple-right"></span>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
+                      <nav class="mt-4">
+                        <ul class="pagination">
+                          <li id="Previous" class="page-item page-item1 disabled" onclick="Previous()">
+                            <a class="page-link" href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
+                              <span class="icofont-simple-left"></span>
+                            </a>
+                          </li>
+                          <li class="page-item page-item1 active" aria-current="page" id="page1" onclick="page(1)"><a class="page-link" href="#">1</a></li>
+                          <li class="page-item page-item1"  id="page2"><a class="page-link" href="#"  onclick="page(2)">2</a></li>
+                          <li class="page-item page-item1"  id="page3"><a class="page-link" href="#"  onclick="page(3)">3</a></li>
+                          <li id="Next" class="page-item page-item1" onclick="Next()">
+                            <a class="page-link" href="#" aria-label="Next">
+                              <span class="icofont-simple-right"></span>
+                            </a>
+                          </li>
+                        </ul>
+                      </nav>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="tab-pane fade" id="tab-2" role="tabpanel">
+                  <div class="card mb-0">
+                    <div class="card-body">
+                      <div class="table-responsive">
+                        <table class="table table-hover nowrap">
+                          <thead>
+                            <tr>
+                              <th scope="col">Site name</th>
+                              <th scope="col">Name</th>
+                              <th scope="col"  class="text-nowrap">Start date</th>
+                              <th scope="col"  class="text-nowrap">Start time</th>
+                              <th scope="col"  class="text-nowrap">End date</th>
+                              <th scope="col"  class="text-nowrap">End time</th>
+                              <th scope="col">Hours</th>
+                              <th scope="col"  class="text-nowrap">Check in date</th>
+                              <th scope="col"  class="text-nowrap">Check in time</th>
+                              <th scope="col"  class=" text-nowrap">Check out date</th>
+                              <th scope="col"  class="text-nowrap">Check out time</th>
+                              <th scope="col">Hours</th>
+                              <th scope="col">Charge</th>
+                              <th scope="col"  class="text-nowrap">Total earn</th>
+                              <th scope="col">Actions</th>
+                            </tr>
+                          </thead>
+                          <tbody id="mytable2">
+                            
+
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <nav class="mt-4">
+                        <ul class="pagination">
+                          <li id="Previous2" class="page-item page-item2 disabled" onclick="Previous2()">
+                            <a class="page-link" href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
+                              <span class="icofont-simple-left"></span>
+                            </a>
+                          </li>
+                          <li class="page-item page-item2 active" aria-current="page" id="page12" onclick="page2(1)"><a class="page-link" href="#">1</a></li>
+                          <li class="page-item page-item2"  id="page22"><a class="page-link" href="#"  onclick="page2(2)">2</a></li>
+                          <li class="page-item page-item2"  id="page32"><a class="page-link" href="#"  onclick="page2(3)">3</a></li>
+                          <li id="Next2" class="page-item page-item2" onclick="Next2()">
+                            <a class="page-link" href="#" aria-label="Next">
+                              <span class="icofont-simple-right"></span>
+                            </a>
+                          </li>
+                        </ul>
+                      </nav>
+                    </div>
+                  </div>
+                </div>
+
+             
+              </div>
             </div>
           </div>
 
+     
+
+     
         </div>
       </div>
     </main>
@@ -452,63 +502,7 @@
   </div>
 </div>
 
-<!-- Add patients modals -->
-<div class="modal fade" id="add-patient" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Add new patient</h5>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="form-group avatar-box d-flex">
-            <img src="../assets/content/anonymous-400.jpg" width="40" height="40" alt="" class="rounded-500 me-4">
 
-            <button class="btn btn-outline-primary" type="button">
-              Select image<span class="btn-icon icofont-ui-user ms-2"></span>
-            </button>
-          </div>
-
-          <div class="form-group">
-            <input class="form-control" type="text" placeholder="Name">
-          </div>
-
-          <div class="form-group">
-            <input class="form-control" type="number" placeholder="Number">
-          </div>
-
-          <div class="row">
-            <div class="col-12 col-sm-6">
-              <div class="form-group">
-                <input class="form-control" type="number" placeholder="Age">
-              </div>
-            </div>
-            <div class="col-12 col-sm-6">
-              <div class="form-group">
-                <select class="selectpicker" title="Gender">
-                  <option class="d-none">Gender</option>
-                  <option>Male</option>
-                  <option>Female</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group mb-0">
-            <textarea class="form-control" placeholder="Address" rows="3"></textarea>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer d-block">
-        <div class="actions justify-content-between">
-          <button type="button" class="btn btn-error" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-info">Add patient</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- end Add patients modals -->
 
 <!-- Add patients modals -->
 <div class="modal fade" id="settings" tabindex="-1" role="dialog" aria-hidden="true">
@@ -519,14 +513,7 @@
       </div>
       <div class="modal-body">
         <form>
-          <div class="form-group">
-            <label>Layout</label>
-            <select class="selectpicker" title="Layout" id="layout">
-              <option value="horizontal-layout">Horizontal</option>
-              <option value="vertical-layout">Vertical</option>
-            </select>
-          </div>
-
+  
           <div class="form-group">
             <label>Light/dark topbar</label>
             <div class="form-check form-switch">
@@ -561,108 +548,69 @@
 <!-- end Add patients modals -->
 
 
-<div class="modal fade" id="view-request" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+
+
+<div class="modal fade" id="RegisterationSuccessFull" style="z-index:10000;" tabindex="-1" role="dialog"
+aria-hidden="true">
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-body">
+      <div id="RegisterationSuccessFullContent" class="alert alert-primary outline  text-center" role="alert">
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+<div class="modal fade" id="RegisterationError" style="z-index:10000;" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-body" id="RegisterationErrorContent"  >
+    </div>
+  </div>
+</div>
+</div>
+
+
+<div class="modal fade" id="view-detail" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
-      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" >
         <i class="icofont-close-line"></i>
       </button>
 
       <div class="modal-header">
-        <h5 class="modal-title">Staff assigned</h5>
+        <h5 class="modal-title">Details on guard scroll left to view Complete</h5>
       </div>
       <div class="modal-body">
         <div class="table-responsive">
           <table class="table table-hover">
             <thead>
             <tr>
+              <th scope="col">Site name</th>
               <th scope="col">Name</th>
-              <th scope="col">Amount per hour</th>
-              <th scope="col">Start time</th>
-              <th scope="col">End time</th>
-             
+              <th scope="col"  class="text-nowrap">Start date</th>
+              <th scope="col"  class="text-nowrap">Start time</th>
+              <th scope="col"  class="text-nowrap">End date</th>
+              <th scope="col"  class="text-nowrap">End time</th>
+              <th scope="col">Hours</th>
+              <th scope="col"  class="text-nowrap">Check in date</th>
+              <th scope="col"  class="text-nowrap">Check in time</th>
+              <th scope="col"  class=" text-nowrap">Check out date</th>
+              <th scope="col"  class="text-nowrap">Check out time</th>
+              <th scope="col">Hours</th>
+              <th scope="col">Charge</th>
+              <th scope="col"  class="text-nowrap">Total earn</th>
               <th scope="col">Actions</th>
             </tr>
             </thead>
-            <tbody>
-              <tr>        
-                <td>
-                  <strong>Liam</strong>
-                </td>
-                <td>
-                  <div class="d-flex align-items-center nowrap text-primary">
-                    $2000
-                  </div>
-                </td>
-                <td>
-                  <div class="text-muted text-nowrap">7:00 AM</div>
-                </td>
-                <td>
-                  <div class="text-muted text-nowrap">5:00 PM</div>
-                </td>
-              
-                <td>
-                  <div class="actions">
-              
-                    <button class="btn btn-error btn-sm btn-square rounded-pill">
-                      <span class="btn-icon icofont-ui-delete"></span>
-                    </button>
-                  </div>
-                </td>
-              </tr>
+            <tbody id="displayDetail">
+             
 
-              <tr>        
-                <td>
-                  <strong>Liam</strong>
-                </td>
-                <td>
-                  <div class="d-flex align-items-center nowrap text-primary">
-                    $2000
-                  </div>
-                </td>
-                <td>
-                  <div class="text-muted text-nowrap">7:00 AM</div>
-                </td>
-                <td>
-                  <div class="text-muted text-nowrap">5:00 PM</div>
-                </td>
-              
-                <td>
-                  <div class="actions">
-              
-                    <button class="btn btn-error btn-sm btn-square rounded-pill">
-                      <span class="btn-icon icofont-ui-delete"></span>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-
-              <tr>        
-                <td>
-                  <strong>Liam</strong>
-                </td>
-                <td>
-                  <div class="d-flex align-items-center nowrap text-primary">
-                    $2000
-                  </div>
-                </td>
-                <td>
-                  <div class="text-muted text-nowrap">7:00 AM</div>
-                </td>
-                <td>
-                  <div class="text-muted text-nowrap">5:00 PM</div>
-                </td>
-              
-                <td>
-                  <div class="actions">
-              
-                    <button class="btn btn-error btn-sm btn-square rounded-pill">
-                      <span class="btn-icon icofont-ui-delete"></span>
-                    </button>
-                  </div>
-                </td>
-              </tr>
            
+
             </tbody>
           </table>
         </div>
@@ -690,6 +638,7 @@
 <script src="../assets/js/echarts.min.js"></script>
 <script src="../assets/js/echarts-gl.min.js"></script>
 <script src="../assets/js/globalVar.js"></script>
+<script src="../assets/js/settlement.js"></script>
 <script src="../assets/js/main.js"></script>
 
 

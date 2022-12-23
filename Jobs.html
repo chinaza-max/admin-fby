@@ -247,7 +247,7 @@
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a class="item-link" href="/dist-horizontal/view-shift.html">
+                  <a class="item-link" href="/view-shift.html">
                     <div class="icon icofont-search-job"></div>
                     <span class="link-text">view-shift</span>
                   </a>
@@ -1082,7 +1082,7 @@
 
                 <label>Job description</label>
                 <div class="input-group mb-3">
-                  <textarea name="description" id="description" class="form-control" required></textarea>
+                  <textarea name="description" id="description" class="form-control" maxlength="300" required></textarea>
                 </div>
 
               </div>
@@ -1632,28 +1632,34 @@
                   <label>Information </label>
 
                   <textarea class="form-control" rows="4" id="instructionInfo"
-                    placeholder="Addition infomation like address of QR code to be scan" required></textarea>
+                    placeholder="Addition infomation like location of QR code to be scan" maxlength="300" required></textarea>
                 </div>
 
-                <div class="form-group">
-                  <label>Time </label>
-                  <input class="form-control" id="instructionTime" type="time" required />
+                <div class="row">
+                  <div class="col-12 col-md-6">
+                    <div class="form-group">
+                      <label>Time </label>
+                      <input class="form-control" id="instructionTime" type="time" required />
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <div class="form-group">
+                      <label>Date </label>
+                      <select class="selectpicker mb-3" id="toggleInstructionDate">
+                        <option value="new date">new date</option>
+                        <option value="use job date">use job date</option>
+                      </select>
+                    </div>
+                  </div>
                 </div>
 
-                <div class="form-group">
-                  <label>Date </label>
-                  <select class="selectpicker mb-3" id="toggleInstructionDate">
-                    <option value="new date">new date</option>
-                    <option value="use job date">use job date</option>
-                  </select>
-                </div>
 
-
-                <div class="form-group" id="multipleDatePickerForInstruction">
+                <div class="form-group " id="multipleDatePickerForInstruction">
                   <label>Choose multiple dates click apply to set individual time after selection</label>
                   <div class="container">
                     <input type="text" class="form-control date" id="randomDateInstrution"
-                      placeholder="Pick the multiple dates">
+                      placeholder="Pick the multiple dates" required>
                   </div>
                   <button class="btn btn-primary mt-3">Apply</button>
                 </div>
@@ -1673,8 +1679,7 @@
               <div class="modal-footer d-block">
                 <div class="actions justify-content-between">
                   <button class="btn btn-primary disabled">assign all</button>
-                  <button class="btn btn-primary" type="button" data-bs-toggle="modal"
-                    data-bs-target="#addGuardDateSchedule4">assign to</button>
+                  <button class="btn btn-primary" onclick="checkIfFormIsEmptyInstruction()">assign to</button>
                 </div>
               </div>
             </form>
@@ -1693,7 +1698,7 @@
                   <label>Information </label>
 
                   <textarea class="form-control" rows="4" id="TaskInfo"
-                    placeholder="Addition infomation like address of QR code to be scan" required></textarea>
+                    placeholder="Addition infomation like address of QR code to be scan" maxlength="300" required></textarea>
                 </div>
 
                 <div class="form-group">
@@ -1911,7 +1916,7 @@
   </div>
 
 
-  <div class="modal fade" id="addGuardDateSchedule4" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal fade" id="addGuardInstructionSchedule4" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered ">
       <div class="modal-content">
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
@@ -1928,28 +1933,10 @@
                 <form>
                   <div class="form-group ">
                     <label>Add multiple or single Guard</label>
-                    <select class="selectpicker" data-live-search="true" id="addGuardDateShedule4V" multiple>
-
-                      <option data-tokens="mustard">guard2</option>
-                      <option data-tokens="frosting">guard3</option>
-                      <option data-tokens="ketchup mustard">guard1</option>
-                      <option data-tokens="mustard">guard2</option>
-                      <option data-tokens="frosting">guard3</option>
-                      <option data-tokens="mustard">guard2</option>
-                      <option data-tokens="frosting">guard3</option>
-                      <option data-tokens="ketchup mustard">guard1</option>
-                      <option data-tokens="mustard">guard2</option>
-                      <option data-tokens="frosting">guard3</option>
-                      <option data-tokens="ketchup mustard">guard1</option>
-                      <option data-tokens="mustard">guard2</option>
-                      <option data-tokens="frosting">guard3</option>
-                      <option data-tokens="ketchup mustard">guard1</option>
-                      <option data-tokens="mustard">guard2</option>
-                      <option data-tokens="frosting">guard3</option>
+                    <select class="selectpicker selectpickerInstruction" data-live-search="true" id="addGuardInstructionShedule4V" multiple>
 
                     </select>
                   </div>
-
                 </form>
               </div>
             </div>

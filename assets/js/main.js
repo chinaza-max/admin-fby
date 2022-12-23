@@ -1548,12 +1548,12 @@
 
   $(window).on('load', function(){
 
-    if((!sessionStorage.getItem("hasVisited"))&&(window.location.pathname!="/dist/sign-in.html")&&(window.location.pathname!="/dist/forgotPassword.html")){
-      window.location.href =window.location.toString().split('/')[0] + "/dist/sign-in.html"
+    if((!sessionStorage.getItem("hasVisited"))&&(window.location.pathname!="/sign-in.html")&&(window.location.pathname!="/forgotPassword.html")){
+      window.location.href =window.location.toString().split('/')[0] + "/sign-in.html"
      
     }
     else{
-      if(window.location.pathname!="/dist/sign-in.html"){
+      if(window.location.pathname!="/sign-in.html"){
 
         $.ajax({
           type: "get", url:`${domain}/api/v1/auth/`,
@@ -1567,7 +1567,7 @@
               localStorage.removeItem("myUser")
               localStorage.removeItem("userDetails")
               if(mode=="development"){
-                window.location.href =window.location.toString().split('/')[0] + "/dist/sign-in.html"
+                window.location.href =window.location.toString().split('/')[0] + "/sign-in.html"
               }
               else{
                     //window.location.replace('https://sunny-kataifi-7adb6f.netlify.app/sign-in.html')

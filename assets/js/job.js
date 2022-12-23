@@ -1,81 +1,4 @@
 
-$(document).ready(function() {
-
-    setTimeout(() => {
-     
-    /*  $(`.logTableContentClass`).append(
-        ` <tr>
-        <td>2/20/22	</td>
-        <td>9:00 AM	</td>
-        <td>Clock In</td>
-        <td>Clock out	 </td>
-     </tr> <tr>
-        <td>2/20/22	</td>
-        <td>9:00 AM	</td>
-        <td>Clock In</td>
-        <td>Clock 	 </td>
-     </tr>`)*/
-
-
-    $('table.display').DataTable({
-        select: true,
-        dom: 'Bfrtip',
-        scrollY: '50vh',
-        buttons: [
-        'copyHtml5',
-        'excelHtml5',
-        'csvHtml5',
-        'pdfHtml5',
-        'print'
-        ],
-        "columns": [
-          { "data": "Date" },
-          { "data": "Time" },
-          { "data": "Activity" },
-          { "data": "location" }
-      ] 
-    });
-
-
-    let ROWDATA=   [{
-      Date: "2/20/22",
-      Time: "9:00 AM",
-      Activity: "test",
-      location: "test"
-    }]
-    
-
-
-
-
-   
-    // tables.table(1).row.add(ROWDATA).draw( false );
-      
-
-    }, 200);
-
-    $('#logTableContent tbody').on("click",'td', function () {
-       console.log("am a"); });
-
-  
-
-  
-});
-
-/*
-function initializePayOff(){
-  console.log("clear")
-  totalHours=0
-  amountPending=0
-}
-*/
-/*
-function calPayOff(val1, val2){
-  document.getElementById("totalHours").innerHTML =val1
-  document.getElementById("amountPending").innerHTML ="$"+val2
-}
-*/
-/*new date and time sheduler */
 
 
 
@@ -313,6 +236,69 @@ function getAvailableGuard(modalId,picker){
 }
 //START GET AVAILABLE GUARD 
 
+
+
+
+
+ //START GET AVAILABLE GUARD  FOR INSTRUCTION
+
+ function getAvailableGuardForInstruction(modalId,picker){
+  
+  $.ajax({
+    type: "post", url:`${domain}/api/v1/job/allJobs/guard`,
+    headers: {
+      "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+    },
+    data: {
+      job_id:job_id_for_schedule,
+    },
+    success: function (data, text) {
+
+        console.log(data.data)
+        formatAvailableGuardForInstruction(data.data.guard,modalId,picker)
+  
+        setTimeout(() => {
+                hideModal()
+        }, 3000);
+
+    },
+    error: function (request, status, error) {
+
+        console.log(request)
+        console.log(status)
+        console.log(error)
+        console.log(request.responseJSON.status)
+       // analyzeError(request)
+     
+    }
+  });
+
+}
+
+//START GET AVAILABLE GUARD FOR INSTRUCTION
+
+
+//NEW FORMAT AVAILABLE GUARD FOR INSTRUCTION
+
+  function formatAvailableGuardForInstruction(val, modalId,picker){
+    let arr=[]
+
+    for(let i=0;i <val.length;i++){
+      arr.push({guard_id:val[i].guard_id,full_name:val[i].first_name+" "+val[i].last_name})
+      if(i==val.length-1){
+        displayGuard(arr, modalId,picker)
+      }
+    }
+
+  }
+
+//END FORMAT AVAILABLE GUARD FOR INSTRUCTION
+
+
+
+
+
+
 function displayGuard(val, modalId,picker){
     let data=''
 
@@ -354,6 +340,20 @@ function checkIfFormIsEmptyRange(){
 }
 //END CHECK IF FORM IS FILL OR NOT FOR RANDOM SCHEDULE ENTERING
 
+
+//NEW CHECK IF FORM IS FILL OR NOT FOR RANDOM SCHEDULE ENTERING
+function checkIfFormIsEmptyInstruction(){
+  
+  let instructionInfo=document.querySelectorAll(".instructionInfo")
+
+  if(instructionInfo.length==0){
+    show_warming_no_guard("ENTER INSTRUCTION")
+  }
+  else{
+
+  }
+}
+//END CHECK IF FORM IS FILL OR NOT FOR RANDOM SCHEDULE ENTERING
 
 
 
@@ -810,7 +810,7 @@ function displayConfigTimeInstruction(val1){
   for(let i=0;i<val1.length;i++){
    DomObj+=`
 
-   <div class="col-md-12">
+   <div class="col-12">
      <div class="form-group">
        <label>Info </label>
        <textarea class="form-control instructionInfo" rows="4"
@@ -818,14 +818,8 @@ function displayConfigTimeInstruction(val1){
      </div>
    </div>
 
-   <div class="col-md-6">
-     <div class="form-group">
-       <label>Instruction type</label>
-       <input class="form-control instructionType" type="text" value="${instructionType}" readonly>
-     </div>
-   </div>
-
-   <div class="col-md-6">
+  
+   <div class="col-12 col-sm-6">
      <div class="form-group">
        <label>Time to perform instrution </label>
        <input class="form-control instructionTime" type="time" value=${instructionTime} required>
@@ -838,6 +832,15 @@ function displayConfigTimeInstruction(val1){
        <input class="form-control instructionDate" value=${val1[i]}  type="date" required>
      </div>
    </div>
+
+
+   <div class="col-12 col-sm-6">
+   <div class="form-group">
+     <label>Instruction type</label>
+     <input class="form-control instructionType" type="text" value="${instructionType}" readonly>
+   </div>
+  </div>
+
    <div class="alert alert-secondary" role="alert">
    </div>
 
@@ -864,9 +867,19 @@ createInstruction.addEventListener("submit",(e)=>{
 
 
   for(let i=0;i<instructionInfo.length;i++){
-      obj.push({info:instructionInfo[i].value,type:instructionType[i].value,time:instructionTime[i].value,date:instructionDate[i].value})
+
+      obj.push({info:instructionInfo[i].value,type:instructionType[i].value,time:instructionTime[i].value,date:new Date(instructionDate[i].value +' '+instructionTime[i].value)      })
     if(i==instructionInfo.length-1){
-      console.log(obj)
+
+      if(checkDateAreDifferent(obj)){
+
+          getAvailableGuardForInstruction("addGuardInstructionShedule4V","selectpickerInstruction")
+          $('#addGuardInstructionSchedule4').modal('show');
+      
+      }
+      else{
+        show_warming_no_guard("INSTRUCTION HAS DUPLICATE DATE")
+      }
     }
   }
 
@@ -1024,7 +1037,6 @@ function postSchedule(obj){
     console.log("Geolocation is not supported by this browser.")
   }
   function showPosition(position) {
-
 
 
     $.ajax({
@@ -1514,6 +1526,38 @@ function removeDateTimeDuplicate2(val1){
  return val1
  
 }
+
+//NEW FUNCTION TO CHECK IF DATE IS DIFFERENT  RETURN TRUE IF NO DUBPLICATE
+
+function checkDateAreDifferent(date){
+
+
+  const uniqueDates = [...new Set(date.map(obj => obj.date.toString()))];
+
+  if(uniqueDates.length==date.length){
+    return true
+  }
+  else{
+    return false
+  }
+
+
+} 
+
+//END FUNCTION TO CHECK IF DATE A DIFFERENT RETURN TRUE IF NO DUBPLICATE
+
+
+
+// START CHECK IF INSTRUCTION  DATE IS BETWEEN SCHEDULE
+
+function checkIfDateIsBetweenSchedule(date){
+
+
+
+}
+
+// END CHECK IF INSTRUCTION  DATE IS BETWEEN SCHEDULE
+
 
 
 //NEW FUNCTION TO CHECK ID DATE ARE 60MIN APART FROM EACH OTHER

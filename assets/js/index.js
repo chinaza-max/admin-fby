@@ -43,7 +43,29 @@ $(document).ready(function() {
             headers: {
               "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
           },
-          } ,
+          columnDefs: [
+            { "width": "200px", "targets": [5,6] },   
+            {
+              render: function (data, type, full, meta) {
+                  return "<div class='text-wrap width-200'>" + data + "</div>";
+              },
+              targets: 15
+            }, 
+            {
+              render: function (data, type, full, meta) {
+                  return "<div class='text-wrap' style='min-width: 200px'>" + data + "</div>";
+              },
+              targets: 8
+            } 
+            , 
+            {
+              render: function (data, type, full, meta) {
+                  return "<div class='text-wrap' style='min-width: 200px;'>" + data + "</div>";
+              },
+              targets: 9
+            }         
+          ] ,
+          },
           columns:[
             { data: "name" },
             { data: "customer" },
@@ -63,9 +85,6 @@ $(document).ready(function() {
             { data: "description" },
             { data: "settlement_status" },
             ],
-            rowReorder: {
-                selector: 'td:nth-child(2)'
-            },
             responsive: true,
             paging:   true,
             order:[[ 3, 'dsc']]
@@ -78,10 +97,8 @@ $(document).ready(function() {
         column1.visible(!column1.visible());
         var column2 = table.column(14);
         column2.visible(!column2.visible());
-       
-        
-        //var column3 = table.column(16);
-        //column3.visible(!column3.visible());
+        var column3 = table.column(15);
+        column3.visible(!column3.visible());
             /*
         var column1 = table.column(0);
         column1.visible(!column1.visible());

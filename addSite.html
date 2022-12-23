@@ -22,16 +22,13 @@
   <link rel="stylesheet" href="../assets/css/Chart.min.css">
   <link rel="stylesheet" href="../assets/css/morris.css">
   <link rel="stylesheet" href="../assets/css/leaflet.css">
-
-
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../assets/css/map.css">
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
 
   <!-- Theme CSS -->
   <link rel="stylesheet" href="../assets/css/style.css">
+  <script src="../assets/js/map.js"></script>
+
 </head>
 
 
@@ -49,10 +46,13 @@
       <!-- Horizontal navbar -->
       <div id="navbar1" class="app-navbar horizontal">
         <div class="navbar-wrap">
-
+          
           <button class="no-style navbar-toggle navbar-open d-lg-none">
             <span></span><span></span><span></span>
           </button>
+
+
+
 
           <div class="app-actions">
             <div class="dropdown item">
@@ -120,6 +120,7 @@
             </div>
           </div>
 
+          
 
           <div class="navbar-skeleton horizontal">
             <div class="left-part d-flex align-items-center">
@@ -174,7 +175,7 @@
                 </li>
 
 
-                <li class="menu-item has-sub active">
+                <li class="menu-item has-sub">
                   <a class="item-link" href="#">
                     <div class="icon icofont-users"></div>
                     <span class="link-text">User management</span>
@@ -189,7 +190,7 @@
                       </a>
                     </li>
 
-                    <li class="menu-item active">
+                    <li class="menu-item">
                       <a class="item-link" href="staff.html">
                         <div class="icon icofont-business-man"></div>
                         <span class="link-text">Staff</span>
@@ -240,7 +241,7 @@
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a class="item-link" href="/dist-horizontal/view-shift.html">
+                  <a class="item-link" href="/view-shift.html">
                     <div class="icon icofont-search-job"></div>
                     <span class="link-text">view-shift</span>
                   </a>
@@ -249,6 +250,20 @@
               </ul>
             </nav>
           </div>
+
+
+          <div class="assistant-menu">
+            <a class="link" href="#" data-bs-toggle="modal" data-bs-target="#settings">
+              <span class="link-icon icofont-ui-settings"></span>Settings
+            </a>
+            <a class="link" href="#">
+              <span class="link-icon icofont-question-square"></span>FAQ &amp; Support
+            </a>
+          </div>
+
+
+
+
 
 
           <div class="navbar-skeleton vertical">
@@ -307,137 +322,122 @@
         <div class="app-loader"><i class="icofont-spinner-alt-4 rotate"></i></div>
 
         <div class="main-content-wrap">
+
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="./customer.html">Back</a>
+            </li>
+          </ul>
+
+          <header class="page-header">
+            <h3 class="page-title">Site Creation   
+              
+            </h3>
+          </header>
+
           <div class="page-content">
+            <div class="row justify-content-center">
 
-            <div class="card">
-              <div class="card-header">
-                Staff
-              </div>
-              <div class="card-body">
-                <ul class="nav nav-pills mb-3" role="tablist">
-                  <li class="nav-item" role="presentation">
-                    <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#tab-1" type="button"
-                      role="tab" aria-selected="true">All</button>
-                  </li>
-                  <li class="nav-item" role="presentation">
-                    <button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-2" type="button" role="tab"
-                      aria-selected="false">Suspended</button>
-                  </li>
+              <div class="col col-12 col-xl-8">
 
+                <div class="alert alert-primary outline" style="text-align:center ;" role="alert" id="siteOwner">
 
-                </ul>
-                <div class="tab-content">
-                  <div class="tab-pane fade show active" id="tab-1" role="tabpanel">
-                    <div class="table-responsive">
-                      <table class="table table-hover">
-                        <thead>
-                          <tr class="bg-primary text-white">
-                            <th scope="col">Photo</th>
-                            <th scope="col">Name</th>
-                            <th scope="col " class="text-nowrap">Date of birth</th>
-                            <th scope="col">Address</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Phone</th>                            
-                            <th scope="col">Gender</th>
-                            <th scope="col">Actions</th>
-                          </tr>
-                        </thead>
-                        <tbody id="mytable1">
+                  SITE OWNER : JOHN LISONN
+                </div>
 
+                <form id="submitSite" >
+                  <div class="social-list">
+                    <div class="social-item">
+                      <div class="col">
+                        <div class="row">
+                          <div class="col-12 col-sm-6">
+                            <div class="input-group mb-3">
+                              <input class="form-control" type="text" name="inputSiteName" id="inputSiteName" placeholder="Enter site name"
+                                required>
+                                <span class="input-group-text">Name</span>
+                            </div>
+                          </div>
+                          <div class="col-12 col-sm-6">
+                       
+                            <div class="input-group mb-3">
+                              <span class="input-group-text">$</span>
+                              <input type="number" class="form-control" type="number" name="inputJobCost" id="inputJobCost" placeholder="Cost of job"  required>
+                              <span class="input-group-text">Job amount</span>
+                            </div>
 
-                        </tbody>
-                      </table>
-                      <div class="text-center" id="loader1">
-                        <div class="spinner-border" role="status">
-                          <span class="sr-only">Loading...</span>
+                            
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="row">
+                          <div class="col-12 col-sm-6" >
+                            <div class="input-group mb-3">
+                              <input class="form-control" type="number"  id="radius" name="radius"  placeholder="parameter default(40m)">
+                              <span class="input-group-text">Meter</span>
+                            </div>
+                          </div>
+                          <div class="col-12 col-sm-6">
+                            <div class="input-group mb-3">
+                              <span class="input-group-text">$</span>
+                              <input  class="form-control" type="number" id="inputGuardAmount" name="inputGuardAmount"  placeholder="Guard payment per hour"  required>
+                              <span class="input-group-text">hourly pay</span>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
 
-                    <nav class="mt-4">
-                      <ul class="pagination">
-                        <li id="Previous" class="page-item disabled" onclick="Previous()">
-                          <a class="page-link" href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
-                            <span class="icofont-simple-left"></span>
-                          </a>
-                        </li>
-                        <li class="page-item active" aria-current="page" id="page1" onclick="page(1)"><a
-                            class="page-link" href="#">1</a></li>
-                        <li class="page-item" id="page2"><a class="page-link" href="#" onclick="page(2)">2</a></li>
-                        <li class="page-item" id="page3"><a class="page-link" href="#" onclick="page(3)">3</a></li>
-                        <li id="Next" class="page-item" onclick="Next()">
-                          <a class="page-link" href="#" aria-label="Next">
-                            <span class="icofont-simple-right"></span>
-                          </a>
-                        </li>
-                      </ul>
-                    </nav>
-
-                  </div>
-
-
-                  <div class="tab-pane fade" id="tab-2" role="tabpanel">
-
-                    <div class="table-responsive">
-                      <table class="table table-hover">
-                        <thead>
-                          <tr class="bg-primary text-white">
-                            <th scope="col">Photo</th>
-                            <th scope="col">Name</th>
-                            <th scope="col " class="text-nowrap">Site No</th>
-                            <th scope="col">Address</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Phone</th>                            <th scope="col">Gender</th>
-                            <th scope="col">Actions</th>
-                          </tr>
-                        </thead>
-                        <tbody id="mytable2">
-
-
-                        </tbody>
-                      </table>
+                    
+                    <div class="row">
+                      <div class="form-group">
+                        <label for="">TO BE USED BY GUARD FOR LOCATING PLACE OF INTEREST </label>
+                        <textarea maxlength="1000" class="form-control" rows="4" placeholder="Enter full address of location " id="siteAddress" name="siteAddress" required></textarea>
+                      </div>
                     </div>
 
-                    <nav class="mt-4">
-                      <ul class="pagination">
-                        <li id="Previous2" class="page-item page-item2 disabled" onclick="Previous2()">
-                          <a class="page-link" href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
-                            <span class="icofont-simple-left"></span>
-                          </a>
-                        </li>
-                        <li class="page-item page-item2 active" aria-current="page" id="page12" onclick="page2(1)"><a
-                            class="page-link" href="#">1</a></li>
-                        <li class="page-item page-item2" id="page22"><a class="page-link" href="#"
-                            onclick="page2(2)">2</a></li>
-                        <li class="page-item page-item2" id="page32"><a class="page-link" href="#"
-                            onclick="page2(3)">3</a></li>
-                        <li id="Next2" class="page-item page-item2" onclick="Next2()">
-                          <a class="page-link" href="#" aria-label="Next">
-                            <span class="icofont-simple-right"></span>
-                          </a>
-                        </li>
-                      </ul>
-                    </nav>
+                    
+                    <div class="row " id="mapView"  >
+                      <div class="form-group">
+                        <label for="">THE ADDRESS YOU ENTER HERE IS ONLY USE TO SEARCH THROUGH THE MAP </label>
+                        <textarea class="form-control"  rows="4" placeholder="Auto complete google map address" id="pac-input"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <button class="btn w-100 btn-dark mb-4" id="signInButton" type="submit">ADD SITE</button>
+                  <button type="button" class="btn btn-primary btn-load w-100"  id="loadingButton">
+                    Primary
+                    <span class="btn-loader icofont-spinner"></span>
+                  </button>
 
+                </form>
+              </div>
 
+              <div>NOTE: THE POSITION OF THE MARKER WILL BE USE AS YOUR ADDRESS</div>
+              <div id="map"></div>
+              <a href="#mapView" id="scrollMapTOView"></a>
+
+              <hr>
+              <div class="form-group mt-4">
+                <div class="alert alert-info" style="text-align:center ;" id="siteOwner2" role="alert">
+                  JOHN LISONN SITES
+                </div>
+                <div id="siteContainer" class="row">
+                  <div class="alert alert-primary outline" role="alert">
+                    NO SITE HAS BEEN ADDED
                   </div>
 
-
-
                 </div>
-              </div>
-            </div>
 
-            <div class="add-action-box">
-              <button class="btn btn-primary btn-lg btn-square rounded-pill" data-bs-toggle="modal"
-                data-bs-target="#add-staff">
-                <span class="btn-icon icofont-plus"></span>
-              </button>
+              </div>
             </div>
           </div>
         </div>
       </main>
-
 
       <div class="app-footer">
         <div class="footer-wrap">
@@ -446,13 +446,19 @@
               <ul class="page-breadcrumbs">
 
                 <li class="item">
-                  <a href=# class="link">Dashboards</a>
+                  <a href=# class="link">Apps</a>
 
                   <i class="separator icofont-thin-right"></i>
                 </li>
 
                 <li class="item">
-                  <a href=# class="link">Default</a>
+                  <a href=# class="link">Service pages</a>
+
+                  <i class="separator icofont-thin-right"></i>
+                </li>
+
+                <li class="item">
+                  <a href=# class="link">Edit account</a>
 
                   <i class="separator icofont-thin-right"></i>
                 </li>
@@ -529,6 +535,7 @@
         <div class="modal-body">
           <form>
 
+
             <div class="form-group">
               <label>Light/dark topbar</label>
               <div class="form-check form-switch">
@@ -563,114 +570,6 @@
   <!-- end Add patients modals -->
 
 
-
-  <div class="modal fade" id="add-staff" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Register new staff</h5>
-        </div>
-        <form id="formAdminReg">
-          <div class="modal-body">
-
-            <div class="form-group">
-              <label>First name</label>
-              <input class="form-control" type="text" name="firstName" placeholder="Type first name..." required>
-            </div>
-
-            <div class="form-group">
-              <label>Last name</label>
-              <input class="form-control" type="text" name="lastName" placeholder="Type last name..." required>
-            </div>
-
-
-
-            <div class="row">
-              <div class="col-12 col-md-6">
-                <div class="form-group">
-                  <label>Email</label>
-                  <div id="emailAlert" style="color:red ;"></div>
-                  <input class="form-control" type="email" name="email" placeholder="Enter email..." required>
-                </div>
-              </div>
-              <div class="col-12 col-md-6">
-                <div class="form-group">
-                  <label>Phone number</label>
-                  <input class="form-control" type="number" name="phone_number" placeholder="Enter phone number"
-                    required>
-                </div>
-              </div>
-
-            </div>
-
-
-
-
-
-            <div class="row">
-              <div class="col-12 col-md-6">
-                <div class="form-group">
-                  <label>Date of birth</label>
-                  <input class="form-control" name="dateOfBirth" type="date" required>
-                </div>
-              </div>
-              <div class="col-12 col-md-6">
-                <div class="form-group">
-                  <label>Gender</label>
-                  <select class="selectpicker gender" name="Gender" title="Gender" required>
-                    <option value="NOT_SPECIFIED">NOT_SPECIFIED</option>
-                    <option value="MALE">MALE</option>
-                    <option value="FEMALE">FEMALE</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            <div class="form-group">
-              <label>Address</label>
-              <textarea class="form-control" name="address" placeholder="Enter Address" id="" cols="30" rows="5"
-                required></textarea>
-            </div>
-
-
-            <div class="form-group">
-              <label>Password</label>
-              <input class="form-control" type="password" name="password" placeholder="Type password..." required>
-            </div>
-
-
-          </div>
-          <div class="modal-footer d-block">
-            <div class="actions justify-content-between">
-              <button type="button" class="btn btn-error" data-bs-dismiss="modal">Cancel</button>
-              <button type="submit" class="btn btn-info" id="signInButton">Register</button>
-              <button type="button" class="btn btn-primary btn-load" id="loadingButton">
-                Primary
-                <span class="btn-loader icofont-spinner"></span>
-              </button>
-            </div>
-          </div>
-
-        </form>
-      </div>
-    </div>
-  </div>
-
-
   <script src="../assets/js/jquery-3.6.0.min.js"></script>
   <script src="../assets/js/jquery-migrate-1.4.1.min.js"></script>
   <script src="../assets/js/popper.min.js"></script>
@@ -685,9 +584,12 @@
   <script src="../assets/js/echarts.min.js"></script>
   <script src="../assets/js/echarts-gl.min.js"></script>
   <script src="../assets/js/globalVar.js"></script>
-  <script src="../assets/js/staff.js"></script>
+  <script src="../assets/js/addSite.js"></script>
   <script src="../assets/js/main.js"></script>
 
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqoyaPtHf5BcoTX_iNvCzXjVj6BpGl2do&callback=initAutocomplete&libraries=places&v=weekly"
+    defer></script>
 
 
 </body>

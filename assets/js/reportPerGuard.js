@@ -24,8 +24,6 @@ $(document).ready(function() {
     let guardName=atob(localStorage.getItem("guardName"))  
     let guard_id=atob(localStorage.getItem("guardId"))  
 
-
-    console.log(guardName)
     document.getElementById("headingTitle").innerHTML= "Report from "+ guardName  
 
     var table = $('#example').DataTable({
@@ -43,6 +41,7 @@ $(document).ready(function() {
           columnDefs: [
             { "width": "20px", "targets": [0] },               
             { "width": "300px", "targets": [2]},  
+            { "width": "200px", "targets": [1]},  
 
             {
               render: function (data, type, full, meta) {
@@ -57,7 +56,6 @@ $(document).ready(function() {
             { data: "file_url" ,
             "render": function ( data,index) {
 
-              console.log(data)
               if(data.endsWith("jpeg")||data.endsWith("png")||data.endsWith("jpg")){
                 return `<img src="${data}" width="90px">  <a href="${data}" download>download</a>`;
               }
@@ -74,7 +72,6 @@ $(document).ready(function() {
             { data: "is_emergency",
             "render": function ( data,index) {
 
-              console.log(data)
               if(data){
                 return `<button type="button" class="btn btn-danger" >Emergency</button>`;
               }
@@ -141,6 +138,8 @@ $(document).ready(function() {
 });
 
 
+
+//https://datatables.net/forums/discussion/51339/pdf-with-many-columns-get-cut-short
 
 
 

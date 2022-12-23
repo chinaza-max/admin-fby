@@ -77,7 +77,7 @@ $(document).ready(function(){
                                                 </div>
                                             </td>
                                             <td>
-                                                <div class="address-col">$${guard[i].money_earned*val.job.guard_charge}</div>
+                                                <div class="address-col">$${guard[i].hours_worked*val.job.guard_charge}.00</div>
                                             </td>
                                             <td>
                                                 <div class="text-muted text-nowrap">
@@ -108,7 +108,7 @@ $(document).ready(function(){
                                                 </div>
                                             </td>
                                             <td>
-                                                <a    onclick="setGuardName('${guard[i].first_name} ${guard[i].last_name}'); setGuardId(${guard[i].guard_id})" href="../dist-horizontal/reportPerGuard.html" class="btn btn-primary"  >
+                                                <a    onclick="setGuardName('${guard[i].first_name} ${guard[i].last_name}'); setGuardId(${guard[i].guard_id})" href="/reportPerGuard.html" class="btn btn-primary"  >
                                                     Report <span class="badge badge-light badge-inside ms-2">${guard[i].no_of_report}</span>
                                                 </a>    
                                             </td>

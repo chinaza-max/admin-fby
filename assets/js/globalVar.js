@@ -9,9 +9,8 @@ if(mode=="development"){
     domain="http://localhost:3000"
 }
 else{
-    domain=''
+    domain='http://fbyteamschedule.com:3000'
 }
-
 
 
 
@@ -71,7 +70,7 @@ function logUserOut(){
         localStorage.removeItem("myUser")
         localStorage.removeItem("userDetails")
         if(mode=="development"){
-        window.location.href =window.location.toString().split('/')[0] + "/dist/sign-in.html"
+        window.location.href =window.location.toString().split('/')[0] + "/sign-in.html"
         }
         else{
             //window.location.replace('https://sunny-kataifi-7adb6f.netlify.app/sign-in.html')

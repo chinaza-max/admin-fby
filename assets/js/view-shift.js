@@ -182,16 +182,16 @@ $(document).ready(function() {
           } ,
           columnDefs: [
             { "width": "200px", "targets": [5,6] },   
-            { "min-width": "300px", "targets": [8,9] }, 
+            { "width": "200px", "targets": [15] },   
             {
               render: function (data, type, full, meta) {
-                  return "<div class='text-wrap width-200'>" + data + "</div>";
+                  return "<div   class='text-wrap width-200'>" + data + "</div>";
               },
               targets: 15
             }, 
             {
               render: function (data, type, full, meta) {
-                  return "<div class='text-wrap' style='min-width: 200px'>" + data + "</div>";
+                  return "<div class='text-wrap' style='min-width:200px'>" + data + "</div>";
               },
               targets: 8
             } 
@@ -240,6 +240,7 @@ $(document).ready(function() {
             selector: 'td:nth-child(2)'
         },
         responsive: true,
+      
         createdRow: function (row, data, index) {
 
 
@@ -365,7 +366,7 @@ function initializePayOff(){
 function calPayOff(val1, val2){
     
     document.getElementById("totalHours").innerHTML =val1
-    document.getElementById("amountPending").innerHTML ="$"+val2
+    document.getElementById("amountPending").innerHTML ="$"+Number(val2).toFixed(2) 
 }
 
 
