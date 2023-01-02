@@ -95,14 +95,14 @@ $(document).ready(function(){
                                             </td>
                                             <td>
                                                 <div class="text-muted text-nowrap">
-                                                    <button type="button" class="btn btn-outline-primary"
+                                                    <button type="button" onclick="getInstruction(${guard[i].guard_id},${job_id})"  class="btn btn-outline-primary"
                                                         data-bs-toggle="modal"
-                                                        data-bs-target="#view-jobDetail">View</button>
+                                                        data-bs-target="#view_schedule">View</button>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="text-muted text-nowrap">
-                                                    <button type="button" class="btn btn-outline-primary"
+                                                    <button type="button" onclick="getTask(${guard[i].guard_id},${job_id})" class="btn btn-outline-primary"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#view-jobDetail">View</button>
                                                 </div>
@@ -306,6 +306,176 @@ function displaySchedule(val){
 
 
 
+function getInstruction(guard_id ,job_id){
+    $.ajax({
+        type: "post", url:`${domain}/api/v1/job/allJobs/oneAgendaPerGuard`,
+        headers: {
+            "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+        },
+        data: {
+            guard_id,
+            job_id,
+            Type:"INSTRUCTION"  
+          },
+        success: function (data, text) {
+
+            console.log(data.data)
+
+            displayInstruction(data.data)
+      
+        },
+        error: function (request, status, error) {
+
+            console.log(request)
+            analyzeError(request)
+         
+        }
+    });
+}
+
+function displayInstruction(val){
+
+    let data=''
+
+    for(let i=0; i<val.length; i++){
+
+        data+= `
+        <tr>
+        <td>${i+1}</td>
+        <td>${val[i].check_in_date}</td>
+        <td>${val[i].start_time}</td>
+        <td>${val[i].check_out_date}</td>
+        <td>${val[i].end_time}</td>
+        <td>${val[i].hours}</td>
+        <td>
+            <div class="text-muted text-nowrap">
+                <button type="button" class="btn btn-outline-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#view_schedule">select</button>
+            </div>
+        </td>
+        <td>
+            <div class="text-muted text-nowrap">
+                <button type="button" class="btn btn-outline-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#view_schedule">select</button>
+            </div>
+        </td>
+        <td>
+              <div class="actions">
+                <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteSingleGuardSchedule(${val[i].shedule_id},${val[i].guard_id},${val[i].job_id})">
+                  <span class="btn-icon icofont-ui-delete"></span>
+                </button>
+              </div>
+            </td>
+      </tr>
+         `
+
+        if(i==val.length-1){
+
+            $('#myInstruction').children().remove();
+            $("#myInstruction").append(data)
+        }
+    }
+    if(val.length==0){
+        $('#myInstruction').children().remove();
+        $("#myInstruction").append(`<tr>
+        <td colspan="1000">
+        
+        <div class="alert alert-light outline text-dark " role="alert" style="text-align:center;">
+        YOU HAVE NO INSTRUCTION  
+      </div>
+        </td>
+      </tr>`)
+    }
+
+}
+
+
+function getTask(guard_id ,job_id){
+    $.ajax({
+        type: "post", url:`${domain}/api/v1/job/allJobs/oneAgendaPerGuard`,
+        headers: {
+            "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+        },
+        data: {
+            guard_id,
+            job_id,
+            Type:"TASK"
+          },
+        success: function (data, text) {
+
+            console.log(data.data)
+
+            displayTask(data.data)
+      
+        },
+        error: function (request, status, error) {
+
+            console.log(request)
+            analyzeError(request)
+         
+        }
+    });
+}
+
+function displayTask(val){
+
+    let data=''
+
+    for(let i=0; i<val.length; i++){
+
+        data+= `
+        <tr>
+        <td>${i+1}</td>
+        <td>${val[i].check_in_date}</td>
+        <td>${val[i].start_time}</td>
+        <td>${val[i].check_out_date}</td>
+        <td>${val[i].end_time}</td>
+        <td>${val[i].hours}</td>
+        <td>
+            <div class="text-muted text-nowrap">
+                <button type="button" class="btn btn-outline-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#view_schedule">select</button>
+            </div>
+        </td>
+        <td>
+            <div class="text-muted text-nowrap">
+                <button type="button" class="btn btn-outline-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#view_schedule">select</button>
+            </div>
+        </td>
+        <td>
+              <div class="actions">
+                <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteSingleGuardSchedule(${val[i].shedule_id},${val[i].guard_id},${val[i].job_id})">
+                  <span class="btn-icon icofont-ui-delete"></span>
+                </button>
+              </div>
+            </td>
+      </tr>
+         `
+
+        if(i==val.length-1){
+
+            $('#myschedule').children().remove();
+            $("#myschedule").append(data)
+        }
+    }
+    if(val.length==0){
+        $('#myschedule').children().remove();
+        $("#myschedule").append(`<tr>
+        <td colspan="1000">
+        
+        <div class="alert alert-light outline text-dark " role="alert" style="text-align:center;">
+        YOU HAVE NO SCHEDULE  
+      </div>
+        </td>
+      </tr>`)
+    }
+
+}
 
 
 function getLog(guard_id ,job_id){
