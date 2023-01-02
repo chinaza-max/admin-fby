@@ -1,6 +1,6 @@
 let mode="development"
-
 let activeUserID= localStorage.getItem("storeCurrentUserID")
+let folder="adminPanel"
 let alertLifeSpan=2000
 let alertLifeSpan2=2000
 
@@ -9,12 +9,12 @@ if(mode=="development"){
     domain="http://localhost:3000"
 }
 else{
+
+  //  http://api.fbyteamschedule.com:3000
     domain='http://fbyteamschedule.com:3000'
+
 }
-
-
-
-
+//iis
 
 function storeCurrentUserID(val){
 
@@ -213,39 +213,44 @@ $(document).ready(function(){
 
 
 let checkbox=document.querySelector("#topbar")
-checkbox.addEventListener('change', function() {
+
+if(checkbox){
     checkbox.addEventListener('change', function() {
-        if (this.checked) {
-            console.log("is checked ")
-
-        localStorage.setItem("setRTopNavColor",true)
-
-        } else {
-            console.log("not checked ")
-
-        localStorage.setItem("setRTopNavColor",false)
-        }
-    });
-  });
+        checkbox.addEventListener('change', function() {
+            if (this.checked) {
+                console.log("is checked ")
+    
+            localStorage.setItem("setRTopNavColor",true)
+    
+            } else {
+                console.log("not checked ")
+    
+            localStorage.setItem("setRTopNavColor",false)
+            }
+        });
+      });
+}
 
 
 
 let checkbox2=document.querySelector("#sidebar")
-checkbox2.addEventListener('change', function() {
+
+if(checkbox2){
     checkbox2.addEventListener('change', function() {
-        if (this.checked) {
-        localStorage.setItem("setLeftNavColor",true)
-        console.log("is checked ")
-
-        } else {
-
-       console.log("not checked ")
-        localStorage.setItem("setLeftNavColor",false)
-
-        }
+        checkbox2.addEventListener('change', function() {
+            if (this.checked) {
+            localStorage.setItem("setLeftNavColor",true)
+            console.log("is checked ")
+    
+            } else {
+             console.log("not checked ")
+            localStorage.setItem("setLeftNavColor",false)
+            }
+        });
     });
+}
 
-  });
+
 
 
 

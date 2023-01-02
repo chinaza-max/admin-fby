@@ -1,7 +1,5 @@
 
 
-
-
 /*for random date selection */
 
 document.getElementById("addTask").style.display="none"
@@ -1015,30 +1013,6 @@ function update_job_id_for_schedule(id){
 function postSchedule(obj){
 
 
-
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition, () => {
-
-      Swal.fire({
-        title: 'Action Required',
-        text: "Location permission is required to proceed!",
-        icon: 'warning',
-        confirmButtonColor: '#1c0d2e',
-        confirmButtonText: 'ok'
-      })
-
-      switchHandle.animate({
-        left: 0
-      }, 100)
-  
-    });
-    
-  } else { 
-    console.log("Geolocation is not supported by this browser.")
-  }
-  function showPosition(position) {
-
-
     $.ajax({
       type: "post", url:`${domain}/api/v1/job/add_shedule_date_staff`,
       headers: {
@@ -1046,8 +1020,6 @@ function postSchedule(obj){
       },
       data: {
         date_time_staff_shedule:JSON.stringify(obj),
-        latitude: position.coords.latitude,
-        longitude:position.coords.longitude
       },
       success: function (data, text) {
 
@@ -1084,7 +1056,7 @@ function postSchedule(obj){
     })
 
 
-  }
+
 
 }
 //NEW END
@@ -2130,30 +2102,6 @@ formAdminReg.addEventListener("submit",(e)=>{
   e.preventDefault()
 
 
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition, () => {
-
-      Swal.fire({
-        title: 'Action Required',
-        text: "Location permission is required to proceed!",
-        icon: 'warning',
-        confirmButtonColor: '#1c0d2e',
-        confirmButtonText: 'ok'
-      })
-
-      switchHandle.animate({
-        left: 0
-      }, 100)
-  
-    });
-    
-  } else { 
-    console.log("Geolocation is not supported by this browser.")
-  }
-
-
-  function showPosition(position) {
-
     $("#signInButton").css("display","none")
     $("#loadingButton").css("display","block")
   
@@ -2174,14 +2122,12 @@ formAdminReg.addEventListener("submit",(e)=>{
             },
               data: {
               client_charge:client_charge,
-              staff_charge:staff_charge ,
+              staff_charge:staff_charge,
               description , 
               job_status:"ACTIVE",
               customer_id:myCstomer_id,
               site_id:siteIdForJob,
               job_type:myJobType,
-              latitude: position.coords.latitude,
-              longitude:position.coords.longitude,
               payment_status:myPaymentStatus
             },
             success: function (data, text) {
@@ -2216,13 +2162,6 @@ formAdminReg.addEventListener("submit",(e)=>{
           });
   
   
-  
-
-  }
-
-
-
-
 
 })
 

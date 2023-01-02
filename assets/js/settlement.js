@@ -72,7 +72,7 @@ $(document).ready(function(){
   
               </td>
               <td>
-              $${val[i].amount}
+              $${val[i].amount.toFixed(2)}
               </td>
             
               <td>
@@ -434,13 +434,13 @@ function Previous(){
             </td>
             <td>
               <div class="text-muted text-nowrap">
-              ${val[i].check_out_date}
+              ${val[i].end_date}
                 
               </div>
             </td>
             <td>
               <div class="text-muted text-nowrap">
-              ${val[i].check_out_time}
+              ${val[i].end_time}
 
               </div>
             </td>
@@ -490,7 +490,7 @@ function Previous(){
             </td>
             <td>
               <div class="text-muted text-nowrap">
-              $${val[i].amount}
+              $${val[i].amount.toFixed(2)}
               </div>
             </td>
             <td>

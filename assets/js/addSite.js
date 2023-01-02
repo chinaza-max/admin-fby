@@ -138,37 +138,7 @@ submitSite.addEventListener("submit",(e)=>{
     e.preventDefault()
 
     $("#signInButton").css("display","none")
-    $("#loadingButton").css("display","block")
-
-
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(showPosition, () => {
-
-        $("#signInButton").css("display","block")
-        $("#loadingButton").css("display","none")
-        Swal.fire({
-          title: 'Action Required',
-          text: "Location permission is required to proceed!",
-          icon: 'warning',
-          confirmButtonColor: '#1c0d2e',
-          confirmButtonText: 'ok'
-        })
-
-        switchHandle.animate({
-          left: 0
-        }, 100)
-    
-      });
-      
-    } else { 
-      $("#signInButton").css("display","block")
-      $("#loadingButton").css("display","none")
-      console.log("Geolocation is not supported by this browser.")
-    }
-    function showPosition(position) {
-
-
-      
+    $("#loadingButton").css("display","block")      
 
     const form = e.target;
     const formFields = form.elements,
@@ -176,12 +146,12 @@ submitSite.addEventListener("submit",(e)=>{
     guard_charge=formFields.inputGuardAmount.value,
     client_charge=formFields.inputJobCost.value,
     operations_area_constraint=formFields.radius.value||40,
-    longitude=position2[1],
-    latitude=position2[0],
+    longitude=   position2[1].toFixed(5),
+    latitude=position2[0].toFixed(5),
     siteAddress=formFields.siteAddress.value,
     customer_id=myCstomer_id;
 
-    console.log(site_name,address,guard_charge,client_charge,operations_area_constraint,longitude,latitude,customer_id  )
+    console.log(site_name,guard_charge,client_charge,operations_area_constraint,longitude,latitude,customer_id, siteAddress )
     
 
     console.log("sent sent sent sent")
@@ -192,11 +162,9 @@ submitSite.addEventListener("submit",(e)=>{
               "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
           },
             data:{
-               longitude,
-               latitude,
-               latitude_admin: position.coords.latitude,
-               longitude_admin:position.coords.longitude,
-               operations_area_constraint,
+              longitude:Number(longitude).toFixed(9),
+              latitude:Number(latitude).toFixed(9),
+              operations_area_constraint,
                client_charge:client_charge,
                guard_charge:guard_charge,
                address:siteAddress ,
@@ -240,7 +208,7 @@ submitSite.addEventListener("submit",(e)=>{
         formFields.siteAddress.value='';
     }
 
-  }
+  
 
 })
 
@@ -311,8 +279,8 @@ function deleteSite(val){
        },
           success: function (data, text) {
 
-             
-              showModal("SITE UPDATE SUCCESSFULL")
+             console.log(data)
+              showModal(data.message)
 
               setTimeout(() => {
                       getSite()
