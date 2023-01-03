@@ -35,6 +35,11 @@ formAdminReg.addEventListener("submit",(e)=>{
 
           $.ajax({
             type: "post", url:`${domain}/api/v1/auth/register`,
+            headers: {
+              "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+          },
+          dataType  : 'json',
+          encode  : true,
             data: {
                     first_name,
                     last_name,
@@ -133,11 +138,13 @@ $(document).ready(function(){
             headers: {
                 "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
             },
-          
+            dataType  : 'json',
+            encode  : true,
             success: function (data, text) {
 
-
                 console.log(data.data)
+                console.log(data)
+
                 $('#loader1').css("display","none");
                 CreateTable(data.data)
                 /*
@@ -259,13 +266,12 @@ $(document).ready(function(){
             headers: {
                 "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
             },
-          
+            dataType  : 'json',
+            encode  : true,
             success: function (data, text) {
-
-
                 console.log(data.data)
 
-                CreateTable2(data.data)
+                CreateTable2([])
                 /*
                 showModal("REGISTRATION SUCCESSFULL")
                 setTimeout(() => {
@@ -311,6 +317,7 @@ $(document).ready(function(){
 
     function CreateTable2(val){
         let data=''
+        if(val.length!=0){
 
             for(let i=0; i<val.length; i++){
                 data+= `  <tr>
@@ -354,7 +361,20 @@ $(document).ready(function(){
                     $("#mytable2").append(data)
                 }
             }
+        }
+        else{
 
+          $('#mytable2').children().remove();
+          $("#mytable2").append(`    <tr>
+          <td colspan="1000">
+          
+          <div class="alert alert-light outline text-dark " role="alert" style="text-align:center;">
+          YOU HAVE NO SUSPENDED  GUARD
+        </div>
+          </td>
+        </tr>`)
+
+        }
     }
     
   });

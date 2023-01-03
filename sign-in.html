@@ -135,12 +135,15 @@
 
         $.ajax({
           type: "post", url:`${domain}/api/v1/auth/admin/login`,
+          dataType  : 'json',
+          encode  : true,
           data: {
             email:$("#email").val(),
             password:$("#password").val()
           },
           success: function (data, text) {
 
+            
               console.log(data.data)
               if(data.data.token){
                 sessionStorage.setItem("hasVisited", true);

@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 let getTableData='',
  getTableData2='',
   limit=15,
@@ -15,19 +8,22 @@ let getTableData='',
 
 $(document).ready(function(){
 
-
     //FOR UNSETTLED SHIFT
-    getTableData=function ( limit,offset){
+    getTableData=function (limit,offset){
         console.log( limit,offset)
       $.ajax({
           type: "get", url:`${domain}/api/v1/job/getGeneralUnsettleShift?settlement=false&limit=${limit}&offset=${offset}`,
           headers: {
               "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
           },
+          dataType  : 'json',
+          encode  : true,
         
           success: function (data, text) {
   
               console.log(data.data)
+              console.log(data)
+
               CreateTable(data.data)
               /*
               showModal("REGISTRATION SUCCESSFULL")
@@ -49,8 +45,6 @@ $(document).ready(function(){
       });
     }
     getTableData(limit,offset)
-
-
 
     function CreateTable(val){
         let data=''
@@ -114,9 +108,11 @@ $(document).ready(function(){
         
         console.log( limit,offset)
 
-        //Guard id here is not required
+        //Guard id here is not required for processing but must be 
         $.ajax({
             type: "post", url:`${domain}/api/v1/job/getAllUnsettleShiftOneGuard?settlement=true&limit=${limit}&offset=${offset}`,
+            dataType  : 'json',
+            encode  : true,
             headers: {
                 "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
             },
@@ -149,7 +145,7 @@ $(document).ready(function(){
         });
       }
 
-      getTableData2(limit2,offset2)
+    //  getTableData2(limit2,offset2)
   
   
   

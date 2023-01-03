@@ -4,7 +4,8 @@ $.ajax({
     headers: {
         "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
     },
-  
+    dataType  : 'json',
+    encode  : true,
     success: function (data, text) {
 
         displayDashboardInfo(data.data)
@@ -12,6 +13,7 @@ $.ajax({
     },
     error: function (request, status, error) {
 
+      console.log(request)
        analyzeError(request)
 
     }

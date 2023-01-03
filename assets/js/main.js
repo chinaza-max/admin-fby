@@ -1560,6 +1560,8 @@
           headers: {
               "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
           },
+          dataType  : 'json',
+          encode  : true,
           success: function (data, text) {
             $("#profile").attr("src",data.data.user.image);
           },

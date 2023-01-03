@@ -40,6 +40,11 @@ formAdminReg.addEventListener("submit",(e)=>{
 
           $.ajax({
             type: "post", url:`${domain}/api/v1/auth/admin/register`,
+            headers: {
+              "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+          },
+          dataType  : 'json',
+          encode  : true,
             data: {
                     first_name,
                     last_name,
@@ -156,10 +161,13 @@ $(document).ready(function(){
             headers: {
                 "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
             },
-          
+            dataType  : 'json',
+            encode  : true,
             success: function (data,text){
 
                 console.log(data.data)
+                console.log(data)
+
                 $('#loader1').css("display","none");
                 CreateTable(data.data)
 

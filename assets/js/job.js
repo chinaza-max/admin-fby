@@ -1970,12 +1970,12 @@ $.ajax({
   headers: {
       "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
   },
+  dataType  : 'json',
+  encode  : true,
 
   success: function (data, text) {
 
-      
       console.log(data.data)
-
       displayCustomer(data.data)
   },
   error: function (request, status, error) {
@@ -2021,6 +2021,8 @@ function getSite(val){
         headers: {
             "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
         },
+        dataType  : 'json',
+        encode  : true,
         success: function (data, text) {
 
             //myEmail=data.data[0].email
@@ -2213,6 +2215,8 @@ $(function(){
         headers: {
             "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
         },
+        dataType  : 'json',
+        encode  : true,
       
         success: function (data, text) {
 
@@ -2343,6 +2347,8 @@ $(function(){
         headers: {
             "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
         },
+        dataType  : 'json',
+        encode  : true,
       
         success: function (data, text) {
 
@@ -2474,6 +2480,8 @@ $(function(){
         headers: {
             "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
         },
+        dataType  : 'json',
+        encode  : true,
       
         success: function (data, text) {
 
@@ -2604,6 +2612,8 @@ $(function(){
         headers: {
             "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
         },
+        dataType  : 'json',
+        encode  : true,
       
         success: function (data, text) {
 

@@ -14,7 +14,11 @@ function getSite(){
         headers: {
             "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
         },
+        dataType  : 'json',
+        encode  : true,
         success: function (data, text) {
+
+            console.log(data)
             myEmail=data.data[0].email
             myCstomer_id=data.data[0].id
             disPlayData(data.data[0])

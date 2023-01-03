@@ -176,6 +176,8 @@ $(document).ready(function() {
         ajax: {
             url: `${domain}/api/v1/job/allJobs/generalshift`,
             method: "get",
+            dataType  : 'json',
+            encode  : true,
             headers: {
               "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
           },
@@ -374,6 +376,8 @@ function calPayOff(val1, val2){
 //GET CUSTOMER AND DISPLAY
   $.ajax({
     type: "get", url:`${domain}/api/v1/customer`,
+    dataType  : 'json',
+    encode  : true,
     headers: {
         "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
     },
@@ -413,6 +417,8 @@ function calPayOff(val1, val2){
 //GET GUARD AND DISPLAY
 $.ajax({
   type: "get", url:`${domain}/api/v1/job/getAllGuard`,
+  dataType  : 'json',
+  encode  : true,
   headers: {
       "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
   },
@@ -457,6 +463,8 @@ function displayGetAllGuard(val){
 //GET SITE AND DISPLAY
 $.ajax({
   type: "get", url:`${domain}/api/v1/job/getAllSite`,
+  dataType  : 'json',
+  encode  : true,
   headers: {
       "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
   },

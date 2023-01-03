@@ -11,6 +11,8 @@ password.addEventListener("click" ,()=>{
         data: {
             email:userEmail,
         },
+        dataType  : 'json',
+        encode  : true,
         success: function (data, text) {
             showModalEmailPasswordReset(data.message)
             setTimeout(() => {
@@ -108,10 +110,12 @@ updateUser.addEventListener("submit",(e)=>{
 
 
           fetch(`${domain}/api/v1/user/updateProfile`, {
-                method: 'PUT', // or 'PUT'
+                method: 'POST', // or 'PUT'
                 headers: {
                     "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
                 },
+                dataType  : 'json',
+                encode  : true,
                 body:formData,
                 })
                 .then((response) => response.json())
@@ -185,6 +189,8 @@ $(document).ready(function(){
     getProfileData=  function(){
         $.ajax({
             type: "get", url:`${domain}/api/v1/auth`,
+            dataType  : 'json',
+            encode  : true,
             headers: {
                 "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
             },

@@ -10,8 +10,8 @@ if(mode=="development"){
 }
 else{
 
-  //  http://api.fbyteamschedule.com:3000
-    domain='http://fbyteamschedule.com:3000'
+    domain= 'http://api.fbyteamschedule.com:3000'
+    //domain='https://middleware.fbyteamschedule.com'
 
 }
 //iis
