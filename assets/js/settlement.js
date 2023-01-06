@@ -106,7 +106,7 @@ $(document).ready(function(){
       //FOR SETTLED SHIFT
       getTableData2=function ( limit,offset){
         
-        console.log( limit,offset)
+        console.log(limit,offset)
 
         //Guard id here is not required for processing but must be 
         $.ajax({
@@ -145,7 +145,7 @@ $(document).ready(function(){
         });
       }
 
-    //  getTableData2(limit2,offset2)
+      getTableData2(limit2,offset2)
   
   
   
@@ -342,7 +342,6 @@ function Previous(){
     getTableData2(limit2,offset2)
     $(".page-item2").removeClass("active");
     $("#Next2").addClass("active");
-  
   }
   
   function page2(val){
@@ -529,7 +528,6 @@ function Previous(){
             },
             data: {
                 schedule_id:JSON.stringify(val),
-                
             },
             success: function (data, text) {
                 

@@ -2,7 +2,6 @@ let submitSite=document.getElementById("submitSite")
 let updateForm=''
 let myID=activeUserID
 let myEmail=''
-let position2 =position;
 let myCstomer_id=''
 let deleteButtonWasClick=false
 
@@ -16,7 +15,7 @@ function getSite(){
         },
         dataType  : 'json',
         encode  : true,
-        success: function (data, text) {
+        success: function (data) {
 
             console.log(data)
             myEmail=data.data[0].email
@@ -144,16 +143,29 @@ submitSite.addEventListener("submit",(e)=>{
     $("#signInButton").css("display","none")
     $("#loadingButton").css("display","block")      
 
+
+    let position2 =position;
+
     const form = e.target;
     const formFields = form.elements,
     site_name = formFields.inputSiteName.value,
     guard_charge=formFields.inputGuardAmount.value,
     client_charge=formFields.inputJobCost.value,
     operations_area_constraint=formFields.radius.value||40,
-    longitude=   position2[1].toFixed(5),
+    longitude=position2[1].toFixed(5),
     latitude=position2[0].toFixed(5),
     siteAddress=formFields.siteAddress.value,
     customer_id=myCstomer_id;
+
+
+    //console.log(longitude,latitude )
+    console.log("longitude",longitude )
+    console.log("latitude",latitude)
+    console.log("longitude",position2[1] )
+    console.log("latitude",position2[0] )
+
+
+
 
     console.log(site_name,guard_charge,client_charge,operations_area_constraint,longitude,latitude,customer_id, siteAddress )
     
@@ -323,4 +335,27 @@ $("#pac-input").focus(function() {
   
 
 });
+
+
+/*
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(successFunction, errorFunction);
+} else {
+  alert('It seems like Geolocation, which is required for this page, is not enabled in your browser. Please use a browser which supports it.');
+}
+
+
+
+function successFunction(position) {
+  var lat = position.coords.latitude;
+  var long = position.coords.longitude;
+  console.log('Your latitude is :'+lat+' and longitude is '+long);
+}
+function errorFunction(err) {
+
+  console.log(err);
+}
+
+
+*/
 

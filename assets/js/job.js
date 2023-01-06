@@ -844,16 +844,18 @@ function displayConfigTimeInstruction(val1){
 
    `
        if(i==val1.length-1){
-         if(val1!=''){
-           $("#mySheduleInstruction").empty();
-           $("#mySheduleInstruction").append(
-             `${DomObj} `)
-         }
-        
-       }
+          if(val1!=''){
+            $("#mySheduleInstruction").empty();
+            $("#mySheduleInstruction").append(
+              `${DomObj} `)
+          }
+        }
   }
  
 }
+
+
+
 
 createInstruction.addEventListener("submit",(e)=>{
   e.preventDefault()
@@ -1584,34 +1586,6 @@ function removeDateTimeDuplicate3(val1){
  return val1
  
 }
-/*
-let duplicatesArray=[
-  {date: '2022-10-31', startTime: '00:00', endTime: '23:59'},
-  {date: '2022-11-01', startTime: '00:00', endTime: '23:59'},
-  {date: '2022-11-01', startTime: '00:00', endTime: '23:59'}, 
-  {date: '2022-11-02', startTime: '00:00', endTime: '23:59'},
-  {date: '2022-11-02', startTime: '00:00', endTime: '23:59'},
-  {date: '2022-11-03', startTime: '00:00', endTime: '23:59'},
-  {date: '2022-11-03', startTime: '00:00', endTime: '23:59'},
-  {date: '2022-11-04', startTime: '00:00', endTime: '23:59'},
-  {date: '2022-11-04', startTime: '00:00', endTime: '23:59'}, 
-  {date: '2022-11-04', startTime: '00:00', endTime: '23:59'}, 
-  {date: '2022-11-04', startTime: '00:00', endTime: '23:59'}, 
-  {date: '2022-11-05', startTime: '00:00', endTime: '23:59'}, 
-  {date: '2022-11-05', startTime: '00:00', endTime: '23:59'}, 
-  {date: '2022-11-05', startTime: '00:00', endTime: '23:59'}, 
-  {date: '2022-11-05', startTime: '00:00', endTime: '23:59'}, 
-  {date: '2022-11-06', startTime: '00:00', endTime: '23:59'}, 
-  {date: '2022-11-06', startTime: '00:00', endTime: '23:59'} , 
-  {date: '2022-11-07', startTime: '00:00', endTime: '23:59'}]
- console.log(removeDateTimeDuplicate(duplicatesArray))
-*/
-
-/*THIS PART HANDLES THE FILLINS OF JOB DETAILS */
-
-
-
-console.log(JSON.parse(localStorage.getItem("job")||"[]"))
 
 
 
@@ -1621,16 +1595,6 @@ function viewDetailsContentDisplay(val1){
   let table=''
   let instruction=''
   let task=''
-
-
-
-
-
-
-
-
-
-
 
   for(let i=0;i<val1.length;i++){
    DomObj+=`
@@ -1796,8 +1760,6 @@ function viewDetailsContentDisplay(val1){
   }
 
 
-
-
 //this handles display of date and time schedule
   setTimeout(() => {
     for(let i=0;i<val1.length;i++){
@@ -1836,8 +1798,6 @@ function viewDetailsContentDisplay(val1){
   setTimeout(() => {
     for(let i=0;i<val1.length;i++){
 
-      
-      
       if(val1[i].instructionShedule){
         let count1=val1[i].instructionShedule.length
         console.log(val1[i].instructionShedule)
@@ -2306,6 +2266,7 @@ $(function(){
                   data-bs-target="#edit"   onclick="updateJobStatusId(${val[i].id})">
                   <span class="btn-icon icofont-ui-edit"></span>
                 </button>
+                
                 <button onclick="deleteJob(${val[i].id})" class="btn btn-error btn-sm btn-square rounded-pill">
                   <span class="btn-icon icofont-ui-delete"></span>
                 </button>

@@ -20,11 +20,9 @@ $(document).ready(function(){
               },
             success: function (data, text) {
 
-
-                console.log(data.data)
-
                 CreateTable(data.data)
                 updateTopContent(data.data)
+
                 /*
                 showModal("REGISTRATION SUCCESSFULL")
                 setTimeout(() => {
@@ -36,9 +34,9 @@ $(document).ready(function(){
 
         */
             },
+
             error: function (request, status, error) {
 
-                console.log(request)
                 analyzeError(request)
              
             }
@@ -53,8 +51,6 @@ $(document).ready(function(){
         if(val.guard.length!=0){
 
             let guard=val.guard
-
-            console.log(guard)
             for(let i=0; i<guard.length; i++){
 
                 data+= `
@@ -77,11 +73,11 @@ $(document).ready(function(){
                                                 </div>
                                             </td>
                                             <td>
-                                                <div class="address-col">$${guard[i].hours_worked*val.job.guard_charge}.00</div>
+                                                <div class="text-nowrap">$${guard[i].hours_worked*val.job.guard_charge}.00</div>
                                             </td>
                                             <td>
                                                 <div class="text-muted text-nowrap">
-                                                    <button type="button" onclick="getSchedule(${guard[i].guard_id},${job_id})"   class="btn btn-outline-primary"
+                                                    <button type="button" onclick="getSchedule(${guard[i].guard_id},${job_id})" class="btn btn-outline-primary"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#view_schedule">View</button>
                                                 </div>
@@ -94,17 +90,24 @@ $(document).ready(function(){
                                                 </div>
                                             </td>
                                             <td>
+                                            <div class="text-muted text-nowrap">
+                                                <button type="button" onclick="getLogSecurityCheck(${guard[i].guard_id},${job_id})"    class="btn btn-outline-primary"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#view_log_security_check" >View</button>
+                                            </div>
+                                        </td>
+                                            <td>
                                                 <div class="text-muted text-nowrap">
                                                     <button type="button" onclick="getInstruction(${guard[i].guard_id},${job_id})"  class="btn btn-outline-primary"
                                                         data-bs-toggle="modal"
-                                                        data-bs-target="#view_schedule">View</button>
+                                                        data-bs-target="#view_instruction">View</button>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="text-muted text-nowrap">
                                                     <button type="button" onclick="getTask(${guard[i].guard_id},${job_id})" class="btn btn-outline-primary"
                                                         data-bs-toggle="modal"
-                                                        data-bs-target="#view-jobDetail">View</button>
+                                                        data-bs-target="#view_task" >View</button>
                                                 </div>
                                             </td>
                                             <td>
@@ -152,9 +155,6 @@ $(document).ready(function(){
 
     }
     
-
-  
-
   });
 
 
@@ -221,8 +221,6 @@ function getSchedule(guard_id ,job_id){
           },
         success: function (data, text) {
 
-            console.log(data.data)
-
             displaySchedule(data.data)
             /*
             showModal("REGISTRATION SUCCESSFULL")
@@ -237,7 +235,6 @@ function getSchedule(guard_id ,job_id){
         },
         error: function (request, status, error) {
 
-            console.log(request)
             analyzeError(request)
          
         }
@@ -307,26 +304,26 @@ function displaySchedule(val){
 
 
 function getInstruction(guard_id ,job_id){
+
+
     $.ajax({
         type: "post", url:`${domain}/api/v1/job/allJobs/oneAgendaPerGuard`,
         headers: {
             "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
         },
+        dataType  : 'json',
+        encode  : true,
         data: {
             guard_id,
             job_id,
-            Type:"INSTRUCTION"  
+            type:"INSTRUCTION"  
           },
         success: function (data, text) {
-
-            console.log(data.data)
-
             displayInstruction(data.data)
       
         },
         error: function (request, status, error) {
 
-            console.log(request)
             analyzeError(request)
          
         }
@@ -339,37 +336,56 @@ function displayInstruction(val){
 
     for(let i=0; i<val.length; i++){
 
-        data+= `
-        <tr>
-        <td>${i+1}</td>
-        <td>${val[i].check_in_date}</td>
-        <td>${val[i].start_time}</td>
-        <td>${val[i].check_out_date}</td>
-        <td>${val[i].end_time}</td>
-        <td>${val[i].hours}</td>
-        <td>
-            <div class="text-muted text-nowrap">
-                <button type="button" class="btn btn-outline-primary"
-                    data-bs-toggle="modal"
-                    data-bs-target="#view_schedule">select</button>
-            </div>
-        </td>
-        <td>
-            <div class="text-muted text-nowrap">
-                <button type="button" class="btn btn-outline-primary"
-                    data-bs-toggle="modal"
-                    data-bs-target="#view_schedule">select</button>
-            </div>
-        </td>
-        <td>
-              <div class="actions">
-                <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteSingleGuardSchedule(${val[i].shedule_id},${val[i].guard_id},${val[i].job_id})">
-                  <span class="btn-icon icofont-ui-delete"></span>
-                </button>
-              </div>
+        if(val[i].agenda_done){
+            data+= `
+            <tr>
+            <td>${i+1}</td>
+            <td>${val[i].operation_date}</td>
+            <td>${val[i].scanned_at}</td>
+            <td>${val[i].title}</td>
+            <td>${val[i].description}</td>
+            <td>
+                <div class="text-nowrap text-success">
+                    <i class="icofont-check-circled"></i> Done
+                </div>
             </td>
-      </tr>
-         `
+           
+            <td>
+                  <div class="actions">
+                    <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteSingleGuardAgenda(${val[i].agenda_id},${val[i].guard_id},${val[i].job_id})">
+                      <span class="btn-icon icofont-ui-delete"></span>
+                    </button>
+                  </div>
+                </td>
+          </tr>
+             `
+        }
+        else{
+            data+= `
+            <tr>
+            <td>${i+1}</td>
+            <td>${val[i].operation_date}</td>
+            <td>${val[i].scanned_at}</td>
+            <td>${val[i].title}</td>
+            <td style="max-width:200px">${val[i].description}</td>
+            <td>
+                <div class="text-nowrap text-danger">
+                    <i class="icofont-close-circled"></i> Not done
+                </div>
+            </td>
+    
+            <td>
+                  <div class="actions">
+                    <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteSingleGuardAgenda(${val[i].agenda_id},${val[i].guard_id},${val[i].job_id})">
+                      <span class="btn-icon icofont-ui-delete"></span>
+                    </button>
+                  </div>
+                </td>
+          </tr>
+             `
+        }
+
+      
 
         if(i==val.length-1){
 
@@ -393,6 +409,7 @@ function displayInstruction(val){
 
 
 function getTask(guard_id ,job_id){
+
     $.ajax({
         type: "post", url:`${domain}/api/v1/job/allJobs/oneAgendaPerGuard`,
         headers: {
@@ -401,18 +418,16 @@ function getTask(guard_id ,job_id){
         data: {
             guard_id,
             job_id,
-            Type:"TASK"
+            type:"TASK"
           },
         success: function (data, text) {
-
-            console.log(data.data)
-
+            
+            console.log(data)
             displayTask(data.data)
       
         },
         error: function (request, status, error) {
 
-            console.log(request)
             analyzeError(request)
          
         }
@@ -425,51 +440,70 @@ function displayTask(val){
 
     for(let i=0; i<val.length; i++){
 
-        data+= `
-        <tr>
-        <td>${i+1}</td>
-        <td>${val[i].check_in_date}</td>
-        <td>${val[i].start_time}</td>
-        <td>${val[i].check_out_date}</td>
-        <td>${val[i].end_time}</td>
-        <td>${val[i].hours}</td>
-        <td>
-            <div class="text-muted text-nowrap">
-                <button type="button" class="btn btn-outline-primary"
-                    data-bs-toggle="modal"
-                    data-bs-target="#view_schedule">select</button>
-            </div>
-        </td>
-        <td>
-            <div class="text-muted text-nowrap">
-                <button type="button" class="btn btn-outline-primary"
-                    data-bs-toggle="modal"
-                    data-bs-target="#view_schedule">select</button>
-            </div>
-        </td>
-        <td>
-              <div class="actions">
-                <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteSingleGuardSchedule(${val[i].shedule_id},${val[i].guard_id},${val[i].job_id})">
-                  <span class="btn-icon icofont-ui-delete"></span>
-                </button>
-              </div>
+        
+        if(val[i].agenda_done){
+            data+= `
+            <tr>
+            <td>${i+1}</td>
+            <td>${val[i].operation_date}</td>
+            <td>${val[i].scanned_at}</td>
+            <td>${val[i].title}</td>
+            <td>${val[i].description}</td>
+            <td>
+                <div class="text-nowrap text-success">
+                    <i class="icofont-check-circled"></i> Done
+                </div>
             </td>
-      </tr>
-         `
+           
+            <td>
+                  <div class="actions">
+                    <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteSingleGuardAgenda(${val[i].agenda_id},${val[i].guard_id},${val[i].job_id})">
+                      <span class="btn-icon icofont-ui-delete"></span>
+                    </button>
+                  </div>
+                </td>
+          </tr>
+             `
+        }
+        else{
+            data+= `
+            <tr>
+            <td>${i+1}</td>
+            <td>${val[i].operation_date}</td>
+            <td>${val[i].scanned_at}</td>
+            <td>${val[i].title}</td>
+            <td style="max-width:200px">${val[i].description}</td>
+            <td>
+                <div class="text-nowrap text-danger">
+                    <i class="icofont-close-circled"></i> Not done
+                </div>
+            </td>
+    
+            <td>
+                  <div class="actions">
+                    <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteSingleGuardAgenda(${val[i].agenda_id},${val[i].guard_id},${val[i].job_id})">
+                      <span class="btn-icon icofont-ui-delete"></span>
+                    </button>
+                  </div>
+                </td>
+          </tr>
+             `
+        }
+
 
         if(i==val.length-1){
 
-            $('#myschedule').children().remove();
-            $("#myschedule").append(data)
+            $('#myTask').children().remove();
+            $("#myTask").append(data)
         }
     }
     if(val.length==0){
-        $('#myschedule').children().remove();
-        $("#myschedule").append(`<tr>
+        $('#myTask').children().remove();
+        $("#myTask").append(`<tr>
         <td colspan="1000">
         
         <div class="alert alert-light outline text-dark " role="alert" style="text-align:center;">
-        YOU HAVE NO SCHEDULE  
+        YOU HAVE NO TASK  
       </div>
         </td>
       </tr>`)
@@ -477,6 +511,106 @@ function displayTask(val){
 
 }
 
+
+
+function getLogSecurityCheck(guard_id ,job_id){
+    $.ajax({
+        type: "post", url:`${domain}/api/v1/job/get_perform_security_check_log`,
+        headers: {
+            "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+        },
+        data: {
+            guard_id,
+            job_id      
+          },
+        success: function (data, text) {
+
+
+            displayLogSecurityCheck(data.data)
+  
+        },
+        error: function (request, status, error) {
+            analyzeError(request)
+         
+        }
+    });
+}
+
+
+function displayLogSecurityCheck(val){
+
+    let data=''
+
+    for(let i=0; i<val.length; i++){
+
+        if(val[i].status){
+            data+= `
+            <tr>
+            <td>${i+1}</td>
+            <td>${val[i].check_in_date}</td>
+            <td>${val[i].check_in_time}</td>
+            <td>${val[i].check_out_date}</td>
+            <td>${val[i].check_out_time}</td>
+            <td>${val[i].hours}</td>
+            <td>
+
+            <div class="text-nowrap text-success">
+            <i class="icofont-check-circled"></i>  ${val[i].location_message}
+          </div>
+            </td>
+            <td>
+                <div class="text-muted text-nowrap">
+                    <button type="button" class="btn btn-outline-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#view_schedule">view location</button>
+                </div>
+            </td>
+          </tr>
+             `
+        }
+        else{
+
+            data+= `
+            <tr>
+            <td>${i+1}</td>
+            <td>${val[i].date}</td>
+            <td>${val[i].message}</td>
+            <td>
+             <div class="text-nowrap text-danger">
+             <i class="icofont-close-circled"></i> Not in location
+           </div>
+            </td>
+            <td>
+                <div class="text-muted text-nowrap">
+                    <button type="button" class="btn btn-outline-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#view_schedule">view location</button>
+                </div>
+            </td>
+          </tr>
+             `
+
+        }
+  
+        if(i==val.length-1){
+
+            $('#mySecurityCheck').children().remove();
+            $("#mySecurityCheck").append(data)
+        }
+    }
+    if(val.length==0){
+        $('#mySecurityCheck').children().remove();
+        $("#mySecurityCheck").append(`<tr>
+        <td colspan="1000">
+            
+            <div class="alert alert-light outline text-dark " role="alert" style="text-align:center;">
+            YOU HAVE NO SECURITY CHECK LOGS  
+        </div>
+            </td>
+        </tr>`)
+    }
+
+}
 
 function getLog(guard_id ,job_id){
     $.ajax({
@@ -490,7 +624,6 @@ function getLog(guard_id ,job_id){
           },
         success: function (data, text) {
 
-            console.log(data.data)
 
             displayLog(data.data)
             /*
@@ -505,15 +638,11 @@ function getLog(guard_id ,job_id){
     */
         },
         error: function (request, status, error) {
-
-            console.log(request)
             analyzeError(request)
          
         }
     });
 }
-
-
 
 
 function displayLog(val){
@@ -583,10 +712,63 @@ function displayLog(val){
             $("#myLog").append(data)
         }
     }
+    if(val.length==0){
+        $('#myLog').children().remove();
+        $("#myLog").append(`<tr>
+        <td colspan="1000">
+            
+            <div class="alert alert-light outline text-dark " role="alert" style="text-align:center;">
+            YOU HAVE NO LOGS  
+        </div>
+            </td>
+        </tr>`)
+    }
 
 }
 
-
+function deleteSingleGuardAgenda(agenda_id,guard_id,job_id){
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+    
+        if (result.isConfirmed) {
+            
+              $.ajax({
+              type: "post", url:`${domain}/api/v1/job/deleteAgenda`,
+              dataType  : 'json',
+              encode  : true,
+              headers: {
+                  "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+                  },
+              data: {
+                agenda_id
+              },
+              success: function (data, text) {
+                
+                  showModal(data.message)
+                  getInstruction(guard_id ,job_id)
+                  getTask(guard_id ,job_id)
+                  getTableData(limit,offset)
+  
+                  setTimeout(() => {
+                        hideModal()
+                  }, 3000);
+          
+              },
+              error: function (request, status, error) {
+                    analyzeError(request)
+              }
+              });
+        }
+      
+      })
+}
 
 function deleteSingleGuardSchedule(schedule_id,guard_id,job_id){
 
@@ -603,41 +785,35 @@ function deleteSingleGuardSchedule(schedule_id,guard_id,job_id){
   
       if (result.isConfirmed) {
           
-    $.ajax({
-      type: "post", url:`${domain}/api/v1/job/remove_guard_single_shedule`,
-      headers: {
-        "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
-        },
-      data: {
-        schedule_id,
-        guard_id
-      },
-      success: function (data, text) {
-  
-          console.log(data.message)
-          showModal(data.message)
-  
-          getSchedule(guard_id ,job_id)
-          getTableData(limit,offset)
-
-          setTimeout(() => {
-                  hideModal()
-          }, 3000);
-  
+            $.ajax({
+            type: "post", url:`${domain}/api/v1/job/remove_guard_single_shedule`,
+            headers: {
+                "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+                },
+            data: {
+                schedule_id,
+                guard_id
+            },
+            success: function (data, text) {
         
-         
-      },
-      error: function (request, status, error) {
-  
-          console.log(request)
-          console.log(status)
-          console.log(error)
-          console.log(request.responseJSON.status)
-  
-          analyzeError(request)
-       
-      }
-    });
+                showModal(data.message)
+        
+                getSchedule(guard_id ,job_id)
+                getTableData(limit,offset)
+
+                setTimeout(() => {
+                        hideModal()
+                }, 3000);
+        
+                
+                
+            },
+            error: function (request, status, error) {
+        
+                analyzeError(request)
+            
+            }
+            });
       }
     
     })
@@ -669,8 +845,6 @@ function deleteSingleGuardSchedule(schedule_id,guard_id,job_id){
           guard_id
         },
         success: function (data, text) {
-    
-            console.log(data.message)
             showModal(data.message)
     
             getTableData(limit,offset)
@@ -683,11 +857,6 @@ function deleteSingleGuardSchedule(schedule_id,guard_id,job_id){
            
         },
         error: function (request, status, error) {
-    
-            console.log(request)
-            console.log(status)
-            console.log(error)
-            console.log(request.responseJSON.status)
     
             analyzeError(request)
          
@@ -702,7 +871,6 @@ function deleteSingleGuardSchedule(schedule_id,guard_id,job_id){
 
 function setGuardName(val){
 
-    console.log(val)
     const encodedData = btoa(val)
     localStorage.setItem("guardName",encodedData)
 }
@@ -710,8 +878,6 @@ function setGuardName(val){
 
 function setGuardId(val){
 
-
-    console.log(val)
     const encodedData = btoa(val);
     localStorage.setItem("guardId",encodedData)
 }

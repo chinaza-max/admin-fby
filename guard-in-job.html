@@ -48,7 +48,10 @@
         <div class="app-container">
             <!-- Horizontal navbar -->
             <div id="navbar1" class="app-navbar horizontal">
+
+                
                 <div class="navbar-wrap">
+                    
 
                     <button class="no-style navbar-toggle navbar-open d-lg-none">
                         <span></span><span></span><span></span>
@@ -363,10 +366,11 @@
                                             <th scope="col">ID</th>
                                             <th scope="col">Photo</th>
                                             <th scope="col">Name</th>
-                                            <th scope="col " class="text-nowrap">Phone</th>
-                                            <th scope="col">Money earned</th>
-                                            <th scope="col">Schedule</th>
-                                            <th scope="col">Log</th>   
+                                            <th scope="col" class="text-nowrap">Phone</th>
+                                            <th scope="col" style="width:100px">Money earned</th>
+                                            <th scope="col" >Schedule</th>
+                                            <th scope="col">Log<sup> (shift) </sup></th>   
+                                            <th scope="col" class="nowrap">Log  <sup>(security check)</sup>  </th>   
                                             <th scope="col">Instruction</th>
                                             <th scope="col">Task</th>
                                             <th scope="col">Report</th>
@@ -455,7 +459,7 @@
 
                 <div class="card">
                     <div class="card-header">
-                      LOGS
+                      LOG (shift)
                     </div>
                     <div class="card-body">
                       <div class="table-responsive">
@@ -563,21 +567,20 @@
                     </div>
                     <div class="card-body">
                       <div class="table-responsive">
-                        <table class="table table-bordered">
+                        <table class="table table-bordered" >
                           <thead>
                           <tr>
                             <th scope="col">No</th>
+                            <th scope="col">Operation date</th>
+                            <th scope="col">Scanned at</th>
                             <th scope="col">Title </th>
                             <th scope="col">Description </th>
-                            <th scope="col">Operation date </th>
-                            <th scope="col">Agenda done </th>
+                            <th scope="col">Instruction done</th>
                             <th scope="col">Action</th>
-
                           </tr>
                           </thead>
                           <tbody id="myInstruction">
                          
-                     
                      
                           </tbody>
                         </table>
@@ -597,6 +600,99 @@
     </div>
     </div>
 
+
+    
+    <div class="modal fade" id="view_task" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <div class="modal-body">
+
+                <div class="card">
+                    <div class="card-header">
+                      TASK
+                    </div>
+                    <div class="card-body">
+                      <div class="table-responsive">
+                        <table class="table table-bordered">
+                          <thead>
+                          <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Operation date</th>
+                            <th scope="col">Scanned at</th>
+                            <th scope="col">Title </th>
+                            <th scope="col">Description </th>
+                            <th scope="col">Instruction done</th>
+                            <th scope="col">Action</th>
+                          </tr>
+                          </thead>
+                          <tbody id="myTask">
+                         
+                     
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+
+
+                <div class="modal-footer">
+                    <div class="actions justify-content-between">
+                        <button type="button" class="btn btn-error" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+    <div class="modal fade" id="view_log_security_check" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <div class="modal-body">
+
+                <div class="card">
+                    <div class="card-header">
+                      LOGS (security check)
+                    </div>
+                    <div class="card-body">
+                      <div class="table-responsive">
+                        <table class="table table-bordered">
+                          <thead>
+                          <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Message</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Check Location </th>
+                           
+                          </tr>
+                          </thead>
+                          <tbody id="mySecurityCheck">
+                         
+                     
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+
+
+                <div class="modal-footer">
+                    <div class="actions justify-content-between">
+                        <button type="button" class="btn btn-error" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </div>
 
 
     <div class="modal fade" id="RegisterationSuccessFull" style="z-index:10000;" tabindex="-1" role="dialog"
