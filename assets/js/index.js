@@ -42,6 +42,8 @@ $(document).ready(function() {
         ajax: {
             url: `${domain}/api/v1/job/allJobs/generalshiftStarted`,
             method: "get",
+            dataType  : 'json',
+            encode  : true,
             headers: {
               "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
           },

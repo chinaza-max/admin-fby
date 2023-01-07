@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>FBY Admin Panel</title>
+    <title >FBY Admin Panel</title>
     <meta name="keywords" content="MedicApp">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
 
 
     <!-- Theme CSS -->
@@ -44,10 +44,12 @@
     </div>
     <!-- .main-loader -->
 
+    
+
     <div class="page-box">
         <div class="app-container">
             <!-- Horizontal navbar -->
-            <div id="navbar1" class="app-navbar horizontal">
+            <div id="navbar1" class="app-navbar horizontal allE">
 
                 
                 <div class="navbar-wrap">
@@ -149,7 +151,7 @@
             <!-- end Horizontal navbar -->
 
             <!-- Vertical navbar -->
-            <div id="navbar2" class="app-navbar vertical">
+            <div id="navbar2" class="app-navbar vertical allE" >
                 <div class="navbar-wrap">
 
                     <button class="no-style navbar-toggle navbar-close icofont-close-line d-lg-none"></button>
@@ -227,7 +229,7 @@
                                 <li class="menu-item">
                                     <a class="item-link" href="Jobs.html">
                                         <div class="icon icofont-prescription"></div>
-                                        <span class="link-text">Manage Job</span>
+                                        <span class="link-text">Manage job</span>
                                     </a>
                                 </li>
 
@@ -244,7 +246,7 @@
                                     </a>
                                 </li>
                                 <li class="menu-item">
-                                    <a class="item-link" href="/view-shift.html">
+                                    <a class="item-link" href="view-shift.html">
                                         <div class="icon icofont-search-job"></div>
                                         <span class="link-text">View shift</span>
                                     </a>
@@ -308,95 +310,63 @@
             </div>
             <!-- end Vertical navbar -->
 
-            <main class="main-content">
+            <h2 id="nameOfOrganization" class="text-center"></h2>
+            <div id="contentPrint" class="d-flex align-items-center justify-content-center " >
+                <div id="qrcode-2"></div>
+    
+            </div>
+            <div id="contentPrintMessage">
+                <div id="operationDate" ></div>
+                <div id="message"></div>
+            </div>
+
+           
+            <main class="main-content allE">
                 <div class="app-loader"><i class="icofont-spinner-alt-4 rotate"></i></div>
 
                 <div class="main-content-wrap">
+
+                    <ul class="nav">
+                        <li class="nav-item">
+                          <a class="nav-link active" aria-current="page" href="/guard-in-job.html">Back</a>
+                        </li>
+                      </ul>
+                    <header class="page-header">
+                      <h4 class="page-title">Job QR-code</h4>
+                    </header>
+            
                     <div class="page-content">
+                      <div class="row"   id="qr_code_container">
 
-                        <div class="row">
+                       
+                      </div>
 
-                            <div class=" col-md-4">
 
-                                <div class="alert alert-primary outline overflow-auto" role="alert" style="height:81px ;" id="des">
-                                
-                                </div>
-                            </div>
-
-                            <div class=" col-md-4 col-md-4 ">
-                                <div class="alert alert-info outline overflow-auto" role="alert" style="height:81px ;"  id="name">
-                            
-                                </div>
-
-                            </div>
-
-                            <div class=" col-md-4 col-md-4">
-                                <div class="alert alert-success outline overflow-auto" style="height:81px ;" role="alert" id="timeZone">
-                            
-                                </div>
-                            </div>
-
+                        <div class="add-action-box allE">
+                            <button  class="btn btn-primary btn-lg btn-square rounded-pill" onclick="confirmLocation()">
+                                <div class="icon icofont-location-pin fs-30"></div>
+                                    <small></small>
+                            </button>
                         </div>
-
-                        <div class="card">
-                            
-
-                           
-                           
-
-                                <div class="card-header text-center">
-                                    
-                                    Assigned guards
-                            
-                                </div>
-                            
-
-
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr class="bg-primary text-white">
-                                            <th scope="col">ID</th>
-                                            <th scope="col">Photo</th>
-                                            <th scope="col">Name</th>
-                                            <th scope="col" class="text-nowrap">Phone</th>
-                                            <th scope="col" style="width:100px">Money earned</th>
-                                            <th scope="col" >Schedule</th>
-                                            <th scope="col">Log<sup> (shift) </sup></th>   
-                                            <th scope="col" class="nowrap">Log  <sup>(security check)</sup>  </th>   
-                                            <th scope="col">Instruction</th>
-                                            <th scope="col">Task</th>
-                                            <th scope="col">Report</th>
-                                            <th scope="col">Action</th>
-                                        </tr>
-                                    </thead>
-                                    
-                                    <tbody id="mytable1">
-
-                                    </tbody>
-                                </table>
-                            </div>
-
-                        </div>
+            
+                    
 
                     </div>
-                </div>
+                  </div>
+
+
+                  
             </main>
 
 
-
-
-            <div class="add-action-box">
-                <a href="/job-qr-code.html" class="btn btn-outline-primary">
-                    <div class="icon icofont-qr-code"></div>
-                        <small>QR code  <sup id="qr_code_count" style="color: red;">0</sup></small>
-                </a>
-            </div>
+           
               
+           
 
-            <div class="app-footer">
+
+            <div class="app-footer allE">
                 <div class="footer-wrap">
-                    <div class="row h-100 align-items-center"  >
+                    <div class="row h-100 align-items-center">
                         <div class="col-12 col-md-6 d-none d-md-block">
                             <ul class="page-breadcrumbs">
 
@@ -451,252 +421,8 @@
         </div>
     </div>
 
-
-
-
-<div class="modal fade" id="view_log" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-
-            <div class="modal-body">
-
-                <div class="card">
-                    <div class="card-header">
-                      LOG (shift)
-                    </div>
-                    <div class="card-body">
-                      <div class="table-responsive">
-                        <table class="table table-bordered">
-                          <thead>
-                          <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">Check in date </th>
-                            <th scope="col">Check in time </th>
-                            <th scope="col">Check out date </th>
-                            <th scope="col">Check out time </th>
-                            <th scope="col">Hours</th>
-                            <th scope="col">location_message</th>
-                            <th scope="col">Action </th>
-
-
-                          </tr>
-                          </thead>
-                          <tbody id="myLog">
-                         
-                     
-                     
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-
-
-                <div class="modal-footer">
-                    <div class="actions justify-content-between">
-                        <button type="button" class="btn btn-error" data-bs-dismiss="modal">Close</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-
-    <div class="modal fade" id="view_schedule" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-
-                <div class="modal-body">
-
-                    <div class="card">
-                        <div class="card-header">
-                          SCHEDULE
-                        </div>
-                        <div class="card-body">
-                          <div class="table-responsive">
-                            <table class="table table-bordered">
-                              <thead>
-                              <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">Start date </th>
-                                <th scope="col">Start time </th>
-                                <th scope="col">End date </th>
-                                <th scope="col">End time </th>
-                                <th scope="col">Hours</th>
-                                <th scope="col">Check in</th>
-                                <th scope="col">Check out</th>
-                                <th scope="col">Action</th>
-
-
-
-                              </tr>
-                              </thead>
-                              <tbody id="myschedule">
-                             
-                         
-                         
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                      </div>
-
-
-                    <div class="modal-footer">
-                        <div class="actions justify-content-between">
-                            <button type="button" class="btn btn-error" data-bs-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="modal fade" id="view_instruction" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-
-            <div class="modal-body">
-
-                <div class="card">
-                    <div class="card-header">
-                      INSTRUCTION
-                    </div>
-                    <div class="card-body">
-                      <div class="table-responsive">
-                        <table class="table table-bordered" >
-                          <thead>
-                          <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">Operation date</th>
-                            <th scope="col">Scanned at</th>
-                            <th scope="col">Title </th>
-                            <th scope="col">Description </th>
-                            <th scope="col">Instruction done</th>
-                            <th scope="col">Action</th>
-                          </tr>
-                          </thead>
-                          <tbody id="myInstruction">
-                         
-                     
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-
-
-                <div class="modal-footer">
-                    <div class="actions justify-content-between">
-                        <button type="button" class="btn btn-error" data-bs-dismiss="modal">Close</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    </div>
-
-
     
-    <div class="modal fade" id="view_task" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
 
-            <div class="modal-body">
-
-                <div class="card">
-                    <div class="card-header">
-                      TASK
-                    </div>
-                    <div class="card-body">
-                      <div class="table-responsive">
-                        <table class="table table-bordered">
-                          <thead>
-                          <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">Operation date</th>
-                            <th scope="col">Scanned at</th>
-                            <th scope="col">Title </th>
-                            <th scope="col">Description </th>
-                            <th scope="col">Instruction done</th>
-                            <th scope="col">Action</th>
-                          </tr>
-                          </thead>
-                          <tbody id="myTask">
-                         
-                     
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-
-
-                <div class="modal-footer">
-                    <div class="actions justify-content-between">
-                        <button type="button" class="btn btn-error" data-bs-dismiss="modal">Close</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    </div>
-
-
-    <div class="modal fade" id="view_log_security_check" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-
-            <div class="modal-body">
-
-                <div class="card">
-                    <div class="card-header">
-                      LOGS (security check)
-                    </div>
-                    <div class="card-body">
-                      <div class="table-responsive">
-                        <table class="table table-bordered">
-                          <thead>
-                          <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Message</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Check Location </th>
-                           
-                          </tr>
-                          </thead>
-                          <tbody id="mySecurityCheck">
-                         
-                     
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-
-
-                <div class="modal-footer">
-                    <div class="actions justify-content-between">
-                        <button type="button" class="btn btn-error" data-bs-dismiss="modal">Close</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    </div>
 
 
     <div class="modal fade" id="RegisterationSuccessFull" style="z-index:10000;" tabindex="-1" role="dialog"
@@ -728,7 +454,7 @@
 
 
     <!-- Add patients modals -->
-    <div class="modal fade" id="settings" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade allE" id="settings" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -789,8 +515,13 @@
     <script src="../assets/js/echarts.min.js"></script>
     <script src="../assets/js/echarts-gl.min.js"></script>
     <script src="../assets/js/globalVar.js"></script>
-    <script src="../assets/js/guard-in-job.js"></script>
+    <script src="../assets/js/job-qr-code.js"></script>
     <script src="../assets/js/main.js"></script>
+
+    
+
+
+  
    
        
 

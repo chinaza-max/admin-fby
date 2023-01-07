@@ -139,6 +139,13 @@ function analyzeError(request){
             hideModalError()
         }, alertLifeSpan);
     }
+    else if(request.responseJSON.status=="location-error"){
+        console.log(request.responseJSON.message)
+        showModalError(request.responseJSON.message)
+        setTimeout(() => {
+            hideModalError()
+        }, alertLifeSpan);
+    }
 }
 
 
