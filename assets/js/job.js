@@ -3135,3 +3135,12 @@ function updateNavLinkStatus(id){
   localStorage.setItem("navLinkSatus",id)
 }
 
+
+let all_form_for_adding_guard=document.querySelectorAll(".all_form_for_adding_guard")
+
+
+all_form_for_adding_guard.forEach(element => {
+  
+  element.addEventListener("submit",(e)=>{
+    e.preventDefault()})
+});

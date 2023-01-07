@@ -23,16 +23,6 @@ $(document).ready(function(){
                 CreateTable(data.data)
                 updateTopContent(data.data)
 
-                /*
-                showModal("REGISTRATION SUCCESSFULL")
-                setTimeout(() => {
-                        hideModal()
-                }, 3000);
-
-                $("#signInButton").css("display","block")
-                $("#loadingButton").css("display","none")
-
-        */
             },
 
             error: function (request, status, error) {
@@ -149,10 +139,14 @@ $(document).ready(function(){
     }
 
     function updateTopContent(val){
+
+        console.log(val)
         $("#des").text("JOB DESCRIPTION: "+val.job.description)
         $("#name").text("SITE NAME: "+val.site.name)
         $("#timeZone").text("TIME ZONE: "+val.site.time_zone)
+        $("#qr_code_count").text(val.job.no_qr_code)
 
+        
     }
     
   });
@@ -306,6 +300,8 @@ function displaySchedule(val){
 function getInstruction(guard_id ,job_id){
 
 
+    console.log(guard_id ,job_id)
+
     $.ajax({
         type: "post", url:`${domain}/api/v1/job/allJobs/oneAgendaPerGuard`,
         headers: {
@@ -319,6 +315,8 @@ function getInstruction(guard_id ,job_id){
             type:"INSTRUCTION"  
           },
         success: function (data, text) {
+
+            console.log(data.data)
             displayInstruction(data.data)
       
         },
@@ -547,22 +545,18 @@ function displayLogSecurityCheck(val){
             data+= `
             <tr>
             <td>${i+1}</td>
-            <td>${val[i].check_in_date}</td>
-            <td>${val[i].check_in_time}</td>
-            <td>${val[i].check_out_date}</td>
-            <td>${val[i].check_out_time}</td>
-            <td>${val[i].hours}</td>
+            <td>${val[i].date}</td>
+            <td>${val[i].message}</td>
             <td>
-
-            <div class="text-nowrap text-success">
-            <i class="icofont-check-circled"></i>  ${val[i].location_message}
-          </div>
+                <div class="text-nowrap text-success">
+                    <i class="icofont-check-circled"></i> In location
+                </div>
             </td>
             <td>
                 <div class="text-muted text-nowrap">
                     <button type="button" class="btn btn-outline-primary"
                         data-bs-toggle="modal"
-                        data-bs-target="#view_schedule">view location</button>
+                        data-bs-target="#" disabled>view location</button>
                 </div>
             </td>
           </tr>
@@ -584,7 +578,7 @@ function displayLogSecurityCheck(val){
                 <div class="text-muted text-nowrap">
                     <button type="button" class="btn btn-outline-primary"
                         data-bs-toggle="modal"
-                        data-bs-target="#view_schedule">view location</button>
+                        data-bs-target="#" disabled>view location</button>
                 </div>
             </td>
           </tr>

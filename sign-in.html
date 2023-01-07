@@ -128,10 +128,6 @@
 
       if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test($("#email").val())){
         
-        console.log($("#email").val())
-        console.log($("#password").val())
-
-
 
         $.ajax({
           type: "post", url:`${domain}/api/v1/auth/admin/login`,

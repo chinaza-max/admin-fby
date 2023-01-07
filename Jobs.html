@@ -1766,9 +1766,7 @@
                   <div class="form-group ">
                     <label>Add multiple Guard</label>
                     <select class="selectpicker" data-live-search="true" multiple>
-                      <option data-tokens="ketchup mustard">Soda</option>
-                      <option data-tokens="mustard">Smile</option>
-                      <option data-tokens="frosting">Sugar</option>
+                    
                     </select>
                   </div>
 
@@ -1800,16 +1798,18 @@
         <div class="modal-header">
           <h5 class="modal-title">Guard</h5>
         </div>
+
+        <form  class="all_form_for_adding_guard">
         <div class="modal-body">
-          <form>
+      
+
             <div class="card">
 
               <div class="card-body">
           
                   <div class="form-group ">
-                    <label>Add multiple or single Guard</label>
-                    <select class="selectpicker selectpickerSingleSchedule" data-live-search="true" id="addGuardDateShedule1V" multiple>
-
+                    <label>Add multiple or single Guard1</label>
+                    <select class="selectpicker selectpickerSingleSchedule" data-live-search="true" id="addGuardDateShedule1V" multiple required>
 
                     </select>
                   </div>
@@ -1820,17 +1820,22 @@
             </div>
             <div>
             </div>
-          </form>
+
+          
         </div>
         <div class="modal-footer d-block">
           <div class="actions justify-content-between">
             <button type="button" class="btn btn-error" data-bs-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-info" onclick="addGuardDateShedule1()">Assign</button>
+            <button type="submit" class="btn btn-info" onclick="addGuardDateShedule1()">Assign</button>
           </div>
         </div>
+
+       </form>
       </div>
     </div>
   </div>
+
+
   <div class="modal fade" id="addGuardDateSchedule2" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered ">
       <div class="modal-content">
@@ -1840,32 +1845,36 @@
         <div class="modal-header">
           <h5 class="modal-title">Guard</h5>
         </div>
-        <div class="modal-body">
-          <form>
-            <div class="card">
+        <form class="all_form_for_adding_guard">
 
-              <div class="card-body">
-                
-                  <div class="form-group ">
-                    <label>Add multiple or single Guard </label>
-                    <select class="selectpicker selectpickerRandom" data-live-search="true" id="addGuardDateShedule2V" multiple>
+          <div class="modal-body">
+            
+              <div class="card">
 
-                    </select>
-                  </div>
+                <div class="card-body">
+                  
+                    <div class="form-group ">
+                      <label>Add multiple or single Guard </label>
+                      <select class="selectpicker selectpickerRandom" data-live-search="true" id="addGuardDateShedule2V" multiple required>
 
-              
+                      </select>
+                    </div>
+
+                </div>
               </div>
-            </div>
-            <div>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer d-block">
-          <div class="actions justify-content-between">
-            <button type="button" class="btn btn-error" data-bs-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-info" onclick="addGuardDateShedule2()">Assign</button>
+              <div>
+              </div>
+            
           </div>
-        </div>
+          <div class="modal-footer d-block">
+            <div class="actions justify-content-between">
+              <button type="button" class="btn btn-error" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-info" onclick="addGuardDateShedule2()">Assign</button>
+            </div>
+          </div>
+
+      </form>
+
       </div>
     </div>
   </div>
@@ -1879,34 +1888,40 @@
         <div class="modal-header">
           <h5 class="modal-title">Guard</h5>
         </div>
-        <div class="modal-body">
-          <form>
-            <div class="card">
 
-              <div class="card-body">
-                
-                  <div class="form-group ">
-                    <label>Add multiple or single Guard </label>
-                    <select class="selectpicker  selectpickerRange" data-live-search="true" id="addGuardDateShedule3V" multiple>
 
-                    
+        <form class="all_form_for_adding_guard">
 
-                    </select>
-                  </div>
+          <div class="modal-body">
+            
+              <div class="card">
 
-          
+                <div class="card-body">
+                  
+                    <div class="form-group ">
+                      <label>Add multiple or single Guard </label>
+                      <select class="selectpicker  selectpickerRange" data-live-search="true" id="addGuardDateShedule3V" multiple required>
+
+                      
+
+                      </select>
+                    </div>
+
+            
+                </div>
               </div>
-            </div>
-            <div>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer d-block">
-          <div class="actions justify-content-between">
-            <button type="button" class="btn btn-error" data-bs-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-info" onclick="addGuardDateShedule3()">Assign</button>
+              <div>
+              </div>
+            
           </div>
-        </div>
+          <div class="modal-footer d-block">
+            <div class="actions justify-content-between">
+              <button type="button" class="btn btn-error" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-info" onclick="addGuardDateShedule3()">Assign</button>
+            </div>
+          </div>
+
+        </form>
       </div>
     </div>
   </div>
@@ -1921,34 +1936,42 @@
         <div class="modal-header">
           <h5 class="modal-title">Guard</h5>
         </div>
-        <div class="modal-body">
-        
-            <div class="card">
 
-              <div class="card-body">
-                <form>
-                  <div class="form-group ">
-                    <label>Add multiple or single Guard</label>
-                    <select class="selectpicker selectpickerInstruction" data-live-search="true" id="addGuardInstructionShedule4V" multiple>
+        <form class="all_form_for_adding_guard">
 
-                    </select>
-                  </div>
-                </form>
-              </div>
-            </div>
-            <div>
-            </div>
+          <div class="modal-body">
           
-        </div>
-        <div class="modal-footer d-block">
-          <div class="actions justify-content-between">
-            <button type="button" class="btn btn-error" data-bs-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-info" onclick="addGuardDateShedule4()">Assign</button>
+              <div class="card">
+
+                <div class="card-body">
+                
+                    <div class="form-group ">
+                      <label>Add multiple or single Guard</label>
+                      <select class="selectpicker selectpickerInstruction" data-live-search="true" id="addGuardInstructionShedule4V" multiple required>
+
+                      </select>
+                    </div>
+                </div>
+              </div>
+              <div>
+              </div>
+            
           </div>
-        </div>
+          <div class="modal-footer d-block">
+            <div class="actions justify-content-between">
+              <button type="button" class="btn btn-error" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-info" onclick="addGuardDateShedule4()">Assign</button>
+            </div>
+          </div>
+
+        </form>
+
+
       </div>
     </div>
   </div>
+
+
   <div class="modal fade" id="addGuardDateSchedule5" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered ">
       <div class="modal-content">
@@ -1958,49 +1981,30 @@
         <div class="modal-header">
           <h5 class="modal-title">Guard</h5>
         </div>
-        <div class="modal-body">
-          <form>
-            <div class="card">
+        <form class="all_form_for_adding_guard">
+          <div class="modal-body">
+              <div class="card">
 
-              <div class="card-body">
-              
-                  <div class="form-group ">
-                    <label>Add multiple or single Guard</label>
-                    <select class="selectpicker" data-live-search="true" id="addGuardDateShedule5V" multiple>
+                <div class="card-body">
+                
+                    <div class="form-group ">
+                      <label>Add multiple or single Guard</label>
+                      <select class="selectpicker" data-live-search="true" id="addGuardDateShedule5V" multiple required>
+                      </select>
+                    </div>
 
-                      <option data-tokens="mustard">guard1</option>
-                      <option data-tokens="frosting">guard2</option>
-                      <option data-tokens="ketchup mustard">guard3</option>
-                      <option data-tokens="mustard">guard4</option>
-                      <option data-tokens="frosting">guard5</option>
-                      <option data-tokens="mustard">guard6</option>
-                      <option data-tokens="frosting">guard3</option>
-                      <option data-tokens="ketchup mustard">guard1</option>
-                      <option data-tokens="mustard">guard2</option>
-                      <option data-tokens="frosting">guard3</option>
-                      <option data-tokens="ketchup mustard">guard1</option>
-                      <option data-tokens="mustard">guard2</option>
-                      <option data-tokens="frosting">guard3</option>
-                      <option data-tokens="ketchup mustard">guard1</option>
-                      <option data-tokens="mustard">guard2</option>
-                      <option data-tokens="frosting">guard3</option>
-
-                    </select>
-                  </div>
-
-              
+                </div>
               </div>
-            </div>
-            <div>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer d-block">
-          <div class="actions justify-content-between">
-            <button type="button" class="btn btn-error" data-bs-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-info" onclick="addGuardDateShedule5()">Assign</button>
+              <div>
+              </div>
           </div>
-        </div>
+          <div class="modal-footer d-block">
+            <div class="actions justify-content-between">
+              <button type="button" class="btn btn-error" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-info" onclick="addGuardDateShedule5()">Assign</button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
   </div>
