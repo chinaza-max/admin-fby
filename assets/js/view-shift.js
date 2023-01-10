@@ -367,7 +367,7 @@ function initializePayOff(){
 
 function calPayOff(val1, val2){
     
-    document.getElementById("totalHours").innerHTML =val1
+    document.getElementById("totalHours").innerHTML =Number(val1).toFixed(2) 
     document.getElementById("amountPending").innerHTML ="$"+Number(val2).toFixed(2) 
 }
 
@@ -387,7 +387,6 @@ function calPayOff(val1, val2){
     },
     error: function (request, status, error) {
   
-        console.log(request)
         analyzeError(request)
     }
   });
@@ -424,12 +423,11 @@ $.ajax({
   },
 
   success: function (data, text) {
-      console.log(data.data)
+
       displayGetAllGuard(data.data)
   },
   error: function (request, status, error) {
 
-      console.log(request)
       analyzeError(request)
    
   }

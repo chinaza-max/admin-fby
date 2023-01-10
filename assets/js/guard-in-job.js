@@ -8,6 +8,7 @@ job_id=activeUserID
 $(document).ready(function(){
 
 
+    $('#loader1').css("display","block");
 
     getTableData=function ( limit,offset){
         $.ajax({
@@ -20,12 +21,14 @@ $(document).ready(function(){
             data: {
                 job_id      
             },
-            success: function (data, text) {
+            success: function (data) {
+                $('#loader1').css("display","none");
+
                 CreateTable(data.data)
                 updateTopContent(data.data)
             },
             error: function (request, status, error) {
-
+                $('#loader1').css("display","none");
                 analyzeError(request)
              
             }
@@ -62,7 +65,7 @@ $(document).ready(function(){
                                                 </div>
                                             </td>
                                             <td>
-                                                <div class="text-nowrap">$${guard[i].hours_worked*val.job.guard_charge}.00</div>
+                                                <div class="text-nowrap">$${(guard[i].hours_worked*val.job.guard_charge).toFixed(2)}</div>
                                             </td>
                                             <td>
                                                 <div class="text-muted text-nowrap">
@@ -203,6 +206,10 @@ function Previous(){
   
 
 function getSchedule(guard_id ,job_id){
+
+
+    $('#loader2').css("display","block");
+
     $.ajax({
         type: "post", url:`${domain}/api/v1/job/allJobs/oneShedulePerGuard`,
         headers: {
@@ -212,22 +219,15 @@ function getSchedule(guard_id ,job_id){
             guard_id,
             job_id      
           },
-        success: function (data, text) {
+        success: function (data) {
+
+            $('#loader2').css("display","none");
 
             displaySchedule(data.data)
-            /*
-            showModal("REGISTRATION SUCCESSFULL")
-            setTimeout(() => {
-                    hideModal()
-            }, 3000);
-
-            $("#signInButton").css("display","block")
-            $("#loadingButton").css("display","none")
-
-    */
+          
         },
         error: function (request, status, error) {
-
+            $('#loader2').css("display","none");
             analyzeError(request)
          
         }
@@ -253,13 +253,13 @@ function displaySchedule(val){
         <td>
             <div class="text-muted text-nowrap">
                 <button type="button" class="btn btn-outline-primary"
-                onclick="selectDateTime('${val[i].check_in_date}','${val[i].start_time}',${val[i].schedule_id},'Check in',${val[i].job_id},${val[i].guard_id})">Select</button>
+                onclick="selectDateTime('${val[i].check_in_date}','${val[i].start_time}',${val[i].schedule_id},'Check in',${val[i].job_id},${val[i].guard_id},${i+1})">Select</button>
             </div>
         </td>
         <td>
             <div class="text-muted text-nowrap">
                 <button type="button" class="btn btn-outline-primary"
-                onclick="selectDateTime('${val[i].check_out_date}','${val[i].end_time}',${val[i].schedule_id},'Check out',${val[i].job_id},${val[i].guard_id})">Select</button>
+                onclick="selectDateTime('${val[i].check_out_date}','${val[i].end_time}',${val[i].schedule_id},'Check out',${val[i].job_id},${val[i].guard_id},${i+1})">Select</button>
             </div>
         </td>
         <td>
@@ -299,9 +299,10 @@ let buttonInfo
 let myGuard_id
 
 
-function selectDateTime(date ,time ,schedule_id, text,job_id,guard_id){
+function selectDateTime(date ,time ,schedule_id, text,job_id,guard_id,schedule_no){
 
     $('#selectDateTime').modal('show');
+    $("#schedule_no").text(`Schedule (${schedule_no})`)
     let dt = moment(time, ["h:mm A"]).format("HH:mm");
     document.getElementById('myDate').value = date;
     document.getElementById('myTime').value = dt;
@@ -372,6 +373,7 @@ function checkInAndOut(date,check_in,guard_id,job_id,schedule_id){
 
 function getInstruction(guard_id ,job_id){
 
+    $('#loader5').css("display","block");
 
     $.ajax({
         type: "post", url:`${domain}/api/v1/job/allJobs/oneAgendaPerGuard`,
@@ -387,12 +389,13 @@ function getInstruction(guard_id ,job_id){
           },
         success: function (data, text) {
 
-            console.log(data.data)
+            $('#loader5').css("display","none");
+
             displayInstruction(data.data)
       
         },
         error: function (request, status, error) {
-
+            $('#loader5').css("display","none");
             analyzeError(request)
          
         }
@@ -479,6 +482,8 @@ function displayInstruction(val){
 
 function getTask(guard_id ,job_id){
 
+    $('#loader6').css("display","block");
+
     $.ajax({
         type: "post", url:`${domain}/api/v1/job/allJobs/oneAgendaPerGuard`,
         headers: {
@@ -491,14 +496,14 @@ function getTask(guard_id ,job_id){
           },
         success: function (data, text) {
             
-            console.log(data)
+            $('#loader6').css("display","none");
+
             displayTask(data.data)
       
         },
         error: function (request, status, error) {
-
+            $('#loader6').css("display","none");
             analyzeError(request)
-         
         }
     });
 }
@@ -583,6 +588,9 @@ function displayTask(val){
 
 
 function getLogSecurityCheck(guard_id ,job_id){
+
+    $('#loader4').css("display","block");
+
     $.ajax({
         type: "post", url:`${domain}/api/v1/job/get_perform_security_check_log`,
         headers: {
@@ -594,11 +602,13 @@ function getLogSecurityCheck(guard_id ,job_id){
           },
         success: function (data, text) {
 
+            $('#loader4').css("display","none");
 
             displayLogSecurityCheck(data.data)
   
         },
         error: function (request, status, error) {
+            $('#loader4').css("display","none");
             analyzeError(request)
          
         }
@@ -678,6 +688,9 @@ function displayLogSecurityCheck(val){
 }
 
 function getLog(guard_id ,job_id){
+
+    $('#loader3').css("display","block");
+
     $.ajax({
         type: "post", url:`${domain}/api/v1/job/allJobs/logPerGuard`,
         headers: {
@@ -688,21 +701,14 @@ function getLog(guard_id ,job_id){
             job_id      
           },
         success: function (data, text) {
+            $('#loader3').css("display","none");
 
 
             displayLog(data.data)
-            /*
-            showModal("REGISTRATION SUCCESSFULL")
-            setTimeout(() => {
-                    hideModal()
-            }, 3000);
-
-            $("#signInButton").css("display","block")
-            $("#loadingButton").css("display","none")
-
-    */
         },
         error: function (request, status, error) {
+
+            $('#loader3').css("display","none");
             analyzeError(request)
          
         }

@@ -794,9 +794,7 @@ function displayConfigTimeInstruction(val1){
   let instructionType=document.getElementById("instructionType").value
   let instructionTime=document.getElementById("instructionTime").value
 
-  console.log(instructionInfo)
-  console.log(instructionType)
-  console.log(instructionTime)
+
 
   for(let i=0;i<val1.length;i++){
    DomObj+=`
@@ -1402,7 +1400,7 @@ function removeDateTimeDuplicate2(val1){
   let store={}
   
   val1=val1.filter(function (date, i, array) {
-    console.log(date)
+    
     if(!store[date.date]&&!store[date.time]){
       store[date.date]=true
       store[date.time]=true
@@ -1412,10 +1410,7 @@ function removeDateTimeDuplicate2(val1){
       store[date.date]=true
       store[date.time]=true
       return true
-  
     }
-
- 
     else{
       return false
     }
@@ -2074,7 +2069,7 @@ $(function(){
         dataType  : 'json',
         encode  : true,
       
-        success: function (data, text) {
+        success: function (data) {
 
             $('#loader1').css("display","none");
             CreateTable(data.data)
@@ -2118,8 +2113,8 @@ $(function(){
             </td>
             <td>
               <div class="text-muted text-nowrap">
-            
-              <span class="badge badge-success">  ${val[i].status}</span>
+        
+              <progress id="file" value="${val[i].job_progress}" max="100"></progress>
               </div>
             </td>
             <td>
@@ -2241,8 +2236,7 @@ $(function(){
             </td>
             <td>
               <div class="text-muted text-nowrap">
-              
-              <span class="badge badge-warning">${val[i].status}  </span>
+              <progress id="file" value="${val[i].job_progress}" max="100"> 32% </progress>
               </div>
             </td>
             <td>
@@ -2363,7 +2357,8 @@ $(function(){
             <td>
               <div class="text-muted text-nowrap">
              
-              <span class="badge badge-info"> ${val[i].status}</span>
+              <progress id="file" value="${val[i].job_progress}" max="100"> 32% </progress>
+
               </div>
             </td>
             <td>

@@ -9,6 +9,8 @@ let getTableData='',
 $(document).ready(function(){
 
     //FOR UNSETTLED SHIFT
+    $('#loader1').css("display","block");
+
     getTableData=function (limit,offset){
         console.log( limit,offset)
       $.ajax({
@@ -19,26 +21,17 @@ $(document).ready(function(){
           dataType  : 'json',
           encode  : true,
         
-          success: function (data, text) {
-  
-              console.log(data.data)
-              console.log(data)
+          success: function (data) {
+ 
+            $('#loader1').css("display","none");
 
-              CreateTable(data.data)
-              /*
-              showModal("REGISTRATION SUCCESSFULL")
-              setTimeout(() => {
-                      hideModal()
-              }, 3000);
-  
-              $("#signInButton").css("display","block")
-              $("#loadingButton").css("display","none")
-  
-      */
+            CreateTable(data.data)
+            
           },
           error: function (request, status, error) {
   
               console.log(request)
+              $('#loader1').css("display","none");
               analyzeError(request)
            
           }
@@ -66,7 +59,7 @@ $(document).ready(function(){
   
               </td>
               <td>
-              $${val[i].amount.toFixed(2)}
+              $${val[i].amount}
               </td>
             
               <td>
@@ -104,6 +97,8 @@ $(document).ready(function(){
 
     
       //FOR SETTLED SHIFT
+      $('#loader2').css("display","block");
+
       getTableData2=function ( limit,offset){
         
         console.log(limit,offset)
@@ -121,34 +116,23 @@ $(document).ready(function(){
                 settlement:true  
             },
           
-            success: function (data, text) {
+            success: function (data) {
     
-                console.log(data.data)
-                CreateTable2(data.data)
-                /*
-                showModal("REGISTRATION SUCCESSFULL")
-                setTimeout(() => {
-                        hideModal()
-                }, 3000);
-    
-                $("#signInButton").css("display","block")
-                $("#loadingButton").css("display","none")
-    
-        */
+              $('#loader2').css("display","none");
+              CreateTable2(data.data)
+             
             },
             error: function (request, status, error) {
     
-                console.log(request)
-                analyzeError(request)
+              $('#loader2').css("display","none");
+              analyzeError(request)
              
             }
         });
       }
 
       getTableData2(limit2,offset2)
-  
-  
-  
+
       function CreateTable2(val){
           let data=''
               
@@ -370,6 +354,8 @@ function Previous(){
   
   function getDetailOfShift(guard_id){
     guard_id_been_viewed=guard_id
+
+    $('#loader3').css("display","block");
     $.ajax({
         type: "post", url:`${domain}/api/v1/job/getAllUnsettleShiftOneGuard`,
         headers: {
@@ -381,18 +367,15 @@ function Previous(){
         },
         success: function (data, text) {
     
-            console.log(data)
+          $('#loader3').css("display","none");
 
-            console.log(data.data)
             displayShift(data.data)
         
         },
         error: function (request, status, error) {
     
-            console.log(request)
-            console.log(status)
-            console.log(error)
-            console.log(request.responseJSON.status)
+          $('#loader3').css("display","none");
+
     
             analyzeError(request)
          
