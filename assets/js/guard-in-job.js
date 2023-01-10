@@ -253,13 +253,13 @@ function displaySchedule(val){
         <td>
             <div class="text-muted text-nowrap">
                 <button type="button" class="btn btn-outline-primary"
-                onclick="selectDateTime('${val[i].check_in_date}','${val[i].start_time}',${val[i].schedule_id},'Check in')">Select</button>
+                onclick="selectDateTime('${val[i].check_in_date}','${val[i].start_time}',${val[i].schedule_id},'Check in',${val[i].job_id},${val[i].guard_id})">Select</button>
             </div>
         </td>
         <td>
             <div class="text-muted text-nowrap">
                 <button type="button" class="btn btn-outline-primary"
-                onclick="selectDateTime('${val[i].check_out_date}','${val[i].end_time}',${val[i].schedule_id},'Check out')">Select</button>
+                onclick="selectDateTime('${val[i].check_out_date}','${val[i].end_time}',${val[i].schedule_id},'Check out',${val[i].job_id},${val[i].guard_id})">Select</button>
             </div>
         </td>
         <td>
@@ -292,15 +292,82 @@ function displaySchedule(val){
 
 }
 
-function selectDateTime(date ,time ,id, text){
+
+let checkAction=document.getElementById("checkAction")
+let mySchedule_id
+let buttonInfo
+let myGuard_id
+
+
+function selectDateTime(date ,time ,schedule_id, text,job_id,guard_id){
 
     $('#selectDateTime').modal('show');
     let dt = moment(time, ["h:mm A"]).format("HH:mm");
     document.getElementById('myDate').value = date;
     document.getElementById('myTime').value = dt;
     $("#checkAction").text(text)
+    
+    checkAction.addEventListener("click",checkActionButton)
+    mySchedule_id=schedule_id
+    buttonInfo=text
+    myGuard_id=guard_id    
 }
 
+function checkActionButton(){
+    let myNewDate=document.getElementById("myDate").value
+    let myNewTime=document.getElementById("myTime").value
+
+    let fullDate=moment(new Date(myNewDate+'  '+myNewTime)).format("YYYY-MM-DD hh:mm:ss a")
+    let checkInOrOut= buttonInfo=='Check in'? true:false;
+    checkInAndOut(fullDate,checkInOrOut,myGuard_id,job_id,mySchedule_id)
+}
+
+
+$("#selectDateTime").on('hidden.bs.modal', function() {  
+    checkAction.removeEventListener("click",checkActionButton)
+})
+
+
+function checkInAndOut(date,check_in,guard_id,job_id,schedule_id){
+
+    $.ajax({
+        type: "post", url:`${domain}/api/v1/job/check_in_admin`,
+        headers: {
+            "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+        },
+        dataType  : 'json',
+        encode  : true,
+        data: {
+            date,
+            check_in,
+            guard_id,
+            job_id,
+            schedule_id  
+          },
+        success: function (data, text) {
+            showModal(data.message)
+
+            setTimeout(() => {
+                hideModal()
+           }, 3000);
+      
+        },
+        error: function (request, status, error) {
+
+            let myMessage=request.responseJSON.message
+            let solution="Check date well"
+            if(request.responseJSON.status=="conflict-error"){
+                Swal.fire({
+                    icon: 'error',
+                    title:myMessage,
+                    text: solution,
+                    footer: "NOTE :Date must be in between guard shift"
+                })
+            }
+         
+        }
+    });
+}
 
 
 function getInstruction(guard_id ,job_id){

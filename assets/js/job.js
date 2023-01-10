@@ -143,7 +143,6 @@ let MAX_TIMESTAMP = 8640000000000000;
       obj.push({fullStartDate:new Date(randomDateSelectedStart[i].value+' '+randomSTimeSelected[i].value),fullEndDate:new Date(randomDateSelectedEnd[i].value+' '+randomETimeSelected[i].value)})
 
       if(i==randomDateSelectedStart.length-1){
-          console.log(obj)
         if(await checkIfDateIsInCorrectOrder(obj)){
 
           if(await checkIfDateAreApart(obj)){
@@ -154,7 +153,6 @@ let MAX_TIMESTAMP = 8640000000000000;
             show_warming_no_guard("SCHEDULE MUST BE 60 MINUTE APART")
           }
 
-          // $('#addGuardDateSchedule1').modal('show');
         }
         else{
               
@@ -211,9 +209,6 @@ function getAvailableGuard(modalId,picker){
     },
     success: function (data, text) {
 
-        console.log(data.data)
-  
-      
           displayGuard(data.data, modalId,picker)
         setTimeout(() => {
                 hideModal()
@@ -222,11 +217,8 @@ function getAvailableGuard(modalId,picker){
     },
     error: function (request, status, error) {
 
-        console.log(request)
-        console.log(status)
-        console.log(error)
         console.log(request.responseJSON.status)
-       // analyzeError(request)
+        analyzeError(request)
      
     }
   });
@@ -253,8 +245,6 @@ function getAvailableGuard(modalId,picker){
       job_id:job_id_for_schedule,
     },
     success: function (data, text) {
-
-        console.log(data.data)
         formatAvailableGuardForInstruction(data.data.guard,modalId,picker)
   
         setTimeout(() => {
@@ -264,11 +254,7 @@ function getAvailableGuard(modalId,picker){
     },
     error: function (request, status, error) {
 
-        console.log(request)
-        console.log(status)
-        console.log(error)
-        console.log(request.responseJSON.status)
-       // analyzeError(request)
+        analyzeError(request)
      
     }
   });
