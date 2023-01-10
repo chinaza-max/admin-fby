@@ -117,8 +117,6 @@ let MAX_TIMESTAMP = 8640000000000000;
           else{
             show_warming_no_guard("SCHEDULE MUST BE 60 MINUTE APART")
           }
-
-          // $('#addGuardDateSchedule1').modal('show');
         }
         else{
               
@@ -203,6 +201,8 @@ function getAvailableGuard(modalId,picker){
   
   $.ajax({
     type: "post", url:`${domain}/api/v1/job/getGuard`,
+    dataType  : 'json',
+    encode  : true,
     headers: {
       "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
     },
@@ -240,6 +240,8 @@ function getAvailableGuard(modalId,picker){
 
  //START GET AVAILABLE GUARD  FOR INSTRUCTION
 
+
+ //modalId  is picker id
  function getAvailableGuardForInstruction(modalId,picker){
   
   $.ajax({
@@ -307,7 +309,6 @@ function displayGuard(val, modalId,picker){
           `
           if(i==val.length-1){
 
-            console.log(`#${modalId}`)
             $(`#${modalId}`).children().remove();
             $(`#${modalId}`).append(data)
             $('.selectpicker').selectpicker('refresh')
@@ -339,7 +340,7 @@ function checkIfFormIsEmptyRange(){
 //END CHECK IF FORM IS FILL OR NOT FOR RANDOM SCHEDULE ENTERING
 
 
-//NEW CHECK IF FORM IS FILL OR NOT FOR RANDOM SCHEDULE ENTERING
+//NEW CHECK IF FORM IS FILL OR NOT FOR RANDOM SCHEDULE ENTERING INSTRUCTION
 function checkIfFormIsEmptyInstruction(){
   
   let instructionInfo=document.querySelectorAll(".instructionInfo")
@@ -351,7 +352,24 @@ function checkIfFormIsEmptyInstruction(){
 
   }
 }
-//END CHECK IF FORM IS FILL OR NOT FOR RANDOM SCHEDULE ENTERING
+//END CHECK IF FORM IS FILL OR NOT FOR RANDOM SCHEDULE ENTERING INSTRUCTION
+
+
+
+
+//NEW CHECK IF FORM IS FILL OR NOT FOR RANDOM SCHEDULE ENTERING INSTRUCTION
+function checkIfFormIsEmptyTask(){
+  
+  let instructionInfo=document.querySelectorAll(".taskInfo")
+
+  if(instructionInfo.length==0){
+    show_warming_no_guard("ENTER TASK")
+  }
+  else{
+
+  }
+}
+//END CHECK IF FORM IS FILL OR NOT FOR RANDOM SCHEDULE ENTERING INSTRUCTION
 
 
 
@@ -411,50 +429,45 @@ async function checkIfDateIsInCorrectOrder(val){
 //END CHECK IF THE START DATE AND END DATE ARE IN CORRECT ORDER
 
 
-
-$("#addGuardDateSchedule2").on('hidden.bs.modal', function() {
-
-
+$("#addGuardDateSchedule1").on('hidden.bs.modal', function() {  
   $("#schedule").modal('hide');
-
   setTimeout(() => {
     $("#schedule").modal('show');
-
   },500);
+})
 
 
+$("#addGuardDateSchedule2").on('hidden.bs.modal', function() {
+  $("#schedule").modal('hide');
+  setTimeout(() => {
+    $("#schedule").modal('show');
+  },500);
 })
 
 $("#addGuardDateSchedule3").on('hidden.bs.modal', function() {
-
-
   $("#schedule").modal('hide');
-
   setTimeout(() => {
     $("#schedule").modal('show');
-
   },500);
 })
 
-$("#addGuardDateSchedule1").on('hidden.bs.modal', function() {
-
-  
+$("#addGuardInstructionSchedule4").on('hidden.bs.modal', function() {  
   $("#schedule").modal('hide');
-
   setTimeout(() => {
     $("#schedule").modal('show');
-
   },500);
-  
-
 })
 
 
-
+$("#addGuardDateSchedule5").on('hidden.bs.modal', function() {  
+  $("#schedule").modal('hide')
+  setTimeout(() => {
+    $("#schedule").modal('show')
+  },500);
+})
 
 
  date.setDate(date.getDate())
-
  function datepickerFunc(val1,val2=date){
   let date2 = new Date(val1);
   date2.setDate(date2.getDate())
@@ -715,10 +728,6 @@ function displayConfigTime2(val1){
 
 /*for intruction */
 
-
-
-
-
 function datepickerInstructionFunc(val1,val2=date){
   let date2 = new Date(val1);
   date2.setDate(date2.getDate())
@@ -759,19 +768,17 @@ document.getElementById("instructionContainer").style.display="none"
 
 document.getElementById("instructionType").addEventListener("change", function() {
 
-  if(this.value=="Scan QR code"){
+  if(this.value=="scan-QR-code"){
     document.getElementById("instructionContainer").style.display="block";
   }
-  else if(this.value=="Perform security check"){
+  else if(this.value=="perform-security-check"){
     document.getElementById("instructionContainer").style.display="block";
 
   }
   else{
     document.getElementById("instructionContainer").style.display="none";
   }
-
 })
-
 
 
 formforGettingInstructionInfo.addEventListener("submit",(e)=>{
@@ -840,6 +847,7 @@ function displayConfigTimeInstruction(val1){
   </div>
 
    <div class="alert alert-secondary" role="alert">
+   SCHEDULE(${i+1})
    </div>
 
    `
@@ -851,10 +859,7 @@ function displayConfigTimeInstruction(val1){
           }
         }
   }
- 
 }
-
-
 
 
 createInstruction.addEventListener("submit",(e)=>{
@@ -886,11 +891,7 @@ createInstruction.addEventListener("submit",(e)=>{
 })
 
 
-
-
 /*for Task */
-
-
 
 function datepickerTaskFunc(val1,val2=date){
   let date2 = new Date(val1);
@@ -970,6 +971,7 @@ function displayConfigTimeTask(val1){
    </div>
 
    <div class="alert alert-secondary" role="alert">
+   SCHEDULE(${i+1})
    </div>
 
    `
@@ -997,10 +999,10 @@ createTask.addEventListener("submit",(e)=>{
   for(let i=0;i<taskInfo.length;i++){
       obj.push({info:taskInfo[i].value,date:taskDate[i].value})
     if(i==taskInfo.length-1){
-      console.log(obj)
+        getAvailableGuardForInstruction("addGuardDateShedule5V","selectpickerTask")
+        $('#addGuardDateSchedule5').modal('show');
     }
   }
-
 })
 
 
@@ -1012,8 +1014,9 @@ function update_job_id_for_schedule(id){
   job_id_for_schedule=id
 }
 
-function postSchedule(obj){
 
+
+function postSchedule(obj){
 
     $.ajax({
       type: "post", url:`${domain}/api/v1/job/add_shedule_date_staff`,
@@ -1025,9 +1028,6 @@ function postSchedule(obj){
       },
       success: function (data, text) {
 
-          console.log(data)
-          console.log(text)
-
           showModal(data.message)
           setTimeout(() => {
                   hideModal()
@@ -1035,25 +1035,7 @@ function postSchedule(obj){
 
       },
       error: function (request, status, error) {
-
-  
-          console.log(request)
-          console.log(status)
-          console.log(error)
-          console.log(request.responseJSON.status)
-
-          let obj=request.responseJSON.status
-          let  obj2=JSON.parse(obj.slice(11, obj.length))
-
-          Swal.fire({
-            icon: 'error',
-            title:obj2.message,
-            text: obj2.solution,
-            footer: "NOTE : date should be 60minite apart for earch guard"
-          })
-
-        analyzeError(request)
-      
+        analyzeError(request)      
       }
     })
 
@@ -1061,16 +1043,37 @@ function postSchedule(obj){
 
 
 }
-//NEW END
 
 
+function postSchedule2(obj){
 
+  $.ajax({
+    type: "post", url:`${domain}/api/v1/job/add_agenda`,
+    dataType  : 'json',
+    encode  : true,
+    headers: {
+      "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+    },
+    data: {
+      shedule_agenda:JSON.stringify(obj),
+    },
+    success: function (data, text) {
+        showModal(data.message)
+        setTimeout(() => {
+                hideModal()
+        }, 3000);
 
+    },
+    error: function (request, status, error) {
+      console.log(request)
+      analyzeError(request)      
+    }
+  })
+}
 
 
 //NEW FOR HANDLING ONE SCHEDULE
 function addGuardDateShedule1(){
-
   let mySingleStartDate=document.getElementById("mySingleStartDate").value
   let mySingleEndDate=document.getElementById("mySingleEndDate").value
   let mySingleStartTime=document.getElementById("mySingleStartTime").value
@@ -1110,7 +1113,7 @@ function addGuardDateShedule1(){
       detail.push(obj)
     }
     if(i==guard_id_array.length-1){
-      console.log(detail)
+    
       postSchedule(detail)
     }
   }
@@ -1160,7 +1163,7 @@ function addGuardDateShedule2(){
             detail.push(obj)
           }
           if(k==guard_id_array.length-1){
-            console.log(detail)
+          
             postSchedule(detail)
           }
         }
@@ -1171,8 +1174,6 @@ function addGuardDateShedule2(){
 //END FOR HANDLING FOR RANDOM  SCHEDULE
 
 
-//localStorage.setItem("job",[])
-console.log(JSON.parse(localStorage.getItem("job")||"[]"))
 
 function addGuardDateShedule3(){
   let randomDateSelectedStart=document.querySelectorAll(".rangeDateSelectedStart")
@@ -1186,6 +1187,7 @@ function addGuardDateShedule3(){
   }).get()
 
 
+  
   for(let i=0;i<randomDateSelectedStart.length;i++){
     
     mySchedule.push({check_in_date: moment(new Date(randomDateSelectedStart[i].value+' '+randomSTimeSelected[i].value)).format("YYYY-MM-DD hh:mm:ss a"),
@@ -1210,11 +1212,9 @@ function addGuardDateShedule3(){
             obj["status_per_staff"]=mySchedule[j]["status_per_staff"]
             obj["job_id"]=mySchedule[j]["job_id"]
             obj["schedule_length"]=mySchedule[j]["schedule_length"]
-            
             detail.push(obj)
           }
           if(k==guard_id_array.length-1){
-            console.log(detail)
             postSchedule(detail)
           }
         }
@@ -1225,164 +1225,109 @@ function addGuardDateShedule3(){
 
 
 function addGuardDateShedule4(){
-  let obj=[]
-  let objGuard=[]
-
+  let detail=[]
+  let mySchedule=[]
   let instructionInfo=document.querySelectorAll(".instructionInfo")
   let instructionType=document.querySelectorAll(".instructionType")
   let instructionTime=document.querySelectorAll(".instructionTime")
   let instructionDate=document.querySelectorAll(".instructionDate")
-  let addGuardDateShedule4V=document.getElementById("addGuardDateShedule4V")
+  let guard_id_array = $("#addGuardInstructionShedule4V option:selected").map(function() {
+    return $(this).data("name")
+  }).get()
 
 
 
   for(let i=0;i<instructionInfo.length;i++){
-      obj.push({info:instructionInfo[i].value,type:instructionType[i].value,time:instructionTime[i].value,date:instructionDate[i].value})
-    if(i==instructionInfo.length-1){
-      console.log(obj)
+    mySchedule.push({description:instructionInfo[i].value,
+                    title:instructionType[i].value,
+                    operation_date:moment(new Date(instructionDate[i].value+' '+instructionTime[i].value)).format("YYYY-MM-DD hh:mm:ss a"),
+                    job_id:job_id_for_schedule,
+                    agenda_type:"INSTRUCTION",
+                    status_per_staff:"PENDING"
+                    })
+    
+      if(i==instructionInfo.length-1){
+
+        for(let k=0; k <guard_id_array.length;k++){
+
+          for(let j=0; j <mySchedule.length;j++){
+            let obj={}
+            obj["guard_id"]=guard_id_array[k]
+            obj["description"]=mySchedule[j]["description"]
+            obj["title"]=mySchedule[j]["title"]
+            obj["operation_date"]=mySchedule[j]["operation_date"]
+            obj["job_id"]=mySchedule[j]["job_id"]
+            obj["agenda_type"]=mySchedule[j]["agenda_type"]
+            obj["status_per_staff"]=mySchedule[j]["status_per_staff"]
+            detail.push(obj)
+          }
+
+          if(k==guard_id_array.length-1){
+
+
+            console.log(detail)
+            postSchedule2(detail)
+          }
+        }
+      
     }
   }
 
-  for (let i=0;i<addGuardDateShedule4V.length;i++){
-    if (addGuardDateShedule4V[i].selected)
-    {
-     objGuard.push(addGuardDateShedule4V[i].value);
-    }
- }
-
- const dummy1={name:"chi",dateShedule:[{},{}],instructionShedule:[{},{}]
- ,taskShedule:[{},{}]}
-
- let test1JobU=JSON.parse(localStorage.getItem("job")||"[]")
- if(test1JobU.length==0){
-    const arr=[]
-      for(let i=0;i<objGuard.length;i++){
-        arr.push({name:objGuard[i],instructionShedule:obj})
-        if(i==objGuard.length-1){
-          localStorage.setItem("job",JSON.stringify(arr))
-        }     
-      } 
- }
- else{
-  let conter=objGuard.length
-  for(let i=0;i<conter;i++){   
-    let myGuard=objGuard[i];
-    let conter2=test1JobU.length
-    for(let j=0;j<conter2;j++){
-     
-      console.log(myGuard==test1JobU[j].name)
-      if(myGuard==test1JobU[j].name){
-      
-        let myNewShedule=test1JobU[j].instructionShedule?test1JobU[j].instructionShedule.concat(obj):obj;
-        
-        let myPromise = new Promise(function(myResolve, myReject) {
-          myResolve(arrangeDate2(myNewShedule));
-        });
-        myPromise.then(
-          function(value) {
-             test1JobU[j].instructionShedule=value
-              localStorage.setItem("job",JSON.stringify(test1JobU))
-            }
-        )
-        break
-      }
-      if(j==conter2-1){
-        test1JobU.push({name:myGuard, instructionShedule:obj})
-        localStorage.setItem("job",JSON.stringify(test1JobU))
-        
-      }
-
-    } 
-   
-  } 
-
-
- }
- console.log(objGuard)
- console.log(obj)
 }
-
-
-
-
-
 
 function addGuardDateShedule5(){
   
-  let obj=[]
-  let objGuard=[]
-
+  let detail=[]
+  let mySchedule=[]
   let taskInfo=document.querySelectorAll(".taskInfo")
   let taskDate=document.querySelectorAll(".taskDate")
-  let addGuardDateShedule5V=document.getElementById("addGuardDateShedule5V")
-
+  let guard_id_array = $("#addGuardDateShedule5V option:selected").map(function() {
+    return $(this).data("name")
+  }).get()
 
   for(let i=0;i<taskInfo.length;i++){
-      obj.push({info:taskInfo[i].value,date:taskDate[i].value})
+
+    mySchedule.push({description:taskInfo[i].value,
+                      title:'None',
+                      operation_date:moment(new Date(taskDate[i].value)).format("YYYY-MM-DD"),
+                      job_id:job_id_for_schedule,
+                      agenda_type:"TASK",
+                      status_per_staff:"PENDING"
+                      })
+
     if(i==taskInfo.length-1){
-      console.log(obj)
+      for(let k=0; k <guard_id_array.length;k++){
+
+        for(let j=0; j <mySchedule.length;j++){
+          let obj={}
+          obj["guard_id"]=guard_id_array[k]
+          obj["description"]=mySchedule[j]["description"]
+          obj["title"]=mySchedule[j]["title"]
+          obj["operation_date"]=mySchedule[j]["operation_date"]
+          obj["job_id"]=mySchedule[j]["job_id"]
+          obj["agenda_type"]=mySchedule[j]["agenda_type"]
+          obj["status_per_staff"]=mySchedule[j]["status_per_staff"]
+
+          detail.push(obj)
+        }
+
+        if(k==guard_id_array.length-1){
+          console.log(detail)
+
+          postSchedule2(detail)
+         // postSchedule(detail)
+        }
+      }
     }
   }
-
-  for (let i=0;i<addGuardDateShedule5V.length;i++){
-    if (addGuardDateShedule5V[i].selected)
-    {
-     objGuard.push(addGuardDateShedule5V[i].value);
-    }
- }
-
- const dummy1={name:"chi",dateShedule:[{},{}],instructionShedule:[{},{}]
- ,taskShedule:[{},{}]}
- let test1JobU=JSON.parse(localStorage.getItem("job")||"[]")
- if(test1JobU.length==0){
-    const arr=[]
-      for(let i=0;i<objGuard.length;i++){
-        arr.push({name:objGuard[i],taskShedule:obj})
-        if(i==objGuard.length-1){
-          localStorage.setItem("job",JSON.stringify(arr))
-        }     
-      } 
- }
- else{
-  let conter=objGuard.length
-  for(let i=0;i<conter;i++){   
-    let myGuard=objGuard[i];
-    let conter2=test1JobU.length
-    for(let j=0;j<conter2;j++){
-     
-      if(myGuard==test1JobU[j].name){
-      
-        let myNewShedule=test1JobU[j].taskShedule?test1JobU[j].taskShedule.concat(obj):obj;
-        
-        let myPromise = new Promise(function(myResolve, myReject) {
-          myResolve(arrangeDate3(myNewShedule));
-        });
-        myPromise.then(
-          function(value) {
-             test1JobU[j].taskShedule=value
-              localStorage.setItem("job",JSON.stringify(test1JobU))
-            }
-        )
-        break
-      }
-      if(j==conter2-1){
-        test1JobU.push({name:myGuard, taskShedule:obj})
-        localStorage.setItem("job",JSON.stringify(test1JobU))
-        
-      }
-
-    } 
-   
-  } 
-
- }
 }
+
+
+
 
 function arrangeDate(val1){
 
-  //console.log(val1)
   function sortByDate(a, b) {
-   // console.log(a.date)
 
     if (a.date < b.date) {
         return 1;
@@ -1393,7 +1338,6 @@ function arrangeDate(val1){
     return 0;
   }
   const sorted = val1.sort(sortByDate)
-  //console.log(sorted)
 
   return  removeDateTimeDuplicate(sorted.reverse())
 }
@@ -1401,10 +1345,8 @@ function arrangeDate(val1){
 
 function arrangeDate2(val1){
 
-  //console.log(val1)
   function sortByDate(a, b) {
-   // console.log(a.date)
-
+   
     if (a.date < b.date) {
         return 1;
     }
@@ -1420,10 +1362,7 @@ function arrangeDate2(val1){
 }
 function arrangeDate3(val1){
 
-  //console.log(val1)
   function sortByDate(a, b) {
-   // console.log(a.date)
-
     if (a.date < b.date) {
         return 1;
     }
@@ -1440,9 +1379,7 @@ function arrangeDate3(val1){
 
 function removeDateTimeDuplicate(val1){
   let store={}
-  
   val1=val1.filter(function (date, i, array) {
-
     if(!store[date.date]&&!store[date.startTime]&&!store[date.endTime]){
       store[date.date]=true
       store[date.startTime]=true
@@ -1505,9 +1442,7 @@ function removeDateTimeDuplicate2(val1){
 
 function checkDateAreDifferent(date){
 
-
   const uniqueDates = [...new Set(date.map(obj => obj.date.toString()))];
-
   if(uniqueDates.length==date.length){
     return true
   }
@@ -1519,18 +1454,6 @@ function checkDateAreDifferent(date){
 } 
 
 //END FUNCTION TO CHECK IF DATE A DIFFERENT RETURN TRUE IF NO DUBPLICATE
-
-
-
-// START CHECK IF INSTRUCTION  DATE IS BETWEEN SCHEDULE
-
-function checkIfDateIsBetweenSchedule(date){
-
-
-
-}
-
-// END CHECK IF INSTRUCTION  DATE IS BETWEEN SCHEDULE
 
 
 
@@ -1589,7 +1512,7 @@ function removeDateTimeDuplicate3(val1){
 
 
 
-
+/*
 function viewDetailsContentDisplay(val1){
   let DomObj=''
   let table=''
@@ -1768,9 +1691,6 @@ function viewDetailsContentDisplay(val1){
 
       for(let j=0;j<count1;j++){
 
-       // console.log(val1[i].dateShedule[j])
-
-    
 
         table+=`
         <tr>
@@ -1911,7 +1831,7 @@ function viewDetailsContentDisplay(val1){
 
 viewDetailsContentDisplay(JSON.parse(localStorage.getItem("job")||"[]"))
 
-
+*/
 
 
 
@@ -2049,16 +1969,8 @@ function jobType(){
   });
 }
 
-
-
-
 //POST JOB BEGIN HERE
-
-
 let formAdminReg=document.getElementById("addJobs")
-
-
-
 
 formAdminReg.addEventListener("submit",(e)=>{
   e.preventDefault()
@@ -2079,6 +1991,8 @@ formAdminReg.addEventListener("submit",(e)=>{
     console.log(client_charge,  staff_charge ,  description , myCstomer_id,   siteIdForJob,   myJobType,   myPaymentStatus)
           $.ajax({
             type: "post", url:`${domain}/api/v1/job/`,
+            dataType  : 'json',
+            encode  : true,
             headers: {
               "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
             },
@@ -2127,8 +2041,6 @@ formAdminReg.addEventListener("submit",(e)=>{
 
 })
 
-
-
 //THIS SECTION GET JOB AND DISPLAY THEM
 let getTableData='',
  getTableData2='',
@@ -2151,8 +2063,6 @@ let getTableData='',
 
 
 $(function(){
-
-
   setNavLinkStatus()
   function setNavLinkStatus(){
 
@@ -2180,21 +2090,9 @@ $(function(){
       
         success: function (data, text) {
 
-
-            console.log(data.data)
             $('#loader1').css("display","none");
-
             CreateTable(data.data)
-            /*
-            showModal("REGISTRATION SUCCESSFULL")
-            setTimeout(() => {
-                    hideModal()
-            }, 3000);
-
-            $("#signInButton").css("display","block")
-            $("#loadingButton").css("display","none")
-
-    */
+       
         },
         error: function (request, status, error) {
 
@@ -2313,21 +2211,10 @@ $(function(){
       
         success: function (data, text) {
 
-
-            console.log(data.data)
             $('#loader2').css("display","none");
 
             CreateTable2(data.data)
-            /*
-            showModal("REGISTRATION SUCCESSFULL")
-            setTimeout(() => {
-                    hideModal()
-            }, 3000);
-
-            $("#signInButton").css("display","block")
-            $("#loadingButton").css("display","none")
-
-    */
+    
         },
         error: function (request, status, error) {
 
@@ -2446,20 +2333,9 @@ $(function(){
       
         success: function (data, text) {
 
-
-            console.log(data.data)
             $('#loader3').css("display","none");
             CreateTable3(data.data)
-            /*
-            showModal("REGISTRATION SUCCESSFULL")
-            setTimeout(() => {
-                    hideModal()
-            }, 3000);
-
-            $("#signInButton").css("display","block")
-            $("#loadingButton").css("display","none")
-
-    */
+       
         },
         error: function (request, status, error) {
 
@@ -2760,12 +2636,7 @@ function page2(val){
 }
 
 
-
-
-
-
 //FOR COMPLETED JOB
-
 function Previous3(){
   if(offset3==0){
       $("#Previous3").addClass("disabled");
@@ -2808,10 +2679,6 @@ function page3(val){
 
   getTableData3(limit3,offset3)
 }
-
-
-
-
 
 //FOR DECLINE JOB
 
@@ -2860,9 +2727,6 @@ function page4(val){
 }
 
 
-
-
-
 //UPDATE JOB STATUS
 function updateJobStatusId(val){
   statusChangeIdForJob=val
@@ -2871,7 +2735,6 @@ function updateJobStatusId(val){
 function updateJobStatus(){
   $('.selectpickerStatusChange').on("changed.bs.select", function() {
     myJobStatus = $('option:selected', this).attr("data-tokens");
-    console.log(myJobStatus)
 
   });
 }
@@ -2885,6 +2748,8 @@ function changeJobStatus(){
   
   $.ajax({
     type: "post", url:`${domain}/api/v1/job/updateJobStatus`,
+    dataType  : 'json',
+    encode  : true,
     headers: {
       "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
    },
@@ -2917,9 +2782,6 @@ function changeJobStatus(){
 
         $("#saveButton").css("display","block")
         $("#loadingButton2").css("display","none")
-        console.log(request)
-        console.log(status)
-        console.log(error)
         console.log(request.responseJSON.status)
 
         analyzeError(request)
@@ -2933,9 +2795,6 @@ function changeJobStatus(){
 
 
 function deleteJob(job_id){
-
-
-
   Swal.fire({
     title: 'Are you sure?',
     text: "You won't be able to revert this!",
@@ -2949,6 +2808,8 @@ function deleteJob(job_id){
     if (result.isConfirmed) {
       $.ajax({
         type: "post", url:`${domain}/api/v1/job/delete_job`,
+        dataType  : 'json',
+        encode  : true,
         headers: {
           "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
         },
@@ -2956,11 +2817,7 @@ function deleteJob(job_id){
           job_id      
         },
         success: function (data, text) {
-    
-            console.log(data.message)
             showModal(data.message)
-
-
             let limit=15,
             offset=0,
             limit2=15,
@@ -2983,19 +2840,10 @@ function deleteJob(job_id){
             setTimeout(() => {
                     hideModal()
             }, 3000);
-    
-          
-           
+  
         },
-        error: function (request, status, error) {
-    
-            console.log(request)
-            console.log(status)
-            console.log(error)
-            console.log(request.responseJSON.status)
-    
+        error: function (request, status, error) {    
             analyzeError(request)
-         
         }
       });
     }
@@ -3009,7 +2857,6 @@ function deleteJob(job_id){
 
 
 function deleteGuardSchedule(job_id,guard_id){
-
 
   Swal.fire({
     title: 'Are you sure?',
@@ -3025,6 +2872,8 @@ function deleteGuardSchedule(job_id,guard_id){
         
   $.ajax({
     type: "post", url:`${domain}/api/v1/job/re_asign_or_delete-job`,
+    dataType  : 'json',
+    encode  : true,
     headers: {
       "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
     },
@@ -3035,7 +2884,6 @@ function deleteGuardSchedule(job_id,guard_id){
     },
     success: function (data, text) {
 
-        console.log(data.message)
         showModal(data.message)
 
         let limit=15,
@@ -3056,15 +2904,10 @@ function deleteGuardSchedule(job_id,guard_id){
         setTimeout(() => {
                 hideModal()
         }, 3000);
-
-      
-       
+ 
     },
     error: function (request, status, error) {
 
-        console.log(request)
-        console.log(status)
-        console.log(error)
         console.log(request.responseJSON.status)
 
         analyzeError(request)
@@ -3081,6 +2924,8 @@ function reAssign(job_id,guard_id){
 
   $.ajax({
     type: "post", url:`${domain}/api/v1/job/re_asign_or_delete-job`,
+    dataType  : 'json',
+    encode  : true,
     headers: {
       "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
     },
@@ -3113,14 +2958,8 @@ function reAssign(job_id,guard_id){
                 hideModal()
         }, 3000);
 
-      
-       
     },
     error: function (request, status, error) {
-
-        console.log(request)
-        console.log(status)
-        console.log(error)
         console.log(request.responseJSON.status)
 
         analyzeError(request)
@@ -3128,8 +2967,6 @@ function reAssign(job_id,guard_id){
     }
   });
 }
-
-
 
 function updateNavLinkStatus(id){
   localStorage.setItem("navLinkSatus",id)

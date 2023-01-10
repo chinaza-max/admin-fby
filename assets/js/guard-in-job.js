@@ -12,19 +12,18 @@ $(document).ready(function(){
     getTableData=function ( limit,offset){
         $.ajax({
             type: "post", url:`${domain}/api/v1/job/allJobs/guard`,
+            dataType  : 'json',
+            encode  : true,
             headers: {
                 "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
             },
             data: {
                 job_id      
-              },
+            },
             success: function (data, text) {
-
                 CreateTable(data.data)
                 updateTopContent(data.data)
-
             },
-
             error: function (request, status, error) {
 
                 analyzeError(request)
@@ -140,7 +139,7 @@ $(document).ready(function(){
 
     function updateTopContent(val){
 
-        console.log(val)
+    
         $("#des").text("JOB DESCRIPTION: "+val.job.description)
         $("#name").text("SITE NAME: "+val.site.name)
         $("#timeZone").text("TIME ZONE: "+val.site.time_zone)
@@ -254,15 +253,13 @@ function displaySchedule(val){
         <td>
             <div class="text-muted text-nowrap">
                 <button type="button" class="btn btn-outline-primary"
-                    data-bs-toggle="modal"
-                    data-bs-target="#view_schedule">select</button>
+                onclick="selectDateTime('${val[i].check_in_date}','${val[i].start_time}',${val[i].schedule_id},'Check in')">Select</button>
             </div>
         </td>
         <td>
             <div class="text-muted text-nowrap">
                 <button type="button" class="btn btn-outline-primary"
-                    data-bs-toggle="modal"
-                    data-bs-target="#view_schedule">select</button>
+                onclick="selectDateTime('${val[i].check_out_date}','${val[i].end_time}',${val[i].schedule_id},'Check out')">Select</button>
             </div>
         </td>
         <td>
@@ -295,12 +292,19 @@ function displaySchedule(val){
 
 }
 
+function selectDateTime(date ,time ,id, text){
+
+    $('#selectDateTime').modal('show');
+    let dt = moment(time, ["h:mm A"]).format("HH:mm");
+    document.getElementById('myDate').value = date;
+    document.getElementById('myTime').value = dt;
+    $("#checkAction").text(text)
+}
+
 
 
 function getInstruction(guard_id ,job_id){
 
-
-    console.log(guard_id ,job_id)
 
     $.ajax({
         type: "post", url:`${domain}/api/v1/job/allJobs/oneAgendaPerGuard`,

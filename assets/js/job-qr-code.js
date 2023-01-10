@@ -1,8 +1,5 @@
-
 getCardData='';
 job_id=activeUserID
-
-
 
 
 $(document).ready(function(){
@@ -19,10 +16,7 @@ $(document).ready(function(){
                 job_id      
               },
             success: function (data, text) {
-
-                console.log(data)
                 createCards(data.data)
-               // updateTopContent(data.data)
 
             },
 
@@ -40,7 +34,6 @@ $(document).ready(function(){
     function createCards(val){
 
 
-        console.log(val)
         let data=''
                 
         if(val.length!=0){
@@ -109,14 +102,12 @@ $(document).ready(function(){
         }else{
 
         $('#qr_code_container').children().remove();
-        $("#qr_code_container").append(`    <tr>
-        <td colspan="1000">
+        $("#qr_code_container").append(`
         
-        <div class="alert alert-light outline text-dark " role="alert" style="text-align:center;">
-        YOU HAVE NO QR-code to print
+        <div class="alert alert-light outline text-dark col-12" role="alert" style="text-align:center;">
+        YOU HAVE NO QR-CODE TO PRINT 
       </div>
-        </td>
-      </tr>`)
+     `)
       }
 
 
@@ -126,9 +117,6 @@ $(document).ready(function(){
 
 
 function generateQRCode(code,mes,ope){
-
-
-    console.log(code)
 
     let contentPrint=document.getElementById("contentPrint")
     let qrCodeContainer=document.getElementById("qrcode-2")
@@ -147,20 +135,11 @@ function generateQRCode(code,mes,ope){
         colorLight : "#ffffff",
         correctLevel : QRCode.CorrectLevel.H
     });
-console.log(code,mes,ope)
+
 
     document.getElementById("operationDate").innerHTML="operation date : "+ope
     document.getElementById("message").innerHTML=mes
-    document.getElementById("nameOfOrganization").innerHTML="FBY TEAM"
-    document.getElementById("nameOfOrganization").innerHTML="FBY TEAM"
-
-
-
-
-
-
-    //document.getElementById("allE").style.display="none"
-    
+    document.getElementById("nameOfOrganization").innerHTML="FBY TEAM"    
 
     let allE=document.querySelectorAll(".allE")
 
@@ -168,14 +147,8 @@ console.log(code,mes,ope)
             element.style.display="none"
     });
     
-
     window.print();
-
     location.reload();
-
-    
-   // document.body.innerHTML = originalContents;
-
 }
 
 
@@ -193,16 +166,16 @@ function confirmLocation(){
           },
         success: function (data, text) {
 
-            console.log(data)
-           
+            Swal.fire({
+                icon: 'success',
+                title: `${data.message}`,
+                showConfirmButton: false,
+                timer: 1500
+            })
         },
 
         error: function (request, status, error) {
-
-            console.log(request)
-
             analyzeError(request)
-         
         }
     });
 }

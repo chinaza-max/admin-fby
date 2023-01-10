@@ -22,12 +22,8 @@
     <link rel="stylesheet" href="../assets/css/Chart.min.css">
     <link rel="stylesheet" href="../assets/css/morris.css">
     <link rel="stylesheet" href="../assets/css/leaflet.css">
-
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+    <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 
 
     <!-- Theme CSS -->
@@ -340,14 +336,10 @@
 
                         <div class="card">
                             
-
-                           
-                           
-
                                 <div class="card-header text-center">
                                     
                                     Assigned guards
-                            
+    
                                 </div>
                             
 
@@ -384,12 +376,10 @@
             </main>
 
 
-
-
             <div class="add-action-box">
-                <a href="/job-qr-code.html" class="btn btn-outline-primary">
+                <a href="job-qr-code.html" class="btn btn-outline-primary">
                     <div class="icon icofont-qr-code"></div>
-                        <small>QR code  <sup id="qr_code_count" style="color: red;">0</sup></small>
+                    <sup id="qr_code_count">0</sup>
                 </a>
             </div>
               
@@ -479,13 +469,10 @@
                             <th scope="col">location_message</th>
                             <th scope="col">Action </th>
 
-
                           </tr>
                           </thead>
                           <tbody id="myLog">
                          
-                     
-                     
                           </tbody>
                         </table>
                       </div>
@@ -697,6 +684,39 @@
         </div>
     </div>
     </div>
+
+
+
+
+    <div class="modal fade" id="selectDateTime" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                      <div class="form-group">
+                        <label>Date </label>
+                        <input class="form-control" id="myDate" type="date" required />
+                      </div>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                          <label>Time </label>
+                          <input class="form-control" id="myTime" type="time" required />
+                        </div>
+                    </div>
+                  </div>
+            </div>
+            <div class="modal-footer" >
+              <div class="actions">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary"  id="checkAction"></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
 
     <div class="modal fade" id="RegisterationSuccessFull" style="z-index:10000;" tabindex="-1" role="dialog"

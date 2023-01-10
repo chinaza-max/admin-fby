@@ -77,55 +77,39 @@ function logUserOut(){
         }
 }
 
-
-
-//console.log(localStorage.getItem("userDetails"))
 let userDeatils=''
 let userEmail=''
 if(localStorage.getItem("userDetails")!=null){
 
 userDeatils=JSON.parse(atob(localStorage.getItem("userDetails")))
     userEmail=userDeatils.email
-
-    console.log(userDeatils)
     avatarURL=userDeatils.image
 
     $("#avatar").attr("src",avatarURL);
-
 }
-
-
-
-
-
 
 
 
 function analyzeError(request){
     if(request.responseJSON.status=="conflict-error"){
-        console.log(request.responseJSON.message)
         showModalError(request.responseJSON.message)
         setTimeout(() => {
             hideModalError()
         }, alertLifeSpan);
     }
     else if(request.responseJSON.status=="validation-error"){
-        console.log(request)
-        console.log(request.responseJSON.errors.message)
         showModalError(request.responseJSON.errors[0].message)
         setTimeout(() => {
             hideModalError()
         }, alertLifeSpan);
     }
     else if(request.responseJSON.status=="server-error"){
-        console.log(request.responseJSON.message)
         showModalError(request.responseJSON.message)
         setTimeout(() => {
             hideModalError()
         }, alertLifeSpan);
     }
     else if(request.responseJSON.status=="bad-request-error"){
-        console.log(request.responseJSON.message)
         showModalError(request.responseJSON.message)
         setTimeout(() => {
             hideModalError()
@@ -140,16 +124,45 @@ function analyzeError(request){
         }, alertLifeSpan);
     }
     else if(request.responseJSON.status=="location-error"){
-        console.log(request.responseJSON.message)
         showModalError(request.responseJSON.message)
         setTimeout(() => {
             hideModalError()
         }, alertLifeSpan);
     }
+    else if(request.responseJSON.status=="time-error"){
+
+       console.log(request.responseJSON.message)
+
+        let obj=request.responseJSON.message
+        let  obj2=JSON.parse(obj)
+
+        Swal.fire({
+          icon: 'error',
+          title:obj2.message,
+          text: obj2.solution,
+          footer: "NOTE : Date should be 60minite apart for earch guard"
+        })
+    }
+    else if(request.responseJSON.status=="Agenda_not_Found_in_guard_shift"){
+
+
+        let obj=request.responseJSON.message
+        let  obj2=JSON.parse(obj)
+
+    
+        let myMessage=obj2.info.issues+" "+obj2.info.operation_date+" for "+obj2.info.fullName
+        let task_or_instruction=obj2.info.issues.includes("Task")?'from Task Or adjust date':'from Instruction Or adjust date' 
+        let solution="Remove "+obj2.info.fullName+" "+task_or_instruction
+  
+        Swal.fire({
+          icon: 'error',
+          title:myMessage,
+          text: solution,
+          footer: "NOTE :Date should be inside guard created shift"
+        })
+          
+    }
 }
-
-
-
 
 
 //THIS SHOWS THE TWO SCHEDULE CLASHING 
@@ -187,16 +200,7 @@ function show_warming_no_guard(val){
             timer: 2000
         })
     }
-
-  
 }
-
-
-
-
-
-
-
 
 
 $(document).ready(function(){
