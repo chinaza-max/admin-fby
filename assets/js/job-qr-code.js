@@ -129,23 +129,29 @@ function generateQRCode(code,mes,ope){
 
     new QRCode(qrCodeContainer,  {
         text:code,
-        width: 300,
-        height: 300,
-        colorDark : "#5868bf",
+        width: 650,
+        height: 650,
+        colorDark :  "#5868bf",
         colorLight : "#ffffff",
         correctLevel : QRCode.CorrectLevel.H
     });
 
 
-    document.getElementById("operationDate").innerHTML="operation date : "+ope
+
+
+    
+    document.getElementById("contentPrintMessage").style.marginTop ="90%"
+
+    ///document.getElementById("operationDate").style.marginTop ="50px"
+
+    document.getElementById("operationDate").innerHTML="Operation date : "+ope
     document.getElementById("message").innerHTML=mes
     document.getElementById("nameOfOrganization").innerHTML="FBY TEAM"    
-
     let allE=document.querySelectorAll(".allE")
 
     allE.forEach(element => {
-            element.style.display="none"
-    });
+        element.style.display="none"
+    })
     
     window.print();
     location.reload();

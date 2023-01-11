@@ -12,7 +12,7 @@ $(document).ready(function(){
     $('#loader1').css("display","block");
 
     getTableData=function (limit,offset){
-        console.log( limit,offset)
+    
       $.ajax({
           type: "get", url:`${domain}/api/v1/job/getGeneralUnsettleShift?settlement=false&limit=${limit}&offset=${offset}`,
           headers: {
@@ -30,7 +30,6 @@ $(document).ready(function(){
           },
           error: function (request, status, error) {
   
-              console.log(request)
               $('#loader1').css("display","none");
               analyzeError(request)
            
@@ -42,7 +41,6 @@ $(document).ready(function(){
     function CreateTable(val){
         let data=''
             
-        console.log(val)
           for(let i=0; i<val.length; i++){
   
               data+= `<tr>
@@ -101,7 +99,6 @@ $(document).ready(function(){
 
       getTableData2=function ( limit,offset){
         
-        console.log(limit,offset)
 
         //Guard id here is not required for processing but must be 
         $.ajax({
@@ -136,7 +133,6 @@ $(document).ready(function(){
       function CreateTable2(val){
           let data=''
               
-          console.log(val)
             for(let i=0; i<val.length; i++){
     
                 data+= ` <tr> 
@@ -388,7 +384,7 @@ function Previous(){
 
         let data=''
 
-        console.log(val)
+        
     for(let i=0; i<val.length;i++){
         
             data+=`
@@ -472,14 +468,12 @@ function Previous(){
               </div>
             </td>
             <td>
-              <button type="button" class="btn btn-primary" onclick="settleguard([${val[i].shedule_id}])">settle</button>
+              <button type="button" class="btn btn-primary" onclick="settleguard([${val[i].shedule_id}])">Settle</button>
             </td>
           </tr>
             `
 
         if(i==val.length-1){
-            console.log("dirty  dirty dirty dirtyvv dirtydirtydirty")
-
 
             $('#displayDetail').children().remove();
             $("#displayDetail").append(data)
@@ -487,7 +481,6 @@ function Previous(){
         }
     }
     if(val.length==0){
-        console.log("cleaning cleaning cleaningcleaning cleaning")
         $('#displayDetail').children().remove();
         $("#displayDetail").append(`
         <td colspan="1000">
@@ -527,10 +520,7 @@ function Previous(){
             
             },
             error: function (request, status, error) {
-        
-                console.log(request)
-                console.log(status)
-                console.log(error)
+      
                 console.log(request.responseJSON.status)
         
                 analyzeError(request)

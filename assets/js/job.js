@@ -106,7 +106,7 @@ let MAX_TIMESTAMP = 8640000000000000;
       obj.push({fullStartDate:new Date(randomDateSelectedStart[i].value+' '+randomSTimeSelected[i].value),fullEndDate:new Date(randomDateSelectedEnd[i].value+' '+randomETimeSelected[i].value)})
 
       if(i==randomDateSelectedStart.length-1){
-          console.log(obj)
+      
         if(await checkIfDateIsInCorrectOrder(obj)){
 
           if(await checkIfDateAreApart(obj)){
@@ -217,7 +217,6 @@ function getAvailableGuard(modalId,picker){
     },
     error: function (request, status, error) {
 
-        console.log(request.responseJSON.status)
         analyzeError(request)
      
     }
@@ -1049,7 +1048,7 @@ function postSchedule2(obj){
 
     },
     error: function (request, status, error) {
-      console.log(request)
+
       analyzeError(request)      
     }
   })
@@ -1247,9 +1246,6 @@ function addGuardDateShedule4(){
           }
 
           if(k==guard_id_array.length-1){
-
-
-            console.log(detail)
             postSchedule2(detail)
           }
         }
@@ -1296,10 +1292,9 @@ function addGuardDateShedule5(){
         }
 
         if(k==guard_id_array.length-1){
-          console.log(detail)
-
+    
           postSchedule2(detail)
-         // postSchedule(detail)
+        
         }
       }
     }
@@ -1836,12 +1831,10 @@ $.ajax({
 
   success: function (data, text) {
 
-      console.log(data.data)
       displayCustomer(data.data)
   },
   error: function (request, status, error) {
 
-      console.log(request)
       analyzeError(request)
    
   }
@@ -1876,7 +1869,7 @@ function updatesite(){
 
 
 function getSite(val){
-  console.log(val)
+
     $.ajax({
         type: "get", url:`${domain}/api/v1/customer/one?id=${val}`,
         headers: {
@@ -1886,8 +1879,6 @@ function getSite(val){
         encode  : true,
         success: function (data, text) {
 
-            //myEmail=data.data[0].email
-            console.log(data)
             myCstomer_id=data.data[0].id
             disPlaySite(data.data[0].sites)
         },
@@ -1901,7 +1892,6 @@ function getSite(val){
 
 function disPlaySite(val){
   let data=`<option value="">--Select--</option>`
-  console.log(val)
 
   if(val.length==0){
     $('#viewSites').children().remove();
@@ -1929,7 +1919,6 @@ function disPlaySite(val){
 function updateMoney(){
 
   $('.selectpicker2').on("changed.bs.select", function() {
-    console.log($('option:selected', this).attr("client_charge"))
     siteIdForJob=$('option:selected', this).attr("data-tokens")
     $("#inputJobCost").val($('option:selected', this).attr("client_charge"))
     $("#inputGuardAmount").val($('option:selected', this).attr("guard_charge"))
@@ -1969,7 +1958,6 @@ formAdminReg.addEventListener("submit",(e)=>{
     $('select[name=status]').val("Available");
     $('.selectpicker').selectpicker('refresh')
   
-    console.log(client_charge,  staff_charge ,  description , myCstomer_id,   siteIdForJob,   myJobType,   myPaymentStatus)
           $.ajax({
             type: "post", url:`${domain}/api/v1/job/`,
             dataType  : 'json',
@@ -1989,7 +1977,6 @@ formAdminReg.addEventListener("submit",(e)=>{
             },
             success: function (data, text) {
   
-                console.log(data.message)
                 showModal(data.message)
                   
                 limit=15
@@ -2008,9 +1995,7 @@ formAdminReg.addEventListener("submit",(e)=>{
   
                 $("#signInButton").css("display","block")
                 $("#loadingButton").css("display","none")
-                console.log(request)
-                console.log(status)
-                console.log(error)
+               
                 console.log(request.responseJSON.status)
   
                 analyzeError(request)
@@ -2077,7 +2062,6 @@ $(function(){
         },
         error: function (request, status, error) {
 
-            console.log(request)
             $('#loader1').css("display","none");
 
             analyzeError(request)
@@ -2199,7 +2183,6 @@ $(function(){
         },
         error: function (request, status, error) {
 
-            console.log(request)
             $('#loader2').css("display","none");
 
             analyzeError(request)
@@ -2319,7 +2302,6 @@ $(function(){
         },
         error: function (request, status, error) {
 
-            console.log(request)
             $('#loader3').css("display","none");
 
             analyzeError(request)
@@ -2763,7 +2745,6 @@ function changeJobStatus(){
 
         $("#saveButton").css("display","block")
         $("#loadingButton2").css("display","none")
-        console.log(request.responseJSON.status)
 
         analyzeError(request)
      
@@ -2941,9 +2922,8 @@ function reAssign(job_id,guard_id){
 
     },
     error: function (request, status, error) {
-        console.log(request.responseJSON.status)
-
-        analyzeError(request)
+    
+      analyzeError(request)
      
     }
   });
