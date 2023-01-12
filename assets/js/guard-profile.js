@@ -1,8 +1,11 @@
-const password=document.getElementById("password")
+/*
+const password=document.getElementById("password")*/
 const updateUser=document.getElementById("updateUser")
 
+let id=activeUserID
 
 
+/*
 
 password.addEventListener("click" ,()=>{
 
@@ -56,7 +59,7 @@ password.addEventListener("click" ,()=>{
       });
 })
 
-
+*/
 
 
 updateUser.addEventListener("submit",(e)=>{
@@ -67,7 +70,6 @@ updateUser.addEventListener("submit",(e)=>{
 
 
     const formData=new FormData()
-    const inputFile = document.getElementById("profilePicturePath");
 
     const form = e.target;
     const formFields = form.elements,
@@ -80,12 +82,6 @@ updateUser.addEventListener("submit",(e)=>{
     phoneNumber=formFields.phoneNumber.value;
 
 
-
-    for (const file of inputFile.files) {
-        formData.append("image", file);
-        console.log(file)
-    }
-
    formData.append("first_name", first_name);
     formData.append("last_name", last_name);
     formData.append("email", email);
@@ -93,19 +89,15 @@ updateUser.addEventListener("submit",(e)=>{
     formData.append("gender", gender);
     formData.append("address",address);
     formData.append("phone_number",phoneNumber);
-
-
-
-
+    formData.append("id",id);
 
 
         for (const value of formData.values()) {
             console.log(value);
           }
 
-
-          fetch(`${domain}/api/v1/user/updateProfile`, {
-                method: 'POST', // or 'PUT'
+          fetch(`${domain}/api/v1/user/updateProfileGuard`, {
+                method: 'POST',
                 headers: {
                     "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
                 },
@@ -115,13 +107,17 @@ updateUser.addEventListener("submit",(e)=>{
                 })
                 .then((response) => response.json())
                 .then((data) => {
-                    console.log('Success:', data);
+        
                     $("#signInButton").css("display","block")
                     $("#loadingButton").css("display","none")
 
                     if(data.status==200){
-                        getProfileData()
-                        showModal(data.message  )
+                       
+
+                        setTimeout(() => {
+                          getProfileData()
+                        }, 200);
+                        showModal(data.message)
                         setTimeout(() => {
                                 hideModal()
                         }, 3000);
@@ -167,25 +163,35 @@ updateUser.addEventListener("submit",(e)=>{
                     console.error('Error:', error);
                 })
 
-
-
 })
+
+
+/*
+
 function checkImg(e){
     document.getElementById('avatar2').src = window.URL.createObjectURL(e.files[0])
 }
+*/
+
 
 let getProfileData
 $(document).ready(function(){
 
     getProfileData=  function(){
         $.ajax({
-            type: "get", url:`${domain}/api/v1/auth`,
+            type: "post", url:`${domain}/api/v1/auth/profile_info`,
             dataType  : 'json',
             encode  : true,
             headers: {
                 "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
             },
-            success: function (data, text) {
+            data: {
+              id
+            },
+            success: function (data) {
+
+
+                console.log(data)
                 localStorage.setItem('userDetails', btoa(JSON.stringify(data.data.user)));
 
                 $("#avatar").attr("src",data.data.user.image);

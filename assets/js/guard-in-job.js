@@ -23,7 +23,6 @@ $(document).ready(function(){
             },
             success: function (data) {
                 $('#loader1').css("display","none");
-
                 CreateTable(data.data)
                 updateTopContent(data.data)
             },
@@ -45,160 +44,78 @@ $(document).ready(function(){
             let guard=val.guard
             for(let i=0; i<guard.length; i++){
 
+                    data+=`
+                    <tr>
+                        <td>
+                            ${i+1}
+                        </td>
+                        <td>
+                            <img src=${guard[i].image} alt="" width="40" height="40"
+                                class="rounded-500">
+                        </td>
+                        <td>
+                            <strong class="text-nowrap">${guard[i].first_name}  ${guard[i].last_name} </strong>
+                        </td>
 
-                if(true){
-                    data+= `
-                    <tr>
-                                                <td>
-                                                    ${i+1}
-                                                </td>
-                                                <td>
-                                                    <img src=${guard[i].image} alt="" width="40" height="40"
-                                                        class="rounded-500">
-                                                </td>
-                                                <td>
-                                                    <strong class="text-nowrap">${guard[i].first_name}  ${guard[i].last_name} </strong>
-                                                </td>
-    
-                                                <td>
-                                                    <div class="d-flex align-items-center nowrap text-primary">
-                                                        <span class="icofont-ui-cell-phone p-0 me-2"></span>
-                                                        ${guard[i].phone_number}
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="text-nowrap">$${(guard[i].hours_worked*val.job.guard_charge).toFixed(2)}</div>
-                                                </td>
-                                                <td>
-                                                    <div class="text-muted text-nowrap">
-                                                        <button type="button" onclick="getSchedule(${guard[i].guard_id},${job_id})" class="btn btn-outline-primary"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#view_schedule">View</button>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="text-muted text-nowrap">
-                                                        <button type="button" onclick="getLog(${guard[i].guard_id},${job_id})"    class="btn btn-outline-primary"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#view_log">View</button>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                <div class="text-muted text-nowrap">
-                                                    <button type="button" onclick="getLogSecurityCheck(${guard[i].guard_id},${job_id})"    class="btn btn-outline-primary"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#view_log_security_check" >View</button>
-                                                </div>
-                                            </td>
-                                                <td>
-                                                    <div class="text-muted text-nowrap">
-                                                        <button type="button" onclick="getInstruction(${guard[i].guard_id},${job_id})"  class="btn btn-outline-primary"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#view_instruction">View</button>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="text-muted text-nowrap">
-                                                        <button type="button" onclick="getTask(${guard[i].guard_id},${job_id})" class="btn btn-outline-primary"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#view_task" >View</button>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <a    onclick="setGuardName('${guard[i].first_name} ${guard[i].last_name}'); setGuardId(${guard[i].guard_id})" href="/reportPerGuard.html" class="btn btn-primary"  >
-                                                        Report <span class="badge badge-light badge-inside ms-2">${guard[i].no_of_report}</span>
-                                                    </a>    
-                                                </td>
-                                                <td>
-                                                <div class="actions">
-                                                  <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteGuardSchedule(${guard[i].guard_id})">
-                                                    <span class="btn-icon icofont-ui-delete"></span>
-                                                  </button>
-                                                  <button type="button" onclick="getLogSecurityCheck(${guard[i].guard_id},${job_id})"    class="btn btn-outline-primary"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#view_log_security_check">Accept
-                                                  </button>
-                                                </div>
-                                              </td>
-                                                
-                                            </tr>
+                        <td>
+                            <div class="d-flex align-items-center nowrap text-primary">
+                                <span class="icofont-ui-cell-phone p-0 me-2"></span>
+                                ${guard[i].phone_number}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="text-nowrap">$${(guard[i].hours_worked*val.job.guard_charge).toFixed(2)}</div>
+                        </td>
+                        <td>
+                            <div class="text-muted text-nowrap">
+                                <button type="button" onclick="getSchedule(${guard[i].guard_id},${job_id})" class="btn btn-outline-primary"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#view_schedule">View</button>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="text-muted text-nowrap">
+                                <button type="button" onclick="getLog(${guard[i].guard_id},${job_id})"    class="btn btn-outline-primary"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#view_log">View</button>
+                            </div>
+                        </td>
+                        <td>
+                        <div class="text-muted text-nowrap">
+                            <button type="button" onclick="getLogSecurityCheck(${guard[i].guard_id},${job_id})"    class="btn btn-outline-primary"
+                                data-bs-toggle="modal"
+                                data-bs-target="#view_log_security_check" >View</button>
+                        </div>
+                    </td>
+                        <td>
+                            <div class="text-muted text-nowrap">
+                                <button type="button" onclick="getInstruction(${guard[i].guard_id},${job_id})"  class="btn btn-outline-primary"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#view_instruction">View</button>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="text-muted text-nowrap">
+                                <button type="button" onclick="getTask(${guard[i].guard_id},${job_id})" class="btn btn-outline-primary"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#view_task" >View</button>
+                            </div>
+                        </td>
+                        <td>
+                            <a    onclick="setGuardName('${guard[i].first_name} ${guard[i].last_name}'); setGuardId(${guard[i].guard_id})" href="/reportPerGuard.html" class="btn btn-primary"  >
+                                Report <span class="badge badge-light badge-inside ms-2">${guard[i].no_of_report}</span>
+                            </a>    
+                        </td>
+                        <td>
+                        <div class="actions">
+                            <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteGuardSchedule(${guard[i].guard_id})">
+                            <span class="btn-icon icofont-ui-delete"></span>
+                            </button>
+                        </div>
+                        </td>
+                        
+                    </tr>
                      `
-                }
-                else{
-                    data+= `
-                    <tr>
-                                                <td>
-                                                    ${i+1}
-                                                </td>
-                                                <td>
-                                                    <img src=${guard[i].image} alt="" width="40" height="40"
-                                                        class="rounded-500">
-                                                </td>
-                                                <td>
-                                                    <strong class="text-nowrap">${guard[i].first_name}  ${guard[i].last_name} </strong>
-                                                </td>
-    
-                                                <td>
-                                                    <div class="d-flex align-items-center nowrap text-primary">
-                                                        <span class="icofont-ui-cell-phone p-0 me-2"></span>
-                                                        ${guard[i].phone_number}
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="text-nowrap">$${(guard[i].hours_worked*val.job.guard_charge).toFixed(2)}</div>
-                                                </td>
-                                                <td>
-                                                    <div class="text-muted text-nowrap">
-                                                        <button type="button" onclick="getSchedule(${guard[i].guard_id},${job_id})" class="btn btn-outline-primary"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#view_schedule">View</button>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="text-muted text-nowrap">
-                                                        <button type="button" onclick="getLog(${guard[i].guard_id},${job_id})"    class="btn btn-outline-primary"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#view_log">View</button>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                <div class="text-muted text-nowrap">
-                                                    <button type="button" onclick="getLogSecurityCheck(${guard[i].guard_id},${job_id})"    class="btn btn-outline-primary"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#view_log_security_check" >View</button>
-                                                </div>
-                                            </td>
-                                                <td>
-                                                    <div class="text-muted text-nowrap">
-                                                        <button type="button" onclick="getInstruction(${guard[i].guard_id},${job_id})"  class="btn btn-outline-primary"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#view_instruction">View</button>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="text-muted text-nowrap">
-                                                        <button type="button" onclick="getTask(${guard[i].guard_id},${job_id})" class="btn btn-outline-primary"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#view_task" >View</button>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <a    onclick="setGuardName('${guard[i].first_name} ${guard[i].last_name}'); setGuardId(${guard[i].guard_id})" href="/reportPerGuard.html" class="btn btn-primary"  >
-                                                        Report <span class="badge badge-light badge-inside ms-2">${guard[i].no_of_report}</span>
-                                                    </a>    
-                                                </td>
-                                                <td>
-                                                <div class="actions">
-                                                  <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteGuardSchedule(${guard[i].guard_id})">
-                                                    <span class="btn-icon icofont-ui-delete"></span>
-                                                  </button>
-                                                </div>
-                                              </td>
-                                                
-                                            </tr>
-                     `
-                }
-             
 
                 if(i==guard.length-1){
 
@@ -289,7 +206,6 @@ function Previous(){
 
 function getSchedule(guard_id ,job_id){
 
-
     $('#loader2').css("display","block");
 
     $.ajax({
@@ -304,7 +220,6 @@ function getSchedule(guard_id ,job_id){
         success: function (data) {
 
             $('#loader2').css("display","none");
-
             displaySchedule(data.data)
           
         },
@@ -324,36 +239,76 @@ function displaySchedule(val){
 
     for(let i=0; i<val.length; i++){
 
-        data+= `
-        <tr>
-        <td>${i+1}</td>
-        <td>${val[i].check_in_date}</td>
-        <td>${val[i].start_time}</td>
-        <td>${val[i].check_out_date}</td>
-        <td>${val[i].end_time}</td>
-        <td>${val[i].hours}</td>
-        <td>
-            <div class="text-muted text-nowrap">
-                <button type="button" class="btn btn-outline-primary"
-                onclick="selectDateTime('${val[i].check_in_date}','${val[i].start_time}',${val[i].schedule_id},'Check in',${val[i].job_id},${val[i].guard_id},${i+1})">Select</button>
-            </div>
-        </td>
-        <td>
-            <div class="text-muted text-nowrap">
-                <button type="button" class="btn btn-outline-primary"
-                onclick="selectDateTime('${val[i].check_out_date}','${val[i].end_time}',${val[i].schedule_id},'Check out',${val[i].job_id},${val[i].guard_id},${i+1})">Select</button>
-            </div>
-        </td>
-        <td>
-              <div class="actions">
-                <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteSingleGuardSchedule(${val[i].shedule_id},${val[i].guard_id},${val[i].job_id})">
-                  <span class="btn-icon icofont-ui-delete"></span>
-                </button>
-              </div>
+        if(val[i].schedule_accepted_by_admin){
+            data+= `
+            <tr>
+            <td>${i+1}</td>
+            <td>${val[i].check_in_date}</td>
+            <td>${val[i].start_time}</td>
+            <td>${val[i].check_out_date}</td>
+            <td>${val[i].end_time}</td>
+            <td>${val[i].hours}</td>
+            <td>
+                <div class="text-muted text-nowrap">
+                    <button type="button" class="btn btn-outline-primary"
+                    onclick="selectDateTime('${val[i].check_in_date}','${val[i].start_time}',${val[i].schedule_id},'Check in',${val[i].job_id},${val[i].guard_id},${i+1})">Select</button>
+                </div>
             </td>
-      </tr>
-         `
-
+            <td>
+                <div class="text-muted text-nowrap">
+                    <button type="button" class="btn btn-outline-primary"
+                    onclick="selectDateTime('${val[i].check_out_date}','${val[i].end_time}',${val[i].schedule_id},'Check out',${val[i].job_id},${val[i].guard_id},${i+1})">Select</button>
+                </div>
+            </td>
+            <td>
+                  <div class="actions">
+                    <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteSingleGuardSchedule(${val[i].schedule_id},${val[i].guard_id},${val[i].job_id})">
+                      <span class="btn-icon icofont-ui-delete"></span>
+                    </button>
+                    <button type="button" class="btn btn-outline-primary"
+                        onclick="toggleScheduleAcceptance(${val[i].schedule_id},${val[i].guard_id},${val[i].job_id},'false')">Reject
+                    </button>
+                  </div>     
+                </td>
+          </tr>
+             `
+        }
+        else{
+            data+= `
+            <tr>
+            <td>${i+1}</td>
+            <td>${val[i].check_in_date}</td>
+            <td>${val[i].start_time}</td>
+            <td>${val[i].check_out_date}</td>
+            <td>${val[i].end_time}</td>
+            <td>${val[i].hours}</td>
+            <td>
+                <div class="text-muted text-nowrap">
+                    <button type="button" class="btn btn-outline-primary"
+                    onclick="selectDateTime('${val[i].check_in_date}','${val[i].start_time}',${val[i].schedule_id},'Check in',${val[i].job_id},${val[i].guard_id},${i+1})">Select</button>
+                </div>
+            </td>
+            <td>
+                <div class="text-muted text-nowrap">
+                    <button type="button" class="btn btn-outline-primary"
+                    onclick="selectDateTime('${val[i].check_out_date}','${val[i].end_time}',${val[i].schedule_id},'Check out',${val[i].job_id},${val[i].guard_id},${i+1})">Select</button>
+                </div>
+            </td>
+            <td>
+                  <div class="actions">
+                    <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteSingleGuardSchedule(${val[i].schedule_id},${val[i].guard_id},${val[i].job_id})">
+                      <span class="btn-icon icofont-ui-delete"></span>
+                    </button>
+                    <button type="button" class="btn btn-outline-primary"
+                        onclick="toggleScheduleAcceptance(${val[i].schedule_id},${val[i].guard_id},${val[i].job_id},'true')">Accept
+                    </button>
+                  </div>
+                </td>
+          </tr>
+             `
+    
+        }
+      
         if(i==val.length-1){
 
             $('#myschedule').children().remove();
@@ -380,6 +335,36 @@ let mySchedule_id
 let buttonInfo
 let myGuard_id
 
+
+function toggleScheduleAcceptance(schedule_id,guard_id,job_id,status){
+
+        $.ajax({
+        type: "post", url:`${domain}/api/v1/job/update_schedule_accept_status`,
+        headers: {
+            "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+            },
+        data: {
+            schedule_id,
+            status
+        },
+        success: function (data) {
+    
+            showModal(data.message)
+
+            setTimeout(() => {
+                getSchedule(guard_id ,job_id)
+            }, 100);
+            setTimeout(() => {
+                hideModal()
+            }, 3000);
+            
+        },
+        error: function (request, status, error) {
+            analyzeError(request)
+        }
+        });
+    
+}
 
 function selectDateTime(date ,time ,schedule_id, text,job_id,guard_id,schedule_no){
 
@@ -427,7 +412,7 @@ function checkInAndOut(date,check_in,guard_id,job_id,schedule_id){
             job_id,
             schedule_id  
           },
-        success: function (data, text) {
+        success: function (data) {
             showModal(data.message)
 
             setTimeout(() => {
@@ -469,7 +454,7 @@ function getInstruction(guard_id ,job_id){
             job_id,
             type:"INSTRUCTION"  
           },
-        success: function (data, text) {
+        success: function (data) {
 
             $('#loader5').css("display","none");
 
@@ -576,7 +561,7 @@ function getTask(guard_id ,job_id){
             job_id,
             type:"TASK"
           },
-        success: function (data, text) {        
+        success: function (data) {        
             $('#loader6').css("display","none");
             displayTask(data.data);
         },
@@ -679,7 +664,7 @@ function getLogSecurityCheck(guard_id ,job_id){
             guard_id,
             job_id      
           },
-        success: function (data, text) {
+        success: function (data) {
 
             $('#loader4').css("display","none");
 
@@ -899,7 +884,7 @@ function deleteSingleGuardAgenda(agenda_id,guard_id,job_id){
               data: {
                 agenda_id
               },
-              success: function (data, text) {
+              success: function (data) {
                 
                   showModal(data.message)
                   getInstruction(guard_id ,job_id)
@@ -944,7 +929,7 @@ function deleteSingleGuardSchedule(schedule_id,guard_id,job_id){
                 schedule_id,
                 guard_id
             },
-            success: function (data, text) {
+            success: function (data) {
         
                 showModal(data.message)
         
@@ -994,7 +979,7 @@ function deleteSingleGuardSchedule(schedule_id,guard_id,job_id){
             job_id,
           guard_id
         },
-        success: function (data, text) {
+        success: function (data) {
             showModal(data.message)
     
             getTableData(limit,offset)

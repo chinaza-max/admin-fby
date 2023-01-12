@@ -52,8 +52,6 @@ formAdminReg.addEventListener("submit",(e)=>{
             },
             success: function (data, text) {
   
-                console.log(data.message)
-
                 limit=15,
                 offset=0
                 getTableDate(limit,offset)
@@ -147,43 +145,14 @@ $(document).ready(function(){
 
                 $('#loader1').css("display","none");
                 CreateTable(data.data)
-                /*
-                showModal("REGISTRATION SUCCESSFULL")
-                setTimeout(() => {
-                        hideModal()
-                }, 3000);
-
-                $("#signInButton").css("display","block")
-                $("#loadingButton").css("display","none")
-
-        */
+           
             },
             error: function (request, status, error) {
 
                 console.log(request)
                 $('#loader1').css("display","none");
 
-                if(request.responseJSON.status=="conflict-error"){
-                    console.log(request.responseJSON.message)
-                    showModalError(request.responseJSON.message)
-                    setTimeout(() => {
-                        hideModalError()
-                    }, 3000);
-                }
-                else if(request.responseJSON.status=="validation-error"){
-                    console.log(request.responseJSON.errors.message)
-                    showModalError(request.responseJSON.errors[0].message)
-                    setTimeout(() => {
-                        hideModalError()
-                    }, 3000);
-                }
-                else if(request.responseJSON.status=="server-error"){
-                    console.log(request.responseJSON.message)
-                    showModalError(request.responseJSON.message)
-                    setTimeout(() => {
-                        hideModalError()
-                    }, 3000);
-                }
+               analyzeError(request)
              
             }
           });
@@ -219,7 +188,13 @@ $(document).ready(function(){
                 </td>
                 <td>
                   <div class="d-flex align-items-center nowrap text-primary">
+                  <span class="icofont-ui-cell-phone p-0 me-2"></span>
                   ${val[i].phone_number}
+                  </div>
+                </td>
+                <td>
+                  <div class="text-nowrap">
+                    <span class="badge badge-success">Approved</span>
                   </div>
                 </td>
                 <td>
@@ -227,6 +202,9 @@ $(document).ready(function(){
                 </td>
                 <td>
                   <div class="actions">
+                    <a onclick="storeCurrentUserID(${val[i].id})"  href="guard-profile.html"  class="btn btn-dark btn-sm btn-square rounded-pill">
+                      <span class="btn-icon icofont-external-link"></span>
+                    </a>
                  
                     <a href="#" onclick="storeCurrentUserID(${val[i].id})"  class="btn btn-info btn-sm btn-square rounded-pill">
                       <span class="btn-icon icofont-ui-edit"></span>
