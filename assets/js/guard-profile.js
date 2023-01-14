@@ -3,6 +3,7 @@ const password=document.getElementById("password")*/
 const updateUser=document.getElementById("updateUser")
 
 let id=activeUserID
+let my_license_id=''
 
 
 /*
@@ -175,6 +176,8 @@ function checkImg(e){
 
 
 let getProfileData
+let getLicense
+
 $(document).ready(function(){
 
     getProfileData=  function(){
@@ -237,16 +240,215 @@ $(document).ready(function(){
     }
     getProfileData()
 
+
+    getLicense=function(){
+        $.ajax({
+            type: "post", url:`${domain}/api/v1/user/LicenseRUD?type=read` ,
+            dataType  : 'json',
+            encode  : true,
+            headers: {
+                "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+            },
+            data:{
+                id
+            },
+            success: function (data) {
+             
+            
+                console.log(data)
+                displayLicenseDetails(data.data)
+        
+            },
+            error: function (request, status, error) {
+    
+    
+                analyzeError(request)
+                //localStorage.removeItem("myUser");
+                
+              //  window.location.replace('https://sunny-kataifi-7adb6f.netlify.app/sign-in.html')
+              //  window.location.replace('/sign-in.html')
+             // window.location.href =window.location.toString().split('/')[0] + "/dist/sign-in.html"
+            }
+        });
+    }
+    
+    getLicense()
+
 })
 
 
 
+function displayLicenseDetails(val){
+    let data=''
+    if(val.expiry_date!==""){
 
 
+        if(val.status=="Expired"){
+            data+=`
+            <tr>
+                <td>1</td>
 
+                <td class="nowrap">${val.Posted}</td>
 
+                <td class="nowrap">${val.expiry_date}</td>
+                
+                <td><span class="badge badge-danger">${val.status}</span></td>
 
+                <td>
+                    <button type="button" class="btn btn-outline-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#view_license">View</button>
+                </td>
 
+                <td>
+                    <div class="actions">
+                        <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteGuardLicense(${val.license_id})">
+                        <span class="btn-icon icofont-ui-delete"></span>
+                        </button>
+                    </div>
+                </td>
+           </tr>
 
+             `
+        }
+        else if(val.status=="Approved"){
+            data+=`
+            <tr>
+            <td>1</td>
+            <td class="nowrap">${val.Posted}</td>
+            <td class="nowrap">${val.expiry_date}</td>
+            <td><span class="badge badge-success">${val.status}</span></td>
+            <td>
+                <button type="button" class="btn btn-outline-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#view_license">View</button>
+            </td>
+            <td>
+                <div class="actions">
+                    <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteGuardLicense(${val.license_id})">
+                    <span class="btn-icon icofont-ui-delete"></span>
+                    </button>
+                </div>
+            </td>
+            </tr>
+             `
+        }
+        else if(val.status=="Pending"){
+            data+=`
+            <tr>
+                <td>1</td>
+                <td class="nowrap">${val.Posted}</td>
+                <td class="nowrap">${val.expiry_date}</td>
+                <td><span class="badge badge-warning">${val.status}</span></td>
+                <td>
+                    <button type="button" class="btn btn-outline-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#view_license">View</button>
+                </td>
+                <td>
+                    <div class="actions">
+                        <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteGuardLicense(${val.license_id})">
+                        <span class="btn-icon icofont-ui-delete"></span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+             `
+        }
+     
+         $('#licenseDetails').children().remove();
+         $("#licenseDetails").append(data)
+         my_license_id=val.license_id   
+         document.getElementById("contentarea").setAttribute('data',val.url);
+    }
+    else{   
+        data+=`
+        <tr>
+        <td  colspan="7" class="text-center">
+            No license uploaded
+        </td>
+      </tr>
+         `
+         $('#licenseDetails').children().remove();
+         $("#licenseDetails").append(data)
+    }
+}   
 
+function deleteGuardLicense(id){
 
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+  
+      if (result.isConfirmed) {
+        $.ajax({
+          type: "post", url:`${domain}/api/v1/user/LicenseRUD?type=delete`,
+          dataType  : 'json',
+          encode  : true,
+          headers: {
+            "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+          },
+          data: {
+            id      
+          },
+          success: function (data) {
+              showModal(data.message)
+              setTimeout(() => {
+                      hideModal()
+                      getLicense()
+              }, 3000)      
+             
+          },
+          error: function (request, status, error) {
+      
+              console.log(request)
+              console.log(status)
+              console.log(error)
+              console.log(request.responseJSON.status)
+      
+              analyzeError(request)
+           
+          }
+        });
+      }
+    
+    })
+
+}
+
+function approveLicense(){
+
+    $.ajax({
+        type: "post", url:`${domain}/api/v1/user/LicenseRUD?type=approved`,
+        dataType  : 'json',
+        encode  : true,
+        headers: {
+        "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+        },
+        data: {
+        id:my_license_id
+        },
+        success: function (data) {
+            showModal(data.message)
+            setTimeout(() => {
+                    hideModal()
+                    getLicense()
+            }, 3000)      
+            
+        },
+        error: function (request, status, error) {
+    
+            console.log(request.responseJSON.status)
+    
+            analyzeError(request)
+        
+        }
+    });
+  
+}

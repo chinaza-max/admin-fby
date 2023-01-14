@@ -21,6 +21,7 @@
   <link rel="stylesheet" href="../assets/css/Chart.min.css">
   <link rel="stylesheet" href="../assets/css/morris.css">
   <link rel="stylesheet" href="../assets/css/leaflet.css">
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <!-- Theme CSS -->
   <link rel="stylesheet" href="../assets/css/style.css">
@@ -405,8 +406,32 @@
 
               <hr>
 
-              <h4>licence Section</h4>
+              <h4>License Section</h4>
 
+              <div class="card">
+                
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-bordered">
+                      <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Posted</th>
+                        <th scope="col">Epiry date</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">View</th>
+                        <th scope="col">Action</th>
+
+                      </tr>
+                      </thead>
+                      <tbody id="licenseDetails">
+                                            
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+    
               
 
 
@@ -510,7 +535,40 @@
   </div>
 </div>
 
-<!-- Add patients modals -->
+
+
+<div class="modal fade" id="view_license" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+aria-hidden="true">
+<div class="modal-dialog modal-xl">
+    <div class="modal-content">
+
+        <div class="modal-body">
+
+            <div class="card">
+                <div class="card-header">
+                  License
+                </div>
+                <div class="card-body">
+                  <object id="contentarea" data="" type="application/pdf"  style="width:100%;height:65vh;">
+                    <div>cant view on mobile</div>
+                </object>
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <div class="actions">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary" onclick="approveLicense()">Approve</button>
+                </div>
+              </div>
+
+        </div>
+    </div>
+</div>
+</div>
+
+
+
 <div class="modal fade" id="settings" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">

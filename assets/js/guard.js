@@ -192,11 +192,7 @@ $(document).ready(function(){
                   ${val[i].phone_number}
                   </div>
                 </td>
-                <td>
-                  <div class="text-nowrap">
-                    <span class="badge badge-success">Approved</span>
-                  </div>
-                </td>
+               
                 <td>
                   <div class="text-muted text-nowrap">${val[i].gender}</div>
                 </td>
