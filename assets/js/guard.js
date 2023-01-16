@@ -138,10 +138,7 @@ $(document).ready(function(){
             },
             dataType  : 'json',
             encode  : true,
-            success: function (data, text) {
-
-                console.log(data.data)
-                console.log(data)
+            success: function (data) {
 
                 $('#loader1').css("display","none");
                 CreateTable(data.data)
@@ -155,7 +152,7 @@ $(document).ready(function(){
                analyzeError(request)
              
             }
-          });
+        });
     }
 
     getTableDate(limit,offset)

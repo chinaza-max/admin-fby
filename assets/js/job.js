@@ -2072,20 +2072,22 @@ $(function(){
   getTableData(limit,offset)
   function CreateTable(val){
       let data=''
-          
       if(val.length!=0){
         for(let i=0; i<val.length; i++){
-          let convertedDate=moment( val[i].create).format("YYYY-MM-DD hh-mm-ss a")
 
             data+= `<tr>
 
             <td>
             ${offset+i+1}
           </td>
+         
             <td>
               <div class="d-flex align-items-center nowrap text-primary">
-              ${convertedDate}
+              ${val[i].create}
               </div>
+            </td>
+            <td>
+            ${val[i].id}
             </td>
             <td>
             ${val[i].customer}
@@ -2197,17 +2199,20 @@ $(function(){
       let data=''
       if(val.length!=0){
         for(let i=0; i<val.length; i++){
-          let convertedDate=moment( val[i].create).format("YYYY-MM-DD hh-mm-ss a")
 
             data+= `<tr>
 
             <td>
             ${offset+i+1}
           </td>
+         
             <td>
               <div class="d-flex align-items-center nowrap text-primary">
-              ${convertedDate}
+              ${val[i].create}
               </div>
+            </td>
+            <td>
+            ${val[i].id}
             </td>
             <td>
             ${val[i].customer}
@@ -2316,17 +2321,20 @@ $(function(){
       let data=''
       if(val.length!=0){
         for(let i=0; i<val.length; i++){
-          let convertedDate=moment( val[i].create).format("YYYY-MM-DD hh-mm-ss a")
 
             data+= `<tr>
 
             <td>
             ${offset+i+1}
           </td>
+         
             <td>
               <div class="d-flex align-items-center nowrap text-primary">
-              ${convertedDate}
+              ${val[i].create}
               </div>
+            </td>
+            <td>
+            ${val[i].id}
             </td>
             <td>
             ${val[i].customer}
@@ -2693,7 +2701,6 @@ function page4(val){
 //UPDATE JOB STATUS
 function updateJobStatusId(val){
   statusChangeIdForJob=val
-  console.log(statusChangeIdForJob)
 }
 function updateJobStatus(){
   $('.selectpickerStatusChange').on("changed.bs.select", function() {
@@ -2722,8 +2729,6 @@ function changeJobStatus(){
       
     },
     success: function (data, text) {
-
-        console.log(data.message)
         showModal(data.message)
       
           getTableData2(limit2,offset2)
@@ -2898,7 +2903,6 @@ function reAssign(job_id,guard_id){
     },
     success: function (data, text) {
 
-        console.log(data.message)
         showModal(data.message)
 
         let limit=15,
