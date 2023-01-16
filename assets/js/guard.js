@@ -159,6 +159,8 @@ $(document).ready(function(){
 
     
     function CreateTable(val){
+
+      console.log(val)
         let data=''
 
         if(val.length!=0){
@@ -167,6 +169,9 @@ $(document).ready(function(){
                 data+= `  <tr>
                 <td>
                   <img src=${val[i].image} alt="" width="40" height="40" class="rounded-500">
+                </td>
+                <td>
+                  ${val[i].id}
                 </td>
                 <td>
                   <strong>${val[i].full_name}</strong>
@@ -468,13 +473,15 @@ function deleteGuard(id){
       if (result.isConfirmed) {
         $.ajax({
           type: "post", url:`${domain}/api/v1/user/deleteStaff`,
+          dataType  : 'json',
+          encode  : true,
           headers: {
             "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
           },
           data: {
             id      
           },
-          success: function (data, text) {
+          success: function (data) {
       
               console.log(data)
               showModal(data.message)
