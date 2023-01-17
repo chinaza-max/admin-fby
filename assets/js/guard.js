@@ -4,8 +4,6 @@ limit2=15,
 offset2=0;
 
 
-
-
 let formAdminReg=document.getElementById("formguardReg")
 
 
@@ -112,13 +110,6 @@ formAdminReg.addEventListener("submit",(e)=>{
 })
 
 
-
-
-
-
-
-
-
 let getTableDate=''
 let getTableDate2=''
 
@@ -160,7 +151,6 @@ $(document).ready(function(){
     
     function CreateTable(val){
 
-      console.log(val)
         let data=''
 
         if(val.length!=0){

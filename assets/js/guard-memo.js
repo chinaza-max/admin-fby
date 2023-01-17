@@ -1,5 +1,13 @@
 
 
+
+
+
+
+
+
+let getAllMemo=''
+
 $(document).ready(function() {
 
 
@@ -77,9 +85,245 @@ $(document).ready(function() {
       }
   });
 
+
+
+
+  getAllMemo=function(){
+    $.ajax({
+      type: "get", url:`${domain}/api/v1/job/allMemoDetail?type=allMemo`,
+      headers: {
+          "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+      },
+      dataType  : 'json',
+      encode  : true,
+    
+      success: function (data) {
+
+          displayMemo(data.data)
+      },
+      error: function (request, status, error) {
+
+        analyzeError(request)
+      
+      }
+  });
+  }
+  getAllMemo()
+
+
 });
 
+function displayMemo(val){
 
+  let data=''
+
+  if(val.length!=0){
+
+      for(let i=0; i<val.length; i++){
+
+        if(val[i].send_status=="Sent"){
+
+            if(val[i].message_length <500){
+              data+=` <div class="col-12 col-md-4">
+              <div class="card department bg-light bg-gradient">
+                <div class="card-body">
+                  <h3 class="h5 mt-0">${val[i].CreatedBy}</h3>
+  
+                  <div style="min-height:180px;">${val[i].message}
+                  </div>
+  
+                  <div class="team  align-items-center">
+                    
+                      <h6>Status <span class="badge badge-secondary badge-inside">Sent</span></h6>
+                      <h6>Sent on  : ${val[i].send_date}</h6>
+                      <h6>Created : ${val[i].Created}</h6>
+                  </div>
+  
+  
+                  <div class="row">
+                    <div class="col">
+                      <button type="button" onclick="guardOnMemo(${val[i].id})" class="btn btn-outline-primary"  data-toggle="modal" data-target="#guards">
+                        Sent to
+                      </button>                      
+                    </div>
+                    <div class="col text-end">
+                      <button type="button" class="btn btn-outline-danger"  onclick="deleteMemo(${val[i].id})">
+                        <span class="d-none d-sm-block">Remove</span>
+                        <span class="d-sm-none">Delete</span>
+                      </button>
+                    </div>
+                  </div>
+  
+                  
+                </div>
+              </div>
+            </div>`
+            }
+            else{
+              data+=` <div class="col-12 col-md-4">
+              <div class="card department bg-light bg-gradient">
+                <div class="card-body">
+                  <h3 class="h5 mt-0">${val[i].CreatedBy}</h3>
+  
+                  <div style="height:160px;overflow-y: hidden;">${val[i].message}
+                  </div>
+                  <a href="#" onclick="getFullMessage(${val[i].id})"  data-toggle="modal" data-target="#memo-message">more</a>
+
+  
+                  <div class="team  align-items-center">
+                    
+                      <h6>Status <span class="badge badge-secondary badge-inside">Sent</span></h6>
+                      <h6>Sent on  : ${val[i].send_date}</h6>
+                      <h6>Created : ${val[i].Created}</h6>
+                  </div>
+  
+  
+                  <div class="row">
+                    <div class="col">
+                      <button type="button" onclick="guardOnMemo(${val[i].id})" class="btn btn-outline-primary"  data-toggle="modal" data-target="#guards">
+                        Sent to
+                      </button>                      
+                    </div>
+                    <div class="col text-end">
+                      <button type="button" class="btn btn-outline-danger" onclick="deleteMemo(${val[i].id})">
+                        <span class="d-none d-sm-block">Remove</span>
+                        <span class="d-sm-none">Delete</span>
+                      </button>
+                    </div>
+                  </div>
+  
+                  
+                </div>
+              </div>
+            </div>`
+            }
+        }
+        else if(val[i].send_status=="Pending"){
+
+
+            if(val[i].message_length <500){
+              data+=`  <div class="col-12 col-md-4">
+              <div class="card department bg-light bg-gradient" >
+    
+                <div class="card-body">
+    
+                  <h3 class="h5 mt-0">${val[i].CreatedBy}</h3>
+    
+    
+                  <div style="min-height:180px;">
+                  ${val[i].message}
+                  </div>
+    
+                  <div class="team  align-items-center">
+                      <h6>Status <span class="badge badge-secondary badge-inside">Pending</span></h6>
+                      <h6>Delivery date: ${val[i].send_date}</h6>
+                      <h6>Created : ${val[i].Created}</h6>
+                  </div>
+    
+    
+                  <div class="row">
+                    <div class="col">
+                      <button type="button" onclick="guardOnMemo(${val[i].id})" class="btn btn-outline-primary" data-toggle="modal" data-target="#guards">
+                        Send to
+                      </button>                      
+                    </div>
+                    <div class="col text-end">
+                      <button type="button" class="btn btn-outline-danger" onclick="deleteMemo(${val[i].id})">
+                        <span class="d-none d-sm-block">Remove</span>
+                        <span class="d-sm-none">Delete</span>
+                      </button>
+                    </div>
+                  </div>
+    
+                  
+                </div>
+              </div>
+            </div>`
+            }
+            else{
+              data+=`  <div class="col-12 col-md-4">
+              <div class="card department bg-light bg-gradient" >
+    
+                <div class="card-body">
+    
+                  <h3 class="h5 mt-0">${val[i].CreatedBy}</h3>
+    
+    
+                  <div style="height:160px;overflow-y: hidden">
+                  ${val[i].message}
+                    
+                  </div>
+                  <a href="#"  onclick="getFullMessage(${val[i].id})" data-toggle="modal" data-target="#memo-message">more</a>
+    
+                  <div class="team  align-items-center">
+                      <h6>Status <span class="badge badge-secondary badge-inside">Pending</span></h6>
+                      <h6>Delivery date: ${val[i].send_date}</h6>
+                      <h6>Created : ${val[i].Created}</h6>
+                  </div>
+    
+    
+                  <div class="row">
+                    <div class="col">
+                      <button type="button" onclick="guardOnMemo(${val[i].id})" class="btn btn-outline-primary" data-toggle="modal" data-target="#guards">
+                        Send to
+                      </button>                      
+                    </div>
+                    <div class="col text-end">
+                      <button type="button" class="btn btn-outline-danger" onclick="deleteMemo(${val[i].id})">
+                        <span class="d-none d-sm-block">Remove</span>
+                        <span class="d-sm-none">Delete</span>
+                      </button>
+                    </div>
+                  </div>
+    
+                  
+                </div>
+              </div>
+            </div>`
+            }
+        }
+
+          if(i==val.length-1){
+
+              $('#memoContainer').children().remove();
+              $("#memoContainer").append(data)
+          }
+      }
+  }
+  else{
+      $('#memoContainer').children().remove();
+      $("#memoContainer").append(`
+  
+      <div class="alert alert-light outline text-dark " role="alert" style="text-align:center;">
+      YOU HAVE NO MEMO
+    </div>
+      `)
+  }    
+}
+
+
+
+function getFullMessage(id){
+
+  $.ajax({
+    type: "get", url:`${domain}/api/v1/job/allMemoDetail?type=memoMessageOnly&id=${id}`,
+    headers: {
+        "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+    },
+    dataType  : 'json',
+    encode  : true,
+  
+    success: function (data) {
+      $('#memo-message-container').children().remove();
+      $("#memo-message-container").append(data.data[0])
+    },
+    error: function (request, status, error) {
+
+      analyzeError(request)
+    
+    }
+  });
+}
 function displayJob(val,picker){
 
   let data=''
@@ -241,7 +485,6 @@ document.getElementById("uploadButton").addEventListener("click", myFunction);
   }
 
 
-
   function getAllGuardId(message,send_date){
     //guard limit and offset not been use
 
@@ -254,16 +497,21 @@ document.getElementById("uploadButton").addEventListener("click", myFunction);
       encode  : true,
       success: function (data) {
 
-
-        console.log(data)
-        let guard_id_array2=[]
-        for (let i = 0; i < data.data.length; i++) {
-            
-          guard_id_array2.push(data.data[i].id)
-          if(i==data.data.length-1){
-            upload(guard_id_array2,message,send_date )
+        if(data.data.length==0){
+          handleError("No guard vailable")
+        }
+        else{
+     
+          let guard_id_array2=[]
+          for (let i = 0; i < data.data.length; i++) {
+              
+            guard_id_array2.push(data.data[i].id)
+            if(i==data.data.length-1){
+              upload(guard_id_array2,message,send_date )
+            }
           }
         }
+
       },
       error: function (request, status, error) {
         analyzeError(request)
@@ -286,7 +534,12 @@ document.getElementById("uploadButton").addEventListener("click", myFunction);
       },
       success: function (data) {
   
-        upload(data.data,message,send_date )
+        if(data.data.length==0){
+          handleError("No guard vailable")
+        }
+        else{
+          upload(data.data,message,send_date )
+        }
 
       },
       error: function (request, status, error) {
@@ -313,22 +566,22 @@ document.getElementById("uploadButton").addEventListener("click", myFunction);
       },
       success: function (data) {
   
-          console.log(data)
-          console.log(data.message)
-      /*
+          showModal(data.message)
+          $j("#RegisterationSuccessFull").modal('show');
+
           setTimeout(() => {
-                  hideModal()
+            getAllMemo()
+          }, 200);
+          setTimeout(() => {
+
+            $j("#RegisterationSuccessFull").modal('hide');
+                  
           }, 3000);
 
-          */
-        
       },
       error: function (request, status, error) {
   
-         
-          console.log(request.responseJSON.status)
-  
-          analyzeError(request)
+        analyzeError(request)
        
       }
     });
@@ -343,3 +596,141 @@ document.getElementById("uploadButton").addEventListener("click", myFunction);
       confirmButtonAriaLabel: 'ok'
     })
   }
+
+  function guardOnMemo(id){
+    $.ajax({
+      type: "get", url:`${domain}/api/v1/job/allMemoDetail?type=guardDetails&id=${id}`,
+      headers: {
+          "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+      },
+      dataType  : 'json',
+      encode  : true,
+    
+      success: function (data) {
+       displayGuardInMemo(data.data)
+      },
+      error: function (request, status, error) {
+  
+        analyzeError(request)
+      
+      }
+  });
+  }
+  
+  function displayGuardInMemo(val){
+
+
+    $("#NumberOfGuard").text(val[0].number_of_guard)
+    let data=''
+  
+        for(let i=0; i<val.length; i++){
+  
+              if(val[i].is_message){
+                data+=` <li class="list-group-item d-flex justify-content-between align-items-center">
+                ${val[i].full_name}
+                <a href="#" onclick="getMemoReply(${val[i].id},${val[i].guard_id})" data-toggle="modal" data-target="#message">
+                  <span class="badge badge-primary badge-pill">message</span>
+                </a>
+              </li>`
+              }
+              else{
+                data+=` <li class="list-group-item d-flex justify-content-between align-items-center">
+                ${val[i].full_name}
+                <a href="#">
+                  <span class="badge badge-primary badge-pill">unread</span>
+                </a>
+              </li> `
+              }
+         
+  
+            if(i==val.length-1){
+  
+                $('#guardInMemoContainer').children().remove();
+                $("#guardInMemoContainer").append(data)
+            }
+        }
+    
+   
+
+  }
+
+
+  function getMemoReply(id,guard_id){
+
+
+    $.ajax({
+      type: "get", url:`${domain}/api/v1/job/allMemoDetail?type=guardMessageOnly&id=${id}&guard_id=${guard_id}`,
+      headers: {
+          "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+      },
+      dataType  : 'json',
+      encode  : true,
+    
+      success: function (data) {
+      
+        $("#containerForGuardReply").text(data.data[0].message)
+        $("#guardNameWithreply").text(data.data[0].full_name)
+        $("#guardReplyDate").text(data.data[0].read_date)
+
+
+      },
+      error: function (request, status, error) {
+        analyzeError(request)
+      
+      }
+  });
+  }
+
+
+  function deleteMemo(memo_id){
+
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+    
+        if (result.isConfirmed) {
+          $.ajax({
+            type: "post", url:`${domain}/api/v1/job/delete_memo`,
+            dataType  : 'json',
+            encode  : true,
+            headers: {
+              "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+            },
+            data: {
+              memo_id     
+            },
+            success: function (data) {
+        
+               
+              showModal(data.message)
+              $j("#RegisterationSuccessFull").modal('show');
+    
+              setTimeout(() => {
+                getAllMemo()
+              }, 200);
+              setTimeout(() => {
+    
+                $j("#RegisterationSuccessFull").modal('hide');
+                      
+              }, 3000);
+               
+            },
+            error: function (request, status, error) {
+        
+                analyzeError(request)
+             
+            }
+          });
+        }
+      
+      })
+    
+    
+    
+    }
