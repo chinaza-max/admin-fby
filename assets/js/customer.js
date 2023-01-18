@@ -49,6 +49,8 @@ formAdminReg.addEventListener("submit",(e)=>{
             headers: {
               "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
             },
+            dataType  : 'json',
+            encode  : true,
             data: {
                     first_name,
                     last_name,
@@ -58,10 +60,9 @@ formAdminReg.addEventListener("submit",(e)=>{
                     address,
                     phone_number:Phone_number
             },
-            success: function (data, text) {
+            success: function (data) {
   
                 console.log(data)
-                console.log(text)
 
                 showModal(data.message)
                 limit=15
@@ -377,6 +378,8 @@ function deleteCustomer(id){
         headers: {
           "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
         },
+        dataType  : 'json',
+        encode  : true,
         data: {
           address_id:id      
         },
@@ -397,10 +400,7 @@ function deleteCustomer(id){
         },
         error: function (request, status, error) {
     
-            console.log(request)
-            console.log(status)
-            console.log(error)
-            console.log(request.responseJSON.status)
+           
     
             analyzeError(request)
          

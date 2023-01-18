@@ -99,7 +99,10 @@ $(document).ready(function() {
     
       success: function (data) {
 
+        console.log(data)
+
           displayMemo(data.data)
+
       },
       error: function (request, status, error) {
 
@@ -341,9 +344,8 @@ function displayJob(val,picker){
         }
     }
     if(val.length==0){
-      $(`#${modalId}`).children().remove();
+      $(`.${picker}`).children().remove();
       $(`.${picker}`).selectpicker('refresh')
-
     }
 
 
@@ -707,7 +709,7 @@ document.getElementById("uploadButton").addEventListener("click", myFunction);
             },
             success: function (data) {
         
-               
+                console.log(data)
               showModal(data.message)
               $j("#RegisterationSuccessFull").modal('show');
     

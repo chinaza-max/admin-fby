@@ -1829,7 +1829,7 @@ $.ajax({
   dataType  : 'json',
   encode  : true,
 
-  success: function (data, text) {
+  success: function (data) {
 
       displayCustomer(data.data)
   },

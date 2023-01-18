@@ -14,7 +14,7 @@ else{
     domain='https://middleware.fbyteamschedule.com'
 
 }
-//iis
+
 
 function storeCurrentUserID(val){
 
@@ -213,7 +213,6 @@ $(document).ready(function(){
 
 
     let value2=localStorage.getItem("setLeftNavColor")
-    console.log(value2)
     if(value2=="true"){
         setTimeout(() => {
             $("#sidebar").click()

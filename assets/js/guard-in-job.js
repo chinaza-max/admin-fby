@@ -563,6 +563,7 @@ function getTask(guard_id ,job_id){
           },
         success: function (data) {        
             $('#loader6').css("display","none");
+            
             displayTask(data.data);
         },
         error: function (request, status, error) {
