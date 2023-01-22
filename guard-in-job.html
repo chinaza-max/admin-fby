@@ -355,7 +355,7 @@
                                 <table class="table table-hover">
                                     <thead>
                                         <tr class="bg-primary text-white">
-                                            <th scope="col">ID</th>
+                                            <th scope="col">#</th>
                                             <th scope="col">Photo</th>
                                             <th scope="col">Name</th>
                                             <th scope="col" class="text-nowrap">Phone</th>
@@ -466,7 +466,13 @@
     aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                <i class="icofont-close-line"></i>
+              </button>
 
+              <div class="modal-header">
+                <h5 class="modal-title"></h5>
+              </div>
             <div class="modal-body">
 
                 <div class="card">
@@ -521,12 +527,30 @@
         aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="icofont-close-line"></i>
+                  </button>
+
+                  <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                  </div>
 
                 <div class="modal-body">
 
                     <div class="card">
                         <div class="card-header">
-                          SCHEDULE
+                          
+                          <div class="d-flex justify-content-between">
+                            <p>SCHEDULE</p>
+                            <p>
+                                RE-ASSIGN
+                                <button  class="btn btn-dark btn-sm btn-square rounded-pill" data-bs-toggle="modal" data-bs-target="#add-guard">
+                                    <span class="btn-icon icofont-external-link"></span>
+                                </button>
+                            </p>
+                          </div> 
+
+
                         </div>
                         <div class="card-body">
                           <div class="table-responsive">
@@ -582,6 +606,14 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
 
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                <i class="icofont-close-line"></i>
+              </button>
+
+              <div class="modal-header">
+                <h5 class="modal-title"></h5>
+              </div>
+
             <div class="modal-body">
 
                 <div class="card">
@@ -635,7 +667,13 @@
     aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                <i class="icofont-close-line"></i>
+              </button>
 
+              <div class="modal-header">
+                <h5 class="modal-title"></h5>
+              </div>
             <div class="modal-body">
 
                 <div class="card">
@@ -688,7 +726,13 @@
     aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                <i class="icofont-close-line"></i>
+              </button>
 
+              <div class="modal-header">
+                <h5 class="modal-title"></h5>
+              </div>
             <div class="modal-body">
 
                 <div class="card">
@@ -795,6 +839,47 @@
             </div>
         </div>
     </div>
+
+
+
+
+
+    <div class="modal fade" id="add-guard" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered ">
+          <div class="modal-content">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+              <i class="icofont-close-line"></i>
+            </button>
+            <div class="modal-header">
+              <h5 class="modal-title">Guard</h5>
+            </div>
+            <form id="all_form_for_adding_guard">
+              <div class="modal-body">
+                  <div class="card">
+                    <div class="card-body">
+                        <div class="form-group ">
+                          <label>Add multiple or single Guard </label>
+                          <select class="selectpicker  selectpickerReassign" data-live-search="true" multiple required>
+                          </select>
+                        </div>
+                    </div>
+                  </div>
+                  <div>
+                  </div>
+                
+              </div>
+              <div class="modal-footer d-block">
+                <div class="actions justify-content-between">
+                  <button type="button" class="btn btn-error" data-bs-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-info" >Assign</button>
+                </div>
+              </div>
+    
+            </form>
+          </div>
+        </div>
+      </div>
+
 
 
 

@@ -357,6 +357,8 @@ function Previous(){
         headers: {
           "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
         },
+        dataType  : 'json',
+        encode  : true,
         data: {
             guard_id,
             settlement:false  
@@ -502,6 +504,8 @@ function Previous(){
             headers: {
               "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
             },
+            dataType  : 'json',
+            encode  : true,
             data: {
                 schedule_id:JSON.stringify(val),
             },

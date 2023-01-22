@@ -193,6 +193,7 @@ $(document).ready(function() {
             }, 
             {
               render: function (data, type, full, meta) {
+
                   return "<div class='text-wrap' style='min-width:200px'>" + data + "</div>";
               },
               targets: 8
@@ -245,8 +246,6 @@ $(document).ready(function() {
       
         createdRow: function (row, data, index) {
 
-
-
             if (data["job_status"] == "ACTIVE") {
                 $('td', row).css('background-color', '#828204');
                 $('td', row).css('color', 'white');
@@ -269,6 +268,14 @@ $(document).ready(function() {
         }
    
     })
+
+
+
+
+
+
+
+    
     table.on( 'search.dt', function () {
       initializePayOff()
 

@@ -347,256 +347,115 @@
 
               <div class="card-body">
 
-
-                <div class="card">
-            
-                  <div class="card-body">
-                    <ul class="nav nav-tabs mb-3" role="tablist">
-                      <li class="nav-item" role="presentation">
-                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-1" type="button" role="tab" aria-controls="tab-1" aria-selected="true">Available site</button>
-                      </li>
-                      <li class="nav-item" role="presentation">
-                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-2" type="button" role="tab" aria-controls="tab-2" aria-selected="false">Deleted site</button>
-                      </li>
-                   
-                    </ul>
-                    <div class="tab-content">
-                      <div class="tab-pane fade show active" id="tab-1" role="tabpanel">
-
-                        <div class="table-responsive">
-                          <table class="table table-striped">
-                            <thead>
-                            <tr>
-                              <th scope="col">#</th>
-                              <th scope="col">Site name</th>
-                              <th scope="col">Latitude</th>
-                              <th scope="col">Longitude</th>
-                              <th scope="col">Radius (m)</th>
-                              <th scope="col">Actions</th>
-                            </tr>
-                            </thead>
-          
-                            <tbody>
-                              <tr>
-                                <td>1</td>
-                                <td>chilo main</td>
-                                <td>2.292993939</td>
-                                <td>4.949495959</td>
-                                <td>90</td>
-                                <td>
-                                  <div class="actions">
-                                    <button   data-bs-toggle="modal" data-bs-target="#editSiteLocation" class="btn btn-info btn-sm btn-square rounded-pill">
-                                      <span class="btn-icon icofont-ui-edit"></span>
-                                    </button>
-                                    <a  href="customer-job.html" class="btn btn-dark btn-sm btn-square rounded-pill">
-                                      <span class="btn-icon icofont-external-link"></span>
-                                    </a>
-                                    <button class="btn btn-error btn-sm btn-square rounded-pill">
-                                      <span class="btn-icon icofont-ui-delete"></span>
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-             
-                              <tr>
-                                <td>2</td>
-                                <td>Hill top</td>
-                                <td>4.94998589595</td>
-                                <td>9.9394848444</td>
-                                <td>40</td>
-                                <td>
-                                  <div class="actions">
-                                    <button class="btn btn-info btn-sm btn-square rounded-pill">
-                                      <span class="btn-icon icofont-ui-edit"></span>
-                                    </button>
-                                    <a href="patient.html" class="btn btn-dark btn-sm btn-square rounded-pill">
-                                      <span class="btn-icon icofont-external-link"></span>
-                                    </a>
-                                    <button class="btn btn-error btn-sm btn-square rounded-pill">
-                                      <span class="btn-icon icofont-ui-delete"></span>
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>3</td>
-                                <td>mikans placd</td>
-                                <td>3.344949494</td>
-                                <td>7.93938484</td>
-                                <td>10</td>
-                                <td>
-                                  <div class="actions">
-                                
-                                    <button class="btn btn-info btn-sm btn-square rounded-pill">
-                                      <span class="btn-icon icofont-ui-edit"></span>
-                                    </button>
-                                    <a href="patient.html" class="btn btn-dark btn-sm btn-square rounded-pill">
-                                      <span class="btn-icon icofont-external-link"></span>
-                                    </a>
-                                    <button class="btn btn-error btn-sm btn-square rounded-pill">
-                                      <span class="btn-icon icofont-ui-delete"></span>
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>4</td>
-                                <td>atlas main</td>
-                                <td>3.494949949</td>
-                                <td>9.949394949</td>
-                                <td>90</td>
-                                <td>
-                                  <div class="actions">
-                                
-                                    <button class="btn btn-info btn-sm btn-square rounded-pill">
-                                      <span class="btn-icon icofont-ui-edit"></span>
-                                    </button>
-                                    <a href="patient.html" class="btn btn-dark btn-sm btn-square rounded-pill">
-                                      <span class="btn-icon icofont-external-link"></span>
-                                    </a>
-                                    <button class="btn btn-error btn-sm btn-square rounded-pill">
-                                      <span class="btn-icon icofont-ui-delete"></span>
-                                    </button>
-                                  </div>
-                                  
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-        
-                          <nav class="mt-4">
-                            <ul class="pagination">
-                              <li id="Previous" class="page-item disabled" onclick="Previous()">
-                                <a class="page-link" href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
-                                  <span class="icofont-simple-left"></span>
-                                </a>
-                              </li>
-                              
-                              <li id="Next" class="page-item active" onclick="Next()">
-                                <a class="page-link" href="#" aria-label="Next">
-                                  <span class="icofont-simple-right"></span>
-                                </a>
-                              </li>
-                            </ul>
-                          </nav>
-        
-                        </div>
-
-
-                      </div>
-                      <div class="tab-pane fade" id="tab-2" role="tabpanel">
-
-                        <div class="table-responsive">
-                          <table class="table table-striped">
-                            <thead>
-                            <tr>
-                              <th scope="col">#</th>
-                              <th scope="col">Site name</th>
-                              <th scope="col">Latitude</th>
-                              <th scope="col">Longitude</th>
-                              <th scope="col">Radius (m)</th>
-                              <th scope="col">Actions</th>
-                            </tr>
-                            </thead>
-          
-                            <tbody>
-                              <tr>
-                                <td>1</td>
-                                <td>chilo main</td>
-                                <td>2.292993939</td>
-                                <td>4.949495959</td>
-                                <td>90</td>
-                                <td>
-                                  <div class="actions">
-                                 
-                                    <button class="btn btn-error btn-sm btn-square rounded-pill">
-                                      <span class="btn-icon icofont-ui-delete"></span>
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-             
-                              <tr>
-                                <td>2</td>
-                                <td>Hill top</td>
-                                <td>4.94998589595</td>
-                                <td>9.9394848444</td>
-                                <td>40</td>
-                                <td>
-                                  <div class="actions">
-                                  
-                                    <button class="btn btn-error btn-sm btn-square rounded-pill">
-                                      <span class="btn-icon icofont-ui-delete"></span>
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>3</td>
-                                <td>mikans placd</td>
-                                <td>3.344949494</td>
-                                <td>7.93938484</td>
-                                <td>10</td>
-                                <td>
-                                  <div class="actions">
-                                
-                                    <button class="btn btn-error btn-sm btn-square rounded-pill">
-                                      <span class="btn-icon icofont-ui-delete"></span>
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>4</td>
-                                <td>atlas main</td>
-                                <td>3.494949949</td>
-                                <td>9.949394949</td>
-                                <td>90</td>
-                                <td>
-                                  <div class="actions">
-                                
-                                    <button class="btn btn-error btn-sm btn-square rounded-pill">
-                                      <span class="btn-icon icofont-ui-delete"></span>
-                                    </button>
-                                  </div>
-                                  
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-        
-                          <nav class="mt-4">
-                            <ul class="pagination">
-                              <li id="Previous" class="page-item disabled" onclick="Previous()">
-                                <a class="page-link" href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
-                                  <span class="icofont-simple-left"></span>
-                                </a>
-                              </li>
-                              
-                              <li id="Next" class="page-item active" onclick="Next()">
-                                <a class="page-link" href="#" aria-label="Next">
-                                  <span class="icofont-simple-right"></span>
-                                </a>
-                              </li>
-                            </ul>
-                          </nav>
-        
-                        </div>
-
-
-
-                      </div>
-                    
-                    </div>
-                  </div>
-                  
-                </div>
-
-
-
               
 
-         
+                <div class="table-responsive">
+                  <table class="table table-striped">
+                    <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Site name</th>
+                      <th scope="col">Latitude</th>
+                      <th scope="col">Longitude</th>
+                      <th scope="col">Radius (m)</th>
+                      <th scope="col">Actions</th>
+                    </tr>
+                    </thead>
+  
+                    <tbody>
+                      <tr>
+                        <td>1</td>
+                        <td>chilo main</td>
+                        <td>2.292993939</td>
+                        <td>4.949495959</td>
+                        <td>90</td>
+                        <td>
+                          <div class="actions">
+                            <button   data-bs-toggle="modal" data-bs-target="#editSiteLocation" class="btn btn-info btn-sm btn-square rounded-pill">
+                              <span class="btn-icon icofont-ui-edit"></span>
+                            </button>
+                            <a  href="customer-job.html" class="btn btn-dark btn-sm btn-square rounded-pill">
+                              <span class="btn-icon icofont-external-link"></span>
+                            </a>
+                          </div>
+                        </td>
+                      </tr>
+     
+                      <tr>
+                        <td>2</td>
+                        <td>Hill top</td>
+                        <td>4.94998589595</td>
+                        <td>9.9394848444</td>
+                        <td>40</td>
+                        <td>
+                          <div class="actions">
+                            <button class="btn btn-info btn-sm btn-square rounded-pill">
+                              <span class="btn-icon icofont-ui-edit"></span>
+                            </button>
+                            <a href="patient.html" class="btn btn-dark btn-sm btn-square rounded-pill">
+                              <span class="btn-icon icofont-external-link"></span>
+                            </a>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>3</td>
+                        <td>mikans placd</td>
+                        <td>3.344949494</td>
+                        <td>7.93938484</td>
+                        <td>10</td>
+                        <td>
+                          <div class="actions">
+                        
+                            <button class="btn btn-info btn-sm btn-square rounded-pill">
+                              <span class="btn-icon icofont-ui-edit"></span>
+                            </button>
+                            <a href="patient.html" class="btn btn-dark btn-sm btn-square rounded-pill">
+                              <span class="btn-icon icofont-external-link"></span>
+                            </a>
+                           
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>4</td>
+                        <td>atlas main</td>
+                        <td>3.494949949</td>
+                        <td>9.949394949</td>
+                        <td>90</td>
+                        <td>
+                          <div class="actions">
+                        
+                            <button class="btn btn-info btn-sm btn-square rounded-pill">
+                              <span class="btn-icon icofont-ui-edit"></span>
+                            </button>
+                            <a href="patient.html" class="btn btn-dark btn-sm btn-square rounded-pill">
+                              <span class="btn-icon icofont-external-link"></span>
+                            </a>
+                           
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <nav class="mt-4">
+                    <ul class="pagination">
+                      <li id="Previous" class="page-item disabled" onclick="Previous()">
+                        <a class="page-link" href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
+                          <span class="icofont-simple-left"></span>
+                        </a>
+                      </li>
+                      
+                      <li id="Next" class="page-item active" onclick="Next()">
+                        <a class="page-link" href="#" aria-label="Next">
+                          <span class="icofont-simple-right"></span>
+                        </a>
+                      </li>
+                    </ul>
+                  </nav>
+
+                </div>
               </div>
             </div>
   
@@ -620,8 +479,6 @@
                     <div class="social-item"> 
                       <div class="col">
                         <div class="row">
-
-
                           <div class="col-12 col-sm-6">
                             <div class="input-group mb-3">
                               <input class="form-control" type="text" name="inputSiteName" id="inputSiteName" placeholder="Enter site name"
@@ -629,9 +486,8 @@
                                 <span class="input-group-text">Name</span>
                             </div>
                           </div>
-
-
                           <div class="col-12 col-sm-6">
+                       
                             <div class="input-group mb-3">
                               <span class="input-group-text">$</span>
                               <input type="number" class="form-control" type="number" name="inputJobCost" id="inputJobCost" placeholder="Cost of job"  required>
@@ -667,8 +523,7 @@
                     
                     <div class="row">
                       <div class="form-group">
-                        <label for="" >TO BE USE BY GUARD FOR LOCATING PLACE OF INTEREST 
-                        </label>
+                        <label for="">TO BE USED BY GUARD FOR LOCATING PLACE OF INTEREST </label>
                         <textarea maxlength="1000" class="form-control" rows="4" placeholder="Enter full address of location " id="siteAddress" name="siteAddress" required></textarea>
                       </div>
                     </div>
@@ -676,8 +531,7 @@
                     
                     <div class="row " id="mapView"  >
                       <div class="form-group">
-                        <label for="" >THE ADDRESS YOU ENTER HERE IS ONLY USE TO SEARCH THROUGH THE MAP
-                        </label>
+                        <label for="">THE ADDRESS YOU ENTER HERE IS ONLY USE TO SEARCH THROUGH THE MAP </label>
                         <textarea class="form-control"  rows="4" placeholder="Auto complete google map address" id="pac-input"></textarea>
                       </div>
                     </div>
@@ -692,31 +546,22 @@
                 </form>
               </div>
 
-              <div class="input-group mb-3" style="width:67%;">
-                <span class="input-group-text bg-dark text-white"> Geofence radius </span>
-                <input class="form-control"  type="number"  id="radius" name="radius" value="40"  placeholder="parameter default(40m)" required>
-                <span class="input-group-text bg-dark text-white" >Meter</span>
-              </div>
               <div>NOTE: THE POSITION OF THE MARKER WILL BE USE AS YOUR ADDRESS</div>
-              <div id="map">
-              </div>
+              <div id="map"></div>
               <a href="#mapView" id="scrollMapTOView"></a>
 
-              <div class="row mt-1">
-                <div class="col-12 col-sm-6">
-                  <div class="input-group mb-3 ">
-                    <span class="input-group-text bg-dark text-white">Latitude</span>
-                    <input  class="form-control" type="number" id="inputGuardAmount" name="inputGuardAmount"  placeholder="Enter Latitude"  required>
-                    <span class="input-group-text bg-dark text-white">Degree</span>
-                  </div>
+              <hr>
+              <div class="form-group mt-4">
+                <div class="alert alert-info" style="text-align:center ;" id="siteOwner2" role="alert">
+                  JOHN LISONN SITES
                 </div>
-                <div class="col-12 col-sm-6">
-                  <div class="input-group mb-3 ">
-                    <span class="input-group-text  bg-dark text-white">Longitude </span>
-                    <input  class="form-control" type="number" id="inputGuardAmount" name="inputGuardAmount"  placeholder="Enter Longitude"  required>
-                    <span class="input-group-text bg-dark text-white">Degree</span>
+                <div id="siteContainer" class="row">
+                  <div class="alert alert-primary outline" role="alert">
+                    NO SITE HAS BEEN ADDED
                   </div>
+
                 </div>
+
               </div>
             </div>
           </div>
@@ -736,7 +581,7 @@
                 </li>
 
                 <li class="item">
-                  <a href="customer.html" class="link">Customer</a>
+                  <a href="customer.html" class="link">User management</a>
                   <i class="separator icofont-thin-right"></i>
                 </li>
 
@@ -870,18 +715,6 @@
                   <span class="input-group-text">Meter</span>
                 </div>
 
-                <div class="input-group mb-3 ">
-                  <span class="input-group-text">Latitude</span>
-                  <input  class="form-control" type="number" id="inputGuardAmount" name="inputGuardAmount"  placeholder="Enter Latitude"  required>
-                  <span class="input-group-text">Degree</span>
-                </div>
-
-                <div class="input-group mb-3 ">
-                  <span class="input-group-text">Longitude </span>
-                  <input  class="form-control" type="number" id="inputGuardAmount" name="inputGuardAmount"  placeholder="Enter Longitude"  required>
-                  <span class="input-group-text">Degree</span>
-                </div>
-
                 <div class="input-group mb-3">
                   <span class="input-group-text">$</span>
                   <input class="form-control"  type="text"  name="jobAmount"  id="jobAmount" value=${val.sites[i].client_charge} required>
@@ -897,12 +730,12 @@
                 </div>
 
                 <div class="input-group mb-3">
-                  <input class="form-control" type="text" name="siteName" id="siteName" value="${val.sites[i].site_name}" >
+                  <input class="form-control" type="text" name="siteName" id="siteName" value="${val.sites[i].site_name}" readonly>
                   <span class="input-group-text">Site name</span>
                 </div>
 
                 <div class="input-group mb-3">
-                  <textarea class="form-control" rows="4"  id="address" placeholder="${val.sites[i].address}"></textarea>
+                  <textarea class="form-control" rows="4"  id="address" placeholder="${val.sites[i].address}" readonly></textarea>
                   <span class="input-group-text">Address</span>
 
                 </div>

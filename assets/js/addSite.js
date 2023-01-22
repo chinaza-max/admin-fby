@@ -66,7 +66,7 @@ function disPlayData(val){
                  <div class="card " style="border: 1px solid #d3d3e7; padding: 20px 5px 20px 5px">
                  
                   <div class="card-body">
-                    <form  class="updateForm>
+                    <form  class="updateForm">
                       <div class="form-group">
                         <label>Site name</label>
                         <input class="form-control update${val.sites[i].id}" type="text" name="siteName" id="siteName" value="${val.sites[i].site_name}" readonly>
@@ -169,9 +169,6 @@ submitSite.addEventListener("submit",(e)=>{
 
     console.log(site_name,guard_charge,client_charge,operations_area_constraint,longitude,latitude,customer_id, siteAddress )
     
-
-    console.log("sent sent sent sent")
-
           $.ajax({
             type: "post", url:`${domain}/api/v1/customer/createFacility`,
             headers: {

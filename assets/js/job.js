@@ -240,6 +240,8 @@ function getAvailableGuard(modalId,picker){
     headers: {
       "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
     },
+    dataType  : 'json',
+    encode  : true,
     data: {
       job_id:job_id_for_schedule,
     },
@@ -2100,7 +2102,10 @@ $(function(){
             <td>
               <div class="text-muted text-nowrap">
         
-              <progress id="file" value="${val[i].job_progress}" max="100"></progress>
+                  <div class="progress">
+                  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: ${val[i].job_progress}%"></div>
+                  </div>
+
               </div>
             </td>
             <td>
@@ -2224,7 +2229,9 @@ $(function(){
             </td>
             <td>
               <div class="text-muted text-nowrap">
-              <progress id="file" value="${val[i].job_progress}" max="100"> 32% </progress>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: ${val[i].job_progress}%"></div>
+                </div>
               </div>
             </td>
             <td>
@@ -2347,7 +2354,9 @@ $(function(){
             <td>
               <div class="text-muted text-nowrap">
              
-              <progress id="file" value="${val[i].job_progress}" max="100"> 32% </progress>
+                <div class="progress">
+                <div class="progress-bar progress-bar-striped " role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: ${val[i].job_progress}%"></div>
+                </div>
 
               </div>
             </td>

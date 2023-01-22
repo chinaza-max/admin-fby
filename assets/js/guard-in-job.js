@@ -1,6 +1,8 @@
 let limit=15,
 offset=0,
-getTableData='';
+getTableData='',
+getAllGuard='',
+activeGuardScheduleAll='';
 job_id=activeUserID
 
 
@@ -149,8 +151,66 @@ $(document).ready(function(){
 
         
     }
+
+
+    function getAllGuard(){
+        $.ajax({
+            type: "post", url:`${domain}/api/v1/job/getGuard`,
+            dataType  : 'json',
+            encode  : true,
+            headers: {
+              "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+            },
+            data: {
+              job_id,
+            },
+            success: function (data) {
+        
+                  displayGuard(data.data,"selectpickerReassign")
+                setTimeout(() => {
+                        hideModal()
+                }, 3000);
+        
+            },
+            error: function (request, status, error) {
+        
+                analyzeError(request)
+             
+            }
+          });
+    }
+
+    getAllGuard()
+
     
   });
+
+
+
+  function displayGuard(val,picker){
+    let data=''
+
+   
+      for(let i=0;i<val.length;i++){
+          data+=`
+          <option data-name=${val[i].guard_id}>${val[i].full_name}</option>
+          `
+          if(i==val.length-1){
+
+            $(`.${picker}`).children().remove();
+            $(`.${picker}`).append(data)
+            $('.selectpicker').selectpicker('refresh')
+
+          }
+      }
+      if(val.length==0){
+        $(`.${picker}`).children().remove();
+        $(`.${picker}`).selectpicker('refresh')
+
+      }
+
+
+}
 
 
   
@@ -220,6 +280,9 @@ function getSchedule(guard_id ,job_id){
         success: function (data) {
 
             $('#loader2').css("display","none");
+            console.log(data.data)
+           
+            formatDateForReschedule(data.data)
             displaySchedule(data.data)
           
         },
@@ -264,9 +327,6 @@ function displaySchedule(val){
                   <div class="actions">
                     <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteSingleGuardSchedule(${val[i].schedule_id},${val[i].guard_id},${val[i].job_id})">
                       <span class="btn-icon icofont-ui-delete"></span>
-                    </button>
-                    <button type="button" class="btn btn-outline-primary"
-                        onclick="toggleScheduleAcceptance(${val[i].schedule_id},${val[i].guard_id},${val[i].job_id},'false')">Reject
                     </button>
                   </div>     
                 </td>
@@ -661,6 +721,8 @@ function getLogSecurityCheck(guard_id ,job_id){
         headers: {
             "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
         },
+        dataType  : 'json',
+        encode  : true,
         data: {
             guard_id,
             job_id      
@@ -761,6 +823,8 @@ function getLog(guard_id ,job_id){
         headers: {
             "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
         },
+        dataType  : 'json',
+        encode  : true,
         data: {
             guard_id,
             job_id      
@@ -926,6 +990,8 @@ function deleteSingleGuardSchedule(schedule_id,guard_id,job_id){
             headers: {
                 "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
                 },
+                dataType  : 'json',
+                encode  : true,
             data: {
                 schedule_id,
                 guard_id
@@ -976,6 +1042,8 @@ function deleteSingleGuardSchedule(schedule_id,guard_id,job_id){
         headers: {
             "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
         },
+        dataType  : 'json',
+        encode  : true,
         data: {
             job_id,
           guard_id
@@ -1017,3 +1085,59 @@ function setGuardId(val){
     const encodedData = btoa(val);
     localStorage.setItem("guardId",encodedData)
 }
+
+function formatDateForReschedule(schedule){
+
+    let mySchedule =[]
+    if(schedule.length!==0){
+        for (let i = 0; i < schedule.length; i++) {
+
+            mySchedule.push({check_in_date:moment(new Date(schedule[i].check_in_date+' '+schedule[i].start_time)).format("YYYY-MM-DD hh:mm:ss a"),
+            check_out_date:moment(new Date(schedule[i].check_out_date+' '+schedule[i].end_time )).format("YYYY-MM-DD hh:mm:ss a"),
+            start_time:moment(new Date(schedule[i].check_in_date+' '+schedule[i].start_time)).format("hh:mm:ss a"),
+            end_time:moment(new Date(schedule[i].check_out_date+' '+schedule[i].end_time)).format("hh:mm:ss a"),
+            status_per_staff:"PENDING",
+            job_id:job_id,
+            schedule_length:"LIMITED"
+          })
+
+          if(i==schedule.length-1){
+            activeGuardScheduleAll=mySchedule
+          }
+        }
+    }
+  
+}
+
+let all_form_for_adding_guard=document.getElementById("all_form_for_adding_guard")
+
+
+all_form_for_adding_guard.addEventListener("submit",(e)=>{
+    e.preventDefault()
+
+
+
+    $.ajax({
+        type: "post", url:`${domain}/api/v1/job/add_shedule_date_staff`,
+        headers: {
+          "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+        },
+        data: {
+          date_time_staff_shedule:JSON.stringify(obj),
+        },
+        success: function (data, text) {
+  
+            showModal(data.message)
+            setTimeout(() => {
+                    hideModal()
+            }, 3000);
+  
+        },
+        error: function (request, status, error) {
+          analyzeError(request)      
+        }
+      })
+
+
+  
+})

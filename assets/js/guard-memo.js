@@ -2,14 +2,7 @@
 
 
 
-
-
-
-
-let getAllMemo=''
-
 $(document).ready(function() {
-
 
 
     $j('#summernote').summernote({
@@ -22,6 +15,7 @@ $(document).ready(function() {
         ['height', ['height']]
       ]
     });
+
 //guard limit and offset not been use
   $.ajax({
       type: "get", url:`${domain}/api/v1/user/getAllStaff?role=ALL_GUARD&limit=${15}&offset=${0}`,
@@ -88,221 +82,129 @@ $(document).ready(function() {
 
 
 
-  getAllMemo=function(){
-    $.ajax({
-      type: "get", url:`${domain}/api/v1/job/allMemoDetail?type=allMemo`,
-      headers: {
+
+  var table =$('#example').DataTable({
+    ajax: {
+        url: `${domain}/api/v1/job/allMemoDetail?type=allMemo`,
+        method: "get",
+        dataType  : 'json',
+        encode  : true,  
+        headers: {
           "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+        },
       },
-      dataType  : 'json',
-      encode  : true,
-    
-      success: function (data) {
+      columnDefs: [
+        {
+          render: function (data, type, full, meta) {
+              return "<div   class='text-nowrap  width-200' >" + data + "</div>";
+          },
+          targets: 1
+        },
+        {
+          render: function (data, type, full, meta) {
 
-        console.log(data)
 
-          displayMemo(data.data)
+            
+            return  `
+              <button type="button" onclick="guardOnMemo(${data})" class="btn btn-outline-primary" data-toggle="modal" data-target="#guards">
+                Send to
+              </button>                      
 
-      },
-      error: function (request, status, error) {
+              <button type="button" class="btn btn-outline-danger mt-1" onclick="deleteMemo(${data})">
+                <span class="d-none d-sm-block">Remove</span>
+                <span class="d-sm-none">Delete</span>
+              </button>
+            </div>
+        `
 
-        analyzeError(request)
+          },
+          targets: 6
+        }
+        ,
+        {
+          render: function (data, type, full, meta) {
+
+
+
+            if(data=="Sent"){
+              return  `<span class="badge badge-pill badge-success">SENT</span>
+              `
+            }
+            else if(data=="Pending"){
+              return  `<span class="badge badge-pill badge-info">PENDING</span>
+              `
+            }
+
+
+              `
+              <button type="button" onclick="guardOnMemo(${data})" class="btn btn-outline-primary" data-toggle="modal" data-target="#guards">
+                Send to
+              </button>                      
+
+              <button type="button" class="btn btn-outline-danger mt-1" onclick="deleteMemo(${data})">
+                <span class="d-none d-sm-block">Remove</span>
+                <span class="d-sm-none">Delete</span>
+              </button>
+            </div>
+        `
+
+          },
+          targets: 5
+        }
+      ],
       
-      }
-  });
-  }
-  getAllMemo()
+      columns:[
+        { data: "Created" },
+        { data: "CreatedBy" },
+        { data: "message" },
+        { data: "message_length" },
+        { data: "send_date" },
+        { data: "send_status" },
+        { data: "id" }
+        ],
+        select: true,
+        responsive: true,
+        createdRow: function (row, data, index) {
 
+            if (data["settlement_status"] == "empty") {
+                $('td', row).css('background-color','#B5BCB5');
+                $('td', row).css('color', 'white');
+
+            }
+            else if(data["settlement_status"] == false){
+                $('td', row).css('background-color', '#F43939');
+                $('td', row).css('color', 'white');
+            }
+            else if(data["settlement_status"] == true){
+                $('td', row).css('background-color', '#39F447');
+                $('td', row).css('color', 'white');
+            }
+        },
+        order:[[ 0, 'dsc']]
+
+
+})
+
+
+
+setTimeout(() => {
+
+  let column1 = table.column(3);
+  column1.visible(!column1.visible());
+
+  }, 1000);
 
 });
 
-function displayMemo(val){
-
-  let data=''
-
-  if(val.length!=0){
-
-      for(let i=0; i<val.length; i++){
-
-        if(val[i].send_status=="Sent"){
-
-            if(val[i].message_length <500){
-              data+=` <div class="col-12 col-md-4">
-              <div class="card department bg-light bg-gradient">
-                <div class="card-body">
-                  <h3 class="h5 mt-0">${val[i].CreatedBy}</h3>
-  
-                  <div style="min-height:180px;">${val[i].message}
-                  </div>
-  
-                  <div class="team  align-items-center">
-                    
-                      <h6>Status <span class="badge badge-secondary badge-inside">Sent</span></h6>
-                      <h6>Sent on  : ${val[i].send_date}</h6>
-                      <h6>Created : ${val[i].Created}</h6>
-                  </div>
-  
-  
-                  <div class="row">
-                    <div class="col">
-                      <button type="button" onclick="guardOnMemo(${val[i].id})" class="btn btn-outline-primary"  data-toggle="modal" data-target="#guards">
-                        Sent to
-                      </button>                      
-                    </div>
-                    <div class="col text-end">
-                      <button type="button" class="btn btn-outline-danger"  onclick="deleteMemo(${val[i].id})">
-                        <span class="d-none d-sm-block">Remove</span>
-                        <span class="d-sm-none">Delete</span>
-                      </button>
-                    </div>
-                  </div>
-  
-                  
-                </div>
-              </div>
-            </div>`
-            }
-            else{
-              data+=` <div class="col-12 col-md-4">
-              <div class="card department bg-light bg-gradient">
-                <div class="card-body">
-                  <h3 class="h5 mt-0">${val[i].CreatedBy}</h3>
-  
-                  <div style="height:160px;overflow-y: hidden;">${val[i].message}
-                  </div>
-                  <a href="#" onclick="getFullMessage(${val[i].id})"  data-toggle="modal" data-target="#memo-message">more</a>
-
-  
-                  <div class="team  align-items-center">
-                    
-                      <h6>Status <span class="badge badge-secondary badge-inside">Sent</span></h6>
-                      <h6>Sent on  : ${val[i].send_date}</h6>
-                      <h6>Created : ${val[i].Created}</h6>
-                  </div>
-  
-  
-                  <div class="row">
-                    <div class="col">
-                      <button type="button" onclick="guardOnMemo(${val[i].id})" class="btn btn-outline-primary"  data-toggle="modal" data-target="#guards">
-                        Sent to
-                      </button>                      
-                    </div>
-                    <div class="col text-end">
-                      <button type="button" class="btn btn-outline-danger" onclick="deleteMemo(${val[i].id})">
-                        <span class="d-none d-sm-block">Remove</span>
-                        <span class="d-sm-none">Delete</span>
-                      </button>
-                    </div>
-                  </div>
-  
-                  
-                </div>
-              </div>
-            </div>`
-            }
-        }
-        else if(val[i].send_status=="Pending"){
 
 
-            if(val[i].message_length <500){
-              data+=`  <div class="col-12 col-md-4">
-              <div class="card department bg-light bg-gradient" >
-    
-                <div class="card-body">
-    
-                  <h3 class="h5 mt-0">${val[i].CreatedBy}</h3>
-    
-    
-                  <div style="min-height:180px;">
-                  ${val[i].message}
-                  </div>
-    
-                  <div class="team  align-items-center">
-                      <h6>Status <span class="badge badge-secondary badge-inside">Pending</span></h6>
-                      <h6>Delivery date: ${val[i].send_date}</h6>
-                      <h6>Created : ${val[i].Created}</h6>
-                  </div>
-    
-    
-                  <div class="row">
-                    <div class="col">
-                      <button type="button" onclick="guardOnMemo(${val[i].id})" class="btn btn-outline-primary" data-toggle="modal" data-target="#guards">
-                        Send to
-                      </button>                      
-                    </div>
-                    <div class="col text-end">
-                      <button type="button" class="btn btn-outline-danger" onclick="deleteMemo(${val[i].id})">
-                        <span class="d-none d-sm-block">Remove</span>
-                        <span class="d-sm-none">Delete</span>
-                      </button>
-                    </div>
-                  </div>
-    
-                  
-                </div>
-              </div>
-            </div>`
-            }
-            else{
-              data+=`  <div class="col-12 col-md-4">
-              <div class="card department bg-light bg-gradient" >
-    
-                <div class="card-body">
-    
-                  <h3 class="h5 mt-0">${val[i].CreatedBy}</h3>
-    
-    
-                  <div style="height:160px;overflow-y: hidden">
-                  ${val[i].message}
-                    
-                  </div>
-                  <a href="#"  onclick="getFullMessage(${val[i].id})" data-toggle="modal" data-target="#memo-message">more</a>
-    
-                  <div class="team  align-items-center">
-                      <h6>Status <span class="badge badge-secondary badge-inside">Pending</span></h6>
-                      <h6>Delivery date: ${val[i].send_date}</h6>
-                      <h6>Created : ${val[i].Created}</h6>
-                  </div>
-    
-    
-                  <div class="row">
-                    <div class="col">
-                      <button type="button" onclick="guardOnMemo(${val[i].id})" class="btn btn-outline-primary" data-toggle="modal" data-target="#guards">
-                        Send to
-                      </button>                      
-                    </div>
-                    <div class="col text-end">
-                      <button type="button" class="btn btn-outline-danger" onclick="deleteMemo(${val[i].id})">
-                        <span class="d-none d-sm-block">Remove</span>
-                        <span class="d-sm-none">Delete</span>
-                      </button>
-                    </div>
-                  </div>
-    
-                  
-                </div>
-              </div>
-            </div>`
-            }
-        }
 
-          if(i==val.length-1){
 
-              $('#memoContainer').children().remove();
-              $("#memoContainer").append(data)
-          }
-      }
-  }
-  else{
-      $('#memoContainer').children().remove();
-      $("#memoContainer").append(`
-  
-      <div class="alert alert-light outline text-dark " role="alert" style="text-align:center;">
-      YOU HAVE NO MEMO
-    </div>
-      `)
-  }    
-}
+
+
+
+
+
 
 
 
@@ -572,7 +474,6 @@ document.getElementById("uploadButton").addEventListener("click", myFunction);
           $j("#RegisterationSuccessFull").modal('show');
 
           setTimeout(() => {
-            getAllMemo()
           }, 200);
           setTimeout(() => {
 
@@ -600,6 +501,10 @@ document.getElementById("uploadButton").addEventListener("click", myFunction);
   }
 
   function guardOnMemo(id){
+
+
+    //$('#loader2').css("display","block");
+
     $.ajax({
       type: "get", url:`${domain}/api/v1/job/allMemoDetail?type=guardDetails&id=${id}`,
       headers: {
@@ -609,15 +514,22 @@ document.getElementById("uploadButton").addEventListener("click", myFunction);
       encode  : true,
     
       success: function (data) {
+
+      //  $('#loader2').css("display","none");
+
        displayGuardInMemo(data.data)
       },
       error: function (request, status, error) {
   
-        analyzeError(request)
+      //  $('#loader2').css("display","none");
+        analyzeError(request) 
       
       }
   });
   }
+
+
+
   
   function displayGuardInMemo(val){
 
@@ -659,6 +571,8 @@ document.getElementById("uploadButton").addEventListener("click", myFunction);
 
   function getMemoReply(id,guard_id){
 
+   // $('#loader3').css("display","block");
+
 
     $.ajax({
       type: "get", url:`${domain}/api/v1/job/allMemoDetail?type=guardMessageOnly&id=${id}&guard_id=${guard_id}`,
@@ -670,6 +584,8 @@ document.getElementById("uploadButton").addEventListener("click", myFunction);
     
       success: function (data) {
       
+       // $('#loader3').css("display","none");
+
         $("#containerForGuardReply").text(data.data[0].message)
         $("#guardNameWithreply").text(data.data[0].full_name)
         $("#guardReplyDate").text(data.data[0].read_date)
@@ -677,6 +593,7 @@ document.getElementById("uploadButton").addEventListener("click", myFunction);
 
       },
       error: function (request, status, error) {
+       // $('#loader3').css("display","none");
         analyzeError(request)
       
       }
@@ -714,7 +631,6 @@ document.getElementById("uploadButton").addEventListener("click", myFunction);
               $j("#RegisterationSuccessFull").modal('show');
     
               setTimeout(() => {
-                getAllMemo()
               }, 200);
               setTimeout(() => {
     

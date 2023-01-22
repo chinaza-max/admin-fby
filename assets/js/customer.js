@@ -71,7 +71,7 @@ formAdminReg.addEventListener("submit",(e)=>{
 
                 setTimeout(() => {
                         hideModal()
-                }, 3000);
+                }, 3000)
 
                 $("#signInButton").css("display","block")
                 $("#loadingButton").css("display","none")
@@ -148,10 +148,7 @@ $(document).ready(function(){
             dataType  : 'json',
             encode  : true,
           
-            success: function (data, text) {
-
-
-                console.log(data.data)
+            success: function (data) {
                 
                 $('#loader1').css("display","none");
 
@@ -383,7 +380,7 @@ function deleteCustomer(id){
         data: {
           address_id:id      
         },
-        success: function (data, text) {
+        success: function (data) {
     
             showModal(data.message)
             limit=15

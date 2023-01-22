@@ -326,58 +326,276 @@
 
       <div class="main-content-wrap">
         <div class="page-content">
-        
-            <div class="card">
-                <div class="card-header">
-                  Customer
-                </div>
-                <div class="card-body">
-                  <div class="table-responsive">
-                    <table class="table table-hover">
-                      <thead>
-                      <tr class="bg-primary text-white">
-                        <th scope="col">ID</th>
-                        <th scope="col">Photo</th>
-                        <th scope="col">Name</th>
-                        <th scope="col " class="text-nowrap">Site No</th>
-                        <th scope="col">Address</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Phone</th>
-                        <th scope="col">Gender</th>
-                        <th scope="col">Actions</th>
-                      </tr>
-                      </thead>
-                      <tbody id="mytable1">
-                    
-                       
 
-                      </tbody>
-                    </table>
-                    <div class="text-center" id="loader1">
-                      <div class="spinner-border" role="status">
-                        <span class="sr-only">Loading...</span>
-                      </div>
-                    </div>
-                  </div>
+          <div class="card">
+            <div class="card-header">
+              Customer
+            </div>
+
+            <div class="card-body">
+              <ul class="nav nav-pills mb-3" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-1" type="button" role="tab" aria-controls="tab-1" aria-selected="true">Available customer</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-2" type="button" role="tab" aria-controls="tab-2" aria-selected="false">Suspended customer</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-3" type="button" role="tab" aria-controls="tab-3" aria-selected="false">Deleted customer</button>
+                </li>
+              </ul>
+              <div class="tab-content">
+                <div class="tab-pane fade show active" id="tab-1" role="tabpanel">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="table-responsive">
+                        <table class="table table-hover">
+                          <thead>
+                          <tr class="bg-primary text-white">
+                            <th scope="col">#</th>
+                            <th scope="col">Photo</th>
+                            <th scope="col">Name</th>
+                            <th scope="col " class="text-nowrap">Site No</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Gender</th>
+                            <th scope="col">Actions</th>
+                          </tr>
+                          </thead>
+                          <tbody id="mytable1">
+                        
+                           
     
-                  <nav class="mt-4">
-                    <ul class="pagination">
-                      <li id="Previous" class="page-item disabled" onclick="Previous()">
-                        <a class="page-link" href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
-                          <span class="icofont-simple-left"></span>
-                        </a>
-                      </li>
-                      
-                      <li id="Next" class="page-item active" onclick="Next()">
-                        <a class="page-link" href="#" aria-label="Next">
-                          <span class="icofont-simple-right"></span>
-                        </a>
-                      </li>
-                    </ul>
-                  </nav>
-                 
+                          </tbody>
+                        </table>
+                        <div class="text-center" id="loader1">
+                          <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                          </div>
+                        </div>
+                      </div>
+        
+                      <nav class="mt-4">
+                        <ul class="pagination">
+                          <li id="Previous" class="page-item disabled" onclick="Previous()">
+                            <a class="page-link" href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
+                              <span class="icofont-simple-left"></span>
+                            </a>
+                          </li>
+                          
+                          <li id="Next" class="page-item active" onclick="Next()">
+                            <a class="page-link" href="#" aria-label="Next">
+                              <span class="icofont-simple-right"></span>
+                            </a>
+                          </li>
+                        </ul>
+                      </nav>
+                     
+                    </div>
                 </div>
+                </div>
+                <div class="tab-pane fade" id="tab-2" role="tabpanel">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="table-responsive">
+                        <table class="table table-hover">
+                          <thead>
+                          <tr class="bg-primary text-white">
+                            <th scope="col">#</th>
+                            <th scope="col">Photo</th>
+                            <th scope="col">Name</th>
+                            <th scope="col " class="text-nowrap">Site No</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Gender</th>
+                            <th scope="col">Actions</th>
+                          </tr>
+                          </thead>
+                          <tbody id="mytable1">
+                        
+                            <tr>
+                              <td>
+                              ${offset+i+1}
+                            </td>
+                              <td>
+                                <img src=${val[i].image} alt="" width="40" height="40" class="rounded-500">
+                              </td>
+                              
+                              <td>
+                                <strong>${val[i].full_name}</strong>
+                              </td>
+                              
+                              <td>
+                                <div class="text-muted text-nowrap">${val[i].sites.length}</div>
+                              </td>
+                              <td>
+                                <div class="address-col">${val[i].address}</div>
+                              </td>
+                              <td>
+                                <div class="d-flex align-items-center nowrap text-primary">
+                                ${val[i].email}
+                                </div>
+                              </td>
+              
+                              <td>
+              
+                                <div class="d-flex align-items-center nowrap text-primary">
+                                      <span class="icofont-ui-cell-phone p-0 me-2"></span>
+                                      ${val[i].phone_number}
+                                    </div>
+                              </td>
+                              <td>
+                                <div class="text-muted text-nowrap">${val[i].gender}</div>
+                              </td>
+                              <td>
+                                <div class="actions">
+                                  <button onclick="storeCurrentUserID()"  data-bs-toggle="modal" data-bs-target="#suspension_details"  class="btn btn-dark btn-sm btn-square rounded-pill">
+                                    <span class="btn-icon icofont-external-link"></span>
+                                  </button>
+                                  <button  onclick="storeCurrentUserID()"  data-bs-toggle="modal" data-bs-target="#edit"  class="btn btn-info btn-sm btn-square rounded-pill">
+                                    <span class="btn-icon icofont-ui-edit"></span>
+                                  </button>
+                                  <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteCustomer()">
+                                    <span class="btn-icon icofont-ui-delete"></span>
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+    
+                          </tbody>
+                        </table>
+                        <div class="text-center" id="loader1">
+                          <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                          </div>
+                        </div>
+                      </div>
+        
+                      <nav class="mt-4">
+                        <ul class="pagination">
+                          <li id="Previous" class="page-item disabled" onclick="Previous()">
+                            <a class="page-link" href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
+                              <span class="icofont-simple-left"></span>
+                            </a>
+                          </li>
+                          
+                          <li id="Next" class="page-item active" onclick="Next()">
+                            <a class="page-link" href="#" aria-label="Next">
+                              <span class="icofont-simple-right"></span>
+                            </a>
+                          </li>
+                        </ul>
+                      </nav>
+                     
+                    </div>
+                </div>
+                </div>
+                <div class="tab-pane fade" id="tab-3" role="tabpanel">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="table-responsive">
+                        <table class="table table-hover">
+                          <thead>
+                          <tr class="bg-primary text-white">
+                            <th scope="col">#</th>
+                            <th scope="col">Photo</th>
+                            <th scope="col">Name</th>
+                            <th scope="col " class="text-nowrap">Site No</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Gender</th>
+                            <th scope="col">Actions</th>
+                          </tr>
+                          </thead>
+                          <tbody id="mytable1">
+                        
+                            <tr>
+                              <td>
+                              ${offset+i+1}
+                            </td>
+                              <td>
+                                <img src=${val[i].image} alt="" width="40" height="40" class="rounded-500">
+                              </td>
+                              
+                              <td>
+                                <strong>${val[i].full_name}</strong>
+                              </td>
+                              
+                              <td>
+                                <div class="text-muted text-nowrap">${val[i].sites.length}</div>
+                              </td>
+                              <td>
+                                <div class="address-col">${val[i].address}</div>
+                              </td>
+                              <td>
+                                <div class="d-flex align-items-center nowrap text-primary">
+                                ${val[i].email}
+                                </div>
+                              </td>
+              
+                              <td>
+              
+                                <div class="d-flex align-items-center nowrap text-primary">
+                                      <span class="icofont-ui-cell-phone p-0 me-2"></span>
+                                      ${val[i].phone_number}
+                                    </div>
+                              </td>
+                              <td>
+                                <div class="text-muted text-nowrap">${val[i].gender}</div>
+                              </td>
+                              <td>
+                                <div class="actions">
+
+                                  <button onclick="storeCurrentUserID()"  data-bs-toggle="modal" data-bs-target="#suspension_details"  class="btn btn-dark btn-sm btn-square rounded-pill">
+                                    <span class="btn-icon icofont-external-link"></span>
+                                  </button>
+                             
+                                  <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteCustomer(${val[i].address_id})">
+                                    <span class="btn-icon icofont-ui-delete"></span>
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+    
+                          </tbody>
+                        </table>
+                        <div class="text-center" id="loader1">
+                          <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                          </div>
+                        </div>
+                      </div>
+        
+                      <nav class="mt-4">
+                        <ul class="pagination">
+                          <li id="Previous" class="page-item disabled" onclick="Previous()">
+                            <a class="page-link" href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
+                              <span class="icofont-simple-left"></span>
+                            </a>
+                          </li>
+                          
+                          <li id="Next" class="page-item active" onclick="Next()">
+                            <a class="page-link" href="#" aria-label="Next">
+                              <span class="icofont-simple-right"></span>
+                            </a>
+                          </li>
+                        </ul>
+                      </nav>
+                     
+                    </div>
+                </div>
+                  </div>
               </div>
+            </div>
+            
+          </div>
+
+
+        
+          
             
 
               <div class="add-action-box">
@@ -527,18 +745,10 @@
       </div>
       <form  id="formCustomerReg">
       <div class="modal-body">
-        
           <div class="form-group">
-            <label>First name</label>
+            <label>Company's name</label>
             <input class="form-control" type="text" name="firstName" placeholder="Type first name..." required>
-          </div>
-
-          <div class="form-group">
-            <label>Last name</label>
-            <input class="form-control" type="text"  name="lastName" placeholder="Type last name..." required>
-          </div>
-
-      
+          </div>      
 
           <div class="row">
             <div class="col-12 col-md-6">
@@ -556,8 +766,6 @@
             </div>
 
             </div>
-
-
 
           <div class="row">
             <div class="col-12 col-md-6">
@@ -598,6 +806,87 @@
       </div>
 
     </form>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Job setting</h5>
+      </div>
+      <div class="modal-body">
+
+
+        <form>
+          <div class="form-group">
+            <label>Job status</label>
+            <select class="selectpicker selectpickerStatusChange" onchange="updateJobStatus()">
+              <option value="horizontal-layout" data-tokens="ACTIVE">ACTIVE</option>
+              <option value="horizontal" data-tokens="PENDING">SUSPEND</option>
+
+            </select>
+          </div>
+
+        </form>
+
+      </div>
+      <div class="modal-footer d-block">
+        <div class="actions justify-content-between">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-info" onclick="changeJobStatus()" id="saveButton">Save</button>
+
+          <button type="button" class="btn btn-primary btn-load" id="loadingButton2">
+            Primary
+            <span class="btn-loader icofont-spinner"></span>
+          </button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="suspension_details" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Suspension details</h5>
+      </div>
+  
+      <div class="modal-body">
+   
+            <div class="table-responsive">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                  <tr>
+                    <th scope="col "  class="text-nowrap">Suspended by</th>
+                    <th scope="col "  class="text-nowrap">Staff id</th>
+                    <th scope="col "  class="text-nowrap">Suspended on</th>
+                    <th scope="col "  class="text-nowrap">Suspension reason</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td>lolo kinnd</td>
+                    <td>14</td>
+                    <td>2023  09:02 AM</td>
+                    <td>He refuse to pay up balance</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+     
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+      </div>
     </div>
   </div>
 </div>

@@ -259,13 +259,16 @@ $(document).ready(function(){
                   </td>
                   <td>
                     <div class="actions">
-                  
-                      <button href="#" onclick="storeCurrentUserID(${val[i].id})"  class="btn btn-info btn-sm btn-square rounded-pill disabled">
+                      <a href="staff-profile.html" class="btn btn-dark btn-sm btn-square rounded-pill">
+                        <span class="btn-icon icofont-external-link"></span>
+                      </a>
+                      <button  onclick="storeCurrentUserID(${val[i].id})"  class="btn btn-info btn-sm btn-square rounded-pill disabled">
                         <span class="btn-icon icofont-ui-edit"></span>
                       </button disabled>
                       <button class="btn btn-error btn-sm btn-square rounded-pill disabled" onclick="deleteAdmin(${val[i].address_id})">
                         <span class="btn-icon icofont-ui-delete"></span>
                       </button>
+                      
                     </div>
                   </td>
                 </tr>`
@@ -305,10 +308,12 @@ $(document).ready(function(){
                   </td>
                   <td>
                     <div class="actions">
-                  
-                      <a href="#" onclick="storeCurrentUserID(${val[i].id})"  class="btn btn-info btn-sm btn-square rounded-pill">
-                        <span class="btn-icon icofont-ui-edit"></span>
+                      <a href="staff-profile.html" class="btn btn-dark btn-sm btn-square rounded-pill">
+                      <span class="btn-icon icofont-external-link"></span>
                       </a>
+                      <button  onclick="storeCurrentUserID(${val[i].id})"  class="btn btn-info btn-sm btn-square rounded-pill">
+                        <span class="btn-icon icofont-ui-edit"></span>
+                      </button>
                       <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteAdmin(${val[i].address_id})">
                         <span class="btn-icon icofont-ui-delete"></span>
                       </button>
