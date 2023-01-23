@@ -2,7 +2,16 @@ let limit=15,
 offset=0,
 getTableData='',
 getAllGuard='',
-activeGuardScheduleAll='';
+scheduleIdToAddNote='',
+activeGuardInstruction=[],
+activeGuardTask=[],
+activeGuardInstructionStatus=true,
+activeGuardTaskStatus=true,
+activeGuardScheduleAll=[];
+
+
+let ReAssignButton=document.getElementById("ReAssignButton")
+
 job_id=activeUserID
 
 
@@ -142,16 +151,12 @@ $(document).ready(function(){
     }
 
     function updateTopContent(val){
-
     
         $("#des").text("JOB DESCRIPTION: "+val.job.description)
         $("#name").text("SITE NAME: "+val.site.name)
         $("#timeZone").text("TIME ZONE: "+val.site.time_zone)
-        $("#qr_code_count").text(val.job.no_qr_code)
-
-        
+        $("#qr_code_count").text(val.job.no_qr_code)   
     }
-
 
     function getAllGuard(){
         $.ajax({
@@ -165,7 +170,8 @@ $(document).ready(function(){
               job_id,
             },
             success: function (data) {
-        
+
+                    console.log(data.data)
                   displayGuard(data.data,"selectpickerReassign")
                 setTimeout(() => {
                         hideModal()
@@ -181,15 +187,11 @@ $(document).ready(function(){
     }
 
     getAllGuard()
-
-    
   });
-
 
 
   function displayGuard(val,picker){
     let data=''
-
    
       for(let i=0;i<val.length;i++){
           data+=`
@@ -273,6 +275,8 @@ function getSchedule(guard_id ,job_id){
         headers: {
             "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
         },
+        dataType  : 'json',
+        encode  : true,
         data: {
             guard_id,
             job_id      
@@ -281,8 +285,6 @@ function getSchedule(guard_id ,job_id){
 
             $('#loader2').css("display","none");
             console.log(data.data)
-           
-            formatDateForReschedule(data.data)
             displaySchedule(data.data)
           
         },
@@ -297,82 +299,241 @@ function getSchedule(guard_id ,job_id){
 
 
 function displaySchedule(val){
-
-    let data=''
+    activeGuardScheduleAll=[]
+    
+     let data=''
+    if(val[0].is_started_all==true||val.length==0){
+        $("#ReAssignButton").attr("disabled", true);
+    }
 
     for(let i=0; i<val.length; i++){
+        
+        if(val[i].is_started==false){
+            activeGuardScheduleAll.push(val[i])
+            $("#ReAssignButton").removeAttr("disabled");
 
-        if(val[i].schedule_accepted_by_admin){
-            data+= `
-            <tr>
-            <td>${i+1}</td>
-            <td>${val[i].check_in_date}</td>
-            <td>${val[i].start_time}</td>
-            <td>${val[i].check_out_date}</td>
-            <td>${val[i].end_time}</td>
-            <td>${val[i].hours}</td>
-            <td>
-                <div class="text-muted text-nowrap">
-                    <button type="button" class="btn btn-outline-primary"
-                    onclick="selectDateTime('${val[i].check_in_date}','${val[i].start_time}',${val[i].schedule_id},'Check in',${val[i].job_id},${val[i].guard_id},${i+1})">Select</button>
-                </div>
-            </td>
-            <td>
-                <div class="text-muted text-nowrap">
-                    <button type="button" class="btn btn-outline-primary"
-                    onclick="selectDateTime('${val[i].check_out_date}','${val[i].end_time}',${val[i].schedule_id},'Check out',${val[i].job_id},${val[i].guard_id},${i+1})">Select</button>
-                </div>
-            </td>
-            <td>
-                  <div class="actions">
-                    <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteSingleGuardSchedule(${val[i].schedule_id},${val[i].guard_id},${val[i].job_id})">
-                      <span class="btn-icon icofont-ui-delete"></span>
-                    </button>
-                  </div>     
-                </td>
-          </tr>
-             `
-        }
-        else{
-            data+= `
-            <tr>
-            <td>${i+1}</td>
-            <td>${val[i].check_in_date}</td>
-            <td>${val[i].start_time}</td>
-            <td>${val[i].check_out_date}</td>
-            <td>${val[i].end_time}</td>
-            <td>${val[i].hours}</td>
-            <td>
-                <div class="text-muted text-nowrap">
-                    <button type="button" class="btn btn-outline-primary"
-                    onclick="selectDateTime('${val[i].check_in_date}','${val[i].start_time}',${val[i].schedule_id},'Check in',${val[i].job_id},${val[i].guard_id},${i+1})">Select</button>
-                </div>
-            </td>
-            <td>
-                <div class="text-muted text-nowrap">
-                    <button type="button" class="btn btn-outline-primary"
-                    onclick="selectDateTime('${val[i].check_out_date}','${val[i].end_time}',${val[i].schedule_id},'Check out',${val[i].job_id},${val[i].guard_id},${i+1})">Select</button>
-                </div>
-            </td>
-            <td>
-                  <div class="actions">
-                    <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteSingleGuardSchedule(${val[i].schedule_id},${val[i].guard_id},${val[i].job_id})">
-                      <span class="btn-icon icofont-ui-delete"></span>
-                    </button>
-                    <button type="button" class="btn btn-outline-primary"
-                        onclick="toggleScheduleAcceptance(${val[i].schedule_id},${val[i].guard_id},${val[i].job_id},'true')">Accept
-                    </button>
-                  </div>
-                </td>
-          </tr>
-             `
-    
         }
       
+
+        if(val[i].is_started){
+            if(val[i].schedule_accepted_by_admin){
+
+                data+= `
+                <tr>
+                <td>${i+1}</td>
+                <td> 
+
+                <label for="">
+                    <a class="gear"  data-bs-toggle="popover" title="Reference date" data-bs-content=" Enter the actual time event took place">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                    </svg>
+                    </a>
+                </label>
+                
+                
+                
+                ${val[i].check_in_date}</td>
+                <td>${val[i].start_time}</td>
+                <td>${val[i].check_out_date}</td>
+                <td>${val[i].end_time}</td>
+                <td>${val[i].hours}</td>
+                <td>
+                    <div class="text-muted text-nowrap">
+                        <button type="button" class="btn btn-outline-primary"
+                        onclick="selectDateTime('${val[i].check_in_date}','${val[i].start_time}',${val[i].schedule_id},'Check in',${val[i].job_id},${val[i].guard_id},${i+1})">Select</button>
+                    </div>
+                </td>
+                <td>
+                    <div class="text-muted text-nowrap">
+                        <button type="button" class="btn btn-outline-primary"
+                        onclick="selectDateTime('${val[i].check_out_date}','${val[i].end_time}',${val[i].schedule_id},'Check out',${val[i].job_id},${val[i].guard_id},${i+1})">Select</button>
+                    </div>
+                </td>
+                <td>
+                      <div class="actions">
+
+                        <button class="btn btn-info btn-sm btn-square rounded-pill" data-bs-toggle="modal" data-bs-target="#add_note"  onclick="scheduleIdToAddNoteFunc(${val[i].schedule_id})">
+                            <span class="btn-icon icofont-ui-edit"></span>
+                        </button>
+                        
+                      </div>     
+                    </td>
+              </tr>
+                 `
+            }
+            else{
+                data+= `
+                <tr>
+                <td>${i+1}</td>
+                <td>${val[i].check_in_date}</td>
+                <td>${val[i].start_time}</td>
+                <td>${val[i].check_out_date}</td>
+                <td>${val[i].end_time}</td>
+                <td>${val[i].hours}</td>
+                <td>
+                    <div class="text-muted text-nowrap">
+                        <button type="button" class="btn btn-outline-primary"
+                        onclick="selectDateTime('${val[i].check_in_date}','${val[i].start_time}',${val[i].schedule_id},'Check in',${val[i].job_id},${val[i].guard_id},${i+1})">Select</button>
+                    </div>
+                </td>
+                <td>
+                    <div class="text-muted text-nowrap">
+                        <button type="button" class="btn btn-outline-primary"
+                        onclick="selectDateTime('${val[i].check_out_date}','${val[i].end_time}',${val[i].schedule_id},'Check out',${val[i].job_id},${val[i].guard_id},${i+1})">Select</button>
+                    </div>
+                </td>
+                <td>
+                      <div class="actions">
+                        
+                        <button type="button" class="btn btn-outline-primary"
+                            onclick="toggleScheduleAcceptance(${val[i].schedule_id},${val[i].guard_id},${val[i].job_id},'true')">Accept
+                        </button>
+                        
+                        <button class="btn btn-info btn-sm btn-square rounded-pill" data-bs-toggle="modal" data-bs-target="#add_note" onclick="scheduleIdToAddNoteFunc(${val[i].schedule_id})">
+                        <span class="btn-icon icofont-ui-edit"></span>
+                        </button>
+                 
+                      </div>
+                    </td>
+              </tr>
+                 `
+        
+            }
+        }
+        else{
+
+
+            if(val[i].schedule_accepted_by_admin){
+
+                data+= `
+                <tr>
+                <td>${i+1}</td>
+                <td>${val[i].check_in_date}</td>
+                <td>${val[i].start_time}</td>
+                <td>${val[i].check_out_date}</td>
+                <td>${val[i].end_time}</td>
+                <td>${val[i].hours}</td>
+                <td>
+                        
+
+
+                    <div class="text-muted text-nowrap">
+                        <button type="button" class="btn btn-outline-primary"
+                        onclick="selectDateTime('${val[i].check_in_date}','${val[i].start_time}',${val[i].schedule_id},'Check in',${val[i].job_id},${val[i].guard_id},${i+1})">Select</button>
+                    </div>
+                </td>
+                <td>
+                    <div class="text-muted text-nowrap">
+                        <button type="button" class="btn btn-outline-primary"
+                        onclick="selectDateTime('${val[i].check_out_date}','${val[i].end_time}',${val[i].schedule_id},'Check out',${val[i].job_id},${val[i].guard_id},${i+1})">Select</button>
+                    </div>
+                </td>
+                <td>
+                      <div class="actions">
+                        <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteSingleGuardSchedule(${val[i].schedule_id},${val[i].guard_id},${val[i].job_id})">
+                          <span class="btn-icon icofont-ui-delete"></span>
+                        </button>
+
+                        <button class="btn btn-info btn-sm btn-square rounded-pill" data-bs-toggle="modal" data-bs-target="#add_note" onclick="scheduleIdToAddNoteFunc(${val[i].schedule_id})">
+                        <span class="btn-icon icofont-ui-edit"></span>
+                        </button>
+                      
+                        <div class="form-check mt-3" style="margin-left:20px;">
+                            <input class="form-check-input checkBox" type="checkbox" value='${JSON.stringify(val[i])}'  id="defaultCheck${i}" checked>
+                            <label class="form-check-label" for="defaultCheck${i}">
+                                re-assign
+                            </label>
+                        </div>
+    
+                      </div>     
+                    </td>
+              </tr>
+                 `
+            }
+            else{
+                data+= `
+                <tr>
+                <td>${i+1}</td>
+                <td>${val[i].check_in_date}</td>
+                <td>${val[i].start_time}</td>
+                <td>${val[i].check_out_date}</td>
+                <td>${val[i].end_time}</td>
+                <td>${val[i].hours}</td>
+                <td>
+                    <div class="text-muted text-nowrap">
+                        <button type="button" class="btn btn-outline-primary"
+                        onclick="selectDateTime('${val[i].check_in_date}','${val[i].start_time}',${val[i].schedule_id},'Check in',${val[i].job_id},${val[i].guard_id},${i+1})">Select</button>
+                    </div>
+                </td>
+                <td>
+                    <div class="text-muted text-nowrap">
+                        <button type="button" class="btn btn-outline-primary"
+                        onclick="selectDateTime('${val[i].check_out_date}','${val[i].end_time}',${val[i].schedule_id},'Check out',${val[i].job_id},${val[i].guard_id},${i+1})">Select</button>
+                    </div>
+                </td>
+                <td>
+                      <div class="actions">
+                        <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteSingleGuardSchedule(${val[i].schedule_id},${val[i].guard_id},${val[i].job_id})">
+                          <span class="btn-icon icofont-ui-delete"></span>
+                        </button>
+                        <button type="button" class="btn btn-outline-primary"
+                            onclick="toggleScheduleAcceptance(${val[i].schedule_id},${val[i].guard_id},${val[i].job_id},'true')">Accept
+                        </button>
+
+                        <button class="btn btn-info btn-sm btn-square rounded-pill" data-bs-toggle="modal" data-bs-target="#add_note" onclick="scheduleIdToAddNoteFunc(${val[i].schedule_id})">
+                        <span class="btn-icon icofont-ui-edit"></span>
+                        </button>
+                       
+                        <div class="form-check mt-2 ml-10px" >
+                            <input class="form-check-input checkBox" type="checkbox" value='${JSON.stringify(val[i])}'  id="defaultCheck${i}">
+                            <label class="form-check-label" for="defaultCheck${i}">
+                                re-assign
+                            </label>
+                        </div>
+
+                      </div>
+                    </td>
+              </tr>
+                 `
+        
+            }
+
+        }
+  
+
         if(i==val.length-1){
 
             $('#myschedule').children().remove();
             $("#myschedule").append(data)
+
+            var checkboxes = document.querySelectorAll(".checkBox");
+
+            checkboxes.forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                
+                    if (this.checked) {
+                        addSchedule(JSON.parse(this.value))
+
+                    } else {
+                        removeSchedule(JSON.parse(this.value))
+
+                    }
+
+                    console.log(activeGuardScheduleAll)
+                    if(activeGuardScheduleAll.length==0){
+                        $("#ReAssignButton").attr("disabled", true);
+
+                    }
+                    else{
+                        $("#ReAssignButton").removeAttr("disabled");
+                    }
+
+
+                })
+            });
+
         }
     }
     if(val.length==0){
@@ -386,6 +547,16 @@ function displaySchedule(val){
         </td>
       </tr>`)
     }
+
+    $('.gear').popover({
+        title:"titke",
+        content:"click me",
+        trigger:"click"
+    });
+    $('.kpi').live('mouseleave', function(e) {
+        $('.gear').remove();
+    });
+ 
 
 }
 
@@ -616,6 +787,8 @@ function getTask(guard_id ,job_id){
         headers: {
             "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
         },
+        dataType  : 'json',
+        encode  : true,
         data: {
             guard_id,
             job_id,
@@ -623,7 +796,7 @@ function getTask(guard_id ,job_id){
           },
         success: function (data) {        
             $('#loader6').css("display","none");
-            
+            console.log(data.data)
             displayTask(data.data);
         },
         error: function (request, status, error) {
@@ -635,6 +808,8 @@ function getTask(guard_id ,job_id){
 
 function displayTask(val){
 
+
+    console.log(val)
     let data=''
 
     for(let i=0; i<val.length; i++){
@@ -645,7 +820,7 @@ function displayTask(val){
             <tr>
             <td>${i+1}</td>
             <td>${val[i].operation_date}</td>
-            <td>${val[i].scanned_at}</td>
+            <td>'${val[i].done_at}'</td>
             <td>${val[i].title}</td>
             <td>${val[i].description}</td>
             <td>
@@ -665,11 +840,13 @@ function displayTask(val){
              `
         }
         else{
+
+            console.log(val[i].done_at)
             data+= `
             <tr>
             <td>${i+1}</td>
             <td>${val[i].operation_date}</td>
-            <td>${val[i].scanned_at}</td>
+            <td>'${val[i].done_at}'</td>
             <td>${val[i].title}</td>
             <td style="max-width:200px">${val[i].description}</td>
             <td>
@@ -1046,7 +1223,7 @@ function deleteSingleGuardSchedule(schedule_id,guard_id,job_id){
         encode  : true,
         data: {
             job_id,
-          guard_id
+            guard_id
         },
         success: function (data) {
             showModal(data.message)
@@ -1065,7 +1242,7 @@ function deleteSingleGuardSchedule(schedule_id,guard_id,job_id){
             analyzeError(request)
          
         }
-      });
+      })
         }
       
       })
@@ -1079,12 +1256,176 @@ function setGuardName(val){
     localStorage.setItem("guardName",encodedData)
 }
 
-
 function setGuardId(val){
 
     const encodedData = btoa(val);
     localStorage.setItem("guardId",encodedData)
 }
+
+
+ReAssignButton.addEventListener("click", ()=>{
+
+    getAllInstructionAndTaskInSelectedShift(activeGuardScheduleAll)
+})
+
+
+function getAllInstructionAndTaskInSelectedShift(shift){
+
+   // console.log(shift)
+    $.ajax({
+        type: "post", url:`${domain}/api/v1/job/allJobs/oneAgendaPerGuard`,
+        headers: {
+            "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+        },
+        dataType  : 'json',
+        encode  : true,
+        data: {
+            guard_id:shift[0].guard_id,
+            job_id,
+            type:"INSTRUCTION"  
+          },
+        success: function (data) {
+            filterInstructionToMatchShift(data.data,shift)
+
+        },
+        error: function (request, status, error) {
+    
+            analyzeError(request)
+         
+        }
+    });
+    $.ajax({
+        type: "post", url:`${domain}/api/v1/job/allJobs/oneAgendaPerGuard`,
+        headers: {
+            "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+        },
+        data: {
+            guard_id:shift[0].guard_id,
+            job_id,
+            type:"TASK"
+          },
+        success: function (data) {        
+            
+            filterTaskToMatchShift(data.data,shift)
+
+        },
+        error: function (request, status, error) {
+            analyzeError(request)
+        }
+    });
+
+
+}
+
+
+function filterInstructionToMatchShift(instruction,shift){
+        
+
+    let cleanInstruction=[]
+    if(instruction.length!=0){
+        for (let i = 0; i < instruction.length; i++) {
+               
+            for (let k = 0; k < shift.length; k++) {
+
+                let onlyDate=moment(instruction[i].operation_date).format('YYYY-MM-DD');
+
+                    if(moment(onlyDate).isBetween(shift[k].check_in_date,shift[k].check_out_date, null, '[]')){
+                        cleanInstruction.push(instruction[i])
+                        break;
+                    }
+            }
+            if(i==instruction.length-1){
+                activeGuardInstruction=cleanInstruction
+                if(cleanInstruction!=0){
+                    formatInstructionForReschedule(activeGuardInstruction)
+
+                }
+            }
+        }
+    }else{
+        activeGuardInstruction=[]
+    }
+   
+    
+       
+}
+
+function filterTaskToMatchShift(task,shift){
+
+
+    let cleanTask=[]
+    if(task.length!=0){
+        for (let i = 0; i < task.length; i++) {
+               
+            for (let k = 0; k < shift.length; k++) {
+
+                let onlyDate=moment(task[i].operation_date).format('YYYY-MM-DD');
+
+                    if(moment(onlyDate).isBetween(shift[k].check_in_date,shift[k].check_out_date, null, '[]')){
+                        cleanTask.push(task[i])
+                        break;
+                    }
+            }
+            if(i==task.length-1){
+                activeGuardTask=cleanTask
+                if(cleanTask!=0){
+                    formatTaskForReschedule(activeGuardTask)
+
+                }
+            }
+        }
+    }else{
+        cleanTask=[]
+    }
+   
+}
+
+
+function formatTaskForReschedule(){
+    
+
+    let formatTask=[]
+
+    for(let i=0;i<activeGuardTask.length;i++){
+        formatTask.push({description:activeGuardTask[i].description,
+                      title:'None',
+                      operation_date:activeGuardTask[i].operation_date,
+                      job_id:job_id,
+                      agenda_type:"TASK",
+                      status_per_staff:"PENDING"
+                      })
+      
+        if(i==activeGuardTask.length-1){
+            activeGuardTask=formatTask
+
+        }
+    }
+}
+
+
+function formatInstructionForReschedule(){
+    
+
+   
+    let formatInstruction=[]
+
+    for(let i=0;i<activeGuardInstruction.length;i++){
+        formatInstruction.push({description:activeGuardInstruction[i].description,
+                      title:activeGuardInstruction[i].title,
+                      operation_date:activeGuardInstruction[i].operation_date,
+                      job_id:job_id,
+                      agenda_type:"INSTRUCTION",
+                      status_per_staff:"PENDING"
+                      })
+      
+        if(i==activeGuardInstruction.length-1){
+            activeGuardInstruction=formatInstruction
+
+
+        }
+    }
+}
+
 
 function formatDateForReschedule(schedule){
 
@@ -1111,23 +1452,212 @@ function formatDateForReschedule(schedule){
 
 let all_form_for_adding_guard=document.getElementById("all_form_for_adding_guard")
 
-
 all_form_for_adding_guard.addEventListener("submit",(e)=>{
     e.preventDefault()
 
+    formatDateForReschedule(activeGuardScheduleAll)
 
+    let activeGuardScheduleAllWithGuard=[]
+
+      let guard_id_array = $(".selectpickerReassign option:selected").map(function() {
+        return $(this).data("name");
+      }).get();
+
+      for(let i=0; i <guard_id_array.length;i++){
+ 
+        for(let j=0; j <activeGuardScheduleAll.length;j++){
+        
+          let obj={}
+
+          obj["guard_id"]=guard_id_array[i]
+          obj["check_in_date"]=activeGuardScheduleAll[j]["check_in_date"]
+          obj["check_out_date"]=activeGuardScheduleAll[j]["check_out_date"]
+          obj["start_time"]=activeGuardScheduleAll[j]["start_time"]
+          obj["end_time"]=activeGuardScheduleAll[j]["end_time"]
+          obj["status_per_staff"]=activeGuardScheduleAll[j]["status_per_staff"]
+          obj["job_id"]=activeGuardScheduleAll[j]["job_id"]
+          obj["schedule_length"]=activeGuardScheduleAll[j]["schedule_length"]
+          
+          activeGuardScheduleAllWithGuard.push(obj)
+        }
+        if(i==guard_id_array.length-1){
+        
+            reAssignJob(activeGuardScheduleAllWithGuard)
+        }
+      }
+})
+
+
+function addGuardToInstruction(){
+
+    let addGuardToInstructionV=[]
+    let guard_id_array = $(".selectpickerReassign option:selected").map(function() {
+        return $(this).data("name")
+      }).get();
+
+      for(let i=0; i <guard_id_array.length;i++){
+ 
+        for(let j=0; j <activeGuardInstruction.length;j++){
+        
+          let obj={}
+
+            obj["guard_id"]=guard_id_array[i]
+            obj["description"]=activeGuardInstruction[j]["description"]
+            obj["title"]=activeGuardInstruction[j]["title"]
+            obj["operation_date"]=activeGuardInstruction[j]["operation_date"]
+            obj["job_id"]=activeGuardInstruction[j]["job_id"]
+            obj["agenda_type"]=activeGuardInstruction[j]["agenda_type"]
+            obj["status_per_staff"]=activeGuardInstruction[j]["status_per_staff"]
+          
+          addGuardToInstructionV.push(obj)
+        }
+        if(i==guard_id_array.length-1){
+            
+            activeGuardInstruction=addGuardToInstructionV
+            reAssignJobAgendas1(activeGuardInstruction)
+
+        }
+      }
+}
+
+
+function addGuardToTask(){
+
+    let addGuardToTaskV=[]
+    let guard_id_array = $(".selectpickerReassign option:selected").map(function() {
+        return $(this).data("name");
+      }).get()
+
+      for(let i=0; i <guard_id_array.length;i++){
+ 
+        for(let j=0; j <activeGuardTask.length;j++){
+        
+            let obj={}
+            obj["guard_id"]=guard_id_array[i]
+            obj["description"]=activeGuardTask[j]["description"]
+            obj["title"]=activeGuardTask[j]["title"]
+            obj["operation_date"]=activeGuardTask[j]["operation_date"]
+            obj["job_id"]=activeGuardTask[j]["job_id"]
+            obj["agenda_type"]=activeGuardTask[j]["agenda_type"]
+            obj["status_per_staff"]=activeGuardTask[j]["status_per_staff"]
+          
+            addGuardToTaskV.push(obj)
+        }
+        if(i==guard_id_array.length-1){
+
+            console.log(activeGuardTask)
+
+            
+            activeGuardTask=addGuardToTaskV
+            reAssignJobAgendas2(activeGuardTask)
+
+        }
+      }
+}
+
+
+
+
+function reAssignJobAgendas1(obj){
+
+    console.log(activeGuardInstructionStatus)
+
+    if(activeGuardInstructionStatus){
+        $.ajax({
+            type: "post", url:`${domain}/api/v1/job/add_agenda`,
+            dataType  : 'json',
+            encode  : true,
+            headers: {
+              "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+            },
+            data: {
+              shedule_agenda:JSON.stringify(obj),
+            },
+            success: function (data) {
+                showModal(data.message)
+                setTimeout(() => {
+                        hideModal()
+                }, 3000);
+        
+            },
+            error: function (request, status, error) {
+        
+              analyzeError(request)      
+            }
+          })
+    }
+
+}
+
+function reAssignJobAgendas2(obj){
+
+    console.log(activeGuardTaskStatus)
+    if(activeGuardTaskStatus){
+        $.ajax({
+            type: "post", url:`${domain}/api/v1/job/add_agenda`,
+            dataType  : 'json',
+            encode  : true,
+            headers: {
+              "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+            },
+            data: {
+              shedule_agenda:JSON.stringify(obj),
+            },
+            success: function (data) {
+                showModal(data.message)
+                setTimeout(() => {
+                        hideModal()
+                }, 3000);
+        
+            },
+            error: function (request, status, error) {
+        
+              analyzeError(request)      
+            }
+          })
+    }
+
+}
+
+
+function addSchedule(val){
+    activeGuardScheduleAll.push(val)
+}
+
+function removeSchedule(val){
+
+    activeGuardScheduleAll= activeGuardScheduleAll.filter((item) => {
+
+        if(item.check_in_date == val.check_in_date  && item.start_time == val.start_time){
+            return false
+        }
+        else{
+            return true
+        }
+      
+    })
+
+}
+
+
+function reAssignJob(schedule){
 
     $.ajax({
         type: "post", url:`${domain}/api/v1/job/add_shedule_date_staff`,
         headers: {
           "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
         },
+        dataType  : 'json',
+        encode  : true,
         data: {
-          date_time_staff_shedule:JSON.stringify(obj),
+          date_time_staff_shedule:JSON.stringify(schedule),
         },
-        success: function (data, text) {
-  
+        success: function (data) {
+            
+            addGuardToInstruction()
+            addGuardToTask()
             showModal(data.message)
+            getTableData()
             setTimeout(() => {
                     hideModal()
             }, 3000);
@@ -1138,6 +1668,51 @@ all_form_for_adding_guard.addEventListener("submit",(e)=>{
         }
       })
 
+    
+}
+
+
+
+
+function scheduleIdToAddNoteFunc(id){
+    scheduleIdToAddNote=id
+}
+
+let  addNoteForm=document.getElementById("addNoteForm")
+addNoteForm.addEventListener("submit",(e)=>{
+  e.preventDefault()
+
+
+
+  let myNote=document.getElementById("myNote").value
+  let dateOfReference=document.getElementById("dateOfReference").value
+  let timeOfReference=document.getElementById("timeOfReference").value
 
   
+    console.log( myNote , dateOfReference, timeOfReference, scheduleIdToAddNote)
+
+
+})
+
+
+let checkboxInstruction = document.getElementById("defaultCheck1");
+let checkboxTask = document.getElementById("defaultCheck2");
+
+checkboxInstruction.addEventListener('change', function() {
+    
+    if (this.checked) {
+        activeGuardInstructionStatus=true
+    } else {
+        activeGuardInstructionStatus=false
+    }
+     
+})
+
+checkboxTask.addEventListener('change', function() {
+    
+    if (this.checked) {
+        activeGuardTaskStatus=true
+    } else {
+        activeGuardTaskStatus=false
+    }
 })

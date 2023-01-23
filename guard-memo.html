@@ -463,32 +463,44 @@
 
 
 
-<div class="modal fade" id="guards" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-    <div class="modal-content">
-      <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
-        <i class="icofont-close-line"></i>
-      </button>
 
-      <div class="modal-header">
-        <h4  class="text-left  w-100">
-          Guards <span class="badge badge-secondary badge-inside"  id="NumberOfGuard"></span>
-        </h4>
-      </div>
+
+<div class="modal" id="guards">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+    
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          <i class="icofont-close-line"></i>
+        </button>
+
+        <div class="modal-header">
+          <h4  class="text-left  w-100">
+            Guards <span class="badge badge-secondary badge-inside"  id="NumberOfGuard"></span>
+          </h4>
+          
+        </div>
+
+      <!-- Modal body -->
       <div class="modal-body">
+          
         <ul class="list-group" id="guardInMemoContainer">
        
         </ul>
+
+      </div>
       
-      </div>
+      <!-- Modal footer -->
       <div class="modal-footer">
-        <div class="actions">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
       </div>
+      
     </div>
   </div>
 </div>
+
+
+
+
 
 <div class="modal fade" id="message" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">

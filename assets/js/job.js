@@ -197,6 +197,8 @@ let MAX_TIMESTAMP = 8640000000000000;
 
 function getAvailableGuard(modalId,picker){
   
+
+
   $.ajax({
     type: "post", url:`${domain}/api/v1/job/getGuard`,
     dataType  : 'json',
@@ -207,9 +209,10 @@ function getAvailableGuard(modalId,picker){
     data: {
       job_id:job_id_for_schedule,
     },
-    success: function (data, text) {
-
+    success: function (data) {
+         
           displayGuard(data.data, modalId,picker)
+          
         setTimeout(() => {
                 hideModal()
         }, 3000);
@@ -224,6 +227,10 @@ function getAvailableGuard(modalId,picker){
 
 }
 //START GET AVAILABLE GUARD 
+
+
+
+
 
 
 
@@ -287,10 +294,10 @@ function getAvailableGuard(modalId,picker){
 
 
 function displayGuard(val, modalId,picker){
-    let data=''
 
-   
+    let data=''
       for(let i=0;i<val.length;i++){
+
           data+=`
           <option data-name=${val[i].guard_id}>${val[i].full_name}</option>
           `
@@ -2450,6 +2457,7 @@ $(function(){
     });
   }
   getTableData4(limit,offset)
+
   function CreateTable4(val){
       let data=''
           
@@ -2487,14 +2495,16 @@ $(function(){
                 <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteGuardSchedule(${val[i].job_id},${val[i].guard_id})">
                   <span class="btn-icon icofont-ui-delete"></span>
                 </button>
+                <button  data-bs-toggle="modal" data-bs-target="#add-guard2" onclick="getAvailableGuard('selectpickerReassignId','selectpickerReassign');update_job_id_for_schedule(${val[i].job_id});PrepareScheduleDetails()"  class="btn btn-dark btn-sm btn-square rounded-pill">
+                <span class="btn-icon icofont-external-link"></span>
+                </button>
+
                 <button type="button" class="btn btn-outline-primary"  onclick="reAssign(${val[i].job_id},${val[i].guard_id})">Re-assign</button>
               </div>
             </td>
           </tr>
             `
-
             if(i==val.length-1){
-
                 $('#mytable4').children().remove();
                 $("#mytable4").append(data)
             }
@@ -2858,7 +2868,7 @@ function deleteGuardSchedule(job_id,guard_id){
       guard_id,
       accept:true 
     },
-    success: function (data, text) {
+    success: function (data) {
 
         showModal(data.message)
 
@@ -2898,48 +2908,64 @@ function deleteGuardSchedule(job_id,guard_id){
 
 function reAssign(job_id,guard_id){
 
-  $.ajax({
-    type: "post", url:`${domain}/api/v1/job/re_asign_or_delete-job`,
-    dataType  : 'json',
-    encode  : true,
-    headers: {
-      "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
-    },
-    data: {
-      job_id,
-      guard_id,
-      accept:false 
-    },
-    success: function (data, text) {
 
-        showModal(data.message)
-
-        let limit=15,
-        offset=0,
-        limit2=15,
-        offset2=0,
-        limit3=15,
-        offset3=0,
-        limit4=15,
-        offset4=0;
-
-          getTableData2(limit2,offset2)
-          getTableData(limit,offset)
-          getTableData3(limit3,offset3)
-          getTableData4(limit4,offset4)
-
-
-        setTimeout(() => {
-                hideModal()
-        }, 3000);
-
-    },
-    error: function (request, status, error) {
+  Swal.fire({
+    title: 'Are you sure you want to send job back to the same guard?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+  }).then((result) => {
     
-      analyzeError(request)
-     
-    }
-  });
+    if (result.isConfirmed) {
+
+      $.ajax({
+        type: "post", url:`${domain}/api/v1/job/re_asign_or_delete-job`,
+        dataType  : 'json',
+        encode  : true,
+        headers: {
+          "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+        },
+        data: {
+          job_id,
+          guard_id,
+          accept:false 
+        },
+        success: function (data) {
+    
+            showModal(data.message)
+    
+            let limit=15,
+            offset=0,
+            limit2=15,
+            offset2=0,
+            limit3=15,
+            offset3=0,
+            limit4=15,
+            offset4=0;
+    
+              getTableData2(limit2,offset2)
+              getTableData(limit,offset)
+              getTableData3(limit3,offset3)
+              getTableData4(limit4,offset4)
+    
+    
+            setTimeout(() => {
+                    hideModal()
+            }, 3000);
+    
+        },
+        error: function (request, status, error) {
+        
+          analyzeError(request)
+         
+        }
+      });
+    }})
+
+
 }
 
 function updateNavLinkStatus(id){
@@ -2955,3 +2981,34 @@ all_form_for_adding_guard.forEach(element => {
   element.addEventListener("submit",(e)=>{
     e.preventDefault()})
 });
+
+
+
+function PrepareScheduleDetails(){
+
+
+  $.ajax({
+    type: "post", url:`${domain}/api/v1/job/allJobs/reasign_schedule_and_remove_guard`,
+    headers: {
+        "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+    },
+    dataType  : 'json',
+    encode  : true,
+    data: {
+        old_guard_id,
+        job_id,
+        array_guard_id:JSON.stringify(data)  
+      },
+    success: function (data) {
+  
+    },
+    error: function (request, status, error) {
+        analyzeError(request)
+     
+    }
+  })
+
+
+
+}
+

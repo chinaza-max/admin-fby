@@ -10,24 +10,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="../assets/img/favicon.ico">
+    <link rel="shortcut icon" href="assets/img/favicon.ico">
 
     <!-- Plugins CSS -->
-    <link rel="stylesheet" href="../assets/css/bootstrap/bootstrap.css">
-    <link rel="stylesheet" href="../assets/css/icofont.min.css">
-    <link rel="stylesheet" href="../assets/css/simple-line-icons.css">
-    <link rel="stylesheet" href="../assets/css/jquery.typeahead.css">
-    <link rel="stylesheet" href="../assets/css/datatables.min.css">
-    <link rel="stylesheet" href="../assets/css/bootstrap-select.min.css">
-    <link rel="stylesheet" href="../assets/css/Chart.min.css">
-    <link rel="stylesheet" href="../assets/css/morris.css">
-    <link rel="stylesheet" href="../assets/css/leaflet.css">
+    <link rel="stylesheet" href="assets/css/bootstrap/bootstrap.css">
+    <link rel="stylesheet" href="assets/css/icofont.min.css">
+    <link rel="stylesheet" href="assets/css/simple-line-icons.css">
+    <link rel="stylesheet" href="assets/css/jquery.typeahead.css">
+    <link rel="stylesheet" href="assets/css/datatables.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="assets/css/Chart.min.css">
+    <link rel="stylesheet" href="assets/css/morris.css">
+    <link rel="stylesheet" href="assets/css/leaflet.css">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 
 
     <!-- Theme CSS -->
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 
@@ -87,7 +87,7 @@
                             <button class="no-style dropdown-toggle" type="button" data-bs-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false" data-bs-offset="0, 10">
                                 <span class="d-flex align-items-center">
-                                    <img src="../assets/content/user-400-1.jpg" id="avatar" alt="" width="40"
+                                    <img src="assets/content/user-400-1.jpg" id="avatar" alt="" width="40"
                                         height="40" class="rounded-500 me-1">
                                     <i class="icofont-simple-down"></i>
                                 </span>
@@ -153,7 +153,7 @@
                     <div class="app-logo">
                         <div class="logo-wrap">
 
-                            <img src="../assets/img/logo.png" alt="" width="147" height="33" class="logo-img">
+                            <img src="assets/img/logo.png" alt="" width="147" height="33" class="logo-img">
                             FBY
                         </div>
                     </div>
@@ -319,21 +319,21 @@
 
                         <div class="row">
 
-                            <div class=" col-md-4">
+                            <div class="col-12 col-md-6">
 
-                                <div class="alert alert-primary outline overflow-auto" role="alert" style="height:81px ;" id="des">
+                                <div class="alert alert-primary outline overflow-auto " role="alert" style="height:81px ;" id="des">
                                 
                                 </div>
                             </div>
 
-                            <div class=" col-md-4 col-md-4 ">
+                            <div class="col-12 col-md-3">
                                 <div class="alert alert-info outline overflow-auto" role="alert" style="height:81px ;"  id="name">
                             
                                 </div>
 
                             </div>
 
-                            <div class=" col-md-4 col-md-4">
+                            <div class="col-12 col-md-3">
                                 <div class="alert alert-success outline overflow-auto" style="height:81px ;" role="alert" id="timeZone">
                             
                                 </div>
@@ -374,6 +374,10 @@
 
                                     </tbody>
                                 </table>
+
+
+
+                              
 
                                 <div class="text-center" id="loader1">
                                     <div class="spinner-border" role="status">
@@ -523,80 +527,142 @@
 </div>
 
 
-    <div class="modal fade" id="view_schedule" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    <i class="icofont-close-line"></i>
-                  </button>
+  
 
-                  <div class="modal-header">
-                    <h5 class="modal-title"></h5>
-                  </div>
+    <div class="modal" id="view_schedule">
+        <div class="modal-dialog modal-dialog-scrollable modal-xl">
+          <div class="modal-content">
+          
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                <i class="icofont-close-line"></i>
+              </button>
 
-                <div class="modal-body">
+              <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                
+              </div>
 
-                    <div class="card">
-                        <div class="card-header">
-                          
-                          <div class="d-flex justify-content-between">
-                            <p>SCHEDULE</p>
-                            <p>
-                                RE-ASSIGN
-                                <button  class="btn btn-dark btn-sm btn-square rounded-pill" data-bs-toggle="modal" data-bs-target="#add-guard">
-                                    <span class="btn-icon icofont-external-link"></span>
-                                </button>
-                            </p>
-                          </div> 
+              
 
-
-                        </div>
-                        <div class="card-body">
-                          <div class="table-responsive">
-                            <table class="table table-bordered">
-                              <thead>
-                              <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">Start date </th>
-                                <th scope="col">Start time </th>
-                                <th scope="col">End date </th>
-                                <th scope="col">End time </th>
-                                <th scope="col">Hours</th>
-                                <th scope="col">Check in</th>
-                                <th scope="col">Check out</th>
-                                <th scope="col">Action</th>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="d-flex justify-content-between">
+                    <p>SCHEDULE</p>
+                    <p>
+                        RE-ASSIGN
+                        <button  id="ReAssignButton" class="btn btn-dark btn-sm btn-square rounded-pill  " data-bs-toggle="modal" data-bs-target="#add-guard">
+                            <span class="btn-icon icofont-external-link"></span>
+                        </button>
+                    </p>
+                  </div> 
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                      <thead>
+                      <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Start date </th>
+                        <th scope="col">Start time </th>
+                        <th scope="col">End date </th>
+                        <th scope="col">End time </th>
+                        <th scope="col">Hours</th>
+                        <th scope="col">Check in</th>
+                        <th scope="col">Check out</th>
+                        <th scope="col">Action</th>
 
 
 
-                              </tr>
-                              </thead>
-                              <tbody id="myschedule">
-                             
-                         
-                         
-                              </tbody>
-                            </table>
+                      </tr>
+                      </thead>
+                      <tbody id="myschedule">
+                     
+                 
+                 
+                      </tbody>
+                    </table>
 
-                            <div class="text-center" id="loader2">
-                                <div class="spinner-border" role="status">
-                                  <span class="sr-only">Loading...</span>
-                                </div>
-                            </div>
-
-                          </div>
-                        </div>
-                      </div>
-
-
-                    <div class="modal-footer">
-                        <div class="actions justify-content-between">
-                            <button type="button" class="btn btn-error" data-bs-dismiss="modal">Close</button>
+                    <div class="text-center" id="loader2">
+                        <div class="spinner-border" role="status">
+                          <span class="sr-only">Loading...</span>
                         </div>
                     </div>
 
-                </div>
+                  </div>
             </div>
+            
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+            
+          </div>
+        </div>
+    </div>
+
+    <div class="modal" id="add_note">
+        <div class="modal-dialog modal-dialog-scrollable">
+          <div class="modal-content">
+          
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                <i class="icofont-close-line"></i>
+              </button>
+
+              <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                
+              </div>
+
+
+        <form id="addNoteForm">
+
+            <div class="modal-body">
+               
+                <div class="form-group">
+                    <label for="">
+                        Your note
+                    </label>
+                    <textarea class="form-control" rows="4" id="myNote" placeholder="Comment" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="">Reference date
+                            <a href="#"  data-bs-toggle="popover" title="Reference date" data-bs-content="Enter the actual date event took place">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                              </svg>
+                            </a>
+                    </label>
+                    <input class="form-control" id="dateOfReference" type="date"  required></textarea>
+                </div>
+
+
+
+                
+                <div class="form-group">
+                    <label for="">Reference time
+                            <a href="#"  data-bs-toggle="popover" title="Reference time" data-bs-content="Enter the actual time event took place">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                              </svg>
+                            </a>
+                    </label>                    
+                    <input class="form-control" type="time"  id="timeOfReference" required></textarea>
+                </div>
+
+                 
+            </div>
+            
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-info" data-dismiss="modal">Submit</button>
+
+            </div>
+
+        </form>
+            
+          </div>
         </div>
     </div>
 
@@ -687,7 +753,7 @@
                           <tr>
                             <th scope="col">No</th>
                             <th scope="col">Operation date</th>
-                            <th scope="col">Scanned at</th>
+                            <th scope="col">Done_at</th>
                             <th scope="col">Title </th>
                             <th scope="col">Description </th>
                             <th scope="col">Instruction done</th>
@@ -851,12 +917,33 @@
               <i class="icofont-close-line"></i>
             </button>
             <div class="modal-header">
-              <h5 class="modal-title">Guard</h5>
+              <h5 class="modal-title">guard</h5>
             </div>
-            <form id="all_form_for_adding_guard">
+            <form id="all_form_for_adding_guard"  >
               <div class="modal-body">
                   <div class="card">
                     <div class="card-body">
+
+                
+                          <div class="row">
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" checked>
+                                            <label class="form-check-label" for="defaultCheck1">
+                                              Include instruction
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" checked>
+                                            <label class="form-check-label" for="defaultCheck2">
+                                              Include task
+                                            </label>
+                                        </div>
+                                    </div>
+                          </div>
                         <div class="form-group ">
                           <label>Add multiple or single Guard </label>
                           <select class="selectpicker  selectpickerReassign" data-live-search="true" multiple required>
@@ -878,7 +965,7 @@
             </form>
           </div>
         </div>
-      </div>
+    </div>
 
 
 
@@ -903,7 +990,7 @@
 
                         <div class="form-group">
                             <label>Light/dark sidebar</label>
-                            <div class="form-check form-switch">
+                            <div class="form-check form-switch" >
                                 <input class="form-check-input" type="checkbox" id="sidebar">
                             </div>
                         </div>
@@ -932,23 +1019,30 @@
 
 
 
-    <script src="../assets/js/jquery-3.6.0.min.js"></script>
-    <script src="../assets/js/jquery-migrate-1.4.1.min.js"></script>
-    <script src="../assets/js/popper.min.js"></script>
-    <script src="../assets/js/bootstrap.min.js"></script>
-    <script src="../assets/js/jquery.typeahead.min.js"></script>
-    <script src="../assets/js/datatables.min.js"></script>
-    <script src="../assets/js/bootstrap-select.min.js"></script>
-    <script src="../assets/js/jquery.barrating.min.js"></script>
-    <script src="../assets/js/Chart.min.js"></script>
-    <script src="../assets/js/raphael-min.js"></script>
-    <script src="../assets/js/morris.min.js"></script>
-    <script src="../assets/js/echarts.min.js"></script>
-    <script src="../assets/js/echarts-gl.min.js"></script>
-    <script src="../assets/js/globalVar.js"></script>
-    <script src="../assets/js/guard-in-job.js"></script>
-    <script src="../assets/js/main.js"></script>
-   
+    <script src="assets/js/jquery-3.6.0.min.js"></script>
+    <script src="assets/js/jquery-migrate-1.4.1.min.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.typeahead.min.js"></script>
+    <script src="assets/js/datatables.min.js"></script>
+    <script src="assets/js/bootstrap-select.min.js"></script>
+    <script src="assets/js/jquery.barrating.min.js"></script>
+    <script src="assets/js/Chart.min.js"></script>
+    <script src="assets/js/raphael-min.js"></script>
+    <script src="assets/js/morris.min.js"></script>
+    <script src="assets/js/echarts.min.js"></script>
+    <script src="assets/js/echarts-gl.min.js"></script>
+    <script src="assets/js/globalVar.js"></script>
+    <script src="assets/js/guard-in-job.js"></script>
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        //this script allows pop over 
+        var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+        var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+            return new bootstrap.Popover(popoverTriggerEl)
+        })
+    </script>
        
 
 </body>
