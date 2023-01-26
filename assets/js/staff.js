@@ -1,146 +1,5 @@
 
 
-let formAdminReg=document.getElementById("formAdminReg")
-
-/*
-setTimeout(() => {
-    showModalError("REGISTERATION SUCCESSFULL")
-
-    setTimeout(() => {
-        hideModal()
-    }, 5000);
-}, 1000);
-*/
-
-formAdminReg.addEventListener("submit",(e)=>{
-    e.preventDefault()
-
-    $("#signInButton").css("display","none")
-    $("#loadingButton").css("display","block")
-
-    const form = e.target;
-    const formFields = form.elements,
-    first_name = formFields.firstName.value,
-    last_name=formFields.lastName.value,
-    email=formFields.email.value,
-    gender=formFields.Gender.value,
-    date_of_birth=formFields.dateOfBirth.value,
-    address=formFields.address.value,
-    password=formFields.password.value;
-    phone_number=formFields.phone_number.value;
-
-
-    
-
-
-    if (typeof email === 'string') {
-
-        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){
-
-
-          $.ajax({
-            type: "post", url:`${domain}/api/v1/auth/admin/register`,
-            headers: {
-              "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
-          },
-          dataType  : 'json',
-          encode  : true,
-            data: {
-                    first_name,
-                    last_name,
-                    email,
-                    date_of_birth,
-                    gender,
-                    password,
-                    address,
-                    phone_number
-            },
-            success: function (data, text) {
-  
-                showModal("REGISTRATION SUCCESSFULL")
-                limit=15
-                offset=0
-
-                getTableDate(limit,offset)
-
-                setTimeout(() => {
-                        hideModal()
-                }, 3000);
-
-                $("#signInButton").css("display","block")
-                $("#loadingButton").css("display","none")
-
-                clearField()
-            },
-            error: function (request, status, error) {
-
-                $("#signInButton").css("display","block")
-                $("#loadingButton").css("display","none")
-                console.log(request)
-
-                if(request.responseJSON.status=="conflict-error"){
-                    console.log(request.responseJSON.message)
-                    showModalError(request.responseJSON.message)
-                    setTimeout(() => {
-                        hideModalError()
-                    }, 3000);
-                }
-                else if(request.responseJSON.status=="validation-error"){
-                    console.log(request.responseJSON.errors.message)
-                    showModalError(request.responseJSON.errors[0].message)
-                    setTimeout(() => {
-                        hideModalError()
-                    }, 3000);
-                }
-                else if(request.responseJSON.status=="server-error"){
-                    console.log(request.responseJSON.message)
-                    showModalError(request.responseJSON.message)
-                    setTimeout(() => {
-                        hideModalError()
-                    }, 3000);
-                }
-             
-            }
-          });
-  
-        }
-        else {
-          $("#signInButton").css("display","block")
-          $("#loadingButton").css("display","none")
-          $("#emailAlert").text("wrong type")
-        }
-    
-    } 
-    else {
-    $("#signInButton").css("display","block")
-    $("#loadingButton").css("display","none")
-    $("#emailAlert").text("wrong type")
-
-    }
-
-    function  clearField(){
-        formFields.firstName.value='',
-        formFields.lastName.value='',
-        formFields.email.value='',
-        formFields.Gender.value='',
-        formFields.dateOfBirth.value='',
-        formFields.address.value='',
-        formFields.password.value='';
-
-
-        $('select[name=gender]').val("SELECT");
-        $('.selectpicker').selectpicker('refresh')
-    }
-  
-
-
-})
-
-
-
-
-
-
 let limit=15,
 offset=0,
 limit2=15,
@@ -157,7 +16,7 @@ $(document).ready(function(){
       $('#loader1').css("display","block");
 
         $.ajax({
-            type: "get", url:`${domain}/api/v1/user/getAllStaff?role=ADMIN&limit=${limit}&offset=${offset}`,
+            type: "get", url:`${domain}/api/v1/user/getAllStaff?role=ALL_ADMINISTRATORS&limit=${limit}&offset=${offset}`,
             headers: {
                 "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
             },
@@ -165,49 +24,15 @@ $(document).ready(function(){
             encode  : true,
             success: function (data,text){
 
-                console.log(data.data)
-                console.log(data)
-
                 $('#loader1').css("display","none");
                 CreateTable(data.data)
 
-                /*
-                showModal("REGISTRATION SUCCESSFULL")
-                setTimeout(() => {
-                        hideModal()
-                }, 3000);
-
-                $("#signInButton").css("display","block")
-                $("#loadingButton").css("display","none")
-
-        */
             },
             error: function (request, status, error) {
 
               $('#loader1').css("display","none");
-              console.log(request)
 
-                if(request.responseJSON.status=="conflict-error"){
-                    console.log(request.responseJSON.message)
-                    showModalError(request.responseJSON.message)
-                    setTimeout(() => {
-                        hideModalError()
-                    }, 3000);
-                }
-                else if(request.responseJSON.status=="validation-error"){
-                    console.log(request.responseJSON.errors.message)
-                    showModalError(request.responseJSON.errors[0].message)
-                    setTimeout(() => {
-                        hideModalError()
-                    }, 3000);
-                }
-                else if(request.responseJSON.status=="server-error"){
-                    console.log(request.responseJSON.message)
-                    showModalError(request.responseJSON.message)
-                    setTimeout(() => {
-                        hideModalError()
-                    }, 3000);
-                }
+              analyzeError(request)
              
             }
           });
@@ -222,11 +47,11 @@ $(document).ready(function(){
         
         if(val.length!=0){
             for(let i=0; i<val.length; i++){
-
-
-              console.log(val[i].address)
               if(val[i].email=="nigeria-workspace@proton.me"){
                   data+= `  <tr>
+                  <td>
+                  ${offset+i+1}
+                  </td>
                   <td>
                     <img src=${val[i].image} alt="" width="40" height="40" class="rounded-500">
                   </td>
@@ -262,9 +87,7 @@ $(document).ready(function(){
                       <a href="staff-profile.html" class="btn btn-dark btn-sm btn-square rounded-pill">
                         <span class="btn-icon icofont-external-link"></span>
                       </a>
-                      <button  onclick="storeCurrentUserID(${val[i].id})"  class="btn btn-info btn-sm btn-square rounded-pill disabled">
-                        <span class="btn-icon icofont-ui-edit"></span>
-                      </button disabled>
+                     
                       <button class="btn btn-error btn-sm btn-square rounded-pill disabled" onclick="deleteAdmin(${val[i].address_id})">
                         <span class="btn-icon icofont-ui-delete"></span>
                       </button>
@@ -276,6 +99,9 @@ $(document).ready(function(){
               else{
 
                   data+= `  <tr>
+                  <td>
+                  ${offset+i+1}
+                  </td>
                   <td>
                     <img src=${val[i].image} alt="" width="40" height="40" class="rounded-500">
                   </td>
@@ -308,15 +134,17 @@ $(document).ready(function(){
                   </td>
                   <td>
                     <div class="actions">
-                      <a href="staff-profile.html" class="btn btn-dark btn-sm btn-square rounded-pill">
+                      <a    onclick="storeCurrentUserID(${val[i].id})" href="staff-profile.html" class="btn btn-dark btn-sm btn-square rounded-pill">
                       <span class="btn-icon icofont-external-link"></span>
                       </a>
-                      <button  onclick="storeCurrentUserID(${val[i].id})"  class="btn btn-info btn-sm btn-square rounded-pill">
-                        <span class="btn-icon icofont-ui-edit"></span>
-                      </button>
                       <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteAdmin(${val[i].address_id})">
                         <span class="btn-icon icofont-ui-delete"></span>
                       </button>
+                      <button onclick="update_customer_id(${val[i].id})" class="btn btn-error btn-sm btn-square rounded-pill" 
+                      data-bs-toggle="modal" data-bs-target="#suspend" 
+                       onclick="">
+                      <div class="icon sli-user-unfollow"></div>
+                    </button>
                     </div>
                   </td>
                 </tr>`
@@ -354,16 +182,7 @@ $(document).ready(function(){
             success: function (data, text) {
 
                 CreateTable2([])
-                /*
-                showModal("REGISTRATION SUCCESSFULL")
-                setTimeout(() => {
-                        hideModal()
-                }, 3000);
-
-                $("#signInButton").css("display","block")
-                $("#loadingButton").css("display","none")
-
-        */
+       
             },
             error: function (request, status, error) {
 
@@ -572,6 +391,9 @@ function page2(val){
 
 
 
+function clickHiddenBut(){
+  document.getElementById("suspendFormButton").click()
+}
 
 function deleteAdmin(id){
 
@@ -596,7 +418,6 @@ function deleteAdmin(id){
           },
           success: function (data, text) {
       
-              console.log(data.message)
               showModal(data.message)
               limit=15
               offset=0
@@ -612,11 +433,6 @@ function deleteAdmin(id){
           },
           error: function (request, status, error) {
       
-              console.log(request)
-              console.log(status)
-              console.log(error)
-              console.log(request.responseJSON.status)
-      
               analyzeError(request)
            
           }
@@ -627,4 +443,10 @@ function deleteAdmin(id){
   
   
   
+}
+
+
+
+function storeCurrentUserID(id){
+    localStorage.setItem("staff_id",id)
 }

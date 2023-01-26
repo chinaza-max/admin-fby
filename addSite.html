@@ -25,6 +25,11 @@
   <link rel="stylesheet" href="assets/css/map.css">
   
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/datetime/1.1.2/css/dataTables.dateTime.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.2.8/css/rowReorder.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css">
 
   <!-- Theme CSS -->
   <link rel="stylesheet" href="assets/css/style.css">
@@ -363,124 +368,24 @@
                     <div class="tab-content">
                       <div class="tab-pane fade show active" id="tab-1" role="tabpanel">
 
-                        <div class="table-responsive">
-                          <table class="table table-striped">
-                            <thead>
-                            <tr>
-                              <th scope="col">#</th>
-                              <th scope="col">Site name</th>
-                              <th scope="col">Latitude</th>
-                              <th scope="col">Longitude</th>
-                              <th scope="col">Radius (m)</th>
-                              <th scope="col">Actions</th>
-                            </tr>
-                            </thead>
-          
-                            <tbody>
-                              <tr>
-                                <td>1</td>
-                                <td>chilo main</td>
-                                <td>2.292993939</td>
-                                <td>4.949495959</td>
-                                <td>90</td>
-                                <td>
-                                  <div class="actions">
-                                    <button   data-bs-toggle="modal" data-bs-target="#editSiteLocation" class="btn btn-info btn-sm btn-square rounded-pill">
-                                      <span class="btn-icon icofont-ui-edit"></span>
-                                    </button>
-                                    <a  href="customer-job.html" class="btn btn-dark btn-sm btn-square rounded-pill">
-                                      <span class="btn-icon icofont-external-link"></span>
-                                    </a>
-                                    <button class="btn btn-error btn-sm btn-square rounded-pill">
-                                      <span class="btn-icon icofont-ui-delete"></span>
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-             
-                              <tr>
-                                <td>2</td>
-                                <td>Hill top</td>
-                                <td>4.94998589595</td>
-                                <td>9.9394848444</td>
-                                <td>40</td>
-                                <td>
-                                  <div class="actions">
-                                    <button class="btn btn-info btn-sm btn-square rounded-pill">
-                                      <span class="btn-icon icofont-ui-edit"></span>
-                                    </button>
-                                    <a href="patient.html" class="btn btn-dark btn-sm btn-square rounded-pill">
-                                      <span class="btn-icon icofont-external-link"></span>
-                                    </a>
-                                    <button class="btn btn-error btn-sm btn-square rounded-pill">
-                                      <span class="btn-icon icofont-ui-delete"></span>
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>3</td>
-                                <td>mikans placd</td>
-                                <td>3.344949494</td>
-                                <td>7.93938484</td>
-                                <td>10</td>
-                                <td>
-                                  <div class="actions">
-                                
-                                    <button class="btn btn-info btn-sm btn-square rounded-pill">
-                                      <span class="btn-icon icofont-ui-edit"></span>
-                                    </button>
-                                    <a href="patient.html" class="btn btn-dark btn-sm btn-square rounded-pill">
-                                      <span class="btn-icon icofont-external-link"></span>
-                                    </a>
-                                    <button class="btn btn-error btn-sm btn-square rounded-pill">
-                                      <span class="btn-icon icofont-ui-delete"></span>
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>4</td>
-                                <td>atlas main</td>
-                                <td>3.494949949</td>
-                                <td>9.949394949</td>
-                                <td>90</td>
-                                <td>
-                                  <div class="actions">
-                                
-                                    <button class="btn btn-info btn-sm btn-square rounded-pill">
-                                      <span class="btn-icon icofont-ui-edit"></span>
-                                    </button>
-                                    <a href="patient.html" class="btn btn-dark btn-sm btn-square rounded-pill">
-                                      <span class="btn-icon icofont-external-link"></span>
-                                    </a>
-                                    <button class="btn btn-error btn-sm btn-square rounded-pill">
-                                      <span class="btn-icon icofont-ui-delete"></span>
-                                    </button>
-                                  </div>
-                                  
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-        
-                          <nav class="mt-4">
-                            <ul class="pagination">
-                              <li id="Previous" class="page-item disabled" onclick="Previous()">
-                                <a class="page-link" href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
-                                  <span class="icofont-simple-left"></span>
-                                </a>
-                              </li>
-                              
-                              <li id="Next" class="page-item active" onclick="Next()">
-                                <a class="page-link" href="#" aria-label="Next">
-                                  <span class="icofont-simple-right"></span>
-                                </a>
-                              </li>
-                            </ul>
-                          </nav>
-        
-                        </div>
+
+                        <table id="example"
+                        class="table table-bordered table-striped dataTable no-footer">
+                        <thead>
+                        <tr>
+                          <th class="text-nowrap">Site name</th>
+                          <th>Latitude</th>
+                          <th>Longitude</th>
+                          <th>Operations_area_constraint</th>
+                          <th class="text-nowrap">Client charge ($)</th>
+                          <th>Guard charge ($)</th>
+                          <th>Action</th>
+                          <th>id</th>
+                          <th class="text-nowrap">operations_area_constraint_active</th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                      </table>
 
 
                       </div>
@@ -543,6 +448,7 @@
                                     <button class="btn btn-error btn-sm btn-square rounded-pill">
                                       <span class="btn-icon icofont-ui-delete"></span>
                                     </button>
+
                                   </div>
                                 </td>
                               </tr>
@@ -583,7 +489,7 @@
         
                         </div>
 
-
+                     
 
                       </div>
                     
@@ -591,18 +497,9 @@
                   </div>
                   
                 </div>
-
-
-
-              
-
          
               </div>
             </div>
-  
-
-
-            
 
             <div class="mb-4">
 
@@ -622,7 +519,7 @@
                         <div class="row">
 
 
-                          <div class="col-12 col-sm-6">
+                          <div class="col-12 ">
                             <div class="input-group mb-3">
                               <input class="form-control" type="text" name="inputSiteName" id="inputSiteName" placeholder="Enter site name"
                                 required>
@@ -637,22 +534,9 @@
                               <input type="number" class="form-control" type="number" name="inputJobCost" id="inputJobCost" placeholder="Cost of job"  required>
                               <span class="input-group-text">Job amount</span>
                             </div>
-
-                            
                           </div>
-                        </div>
-                      </div>
 
-                    </div>
-                    <div class="row">
-                      <div class="col">
-                        <div class="row">
-                          <div class="col-12 col-sm-6" >
-                            <div class="input-group mb-3">
-                              <input class="form-control" type="number"  id="radius" name="radius" value="40"  placeholder="parameter default(40m)" required>
-                              <span class="input-group-text">Meter</span>
-                            </div>
-                          </div>
+
                           <div class="col-12 col-sm-6">
                             <div class="input-group mb-3">
                               <span class="input-group-text">$</span>
@@ -660,9 +544,12 @@
                               <span class="input-group-text">hourly pay</span>
                             </div>
                           </div>
+
                         </div>
                       </div>
+
                     </div>
+                   
 
                     
                     <div class="row">
@@ -689,20 +576,22 @@
                     <span class="btn-loader icofont-spinner"></span>
                   </button>
 
+                  <div class="input-group mb-3" style="width:100%;">
+                    <span class="input-group-text bg-dark text-white"> Geofence radius </span>
+                    <input class="form-control"  type="number"  id="radius" name="radius" value="40"  placeholder="parameter default(40m)" required>
+                    <span class="input-group-text bg-dark text-white" >Meter</span>
+                  </div>
+
                 </form>
               </div>
 
-              <div class="input-group mb-3" style="width:67%;">
-                <span class="input-group-text bg-dark text-white"> Geofence radius </span>
-                <input class="form-control"  type="number"  id="radius" name="radius" value="40"  placeholder="parameter default(40m)" required>
-                <span class="input-group-text bg-dark text-white" >Meter</span>
-              </div>
+           
               <div>NOTE: THE POSITION OF THE MARKER WILL BE USE AS YOUR ADDRESS</div>
               <div id="map">
               </div>
               <a href="#mapView" id="scrollMapTOView"></a>
 
-              <div class="row mt-1">
+              <div class="row mt-1" id="latLog">
                 <div class="col-12 col-sm-6">
                   <div class="input-group mb-3 ">
                     <span class="input-group-text bg-dark text-white">Latitude</span>
@@ -862,54 +751,13 @@
        
         </div>
         <div class="modal-body">
-              <form  class="updateForm">
-    
-                <label  class="mt-3">Parameter constraints</label>
-                <div class="input-group mb-3">
-                  <input class="form-control update${val.sites[i].id}" type="text" name="radius" id="radius" value=${val.sites[i].operations_area_constraint} required>
-                  <span class="input-group-text">Meter</span>
-                </div>
+          <form action="">
+            <div id="editSiteContainer">
+                        
+            </div>
+            <button type="submit" id="submitButton" style="display: none;"></button>
 
-                <div class="input-group mb-3 ">
-                  <span class="input-group-text">Latitude</span>
-                  <input  class="form-control" type="number" id="inputGuardAmount" name="inputGuardAmount"  placeholder="Enter Latitude"  required>
-                  <span class="input-group-text">Degree</span>
-                </div>
-
-                <div class="input-group mb-3 ">
-                  <span class="input-group-text">Longitude </span>
-                  <input  class="form-control" type="number" id="inputGuardAmount" name="inputGuardAmount"  placeholder="Enter Longitude"  required>
-                  <span class="input-group-text">Degree</span>
-                </div>
-
-                <div class="input-group mb-3">
-                  <span class="input-group-text">$</span>
-                  <input class="form-control"  type="text"  name="jobAmount"  id="jobAmount" value=${val.sites[i].client_charge} required>
-                  <span class="input-group-text"> Job amount </span>
-
-                </div>
-
-
-                <div class="input-group mb-3">
-                  <span class="input-group-text">$</span>
-                  <input class="form-control update${val.sites[i].id}" type="text" name="perHour"  id="perHour"  value=${val.sites[i].guard_charge} required>
-                  <span class="input-group-text">hourly pay</span>
-                </div>
-
-                <div class="input-group mb-3">
-                  <input class="form-control" type="text" name="siteName" id="siteName" value="${val.sites[i].site_name}" >
-                  <span class="input-group-text">Site name</span>
-                </div>
-
-                <div class="input-group mb-3">
-                  <textarea class="form-control" rows="4"  id="address" placeholder="${val.sites[i].address}"></textarea>
-                  <span class="input-group-text">Address</span>
-
-                </div>
-
-                <button type="submit" id="submitButton" style="display: none;"></button>
-
-              </form>
+        </form>
 
         </div>
         <div class="modal-footer">
@@ -999,12 +847,22 @@
   <script src="assets/js/echarts.min.js"></script>
   <script src="assets/js/echarts-gl.min.js"></script>
   <script src="assets/js/globalVar.js"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script>
+<script src="https://cdn.datatables.net/datetime/1.1.2/js/dataTables.dateTime.min.js"></script>
+<script src="https://cdn.datatables.net/rowreorder/1.2.8/js/dataTables.rowReorder.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
+
   <script src="assets/js/addSite.js"></script>
   <script src="assets/js/main.js"></script>
 
+
+
   <script
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-ppGbdkgQXBwhwiPIYtSYAjowZe0u4cc&callback=initAutocomplete&libraries=places&v=weekly"
-    defer></script>
+    defer>
+  </script>
 
 
 </body>

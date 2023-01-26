@@ -414,17 +414,17 @@
                           </svg>
                         </a>
                       </label>
-                      <select class="selectpicker gender" name="gender" title="Gender" required>
-                        <option value="NOT_SPECIFIED">Admin</option>
-                        <option value="MALE" >Account manager</option>
-                        <option value="FEMALE">staff</option>
+                      <select class="selectpicker " id="staff_role" name="staff_role" title="staff_role" required>
+                        <option value="ADMIN" >ADMIN</option>
+                        <option value="USER">USER</option>
+                        <option value="ACCOUNT_MANGER">ACCOUNT_MANGER</option>
                       </select>
                     </div>
                   </div>
 
                   <div class="col-12 col-sm-6">
                     <div class="input-group mb-3 ">
-                      <label>Account status 
+                      <label>Staff status 
                         <a href="#"  data-bs-toggle="popover" title="Account is active" data-bs-content="Staff can perform operation">
                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
                             <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -433,9 +433,9 @@
                         </a>
                       </label>
                       
-                      <select class="selectpicker gender" name="gender" title="Gender" required>
-                        <option value="NOT_SPECIFIED">Active</option>
-                        <option value="MALE" >Suspended</option>
+                      <select class="selectpicker staff_status" name="staff_status" title="staff_status" disabled>
+                        <option value="Active">Active</option>
+                        <option value="Suspended" >Suspended</option>
                       </select>
                     </div>
                   </div>
@@ -488,7 +488,7 @@
 
                           <div class="content-block">
                             <div class="item-header">
-                              <div class="item-date"><span>2017/24/9  02:01 AM</span></div>
+                              <div class="item-date"><span id="createdAt">2017/24/9  02:01 AM</span></div>
                             </div>
 
                             <div class="item-desc"><strong>Account created at</strong> </div>
@@ -502,7 +502,7 @@
 
                           <div class="content-block">
                             <div class="item-header">
-                              <div class="item-date"><span>2017/24/9  02:01 AM</span></div>
+                              <div class="item-date"><span id="updatedAt">2017/24/9  02:01 AM</span></div>
                             </div>
 
                             <div class="item-desc"><strong>Last update</strong></div>
@@ -516,7 +516,7 @@
 
                           <div class="content-block">
                             <div class="item-header">
-                              <div class="item-date"><span>Account manager</span></div>
+                              <div class="item-date"><span id="currentRole">Account manager</span></div>
                             </div>
 
                             <div class="item-desc"><strong>Current role</strong></div>
@@ -540,7 +540,26 @@
       <div class="footer-wrap">
         <div class="row h-100 align-items-center">
           <div class="col-12 col-md-6 d-none d-md-block">
-           
+            <ul class="page-breadcrumbs">
+              
+              <li class="item">
+                <a href=# class="link">FBY ADMIN</a>
+
+                <i class="separator icofont-thin-right"></i>
+              </li>
+
+              <li class="item">
+                <a href="staff.html"  class="link">Staff</a>
+                <i class="separator icofont-thin-right"></i>
+              </li>
+
+              <li class="item">
+                <a href=# class="link">Staff profile</a>
+                <i class="separator icofont-thin-right"></i>
+              </li>
+            
+            
+          </ul>
           </div>
 
           <div class="col-12 col-md-6 text-end">
@@ -668,7 +687,7 @@
 <script src="assets/js/echarts.min.js"></script>
 <script src="assets/js/echarts-gl.min.js"></script>
 <script src="assets/js/globalVar.js"></script>
-<script src="assets/js/user-profile.js"></script>
+<script src="assets/js/staff-profile.js"></script>
 <script src="assets/js/main.js"></script>
 
 <script>

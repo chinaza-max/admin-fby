@@ -9,18 +9,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- Favicon -->
-  <link rel="shortcut icon" href="../assets/img/favicon.ico">
+  <link rel="shortcut icon" href="assets/img/favicon.ico">
 
   <!-- Plugins CSS -->
-  <link rel="stylesheet" href="../assets/css/bootstrap/bootstrap.css">
-  <link rel="stylesheet" href="../assets/css/icofont.min.css">
-  <link rel="stylesheet" href="../assets/css/simple-line-icons.css">
-  <link rel="stylesheet" href="../assets/css/jquery.typeahead.css">
-  <link rel="stylesheet" href="../assets/css/datatables.min.css">
-  <link rel="stylesheet" href="../assets/css/bootstrap-select.min.css">
-  <link rel="stylesheet" href="../assets/css/Chart.min.css">
-  <link rel="stylesheet" href="../assets/css/morris.css">
-  <link rel="stylesheet" href="../assets/css/leaflet.css">
+  <link rel="stylesheet" href="assets/css/bootstrap/bootstrap.css">
+  <link rel="stylesheet" href="assets/css/icofont.min.css">
+  <link rel="stylesheet" href="assets/css/simple-line-icons.css">
+  <link rel="stylesheet" href="assets/css/jquery.typeahead.css">
+  <link rel="stylesheet" href="assets/css/datatables.min.css">
+  <link rel="stylesheet" href="assets/css/bootstrap-select.min.css">
+  <link rel="stylesheet" href="assets/css/Chart.min.css">
+  <link rel="stylesheet" href="assets/css/morris.css">
+  <link rel="stylesheet" href="assets/css/leaflet.css">
 
 
   
@@ -31,7 +31,7 @@
 
   
   <!-- Theme CSS -->
-  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 
@@ -100,7 +100,7 @@
                 data-bs-offset="0, 10"
               >
                 <span class="d-flex align-items-center">
-                  <img src="../assets/content/user-400-1.jpg" id="avatar" alt="" width="40" height="40" class="rounded-500 me-1">
+                  <img src="assets/content/user-400-1.jpg" id="avatar" alt="" width="40" height="40" class="rounded-500 me-1">
                   <i class="icofont-simple-down"></i>
                 </span>
               </button>
@@ -164,7 +164,7 @@
           <div class="app-logo">
             <div class="logo-wrap">
             
-            <img src="../assets/img/logo.png" alt="" width="147" height="33" class="logo-img">
+            <img src="assets/img/logo.png" alt="" width="147" height="33" class="logo-img">
              FBY
             </div>
           </div>
@@ -747,14 +747,14 @@
       <div class="modal-body">
           <div class="form-group">
             <label>Company's name</label>
-            <input class="form-control" type="text" name="firstName" placeholder="Type first name..." required>
+            <input class="form-control" type="text" name="company_name" placeholder="Type first name..." required>
           </div>      
 
           <div class="row">
             <div class="col-12 col-md-6">
               <div class="form-group">
                 <label>Email</label>
-                <div id="emailAlert" style="color:red ;"></div>
+                <div id="emailAlert" style="color:red ;" ></div>
                 <input class="form-control" type="email" name="email"  placeholder="Enter email..." required>
               </div>
             </div>
@@ -892,24 +892,75 @@
 </div>
 
 
-<script src="../assets/js/jquery-3.6.0.min.js"></script>
-<script src="../assets/js/jquery-migrate-1.4.1.min.js"></script>
-<script src="../assets/js/popper.min.js"></script>
-<script src="../assets/js/bootstrap.min.js"></script>
-<script src="../assets/js/jquery.typeahead.min.js"></script>
-<script src="../assets/js/datatables.min.js"></script>
-<script src="../assets/js/bootstrap-select.min.js"></script>
-<script src="../assets/js/jquery.barrating.min.js"></script>
-<script src="../assets/js/Chart.min.js"></script>
-<script src="../assets/js/raphael-min.js"></script>
-<script src="../assets/js/morris.min.js"></script>
-<script src="../assets/js/echarts.min.js"></script>
-<script src="../assets/js/echarts-gl.min.js"></script>
-<script src="../assets/js/globalVar.js"></script>
-<script src="../assets/js/customer.js"></script>
-<script src="../assets/js/main.js"></script>
+<div class="modal" id="suspend">
+  <div class="modal-dialog ">
+    <div class="modal-content">
+    
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          <i class="icofont-close-line"></i>
+        </button>
 
+        <div class="modal-header">
+          <h5 class="modal-title">
 
+            Suspend customer
+          </h5>
+          
+        </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+          <form id="suspendForm">
+
+            <label>info
+              <a href="#"  data-bs-toggle="popover" title="info" data-bs-content="Information about action">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                  </svg>
+                </a>
+               </label>
+        
+              <textarea class="form-control" id="suspendInfo" rows="4" placeholder="" required></textarea>
+      
+            <button type="submit" id="suspendFormButton" style="display: none;"></button>
+          </form>
+      </div>
+      
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary"  onclick="clickHiddenBut()">Suspend</button>
+
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/jquery-3.6.0.min.js"></script>
+<script src="assets/js/jquery-migrate-1.4.1.min.js"></script>
+<script src="assets/js/popper.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/jquery.typeahead.min.js"></script>
+<script src="assets/js/datatables.min.js"></script>
+<script src="assets/js/bootstrap-select.min.js"></script>
+<script src="assets/js/jquery.barrating.min.js"></script>
+<script src="assets/js/Chart.min.js"></script>
+<script src="assets/js/raphael-min.js"></script>
+<script src="assets/js/morris.min.js"></script>
+<script src="assets/js/echarts.min.js"></script>
+<script src="assets/js/echarts-gl.min.js"></script>
+<script src="assets/js/globalVar.js"></script>
+<script src="assets/js/customer.js"></script>
+<script src="assets/js/main.js"></script>
+
+<script>
+        //this script allows pop over 
+        var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+        var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+            return new bootstrap.Popover(popoverTriggerEl)
+        })
+    </script>
 
 </body>
 </html>

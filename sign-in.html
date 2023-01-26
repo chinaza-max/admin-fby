@@ -137,8 +137,6 @@
           },
           success: function (data, text) {
 
-            
-              console.log(data.data)
               if(data.data.token){
                 sessionStorage.setItem("hasVisited", true);
                 localStorage.setItem('myUser',btoa(data.data.token))
@@ -153,8 +151,6 @@
           },
           error: function (request, status, error) {
           
-
-            console.log(request)
             $("#signInButton").css("display","block")
             $("#loadingButton").css("display","none")
             if(request.readyState===0){ 

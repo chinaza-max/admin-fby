@@ -1,19 +1,19 @@
+
 const password=document.getElementById("password")
 const updateUser=document.getElementById("updateUser")
-
-
-
+let staff_id=localStorage.getItem("staff_id")
+let staffEmail=""
 
 password.addEventListener("click" ,()=>{
 
     $.ajax({
         type: "post", url:`${domain}/api/v1/auth/send-password-reset-link`,
         data: {
-            email:userEmail,
+            email:staffEmail,
         },
         dataType  : 'json',
         encode  : true,
-        success: function (data, text) {
+        success: function (data) {
             showModalEmailPasswordReset(data.message)
             setTimeout(() => {
                 hideModalEmailPasswordReset()
@@ -54,6 +54,8 @@ password.addEventListener("click" ,()=>{
          
         }
       });
+
+      
 })
 
 
@@ -76,16 +78,17 @@ updateUser.addEventListener("submit",(e)=>{
     email=formFields.email.value,
     gender=formFields.gender.value,
     date_of_birth=formFields.dataOfBirth.value,
-    address=formFields.address.value;
+    address=formFields.address.value,
+    role=formFields.staff_role.value,
+    staff_status=formFields.staff_status.value,
     phoneNumber=formFields.phoneNumber.value;
-
 
 
     for (const file of inputFile.files) {
         formData.append("image", file);
-        console.log(file)
     }
 
+    
    formData.append("first_name", first_name);
     formData.append("last_name", last_name);
     formData.append("email", email);
@@ -93,18 +96,12 @@ updateUser.addEventListener("submit",(e)=>{
     formData.append("gender", gender);
     formData.append("address",address);
     formData.append("phone_number",phoneNumber);
+    formData.append("role",role);
+    formData.append("id",staff_id);
 
 
 
-
-
-
-        for (const value of formData.values()) {
-            console.log(value);
-          }
-
-
-          fetch(`${domain}/api/v1/user/updateProfile`, {
+          fetch(`${domain}/api/v1/user/updateProfileOtherAdmin`, {
                 method: 'POST', // or 'PUT'
                 headers: {
                     "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
@@ -115,7 +112,6 @@ updateUser.addEventListener("submit",(e)=>{
                 })
                 .then((response) => response.json())
                 .then((data) => {
-                    console.log('Success:', data);
                     $("#signInButton").css("display","block")
                     $("#loadingButton").css("display","none")
 
@@ -170,6 +166,8 @@ updateUser.addEventListener("submit",(e)=>{
 
 
 })
+
+
 function checkImg(e){
     document.getElementById('avatar2').src = window.URL.createObjectURL(e.files[0])
 }
@@ -179,16 +177,23 @@ $(document).ready(function(){
 
     getProfileData=  function(){
         $.ajax({
-            type: "get", url:`${domain}/api/v1/auth`,
+            type: "post", url:`${domain}/api/v1/auth/profile_info`,
             dataType  : 'json',
             encode  : true,
             headers: {
                 "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
             },
-            success: function (data, text) {
-                localStorage.setItem('userDetails', btoa(JSON.stringify(data.data.user)));
+            data:{
+                id:staff_id
+            },
+            success: function (data) {
 
-                $("#avatar").attr("src",data.data.user.image);
+                let userData=JSON.parse(atob(localStorage.getItem("userDetails")))
+                if(userData.role!="SUPER_ADMIN"){
+                    $("#staff_role").attr("disabled", true)
+                }
+                $("#email").attr("disabled", true)
+                staffEmail=data.data.user.email
                 $("#avatar2").attr("src",data.data.user.image);
                 $("#firstName").val(data.data.user.first_name);
                 $("#lastName").val(data.data.user.last_name);
@@ -197,35 +202,33 @@ $(document).ready(function(){
                 $("#dataOfBirth").val(data.data.user.date_of_birth);
                 $("#phoneNumber").val(data.data.user.phone_number);
 
-                if(data.data.user.is_archived==true){
-                    $('select[name=status]').val("Available");
+                if(data.data.user.gender){
+                    $('select[name=gender]').val(data.data.user.gender);
+                    $('.selectpicker').selectpicker('refresh')
+                }
+
+                if(data.data.user.role){
+                    $('select[name=staff_role]').val("ADMIN");
+                    $('.selectpicker').selectpicker('refresh')
+                }
+
+                if(data.data.user.suspended==false){
+                    $('select[name=staff_status]').val("Active");
                     $('.selectpicker').selectpicker('refresh')
                 }
                 else{
-                    
-                    $('select[name=status]').val("notAvailable");
+                    $('select[name=staff_status]').val("Suspended");
                     $('.selectpicker').selectpicker('refresh')
-                
-                }
-                
-                if(data.data.user.gender=="MALE"){
-                    $('select[name=gender]').val("MALE");
-                    $('.selectpicker').selectpicker('refresh')
-                }
-                else if(data.data.user.gender=="FEMALE"){
-                $('select[name=gender]').val("FEMALE");
-                $('.selectpicker').selectpicker('refresh')
                 }
 
+                $("#createdAt").text(data.data.user.created_at)
+                $("#updatedAt").text(data.data.user.updated_at)
+                $("#currentRole").text(data.data.user.role)
+
+                
             },
             error: function (request, status, error) {
-                localStorage.removeItem("myUser");
-                
-            //  window.location.replace('https://sunny-kataifi-7adb6f.netlify.app/sign-in.html')
-            //  window.location.replace('/sign-in.html')
-            window.location.href =window.location.toString().split('/')[0] +`/index.html`
-
-
+                    analyzeError(request)
             }
         });
     }

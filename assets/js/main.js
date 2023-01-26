@@ -1548,6 +1548,7 @@
 
   $(window).on('load', function(){
 
+    
     if((!sessionStorage.getItem("hasVisited"))&&(window.location.pathname!="/sign-in.html")&&(window.location.pathname!="/forgotPassword.html")){
       window.location.href =window.location.toString().split('/')[0] + "/sign-in.html"
      
@@ -1582,6 +1583,8 @@
       }
      
     }
+
+    
     $.ready.then(function(){
       $('body').addClass('loaded');
     });

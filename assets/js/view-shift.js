@@ -52,10 +52,6 @@ $.fn.dataTable.ext.search.push(
           return false;
         }
         else if(dateSearch=="none"){
-          console.log(data[10])
-          console.log(data[12])
-
-
           if(data[16]=="false"&&!initiallze){
           //  calPayPerSchedule(data[10] ,data[12])
           } 
@@ -80,7 +76,6 @@ $.fn.dataTable.ext.search.push(
                 return true;
             }
             else if((customerName===customerNameVT)&&(Site==='')&&(staffName==='')){
-                console.log("2")
     
                 if(data[16]=="false"&&!initiallze){
                 //  calPayPerSchedule(data[10] ,data[12])
@@ -89,7 +84,6 @@ $.fn.dataTable.ext.search.push(
                 return true
             }
             else if((customerName===customerNameVT)&&(Site===SiteVT)&&(staffName==='')){
-                console.log("3")
                
                 if(data[16]=="false" &&!initiallze){
                 //  calPayPerSchedule(data[10] ,data[12])
@@ -97,7 +91,6 @@ $.fn.dataTable.ext.search.push(
                 return true
             }
             else if((customerName==='')&&(Site===SiteVT)&&(staffName==='')){
-                console.log("4")
     
                 if(data[16]=="false" &&!initiallze){
                 //  calPayPerSchedule(data[10] ,data[12])

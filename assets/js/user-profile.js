@@ -4,6 +4,7 @@ const updateUser=document.getElementById("updateUser")
 
 
 
+
 password.addEventListener("click" ,()=>{
 
     $.ajax({
@@ -83,7 +84,6 @@ updateUser.addEventListener("submit",(e)=>{
 
     for (const file of inputFile.files) {
         formData.append("image", file);
-        console.log(file)
     }
 
    formData.append("first_name", first_name);

@@ -3,7 +3,8 @@ offset=0,
 limit2=15,
 offset2=0,
 limit3=15,
-offset3=0
+offset3=0,
+customer_id=0;
 
 
 
@@ -11,16 +12,6 @@ offset3=0
 
 
 let formAdminReg=document.getElementById("formCustomerReg")
-
-/*
-setTimeout(() => {
-    showModalError("REGISTERATION SUCCESSFULL")
-
-    setTimeout(() => {
-        hideModal()
-    }, 5000);
-}, 1000);
-*/
 
 formAdminReg.addEventListener("submit",(e)=>{
     e.preventDefault()
@@ -31,8 +22,7 @@ formAdminReg.addEventListener("submit",(e)=>{
 
     const form = e.target;
     const formFields = form.elements,
-    first_name = formFields.firstName.value,
-    last_name=formFields.lastName.value,
+    company_name = formFields.company_name.value,
     email=formFields.email.value,
     gender=formFields.Gender.value,
     date_of_birth=formFields.dateOfBirth.value,
@@ -52,8 +42,7 @@ formAdminReg.addEventListener("submit",(e)=>{
             dataType  : 'json',
             encode  : true,
             data: {
-                    first_name,
-                    last_name,
+                    company_name,
                     email,
                     date_of_birth,
                     gender,
@@ -81,9 +70,7 @@ formAdminReg.addEventListener("submit",(e)=>{
 
                 $("#signInButton").css("display","block")
                 $("#loadingButton").css("display","none")
-                console.log(request)
-                console.log(status)
-                console.log(error)
+               
                 console.log(request.responseJSON.status)
 
               analyzeError(request)
@@ -108,19 +95,12 @@ formAdminReg.addEventListener("submit",(e)=>{
 
     
     function  clearField(){
-        formFields.firstName.value='',
-        formFields.lastName.value='',
+        formFields.company_name.value='',
         formFields.email.value='',
         formFields.Gender.value='',
         formFields.dateOfBirth.value='',
         formFields.address.value='',
         formFields.Phone_number.value='';
-
-
-
-        
-  
-
 
         $('select[name=gender]').val("SELECT");
         $('.selectpicker').selectpicker('refresh')
@@ -177,6 +157,7 @@ $(document).ready(function(){
 
     getTableDate(limit,offset)
     function CreateTable(val){
+
         let data=''
         if(val.length!=0){
 
@@ -190,7 +171,7 @@ $(document).ready(function(){
                 </td>
                 
                 <td>
-                  <strong>${val[i].full_name}</strong>
+                  <strong>${val[i].company_name}</strong>
                 </td>
                 
                 <td>
@@ -226,6 +207,14 @@ $(document).ready(function(){
                     <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteCustomer(${val[i].address_id})">
                       <span class="btn-icon icofont-ui-delete"></span>
                     </button>
+
+                    <button onclick="update_customer_id(${val[i].id})" class="btn btn-error btn-sm btn-square rounded-pill" 
+                    data-bs-toggle="modal" data-bs-target="#suspend" 
+                     onclick="">
+                    <div class="icon sli-user-unfollow"></div>
+                  </button>
+
+
                   </div>
                 </td>
               </tr>`
@@ -252,6 +241,116 @@ $(document).ready(function(){
 
     }
     
+
+
+    getTableDate2=function ( limit,offset){
+      $('#loader2').css("display","block");
+
+      $.ajax({
+          type: "get", url:`${domain}/api/v1/customer?limit=${limit}&offset=${offset}`,
+          headers: {
+              "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+          },
+          dataType  : 'json',
+          encode  : true,
+        
+          success: function (data) {
+              
+              $('#loader1').css("display","none");
+
+              CreateTable2(data.data)
+
+          },
+          error: function (request, status, error) {
+
+
+              console.log(request)
+              $('#loader2').css("display","none");
+              analyzeError(request)
+           
+          }
+      });
+  }
+
+  getTableDate2(limit,offset)
+  function CreateTable2(val){
+
+      let data=''
+      if(val.length!=0){
+
+          for(let i=0; i<val.length; i++){
+              data+= `  <tr>
+              <td>
+              ${offset+i+1}
+            </td>
+              <td>
+                <img src=${val[i].image} alt="" width="40" height="40" class="rounded-500">
+              </td>
+              
+              <td>
+                <strong>${val[i].full_name}</strong>
+              </td>
+              
+              <td>
+                <div class="text-muted text-nowrap">${val[i].sites.length}</div>
+              </td>
+              <td>
+                <div class="address-col">${val[i].address}</div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center nowrap text-primary">
+                ${val[i].email}
+                </div>
+              </td>
+
+              <td>
+
+                <div class="d-flex align-items-center nowrap text-primary">
+                      <span class="icofont-ui-cell-phone p-0 me-2"></span>
+                      ${val[i].phone_number}
+                    </div>
+              </td>
+              <td>
+                <div class="text-muted text-nowrap">${val[i].gender}</div>
+              </td>
+              <td>
+                <div class="actions">
+                  <button onclick="storeCurrentUserID()"  data-bs-toggle="modal" data-bs-target="#suspension_details"  class="btn btn-dark btn-sm btn-square rounded-pill">
+                    <span class="btn-icon icofont-external-link"></span>
+                  </button>
+                  <button  onclick="storeCurrentUserID()"  data-bs-toggle="modal" data-bs-target="#edit"  class="btn btn-info btn-sm btn-square rounded-pill">
+                    <span class="btn-icon icofont-ui-edit"></span>
+                  </button>
+                  <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteCustomer()">
+                    <span class="btn-icon icofont-ui-delete"></span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+`
+
+              if(i==val.length-1){
+
+                  $('#mytable2').children().remove();
+                  $("#mytable2").append(data)
+              }
+          }
+        }else{
+
+          $('#mytable2').children().remove();
+          $("#mytable2").append(`    <tr>
+          <td colspan="1000">
+          
+          <div class="alert alert-light outline text-dark " role="alert" style="text-align:center;">
+          YOU HAVE NO SUSPENDED 
+        </div>
+          </td>
+        </tr>`)
+        }
+
+
+  }
+  
 
 
   });
@@ -409,3 +508,59 @@ function deleteCustomer(id){
 
 
 }
+
+
+function update_customer_id(id){
+  customer_id=id
+}
+
+function clickHiddenBut(){
+  document.getElementById("suspendFormButton").click()
+}
+
+
+let suspendForm=document.getElementById("suspendForm")
+suspendForm.addEventListener("submit",(e)=>{
+  e.preventDefault()
+
+  let suspendInfo=document.getElementById("suspendInfo").value
+
+  console.log(customer_id)
+  $.ajax({
+    type: "post", url:`${domain}/api/v1/user/suspend_customer_account`,
+    headers: {
+      "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+    },
+    dataType  : 'json',
+    encode  : true,
+    data: {
+      customer_id,
+      comment:suspendInfo,
+    },
+    success: function (data) {
+
+      getTableDate(limit,offset)
+      showModal(data.message)
+        setTimeout(() => {
+                hideModal()
+        }, 3000)
+    },
+    error: function (request, status, error) {
+        console.log(request)
+
+      if(request.responseJSON.status=="unauthorized-error"){
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: `${request.responseJSON.message}`,
+        })
+      } 
+      else{
+        analyzeError(request)
+      }
+     
+    }
+  });
+
+
+})

@@ -2,7 +2,7 @@
   let radius=40
   let cityCircle='';
   let position = [9.1016, 7.2139];
-  let contentString ="test";
+  let contentString ="";
 
 
 
@@ -268,9 +268,10 @@ submitSite.addEventListener("submit",(e)=>{
 
 })
 
-  }
+}
   
   window.initAutocomplete = initAutocomplete;
+
 
 
 

@@ -6,60 +6,12 @@ let myCstomer_id=''
 let deleteButtonWasClick=false
 
 
-getSite()
-function getSite(){
-    $.ajax({
-        type: "get", url:`${domain}/api/v1/customer/one?id=${myID}`,
-        headers: {
-            "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
-        },
-        dataType  : 'json',
-        encode  : true,
-        success: function (data) {
-
-            console.log(data)
-            myEmail=data.data[0].email
-            myCstomer_id=data.data[0].id
-            disPlayData(data.data[0])
-
-        },
-        error: function (request, status, error) {
-    
-            console.log(request)
-    
-            if(request.responseJSON.status=="conflict-error"){
-                console.log(request.responseJSON.message)
-                showModalError(request.responseJSON.message)
-                setTimeout(() => {
-                    hideModalError()
-                }, 3000);
-            }
-            else if(request.responseJSON.status=="validation-error"){
-                console.log(request.responseJSON.errors.message)
-                showModalError(request.responseJSON.errors[0].message)
-                setTimeout(() => {
-                    hideModalError()
-                }, 3000);
-            }
-            else if(request.responseJSON.status=="server-error"){
-                console.log(request.responseJSON.message)
-                showModalError(request.responseJSON.message)
-                setTimeout(() => {
-                    hideModalError()
-                }, 3000);
-            }
-         
-        }
-    });
-}
 
 function disPlayData(val){
 
     $("#siteOwner").text(`SITE OWNER: ${ val.full_name}`);
     $("#siteOwner2").text(`${ val.full_name} SITES`);
     let data=''
-
-            console.log(val.sites)
             for(let i=0; i<val.sites.length; i++){
                 data+= `
                 <div class="col-12 col-md-6" >
@@ -158,16 +110,7 @@ submitSite.addEventListener("submit",(e)=>{
     customer_id=myCstomer_id;
 
 
-    //console.log(longitude,latitude )
-    console.log("longitude",longitude )
-    console.log("latitude",latitude)
-    console.log("longitude",position2[1] )
-    console.log("latitude",position2[0] )
-
-
-
-
-    console.log(site_name,guard_charge,client_charge,operations_area_constraint,longitude,latitude,customer_id, siteAddress )
+    //console.log(site_name,guard_charge,client_charge,operations_area_constraint,longitude,latitude,customer_id, siteAddress )
     
           $.ajax({
             type: "post", url:`${domain}/api/v1/customer/createFacility`,
@@ -189,7 +132,7 @@ submitSite.addEventListener("submit",(e)=>{
             success: function (data, text) {
   
                 showModal("SITE REGISTERATION SUCCESSFULL")
-                getSite()
+                getSiteTable()
                 setTimeout(() => {
                         hideModal()
                 }, alertLifeSpan);
@@ -334,6 +277,214 @@ $("#pac-input").focus(function() {
 });
 
 
+//let getSite
+
+let getSiteTable
+$(document).ready(function(){
+
+
+  
+  getSite=function(){
+    $.ajax({
+        type: "get", url:`${domain}/api/v1/customer/one?id=${myID}`,
+        headers: {
+            "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+        },
+        dataType  : 'json',
+        encode  : true,
+        success: function (data) {
+
+            myEmail=data.data[0].email
+            myCstomer_id=data.data[0].id
+
+        },
+        error: function (request, status, error) {
+        
+            if(request.responseJSON.status=="conflict-error"){
+                console.log(request.responseJSON.message)
+                showModalError(request.responseJSON.message)
+                setTimeout(() => {
+                    hideModalError()
+                }, 3000);
+            }
+            else if(request.responseJSON.status=="validation-error"){
+                console.log(request.responseJSON.errors.message)
+                showModalError(request.responseJSON.errors[0].message)
+                setTimeout(() => {
+                    hideModalError()
+                }, 3000);
+            }
+            else if(request.responseJSON.status=="server-error"){
+                console.log(request.responseJSON.message)
+                showModalError(request.responseJSON.message)
+                setTimeout(() => {
+                    hideModalError()
+                }, 3000);
+            }
+         
+        }
+    });
+  }
+  getSite()
+
+  
+
+  getSiteTable=function(){
+    var table = $('#example').DataTable({
+      ajax: {
+          url: `${domain}/api/v1/customer/one?id=${myID}`,
+          method: "get",
+          dataType  : 'json',
+          encode  : true,
+          dataSrc: function (data) {
+            return data.data[0].sites;
+          },
+          headers: {
+            "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+        },
+        }, 
+        columnDefs: [
+
+          {
+            render: function (data, type, full, meta) {
+
+              return  `
+                      <button   data-bs-toggle="modal" onclick="getSingleSiteDetails(${data})" data-bs-target="#editSiteLocation" class="btn btn-info btn-sm btn-square rounded-pill">
+                                      <span class="btn-icon icofont-ui-edit"></span>
+                                    </button>
+                                    <a  href="customer-job.html" class="btn btn-dark btn-sm btn-square rounded-pill">
+                                      <span class="btn-icon icofont-external-link"></span>
+                                    </a>
+                                    <button class="btn btn-error btn-sm btn-square rounded-pill">
+                                      <span class="btn-icon icofont-ui-delete"></span>
+                                    </button>
+          `
+  
+            },
+            targets: 6
+          }
+       
+        ],
+        columns:[
+          {data: "site_name" },
+          {data: "latitude" },
+          {data: "longitude" },
+          {data: "operations_area_constraint" },
+          {data: "client_charge" },
+          {data: "guard_charge"},
+          {data: "facility_location_id" },
+          {data: "id" },
+          {data: "operations_area_constraint_active"}
+          ],
+      responsive: true,
+ 
+  })
+
+
+
+  setTimeout(() => {
+
+      let column1 = table.column(7);
+      column1.visible(!column1.visible());
+      let column2 = table.column(8);
+      column2.visible(!column2.visible());
+    //var column2 = table.column(16);
+   // column2.visible(!column2.visible());
+ 
+    
+    }, 1000);
+  }
+
+  getSiteTable()
+
+
+
+})
+
+
+
+function getSingleSiteDetails(id){
+
+
+  $.ajax({
+    type: "get", url:`${domain}/api/v1/customer/get_all_site_or_single_site?type=singleSite&id=${id}`,
+    dataType  : 'json',
+    encode  : true,
+    headers: {
+        "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+    },
+    success: function (data) {
+      console.log(data)
+
+       displayForEditing(data.data)
+    },
+    error: function (request, status, error) {
+        analyzeError(request)
+     
+    }
+  });
+}
+
+
+
+function displayForEditing(val){
+
+  let data=''
+          console.log(val)
+  if(val.operations_area_constraint){
+      data=`
+      <label  class="mt-3">Parameter constraints</label>
+      <div class="input-group mb-3">
+        <input class="form-control  type="text" name="radius" id="radius" value=${val.operations_area_constraint} required>
+        <span class="input-group-text">Meter</span>
+      </div>
+
+      <div class="input-group mb-3">
+        <span class="input-group-text">$</span>
+        <input class="form-control"  type="text"  name="jobAmount"  id="jobAmount" value=${val.client_charge} required>
+        <span class="input-group-text"> Job amount </span>
+
+      </div>
+
+
+      <div class="input-group mb-3">
+        <span class="input-group-text">$</span>
+        <input class="form-control  type="text" name="perHour"  id="perHour"  value=${val.guard_charge} required>
+        <span class="input-group-text">hourly pay</span>
+      </div>
+
+      <div class="input-group mb-3">
+        <input class="form-control" type="text"   value=${val.latitude} required>
+        <span class="input-group-text">Latitude</span>
+      </div>
+
+      <div class="input-group mb-3">
+        <input class="form-control" type="text"   value=${val.longitude} required>
+        <span class="input-group-text">Longitude</span>
+      </div>
+
+      <div class="input-group mb-3">
+        <input class="form-control" type="text" name="siteName" id="siteName" value="${val.site_name}" required>
+        <span class="input-group-text">Site name</span>
+      </div>
+
+      <div class="input-group mb-3">
+        <textarea class="form-control" rows="4"  id="address" placeholder="${val.address}" required></textarea>
+        <span class="input-group-text">Address</span>
+      </div>
+      `
+
+
+      console.log(data)
+      $('#editSiteContainer').children().remove();
+      $("#editSiteContainer").append(data)
+
+  }else{
+
+  }
+
+
+}
 /*
 if (navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(successFunction, errorFunction);

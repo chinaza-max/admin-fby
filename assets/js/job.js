@@ -197,10 +197,43 @@ let MAX_TIMESTAMP = 8640000000000000;
 
 function getAvailableGuard(modalId,picker){
   
-
-
   $.ajax({
     type: "post", url:`${domain}/api/v1/job/getGuard`,
+    dataType  : 'json',
+    encode  : true,
+    headers: {
+      "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+    },
+    data: {
+      job_id:job_id_for_schedule,
+    },
+    success: function (data) {
+         
+          displayGuard(data.data, modalId,picker)
+          
+        setTimeout(() => {
+                hideModal()
+        }, 3000);
+
+    },
+    error: function (request, status, error) {
+
+        analyzeError(request)
+     
+    }
+  });
+
+}
+//START GET AVAILABLE GUARD 
+
+
+
+ //START GET fREE GUARD 
+
+ function getAvailableGuard2(modalId,picker){
+  
+  $.ajax({
+    type: "post", url:`${domain}/api/v1/job/get_free_Guard`,
     dataType  : 'json',
     encode  : true,
     headers: {
@@ -2428,7 +2461,6 @@ $(function(){
    //FOR DECLINE JOB
    getTableData4=function ( limit,offset){
 
-
     $('#loader4').css("display","block");
 
     $.ajax({
@@ -2439,7 +2471,7 @@ $(function(){
         dataType  : 'json',
         encode  : true,
       
-        success: function (data, text) {
+        success: function (data) {
 
             console.log(data.data)
             $('#loader4').css("display","none");
@@ -2495,8 +2527,8 @@ $(function(){
                 <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteGuardSchedule(${val[i].job_id},${val[i].guard_id})">
                   <span class="btn-icon icofont-ui-delete"></span>
                 </button>
-                <button  data-bs-toggle="modal" data-bs-target="#add-guard2" onclick="getAvailableGuard('selectpickerReassignId','selectpickerReassign');update_job_id_for_schedule(${val[i].job_id});PrepareScheduleDetails()"  class="btn btn-dark btn-sm btn-square rounded-pill">
-                <span class="btn-icon icofont-external-link"></span>
+                <button  data-bs-toggle="modal" data-bs-target="#add-guard2" onclick="getAvailableGuard2('selectpickerReassignId','selectpickerReassign');update_job_id_for_schedule(${val[i].job_id});PrepareScheduleDetails(${val[i].guard_id})"  class="btn btn-dark btn-sm btn-square rounded-pill">
+                <div class="icon sli-share-alt"></div>
                 </button>
 
                 <button type="button" class="btn btn-outline-primary"  onclick="reAssign(${val[i].job_id},${val[i].guard_id})">Re-assign</button>
@@ -2835,11 +2867,7 @@ function deleteJob(job_id){
     }
   
   })
-
-
-
 }
-
 
 
 function deleteGuardSchedule(job_id,guard_id){
@@ -2907,7 +2935,6 @@ function deleteGuardSchedule(job_id,guard_id){
 
 
 function reAssign(job_id,guard_id){
-
 
   Swal.fire({
     title: 'Are you sure you want to send job back to the same guard?',
@@ -2984,11 +3011,23 @@ all_form_for_adding_guard.forEach(element => {
 
 
 
-function PrepareScheduleDetails(){
+
+let old_guard_id;
+document.getElementById("reassignForm").addEventListener("submit",(e)=>{
+  e.preventDefault()
+
+
+  console.log(old_guard_id,job_id_for_schedule )
+
+
+  
+  let guard_id_array = $(".selectpickerReassign option:selected").map(function() {
+    return $(this).data("name");
+  }).get()
 
 
   $.ajax({
-    type: "post", url:`${domain}/api/v1/job/allJobs/reasign_schedule_and_remove_guard`,
+    type: "post", url:`${domain}/api/v1/job/reasign_schedule_and_remove_guard`,
     headers: {
         "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
     },
@@ -2996,19 +3035,28 @@ function PrepareScheduleDetails(){
     encode  : true,
     data: {
         old_guard_id,
-        job_id,
-        array_guard_id:JSON.stringify(data)  
+        job_id:job_id_for_schedule,
+        array_guard_id:JSON.stringify(guard_id_array)  
       },
     success: function (data) {
-  
+      getTableData4()
+      showModal(data.message)
     },
     error: function (request, status, error) {
+
+      console.log(request)
         analyzeError(request)
      
     }
   })
 
+  
+
+ })
 
 
+function PrepareScheduleDetails(id){
+
+  old_guard_id=id
 }
 
