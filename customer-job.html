@@ -10,32 +10,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- Favicon -->
-  <link rel="shortcut icon" href="../assets/img/favicon.ico">
+  <link rel="shortcut icon" href="assets/img/favicon.ico">
 
   <!-- Plugins CSS -->
-  <link rel="stylesheet" href="../assets/css/bootstrap/bootstrap.css">
-  <link rel="stylesheet" href="../assets/css/icofont.min.css">
-  <link rel="stylesheet" href="../assets/css/simple-line-icons.css">
-  <link rel="stylesheet" href="../assets/css/jquery.typeahead.css">
-  <link rel="stylesheet" href="../assets/css/datatables.min.css">
-  <link rel="stylesheet" href="../assets/css/bootstrap-select.min.css">
-  <link rel="stylesheet" href="../assets/css/Chart.min.css">
-  <link rel="stylesheet" href="../assets/css/morris.css">
-  <link rel="stylesheet" href="../assets/css/leaflet.css">
+  <link rel="stylesheet" href="assets/css/bootstrap/bootstrap.css">
+  <link rel="stylesheet" href="assets/css/icofont.min.css">
+  <link rel="stylesheet" href="assets/css/simple-line-icons.css">
+  <link rel="stylesheet" href="assets/css/jquery.typeahead.css">
+  <link rel="stylesheet" href="assets/css/datatables.min.css">
+  <link rel="stylesheet" href="assets/css/bootstrap-select.min.css">
+  <link rel="stylesheet" href="assets/css/Chart.min.css">
+  <link rel="stylesheet" href="assets/css/morris.css">
+  <link rel="stylesheet" href="assets/css/leaflet.css">
 
   <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
-  <link rel="stylesheet" href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css">
-  <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.datatables.net/datetime/1.1.2/css/dataTables.dateTime.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.2.8/css/rowReorder.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css">
 
-  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
   <!-- Theme CSS -->
-  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 
@@ -92,7 +89,7 @@
               <button class="no-style dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false" data-bs-offset="0, 10">
                 <span class="d-flex align-items-center">
-                  <img src="../assets/content/user-400-1.jpg" id="avatar" alt="" width="40" height="40"
+                  <img src="assets/content/fbyDefaultIMG.png" id="avatar" alt="" width="40" height="40"
                     class="rounded-500 me-1">
                   <i class="icofont-simple-down"></i>
                 </span>
@@ -114,7 +111,7 @@
                     </a>
                   </li>
                   <li>
-                    <a href="./sign-in.html" class="align-items-center">
+                    <a href="sign-in.html" class="align-items-center">
                       <span class="icon icofont-logout"></span>
                       Log Out
                     </a>
@@ -157,7 +154,7 @@
           <div class="app-logo">
             <div class="logo-wrap">
 
-              <img src="../assets/img/logo.png" alt="" width="147" height="33" class="logo-img">
+              <img src="assets/img/logo.png" alt="" width="147" height="33" class="logo-img">
               FBY
             </div>
           </div>
@@ -231,8 +228,8 @@
                   </a>
                 </li>
 
-                <li class="menu-item active">
-                  <a class="item-link" href="#">
+                <li class="menu-item ">
+                  <a class="item-link" href="Jobs.html">
                     <div class="icon icofont-prescription"></div>
                     <span class="link-text">Manage Job</span>
                   </a>
@@ -321,13 +318,12 @@
           <div class="page-content">
 
             <header class="page-header">
-                <h2 class="page-title">Company's job</h2>
+                <h2 class="page-title" >Company's job</h2>
             </header>
-
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                  <li class="breadcrumb-item ">Company's Name :  Balas</li>
-                  <li class="breadcrumb-item active" aria-current="page">Site's Name :  Balas</li>
+                  <li class="breadcrumb-item " id="cName"></li>
+                  <li class="breadcrumb-item active" aria-current="page" id="sName"></li>
                 </ol>
             </nav>
 
@@ -348,454 +344,31 @@
                   </ul>
                   <div class="tab-content">
                     <div class="tab-pane fade show active" id="tab-1" role="tabpanel">
-                        <div class="card">
-                
-                            <div class="card-body">
-                              <ul class="nav nav-pills mb-3" role="tablist">
-                                <li class="nav-item" role="presentation" >
-                                  <button class="nav-link active" id="active" onclick="updateNavLinkStatus('active')" data-bs-toggle="pill" data-bs-target="#tab-3" type="button"
-                                    role="tab" aria-selected="true">Active</button>
-                                </li>
-                                <li class="nav-item" role="presentation" id="pendingContainer">
-                                  <button class="nav-link" id="pending" onclick="updateNavLinkStatus('pending')" data-bs-toggle="pill" data-bs-target="#tab-4" type="button" role="tab"
-                                    aria-selected="false">Pending</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                  <button class="nav-link" id="completed" onclick="updateNavLinkStatus('completed')" data-bs-toggle="pill" data-bs-target="#tab-5" type="button" role="tab"
-                                    aria-selected="false">Completed</button>
-                                </li>
-                           
-              
-                              </ul>
-                              <div class="tab-content">
-                                <div class="tab-pane fade show active" id="tab-3" role="tabpanel">
-                                  <div class="card mb-0">
-                                    <div class="card-body">
-                                      <div class="table-responsive">
-                                        <table class="table table-hover nowrap">
-                                          <thead>
-                                            <tr>
-                                              <th scope="col">#</th>
-                                              <th scope="col">Date created</th>
-                                              <th scope="col">Job ID</th>
-                                              <th scope="col">Progress</th>
-                                              <th scope="col">Client charge</th>
-                                              <th scope="col">Guard charge</th>
-                                              <th scope="col">Payment  status</th>
-                                              <th scope="col">Invoices</th>
-                                              <th scope="col">Actions</th>
-                                            </tr>
-                                          </thead>
-              
-                                          <tbody id="mytable">
-                                              <tr>
-              
-                                                  <td>
-                                                  ${offset+i+1}
-                                                </td>
-                                               
-                                                  <td>
-                                                    <div class="d-flex align-items-center nowrap text-primary">
-                                                    ${val[i].create}
-                                                    </div>
-                                                  </td>
-                                                  <td>
-                                                  ${val[i].id}
-                                                  </td>
-                                             
-                                                  <td>
-                                                    <div class="text-muted text-nowrap">
-                                              
-                                                        <div class="progress">
-                                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 10%"></div>
-                                                        </div>
-                                      
-                                                    </div>
-                                                  </td>
-                                                  <td>
-                                                    <div class="d-flex align-items-center nowrap text-primary">
-                                                    $${val[i].client_charge}
-                                                    </div>
-                                                  </td>
-              
-                                                  <td>
-                                                      <div class="d-flex align-items-center nowrap text-primary">
-                                                      $${val[i].client_charge}
-                                                      </div>
-                                                    </td>
-              
-                                                  <td>
-                                                      <div class="text-nowrap text-success">
-                                                          <i class="icofont-check-circled"></i> Paid
-                                                      </div>
-                                                  </td>
-                                                
-                                                  <td>
-                                                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
-                                                      data-bs-target="#invoice"  onclick="update_job_id_for_schedule()">View</button>
-                                                  </td>
-                                                  <td>
-                                                    <div class="actions">
-                                                  
-                                                      <a href="guard-in-job.html" onclick="storeCurrentUserID(${val[i].id})"  class="btn btn-dark btn-sm btn-square rounded-pill">
-                                                      <span class="btn-icon icofont-external-link"></span>
-                                                      </a>
-                                                      <button class="btn btn-info btn-sm btn-square rounded-pill" data-bs-toggle="modal"
-                                                        data-bs-target="#edit"   onclick="updateJobStatusId(${val[i].id})">
-                                                        <span class="btn-icon icofont-ui-edit"></span>
-                                                      </button>
-                                                      
-                                                      <button onclick="deleteJob(${val[i].id})" class="btn btn-error btn-sm btn-square rounded-pill">
-                                                        <span class="btn-icon icofont-ui-delete"></span>
-                                                      </button>
-                                                    </div>
-                                                  </td>
-                                                </tr>
-                                          </tbody>
-                                        </table>
-              
-                                        <div class="text-center" id="loader1">
-                                          <div class="spinner-border" role="status">
-                                            <span class="sr-only">Loading...</span>
-                                          </div>
-                                        </div>
-                                      </div>
-              
-                                      <nav class="mt-4">
-                                        <ul class="pagination">
-                                          <li id="Previous" class="page-item page-item1 disabled" onclick="Previous()">
-                                            <a class="page-link" href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
-                                              <span class="icofont-simple-left"></span>
-                                            </a>
-                                          </li>
-                                        
-                                          <li id="Next" class="page-item page-item1 active" onclick="Next()">
-                                            <a class="page-link" href="#" aria-label="Next">
-                                              <span class="icofont-simple-right"></span>
-                                            </a>
-                                          </li>
-                                        </ul>
-                                      </nav>
-              
-                                    </div>
-                                  </div>
-                                </div>
-              
-                                <div class="tab-pane fade" id="tab-4" role="tabpanel">
-                                  <div class="card mb-0">
-                                    <div class="card-body">
-                                      <div class="table-responsive">
-                                        <table class="table table-hover nowrap">
-                                          <thead>
-                                              <tr>
-                                                  <th scope="col">#</th>
-                                                  <th scope="col">Date created</th>
-                                                  <th scope="col">Job ID</th>
-                                                  <th scope="col">Progress</th>
-                                                  <th scope="col">Client charge</th>
-                                                  <th scope="col">Guard charge</th>
-                                                  <th scope="col">Payment  status</th>
-                                                  <th scope="col">Invoices</th>
-                                                  <th scope="col">Actions</th>
-                                              </tr>
-                                          </thead>
-                                          <tbody id="mytable">
-                                              <tr>
-              
-                                                  <td>
-                                                  ${offset+i+1}
-                                                </td>
-                                               
-                                                  <td>
-                                                    <div class="d-flex align-items-center nowrap text-primary">
-                                                    ${val[i].create}
-                                                    </div>
-                                                  </td>
-                                                  <td>
-                                                  ${val[i].id}
-                                                  </td>
-                                             
-                                                  <td>
-                                                    <div class="text-muted text-nowrap">
-                                              
-                                                        <div class="progress">
-                                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 10%"></div>
-                                                        </div>
-                                      
-                                                    </div>
-                                                  </td>
-                                                  <td>
-                                                    <div class="d-flex align-items-center nowrap text-primary">
-                                                    $${val[i].client_charge}
-                                                    </div>
-                                                  </td>
-              
-                                                  <td>
-                                                      <div class="d-flex align-items-center nowrap text-primary">
-                                                      $${val[i].client_charge}
-                                                      </div>
-                                                    </td>
-              
-                                                  <td>
-                                                      <div class="text-nowrap text-success">
-                                                          <i class="icofont-check-circled"></i> Paid
-                                                      </div>
-                                                  </td>
-                                                
-                                                  <td>
-                                                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
-                                                      data-bs-target="#schedule"  onclick="update_job_id_for_schedule()">View</button>
-                                                  </td>
-                                                  <td>
-                                                    <div class="actions">
-                                                  
-                                                      <a href="guard-in-job.html" onclick="storeCurrentUserID(${val[i].id})"  class="btn btn-dark btn-sm btn-square rounded-pill">
-                                                      <span class="btn-icon icofont-external-link"></span>
-                                                      </a>
-                                                      <button class="btn btn-info btn-sm btn-square rounded-pill" data-bs-toggle="modal"
-                                                        data-bs-target="#edit"   onclick="updateJobStatusId(${val[i].id})">
-                                                        <span class="btn-icon icofont-ui-edit"></span>
-                                                      </button>
-                                                      
-                                                      <button onclick="deleteJob(${val[i].id})" class="btn btn-error btn-sm btn-square rounded-pill">
-                                                        <span class="btn-icon icofont-ui-delete"></span>
-                                                      </button>
-                                                    </div>
-                                                  </td>
-                                                </tr>
-              
-                                          </tbody>
-                                        </table>
-              
-                                        <div class="text-center" id="loader2">
-                                          <div class="spinner-border" role="status">
-                                            <span class="sr-only">Loading...</span>
-                                          </div>
-                                        </div>
-                                      </div>
-              
-                                      <nav class="mt-4">
-                                        <ul class="pagination">
-                                          <li id="Previous2" class="page-item page-item2 disabled" onclick="Previous2()">
-                                            <a class="page-link" href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
-                                              <span class="icofont-simple-left"></span>
-                                            </a>
-                                          </li>
-                                   
-                                          <li id="Next2" class="page-item page-item2 active" onclick="Next2()">
-                                            <a class="page-link" href="#" aria-label="Next">
-                                              <span class="icofont-simple-right"></span>
-                                            </a>
-                                          </li>
-                                        </ul>
-                                      </nav>
-                                    </div>
-                                  </div>
-                                </div>
-              
-                                <div class="tab-pane fade" id="tab-5" role="tabpanel">
-                                  <div class="card mb-0">
-                                    <div class="card-body">
-                                      <div class="table-responsive">
-                                        <table class="table table-hover nowrap">
-                                          <thead>
-                                              <tr>
-                                                  <th scope="col">#</th>
-                                                  <th scope="col">Date created</th>
-                                                  <th scope="col">Job ID</th>
-                                                  <th scope="col">Progress</th>
-                                                  <th scope="col">Client charge</th>
-                                                  <th scope="col">Guard charge</th>
-                                                  <th scope="col">Payment  status</th>
-                                                  <th scope="col">Invoices</th>
-                                                  <th scope="col">Actions</th>
-                                                </tr>
-                                          </thead>
-                                          <tbody id="mytable">
-                                              <tr>
-              
-                                                  <td>
-                                                  ${offset+i+1}
-                                                </td>
-                                               
-                                                  <td>
-                                                    <div class="d-flex align-items-center nowrap text-primary">
-                                                    ${val[i].create}
-                                                    </div>
-                                                  </td>
-                                                  <td>
-                                                  ${val[i].id}
-                                                  </td>
-                                             
-                                                  <td>
-                                                    <div class="text-muted text-nowrap">
-                                              
-                                                        <div class="progress">
-                                                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
-                                                        </div>
-                                      
-                                                    </div>
-                                                  </td>
-                                                  <td>
-                                                    <div class="d-flex align-items-center nowrap text-primary">
-                                                    $${val[i].client_charge}
-                                                    </div>
-                                                  </td>
-              
-                                                  <td>
-                                                      <div class="d-flex align-items-center nowrap text-primary">
-                                                      $${val[i].client_charge}
-                                                      </div>
-                                                    </td>
-              
-                                                  <td>
-                                                      <div class="text-nowrap text-success">
-                                                          <i class="icofont-check-circled"></i> Paid
-                                                      </div>
-                                                  </td>
-                                                
-                                                  <td>
-                                                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
-                                                      data-bs-target="#schedule"  onclick="update_job_id_for_schedule()">View</button>
-                                                  </td>
-                                                  <td>
-                                                    <div class="actions">
-                                                  
-                                                      <a href="guard-in-job.html" onclick="storeCurrentUserID(${val[i].id})"  class="btn btn-dark btn-sm btn-square rounded-pill">
-                                                      <span class="btn-icon icofont-external-link"></span>
-                                                      </a>
-                                                      <button class="btn btn-info btn-sm btn-square rounded-pill" data-bs-toggle="modal"
-                                                        data-bs-target="#edit"   onclick="updateJobStatusId(${val[i].id})">
-                                                        <span class="btn-icon icofont-ui-edit"></span>
-                                                      </button>
-                                                      
-                                                      <button onclick="deleteJob(${val[i].id})" class="btn btn-error btn-sm btn-square rounded-pill">
-                                                        <span class="btn-icon icofont-ui-delete"></span>
-                                                      </button>
-                                                    </div>
-                                                  </td>
-                                                </tr>
-              
-                                          </tbody>
-                                        </table>
-                                        <div class="text-center" id="loader3">
-                                          <div class="spinner-border" role="status">
-                                            <span class="sr-only">Loading...</span>
-                                          </div>
-                                        </div>
-                                      </div>
-              
-                                      <nav class="mt-4">
-                                        <ul class="pagination">
-                                          <li id="Previous3" class="page-item page-item3 disabled" onclick="Previous3()">
-                                            <a class="page-link" href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
-                                              <span class="icofont-simple-left"></span>
-                                            </a>
-                                          </li>
-                                          
-                                          <li id="Next3" class="page-item page-item3 active" onclick="Next3()">
-                                            <a class="page-link" href="#" aria-label="Next">
-                                              <span class="icofont-simple-right"></span>
-                                            </a>
-                                          </li>
-                                        </ul>
-                                      </nav>
-                                    </div>
-                                  </div>
-                                </div>
-              
-                              </div>
-                            </div>
-              
-              
-              
-                          </div>
+                      <table
+                      id="example" 
+                      class="table table-bordered table-striped dataTable no-footer"                 
+                    >
+                      <thead>
+                        <tr>
+                          <th scope="col">Date created</th>
+                          <th scope="col">Client charge($)</th>
+                          <th scope="col">Guard charge($)</th>
+                          <th scope="col">Job  status</th>
+                          <th scope="col">Job  type</th>
+                          <th scope="col">Job  progress</th>
+                          <th scope="col">Payment  status</th>
+                          <th scope="col">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody></tbody>
+                    </table>
                     </div>
                     <div class="tab-pane fade" id="tab-2" role="tabpanel">
                         <div class="card">
                 
                             <div class="card-body">
                            
-                                <div class="table-responsive">
-                                    <table class="table table-hover nowrap">
-                                      <thead>
-                                        <tr>
-                                          <th scope="col">#</th>
-                                          <th scope="col">Date created</th>
-                                          <th scope="col">Job ID</th>
-                                          <th scope="col">Progress</th>
-                                          <th scope="col">Client charge</th>
-                                          <th scope="col">Guard charge</th>
-                                          <th scope="col">Payment  status</th>
-                                          <th scope="col">Invoices</th>
-                                          <th scope="col">Actions</th>
-                                        </tr>
-                                      </thead>
-          
-                                      <tbody id="mytable">
-                                          <tr>
-          
-                                              <td>
-                                              ${offset+i+1}
-                                            </td>
-                                           
-                                              <td>
-                                                <div class="d-flex align-items-center nowrap text-primary">
-                                                ${val[i].create}
-                                                </div>
-                                              </td>
-                                              <td>
-                                              ${val[i].id}
-                                              </td>
-                                         
-                                              <td>
-                                                <div class="text-muted text-nowrap">
-                                          
-                                                    <div class="progress">
-                                                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 10%"></div>
-                                                    </div>
-                                  
-                                                </div>
-                                              </td>
-                                              <td>
-                                                <div class="d-flex align-items-center nowrap text-primary">
-                                                $${val[i].client_charge}
-                                                </div>
-                                              </td>
-          
-                                              <td>
-                                                  <div class="d-flex align-items-center nowrap text-primary">
-                                                  $${val[i].client_charge}
-                                                  </div>
-                                                </td>
-          
-                                              <td>
-                                                  <div class="text-nowrap text-success">
-                                                      <i class="icofont-check-circled"></i> Paid
-                                                  </div>
-                                              </td>
-                                            
-                                              <td>
-                                                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
-                                                  data-bs-target="#invoice"  onclick="update_job_id_for_schedule()">View</button>
-                                              </td>
-                                              <td>
-                                                <div class="actions">
-                                                  <button onclick="deleteJob(${val[i].id})" class="btn btn-error btn-sm btn-square rounded-pill">
-                                                    <span class="btn-icon icofont-ui-delete"></span>
-                                                  </button>
-                                                </div>
-                                              </td>
-                                            </tr>
-                                      </tbody>
-                                    </table>
-          
-                                    <div class="text-center" id="loader1">
-                                      <div class="spinner-border" role="status">
-                                        <span class="sr-only">Loading...</span>
-                                      </div>
-                                    </div>
-                                </div>
+                                
                             </div>
             
                           </div>
@@ -828,6 +401,11 @@
                   <a href="customer.html" class="link">User management</a>
                   <i class="separator icofont-thin-right"></i>
                 </li>
+                <li class="item">
+                  <a href="customer.html" class="link">Customer</a>
+                  <i class="separator icofont-thin-right"></i>
+                </li>
+
                 <li class="item">
                     <a href="addSite.html" class="link">Add site</a>
                     <i class="separator icofont-thin-right"></i>
@@ -1027,38 +605,29 @@
   
   <!-- end Add patients modals -->
 
-  <script src="../assets/js/jquery-3.6.0.min.js"></script>
-  <script src="../assets/js/jquery-migrate-1.4.1.min.js"></script>
-  <script src="../assets/js/popper.min.js"></script>
-  <script src="../assets/js/bootstrap.min.js"></script>
-  <script src="../assets/js/jquery.typeahead.min.js"></script>
-  <script src="../assets/js/datatables.min.js"></script>
-  <script src="../assets/js/bootstrap-select.min.js"></script>
-  <script src="../assets/js/jquery.barrating.min.js"></script>
-  <script src="../assets/js/Chart.min.js"></script>
-  <script src="../assets/js/raphael-min.js"></script>
-  <script src="../assets/js/morris.min.js"></script>
-  <script src="../assets/js/echarts.min.js"></script>
-  <script src="../assets/js/echarts-gl.min.js"></script>
-  <script src="../assets/js/globalVar.js"></script>
-  <script src="../assets/js/main.js"></script>
-
-  <!-- Include Date Range Picker -->
-  <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-  <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
-  <script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
+  <script src="assets/js/jquery-3.6.0.min.js"></script>
+  <script src="assets/js/jquery-migrate-1.4.1.min.js"></script>
+  <script src="assets/js/popper.min.js"></script>
+  <script src="assets/js/bootstrap.min.js"></script>
+  <script src="assets/js/jquery.typeahead.min.js"></script>
+  <script src="assets/js/datatables.min.js"></script>
+  <script src="assets/js/bootstrap-select.min.js"></script>
+  <script src="assets/js/jquery.barrating.min.js"></script>
+  <script src="assets/js/Chart.min.js"></script>
+  <script src="assets/js/raphael-min.js"></script>
+  <script src="assets/js/morris.min.js"></script>
+  <script src="assets/js/echarts.min.js"></script>
+  <script src="assets/js/echarts-gl.min.js"></script>
+  <script src="assets/js/globalVar.js"></script>
+  <script src="assets/js/customer-job.js"></script>
+  <script src="assets/js/main.js"></script>
 
 
-    <!-- 
-
-  <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
-  <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
-  <script src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.html5.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-   -->
-  <script src="../assets/js/job.js"></script>
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script>
+<script src="https://cdn.datatables.net/datetime/1.1.2/js/dataTables.dateTime.min.js"></script>
+<script src="https://cdn.datatables.net/rowreorder/1.2.8/js/dataTables.rowReorder.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
 
 
 

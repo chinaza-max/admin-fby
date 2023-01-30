@@ -98,10 +98,278 @@ function changeColor(id, c) {
 }
 
 
+let getCalendar
+let displayHeader=[]
+let displayHeaderWithDate=[]
 
 $(document).ready(function(){
 
+
+
+//?customer_id=${customer_id}&guard_id=${guard_id}&site_id=${site_id}&from_date=${from_date}&to_date=${to_date}
+  getCalendar=function(customer_id, guard_id, site_id, from_date, to_date){
+    $.ajax({
+      type: "get", url:`${domain}/api/v1/job/calender`,
+      headers: {
+          "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+      },
+      dataType  : 'json',
+      encode  : true,
+      success: function (data) {
+  
+
+        displayCalendar(data.data)
         
+      },
+      error: function (request, status, error) {
+          analyzeError(request)
+       
+      }
+    });
+  } 
+
+  getCalendar()
+
+  minDate = new DateTime($('#min'), {
+    format: 'YYYY-MM-DD'
+  });
+  maxDate = new DateTime($('#max'), {
+      format: 'YYYY-MM-DD'
+  });
+
+
+
+  $.ajax({
+    type: "get", url:`${domain}/api/v1/customer`,
+    dataType  : 'json',
+    encode  : true,
+    headers: {
+        "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+    },
+  
+    success: function (data) {
+        displayCustomer(data.data)
+    },
+    error: function (request, status, error) {
+  
+        analyzeError(request)
+    }
+  });
+
+
+  function displayCustomer(val){
+    let data=`<option value="null">All customer</option>`
+  
+    console.log(val)
+    for(let i=0; i<val.length; i++){
+            data+= `
+            <option value="${val[i].id}"> ${val[i].company_name} </option>
+          `
+        if(i==val.length-1){
+  
+            $('#customerName').children().remove();
+            $("#customerName").append(data)
+            $('.selectpickerCustomer').selectpicker('refresh')
+  
+        }
+    }
+    if(val.length==0){
+      $('#customerName').children().remove();
+      $("#customerName").append(data)
+      $('.selectpickerCustomer').selectpicker('refresh')
+    }
+  }
+
+  //GET SITE AND DISPLAY
+  $.ajax({
+    type: "get", url:`${domain}/api/v1/job/getAllSite`,
+    dataType  : 'json',
+    encode  : true,
+    headers: {
+        "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+    },
+
+    success: function (data) {
+        console.log(data.data)
+        displayGetAllSite(data.data)
+    },
+    error: function (request, status, error) {
+
+        analyzeError(request)
+    
+    }
+  });
+  function displayGetAllSite(val){
+    let data=`<option value="null">All site</option>`
+
+    for(let i=0; i<val.length; i++){
+            data+= `
+            <option  data-subtext="${val[i].customer_name}" value="${val[i].site_id}"> ${val[i].name} </option>
+          `
+        if(i==val.length-1){
+
+            $('#Site').children().remove();
+            $("#Site").append(data)
+            $('.selectpickerSite').selectpicker('refresh')
+
+        }
+    }
+    if(val.length==0){
+      $('#Site').children().remove();
+      $("#Site").append(data)
+      $('.selectpickerSite').selectpicker('refresh')
+    }
+  }
+
+  $.ajax({
+
+    type: "get", url:`${domain}/api/v1/job/getAllGuard`,
+    dataType  : 'json',
+    encode  : true,
+    headers: {
+        "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+    },
+
+    success: function (data) {
+
+        displayGetAllGuard(data.data)
+    },
+    error: function (request, status, error) {
+
+        analyzeError(request)
+    
+    }
+  });
+
+  function displayGetAllGuard(val){
+    let data=`<option value="null">All guard</option>`
+
+    for(let i=0; i<val.length; i++){
+            data+= `
+            <option data-subtext="${val[i].suspension_status}" value="${val[i].guard}"> ${val[i].name} </option>
+          `
+        if(i==val.length-1){
+
+            $('#staffName').children().remove();
+            $("#staffName").append(data)
+            $('.selectpickerStaffName').selectpicker('refresh')
+
+        }
+    }
+    if(val.length==0){
+      $('#staffName').children().remove();
+      $("#staffName").append(data)
+      $('.selectpickerStaffName').selectpicker('refresh')
+    }
+  }
+
+})
+
+function displayCalendar(val){
+
+  console.log(val)
+
+ ///console.log( new Date().date())
+  let currentDate = new Date();
+  let currentDay = currentDate.getDay();
+  let startOfWeek = new Date(currentDate.getTime() - currentDay * 24 * 60 * 60 * 1000);
+  let endOfWeek = new Date(startOfWeek.getTime() + 6 * 24 * 60 * 60 * 1000);
+  console.log("Start of week: " + startOfWeek);
+
+  console.log(moment(startOfWeek).format("YYYY"))
+  console.log("End of week: " + endOfWeek)
+
+  let startDate = new Date("2022-01-01");
+  let endDate = new Date("2022-01-08");
+  let currentDate2 = startDate;
+  while (currentDate2 <= endDate) {
+    //console.log(currentDate2);
+
+    let reArrange=moment(currentDate2).format("ddd")+" "+moment(currentDate2).format("MMM")+" "+moment(currentDate2).format("DD")
+    console.log(moment(currentDate2).format("YYYY-MM-DD"));
+    displayHeader.push(reArrange)
+    displayHeaderWithDate.push(moment(currentDate2).format("YYYY-MM-DD"))
+    currentDate2 = new Date(currentDate2.getTime() + 24 * 60 * 60 * 1000);
+  }
+
+}
+
+
+let customer_id,
+     site_id,
+     guard_id,
+     from_date,
+     to_date=null;
+$('#customerName').on('change', function (e) {
+  customer_id=this.value
+
+  getCalendar(customer_id, guard_id, site_id, from_date, to_date)
+})
+
+$('#Site').on('change', function () {
+  site_id=this.value
+  getCalendar(customer_id, guard_id, site_id, from_date, to_date)
+
+})
+
+$('#staffName').on('change', function () {
+  guard_id=this.value
+  getCalendar(customer_id, guard_id, site_id, from_date, to_date)
+
+})
+
+$('#min').on('change', function () {
+  from_date=this.value
+
+  if(is_date_one_week_from_each_other(from_date,to_date) ==true){
+    getCalendar(customer_id, guard_id, site_id, from_date, to_date)
+  }
+  else{
+  
+  }
+
+})
+
+$('#max').on('change', function () {
+  to_date=this.value
+
+  if(  is_date_one_week_from_each_other(from_date,to_date)==true){
+    getCalendar(customer_id, guard_id, site_id, from_date, to_date)
+  }
+  else{
+
+  }
 
 
 })
+
+
+function is_date_one_week_from_each_other(from_date,to_date){
+
+  let date1 = new Date(from_date);
+  let date2 = new Date(to_date);
+  
+  let oneWeek = 6 * 24 * 60 * 60 * 1000;
+  
+  if (Math.abs(date1 - date2) == oneWeek  ) {
+    Swal.close()
+
+    return true
+  } else {
+
+    if((from_date==null&&to_date==null)||(to_date==null)||from_date==null){
+        return "dont_filter"
+    }
+    else{
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Date must be one week apart',
+        footer: "Check date range"
+      })
+
+    }
+  
+  }
+}

@@ -99,7 +99,7 @@
               <button class="no-style dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false" data-bs-offset="0, 10">
                 <span class="d-flex align-items-center">
-                  <img src="assets/content/user-400-1.jpg" id="avatar" alt="" width="40" height="40"
+                  <img src="assets/content/fbyDefaultIMG.png" id="avatar" alt="" width="40" height="40"
                     class="rounded-500 me-1">
                   <i class="icofont-simple-down"></i>
                 </span>
@@ -121,7 +121,7 @@
                     </a>
                   </li>
                   <li>
-                    <a href="./sign-in.html" class="align-items-center">
+                    <a href="sign-in.html" class="align-items-center">
                       <span class="icon icofont-logout"></span>
                       Log Out
                     </a>
@@ -175,7 +175,7 @@
                 </li>
 
                 <li class="menu-item">
-                  <a class="item-link" href="index.html">
+                  <a class="item-link" href="index.html" >
                     <div class="icon sli-grid"></div>
                     <span class="link-text">Dashboard</span>
                   </a>
@@ -405,69 +405,12 @@
                             </thead>
           
                             <tbody>
-                              <tr>
-                                <td>1</td>
-                                <td>chilo main</td>
-                                <td>2.292993939</td>
-                                <td>4.949495959</td>
-                                <td>90</td>
-                                <td>
-                                  <div class="actions">
-                                 
-                                    <button class="btn btn-error btn-sm btn-square rounded-pill">
-                                      <span class="btn-icon icofont-ui-delete"></span>
-                                    </button>
-                                  </div>
-                                </td>
+
+                              <tr >
+                                  <td  colspan="8" class="text-center"> EMPTY</td>
                               </tr>
              
-                              <tr>
-                                <td>2</td>
-                                <td>Hill top</td>
-                                <td>4.94998589595</td>
-                                <td>9.9394848444</td>
-                                <td>40</td>
-                                <td>
-                                  <div class="actions">
-                                  
-                                    <button class="btn btn-error btn-sm btn-square rounded-pill">
-                                      <span class="btn-icon icofont-ui-delete"></span>
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>3</td>
-                                <td>mikans placd</td>
-                                <td>3.344949494</td>
-                                <td>7.93938484</td>
-                                <td>10</td>
-                                <td>
-                                  <div class="actions">
-                                
-                                    <button class="btn btn-error btn-sm btn-square rounded-pill">
-                                      <span class="btn-icon icofont-ui-delete"></span>
-                                    </button>
-
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>4</td>
-                                <td>atlas main</td>
-                                <td>3.494949949</td>
-                                <td>9.949394949</td>
-                                <td>90</td>
-                                <td>
-                                  <div class="actions">
-                                
-                                    <button class="btn btn-error btn-sm btn-square rounded-pill">
-                                      <span class="btn-icon icofont-ui-delete"></span>
-                                    </button>
-                                  </div>
-                                  
-                                </td>
-                              </tr>
+                             
                             </tbody>
                           </table>
         
@@ -751,18 +694,18 @@
        
         </div>
         <div class="modal-body">
-          <form action="">
+
+          <form id="updateSiteForm">
             <div id="editSiteContainer">
                         
             </div>
             <button type="submit" id="submitButton" style="display: none;"></button>
-
-        </form>
+          </form>
 
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-primary" onclick="clickAnotherBut()">Save changes</button>
         </div>
       </div>
     </div>
@@ -818,7 +761,6 @@
 
                 </div>
 
-                <button type="submit" id="submitButton" style="display: none;"></button>
 
         
 

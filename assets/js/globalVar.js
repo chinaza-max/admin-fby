@@ -1,5 +1,7 @@
 let mode="development"
 let activeUserID= localStorage.getItem("storeCurrentUserID")
+let activeSiteID= localStorage.getItem("storeCurrentSiteID")
+
 let folder="adminPanel"
 let alertLifeSpan=2000
 let alertLifeSpan2=2000
@@ -17,9 +19,13 @@ else{
 
 
 function storeCurrentUserID(val){
-
+    console.log(val)
     localStorage.setItem("storeCurrentUserID",val)
-   
+}
+function storeCurrentSiteID(val){
+
+    console.log(val)
+    localStorage.setItem("storeCurrentSiteID",val)
 }
 
 function showModal(val){

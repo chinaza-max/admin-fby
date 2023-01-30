@@ -1,9 +1,12 @@
+
 let submitSite=document.getElementById("submitSite")
+let updateSiteForm=document.getElementById('updateSiteForm')
 let updateForm=''
 let myID=activeUserID
 let myEmail=''
 let myCstomer_id=''
 let deleteButtonWasClick=false
+let site_id_to_edit
 
 
 
@@ -121,18 +124,18 @@ submitSite.addEventListener("submit",(e)=>{
               longitude:Number(longitude).toFixed(9),
               latitude:Number(latitude).toFixed(9),
               operations_area_constraint,
-               client_charge:client_charge,
-               guard_charge:guard_charge,
-               address:siteAddress ,
-               site_name,
-               email:myEmail,
-               google_address:contentString,
-               customer_id
+              client_charge:client_charge,
+              guard_charge:guard_charge,
+              address:siteAddress ,
+              site_name,
+              email:myEmail,
+              google_address:contentString,
+              customer_id
          },
             success: function (data, text) {
   
                 showModal("SITE REGISTERATION SUCCESSFULL")
-                getSiteTable()
+    
                 setTimeout(() => {
                         hideModal()
                 }, alertLifeSpan);
@@ -145,9 +148,6 @@ submitSite.addEventListener("submit",(e)=>{
 
                 $("#signInButton").css("display","block")
                 $("#loadingButton").css("display","none")
-                console.log(request)
-                console.log(status)
-                console.log(error)
                 console.log(request.responseJSON.status)
 
                 analyzeError(request)
@@ -169,53 +169,70 @@ submitSite.addEventListener("submit",(e)=>{
 })
 
 
-
-//FOR UPDATING OF UPDATE DATA
-function updateSite(val,val2){
-
-  let ele=document.querySelectorAll(".update"+val)
-  let  client_charge2=ele[2].value
-  let  guard_charge2=ele[3].value
-  let operations_area_constraint=ele[1].value
-  let site_name=ele[0].value
+updateSiteForm.addEventListener("submit",(e)=>{
+  e.preventDefault()
 
 
-        $.ajax({
-          type: "post", url:`${domain}/api/v1/customer/updateFacility`,
-          headers: {
-            "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
-        },
-          data:{
-            operations_area_constraint,
-            client_charge:client_charge2,
-            guard_charge:guard_charge2,
-            site_name,
-            facility_location_id:val2,
-            site_id:val
-       },
-          success: function (data, text) {
+  const form = e.target;
+  const formFields = form.elements,
+  operations_area_constraint = formFields.radius.value,
+  client_charge = formFields.jobAmount.value,
+  guard_charge = formFields.perHour.value,
+  latitude = formFields.latitude.value,
+  longitude = formFields.longitude.value,
+  facility_address = formFields.address.value;
 
-              showModal("SITE UPDATE SUCCESSFULL")
-              getSite()
-              setTimeout(() => {
-                      hideModal()
-              }, alertLifeSpan);
 
+  console.log(operations_area_constraint,
+    client_charge ,
+    guard_charge,
+    latitude ,
+    longitude ,
+    facility_address)
+
+  
+  
+  
+          $.ajax({
+            type: "post", url:`${domain}/api/v1/customer/updateFacility`,
+            headers: {
+              "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
           },
-          error: function (request, status, error) {
+            data:{
+              operations_area_constraint,
+              client_charge ,
+              guard_charge,
+              latitude ,
+              longitude ,
+              facility_address ,
+              site_id:site_id_to_edit
+         },
+            success: function (data) {
+  
+                showModal("SITE UPDATE SUCCESSFULL")
+                getSite()
+                setTimeout(() => {
+                        hideModal()
+                }, alertLifeSpan);
+  
+            },
+            error: function (request, status, error) {
+  
+                console.log(request.responseJSON.status)
+                analyzeError(request)
+             
+             
+            }
+          });
+  
+  
 
-      
-              console.log(request)
-              console.log(status)
-              console.log(error)
-              console.log(request.responseJSON.status)
-              analyzeError(request)
-           
-           
-          }
-        });
+
+})
 
 
+function clickAnotherBut(){
+  document.getElementById('submitButton').click()
 }
 
 
@@ -352,7 +369,7 @@ $(document).ready(function(){
                       <button   data-bs-toggle="modal" onclick="getSingleSiteDetails(${data})" data-bs-target="#editSiteLocation" class="btn btn-info btn-sm btn-square rounded-pill">
                                       <span class="btn-icon icofont-ui-edit"></span>
                                     </button>
-                                    <a  href="customer-job.html" class="btn btn-dark btn-sm btn-square rounded-pill">
+                                    <a  onclick="storeCurrentSiteID(${data})" href="customer-job.html" class="btn btn-dark btn-sm btn-square rounded-pill">
                                       <span class="btn-icon icofont-external-link"></span>
                                     </a>
                                     <button class="btn btn-error btn-sm btn-square rounded-pill">
@@ -404,7 +421,7 @@ $(document).ready(function(){
 
 
 function getSingleSiteDetails(id){
-
+    site_id_to_edit=id
 
   $.ajax({
     type: "get", url:`${domain}/api/v1/customer/get_all_site_or_single_site?type=singleSite&id=${id}`,
@@ -414,8 +431,7 @@ function getSingleSiteDetails(id){
         "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
     },
     success: function (data) {
-      console.log(data)
-
+    
        displayForEditing(data.data)
     },
     error: function (request, status, error) {
@@ -454,28 +470,25 @@ function displayForEditing(val){
       </div>
 
       <div class="input-group mb-3">
-        <input class="form-control" type="text"   value=${val.latitude} required>
+        <input class="form-control" type="text" name="latitude"  value=${val.latitude} required>
         <span class="input-group-text">Latitude</span>
       </div>
 
       <div class="input-group mb-3">
-        <input class="form-control" type="text"   value=${val.longitude} required>
+        <input class="form-control" type="text" name="longitude"   value=${val.longitude} required>
         <span class="input-group-text">Longitude</span>
       </div>
 
       <div class="input-group mb-3">
-        <input class="form-control" type="text" name="siteName" id="siteName" value="${val.site_name}" required>
+        <input class="form-control" type="text" name="siteName" id="siteName" value="${val.site_name}" required disabled>
         <span class="input-group-text">Site name</span>
       </div>
 
       <div class="input-group mb-3">
-        <textarea class="form-control" rows="4"  id="address" placeholder="${val.address}" required></textarea>
+        <textarea class="form-control" rows="4" name="address" id="address" required>${val.address}</textarea>
         <span class="input-group-text">Address</span>
       </div>
       `
-
-
-      console.log(data)
       $('#editSiteContainer').children().remove();
       $("#editSiteContainer").append(data)
 

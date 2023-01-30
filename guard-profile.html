@@ -197,7 +197,9 @@
                     <li class="menu-item">
                       <a class="item-link" href="customer.html">
                         <div class="icon icofont-user-alt-2"></div>
-                        <span class="link-text">Customer</span>
+                        <span class="link-text">Customer
+                       
+                        </span>
                       </a>
                     </li>
 
@@ -345,13 +347,13 @@
 
                 <div class="card-body">
                   <div class="d-flex align-items-center justify-content-between mb-3 user-actions">
-                    <img src="assets/content/user-400-1.jpg" width="100" height="100" alt="" class="rounded-500 me-4">
+                    <img src="assets/content/fbyDefaultIMG.png" width="100" height="100" alt="" class="rounded-500 me-4">
 
                     <a type="button" href="guard-edit-profile.html" class="btn btn-danger rounded-500">Edit account</a>
                   </div>
 
                   <div class="d-flex align-items-center justify-content-between">
-                    <h5 class="mb-0 mt-0 me-1">Liam Jouns</h5>
+                    <h5 class="mb-0 mt-0 me-1" id="name"></h5>
 
                     <select class="rating" data-readonly="true">
                       <option value="1">1</option>
@@ -362,10 +364,9 @@
                     </select>
                   </div>
 
-                  <p class="text-muted">USER  ROLE</p>
+                  <p class="text-muted" id="guard_role">USER  ROLE</p>
 
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio dolore enim, nemo nihil non omnis temporibus? Blanditiis
-                    culpa labore velit.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta, provident?</p>
+                  <p id="address"></p>
                 </div>
               </div>
 
@@ -381,7 +382,8 @@
                     </div>
                     <div class="col">
                       <div>Mobile</div>
-                      0126596578
+                      <p id="tel"></p>
+            
                     </div>
                   </div>
 
@@ -392,7 +394,7 @@
                     </div>
                     <div class="col">
                       <div>Email</div>
-                      @liam.jouns
+                      <p id="email"></p>
                     </div>
                   </div>
                 </div>
@@ -402,7 +404,16 @@
               
               <div class="card mb-md-0">
                 <div class="card-header">
-                  Job information
+             
+
+                  <label> Job information
+                    <a href="#"  data-bs-toggle="popover" title="Job information" data-bs-content="The information you filter below belong to this guard">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                          <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                        </svg>
+                      </a>
+                     </label>
                 </div>
                 <div class="card-body">
 
@@ -411,11 +422,8 @@
 
                       <label for="">Customer </label>
                       <div class="form-group mb-0">
-                        <select class="selectpicker" data-live-search="true" >
-                          <option data-tokens="ketchup mustard"></option>
-                          <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
-                          <option data-tokens="mustard">Burger, Shake and a Smile</option>
-                          <option data-tokens="frosting">Sugar, Spice and all things nice</option>
+                        <select class="selectpicker selectpickerCus"  data-live-search="true"  onchange="selectedCustomer()">
+
                         </select>
                       </div>
                     </div>
@@ -423,11 +431,8 @@
                      
                       <label for="">Site </label>
                       <div class="form-group mb-0">
-                        <select class="selectpicker" data-live-search="true" >
-                          <option data-tokens="ketchup mustard"></option>
-                          <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
-                          <option data-tokens="mustard">Burger, Shake and a Smile</option>
-                          <option data-tokens="frosting">Sugar, Spice and all things nice</option>
+                        <select class="selectpicker selectpickerSite" data-live-search="true" onchange="getJobDetail()" >
+
                         </select>
                       </div>
                     </div>
@@ -440,15 +445,14 @@
                       <div class="card-body">
       
                         <div class="team d-flex align-items-center mb-4">
-                          <strong class="me-3">Status: Completed</strong>
+                          <strong class="me-3">Payment status: <span id="job_status">None</span></strong>
                         </div>
+                        <hr>
+                        <strong>Job description</strong>
+                        <p id="jobDes"></p>
       
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio dolore enim, nemo nihil non omnis temporibus? Blanditiis culpa labore velit.</p>
-      
-                        <div class="button-box pb-2">
-                          <button type="button" class="btn btn-outline-primary">
-                            More<span class="btn-icon icofont-prescription ms-2"></span>
-                          </button>
+                        <div class="button-box pb-2" id="containerDes">
+                          
                         </div>
                       </div>
                     </div>
@@ -481,7 +485,8 @@
 
                           <div class="content-block">
                             <div class="item-header">
-                              <div class="item-date"><span>2017/24/9  02:01 AM</span></div>
+                              <div class="item-date"><span id="createdAt">
+                              </span></div>
                             </div>
 
                             <div class="item-desc"><strong>Account created at</strong> </div>
@@ -495,7 +500,9 @@
 
                           <div class="content-block">
                             <div class="item-header">
-                              <div class="item-date"><span>2017/24/9  02:01 AM</span></div>
+                              <div class="item-date"><span id="lastUpdate">
+
+                              </span></div>
                             </div>
 
                             <div class="item-desc"><strong>Last update</strong></div>
@@ -509,7 +516,9 @@
 
                           <div class="content-block">
                             <div class="item-header">
-                              <div class="item-date"><span>Account manager</span></div>
+                              <div class="item-date"><span id="guard_role2">
+                                
+                              </span></div>
                             </div>
 
                             <div class="item-desc"><strong>Current role</strong></div>
@@ -583,12 +592,8 @@
 
             </div>
 
-          
-
-
-
           </div>
-
+          <hr>
           <div class="card mb-md-0">
             <div class="card-header">
               Guard memo
@@ -600,27 +605,16 @@
               class="table table-bordered table-striped dataTable no-footer"                 
             >
               <thead>
-              <tr>
-                <th>Customer</th>
-                <th>first name</th>
-                <th>last name</th>
-                <th>Site </th>
-                <th>Start date</th>
-                <th >Start time</th>
-                <th>End date</th>
-                <th>End time</th>
-                <th>Hours</th>
-                <th>Check in</th>
-                <th>Check out</th>
-                <th>Hours worked</th>
-                <th>Guard charge</th>
-                <th>Client charge</th>
-                <th>guard id</th>
-                <th>Total earn</th>
-                <th>Settlement status</th>
-                
-
-              </tr>
+                <tr>
+                  <th>Created</th>
+                  <th class="text-nowrap">Created by</th>
+                  <th>Message </th>
+                  <th class="text-nowrap">Send date</th>
+                  <th class="text-nowrap">Send status</th>
+                  <th class="text-nowrap">memo_id</th>
+                  <th>memo_receiver_id</th>
+                  
+                </tr>
               </thead>
               <tbody></tbody>
             </table>

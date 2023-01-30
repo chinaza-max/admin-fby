@@ -2,14 +2,14 @@
 const password=document.getElementById("password")
 const updateUser=document.getElementById("updateUser")
 let staff_id=localStorage.getItem("staff_id")
-let staffEmail=""
+let staffEmail2=""
 
 password.addEventListener("click" ,()=>{
 
     $.ajax({
         type: "post", url:`${domain}/api/v1/auth/send-password-reset-link`,
         data: {
-            email:staffEmail,
+            email:staffEmail2,
         },
         dataType  : 'json',
         encode  : true,
@@ -193,7 +193,7 @@ $(document).ready(function(){
                     $("#staff_role").attr("disabled", true)
                 }
                 $("#email").attr("disabled", true)
-                staffEmail=data.data.user.email
+                staffEmail2=data.data.user.email
                 $("#avatar2").attr("src",data.data.user.image);
                 $("#firstName").val(data.data.user.first_name);
                 $("#lastName").val(data.data.user.last_name);

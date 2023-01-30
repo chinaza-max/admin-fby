@@ -206,25 +206,28 @@ $(document).ready(function(){
                 $("#dataOfBirth").val(data.data.user.date_of_birth);
                 $("#phoneNumber").val(data.data.user.phone_number);
 
-                if(data.data.user.is_archived==true){
-                    $('select[name=status]').val("Available");
+
+                if(data.data.user.gender){
+                    $('select[name=status]').val(data.data.user.gender);
+                    $('.selectpicker').selectpicker('refresh')
+                }
+
+
+                if(data.data.user.suspended==true){
+                    $('select[name=guard_status]').val("Suspended");
                     $('.selectpicker').selectpicker('refresh')
                 }
                 else{
                     
-                    $('select[name=status]').val("notAvailable");
+                    $('select[name=guard_status]').val("Active");
                     $('.selectpicker').selectpicker('refresh')
                 
                 }
-                
-                if(data.data.user.gender=="MALE"){
-                    $('select[name=gender]').val("MALE");
+                if(data.data.user.gender){
+                    $('select[name=gender]').val(data.data.user.gender);
                     $('.selectpicker').selectpicker('refresh')
                 }
-                else if(data.data.user.gender=="FEMALE"){
-                $('select[name=gender]').val("FEMALE");
-                $('.selectpicker').selectpicker('refresh')
-                }
+            
 
             },
             error: function (request, status, error) {

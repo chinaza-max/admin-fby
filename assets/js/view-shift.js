@@ -161,9 +161,7 @@ $(document).ready(function() {
     maxDate = new DateTime($('#max'), {
         format: 'MMMM Do YYYY'
     });
- 
-    // DataTables initialisation
-    console.log("data")
+
 
     var table = $('#example').DataTable({
         ajax: {
@@ -267,8 +265,6 @@ $(document).ready(function() {
 
 
 
-
-    
     table.on( 'search.dt', function () {
       initializePayOff()
 
@@ -300,21 +296,8 @@ $(document).ready(function() {
 
     //var column1 = table.column(15);
    // column1.visible(!column1.visible());
-    //var column2 = table.column(16);
-   // column2.visible(!column2.visible());
-   // var column3 = table.column(14);
-   // column3.visible(!column3.visible());
-    
-    //var column3 = table.column(16);
-    //column3.visible(!column3.visible());
-        /*
-    var column1 = table.column(0);
-    column1.visible(!column1.visible());
-    var column2 = table.column(2);
-    column2.visible(!column2.visible());
-    var column3 = table.column(3);
-    column2.visible(!column3.visible());
-    */
+
+  
     }, 1000);
     
    
@@ -395,7 +378,7 @@ function calPayOff(val1, val2){
   
     for(let i=0; i<val.length; i++){
             data+= `
-            <option value="${val[i].full_name}"> ${val[i].full_name} </option>
+            <option value="${val[i].company_name}"> ${val[i].company_name} </option>
           `
         if(i==val.length-1){
   
@@ -422,7 +405,7 @@ $.ajax({
       "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
   },
 
-  success: function (data, text) {
+  success: function (data) {
 
       displayGetAllGuard(data.data)
   },
@@ -437,7 +420,7 @@ function displayGetAllGuard(val){
 
   for(let i=0; i<val.length; i++){
           data+= `
-          <option value="${val[i].name}"> ${val[i].name} </option>
+          <option data-subtext="${val[i].suspension_status}" value="${val[i].name}"> ${val[i].name} </option>
         `
       if(i==val.length-1){
 
@@ -467,7 +450,7 @@ $.ajax({
       "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
   },
 
-  success: function (data, text) {
+  success: function (data) {
       console.log(data.data)
       displayGetAllSite(data.data)
   },
@@ -483,7 +466,7 @@ function displayGetAllSite(val){
 
   for(let i=0; i<val.length; i++){
           data+= `
-          <option value="${val[i].name}"> ${val[i].name} </option>
+          <option data-subtext="${val[i].customer_name}" value="${val[i].name}"> ${val[i].name} </option>
         `
       if(i==val.length-1){
 

@@ -170,7 +170,7 @@ function confirmLocation(){
         data: {
             job_id      
           },
-        success: function (data, text) {
+        success: function (data) {
 
             Swal.fire({
                 icon: 'success',

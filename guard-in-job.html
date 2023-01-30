@@ -87,7 +87,7 @@
                             <button class="no-style dropdown-toggle" type="button" data-bs-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false" data-bs-offset="0, 10">
                                 <span class="d-flex align-items-center">
-                                    <img src="assets/content/user-400-1.jpg" id="avatar" alt="" width="40"
+                                    <img src="assets/content/fbyDefaultIMG.png" id="avatar" alt="" width="40"
                                         height="40" class="rounded-500 me-1">
                                     <i class="icofont-simple-down"></i>
                                 </span>
@@ -110,7 +110,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="./sign-in.html" class="align-items-center">
+                                        <a href="sign-in.html" class="align-items-center">
                                             <span class="icon icofont-logout"></span>
                                             Log Out
                                         </a>
@@ -327,15 +327,18 @@
                             </div>
 
                             <div class="col-12 col-md-3">
-                                <div class="alert alert-info outline overflow-auto" role="alert" style="height:81px ;"  id="name">
-                            
+                                <div class="alert alert-info outline overflow-auto" role="alert" style="height:81px ;"  >
+                                        <div id="name"></div>
+                                        <div id="jobT"></div>
                                 </div>
 
                             </div>
 
                             <div class="col-12 col-md-3">
-                                <div class="alert alert-success outline overflow-auto" style="height:81px ;" role="alert" id="timeZone">
-                            
+                                <div class="alert alert-success outline overflow-auto" style="height:81px ;" role="alert" >
+                                    <div id="timeZone"></div>
+                                    <div id="paymentT"></div>
+
                                 </div>
                             </div>
 
@@ -343,14 +346,7 @@
 
                         <div class="card">
                             
-                                <div class="card-header text-center">
-                                    
-                                    Assigned guards
-    
-                                </div>
-                            
-
-
+                        
                             <div class="table-responsive">
                                 <table class="table table-hover">
                                     <thead>
@@ -1050,7 +1046,7 @@
         //this script allows pop over 
         var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
         var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-            return new bootstrap.Popover(popoverTriggerEl)
+            return new bootstrap.Popover(popoverTriggerEl,{html: true})
         })
     </script>
        

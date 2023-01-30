@@ -9,22 +9,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- Favicon -->
-  <link rel="shortcut icon" href="/assets/img/favicon.ico"> 
-  <link rel="manifest" href="/manifest.json"></link>
+  <link rel="shortcut icon" href="assets/img/favicon.ico"> 
+  <link rel="manifest" href="manifest.json"></link>
 
   <!-- Plugins CSS -->
-  <link rel="stylesheet" href="/assets/css/bootstrap/bootstrap.css">
-  <link rel="stylesheet" href="/assets/css/icofont.min.css">
-  <link rel="stylesheet" href="/assets/css/simple-line-icons.css">
-  <link rel="stylesheet" href="/assets/css/jquery.typeahead.css">
-  <link rel="stylesheet" href="/assets/css/datatables.min.css">
-  <link rel="stylesheet" href="/assets/css/bootstrap-select.min.css">
-  <link rel="stylesheet" href="/assets/css/Chart.min.css">
-  <link rel="stylesheet" href="/assets/css/morris.css">
-  <link rel="stylesheet" href="/assets/css/leaflet.css">
+  <link rel="stylesheet" href="assets/css/bootstrap/bootstrap.css">
+  <link rel="stylesheet" href="assets/css/icofont.min.css">
+  <link rel="stylesheet" href="assets/css/simple-line-icons.css">
+  <link rel="stylesheet" href="assets/css/jquery.typeahead.css">
+  <link rel="stylesheet" href="assets/css/datatables.min.css">
+  <link rel="stylesheet" href="assets/css/bootstrap-select.min.css">
+  <link rel="stylesheet" href="assets/css/Chart.min.css">
+  <link rel="stylesheet" href="assets/css/morris.css">
+  <link rel="stylesheet" href="assets/css/leaflet.css">
 
   <!-- Theme CSS -->
-  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 
@@ -93,21 +93,21 @@
   </div>
 </div>
 
-<script src="../assets/js/jquery-3.6.0.min.js"></script>
-<script src="../assets/js/jquery-migrate-1.4.1.min.js"></script>
-<script src="../assets/js/popper.min.js"></script>
-<script src="../assets/js/bootstrap.min.js"></script>
-<script src="../assets/js/jquery.typeahead.min.js"></script>
-<script src="../assets/js/datatables.min.js"></script>
-<script src="../assets/js/bootstrap-select.min.js"></script>
-<script src="../assets/js/jquery.barrating.min.js"></script>
-<script src="../assets/js/Chart.min.js"></script>
-<script src="../assets/js/raphael-min.js"></script>
-<script src="../assets/js/morris.min.js"></script>
-<script src="../assets/js/echarts.min.js"></script>
-<script src="../assets/js/echarts-gl.min.js"></script>
-<script src="../assets/js/globalVar.js"></script>
-<script src="../assets/js/main.js"></script>
+<script src="assets/js/jquery-3.6.0.min.js"></script>
+<script src="assets/js/jquery-migrate-1.4.1.min.js"></script>
+<script src="assets/js/popper.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/jquery.typeahead.min.js"></script>
+<script src="assets/js/datatables.min.js"></script>
+<script src="assets/js/bootstrap-select.min.js"></script>
+<script src="assets/js/jquery.barrating.min.js"></script>
+<script src="assets/js/Chart.min.js"></script>
+<script src="assets/js/raphael-min.js"></script>
+<script src="assets/js/morris.min.js"></script>
+<script src="assets/js/echarts.min.js"></script>
+<script src="assets/js/echarts-gl.min.js"></script>
+<script src="assets/js/globalVar.js"></script>
+<script src="assets/js/main.js"></script>
 
 
 </body>
@@ -135,19 +135,20 @@
             email:$("#email").val(),
             password:$("#password").val()
           },
-          success: function (data, text) {
+          success: function (data) {
 
               if(data.data.token){
                 sessionStorage.setItem("hasVisited", true);
                 localStorage.setItem('myUser',btoa(data.data.token))
                 localStorage.setItem('userDetails', btoa(JSON.stringify(data.data.user)));
-                //window.location.replace('https://sunny-kataifi-7adb6f.netlify.app/index.html')
-                // window.location.replace('/index.html')
-                window.location.href =window.location.toString().split('/')[0] +`/index.html`
-                // window.location.href =window.location.toString().split('/')[0] + "https://sunny-kataifi-7adb6f.netlify.app/index.html"
 
+                if(mode=="development"){
+                  window.location.href =window.location.toString().split('/')[0] +`/index.html`
+                }
+                else{
+                  window.location.href =window.location.toString().split('/')[0] +`/adminpanel/index.html`
+                }
               }
-             
           },
           error: function (request, status, error) {
           

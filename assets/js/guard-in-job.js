@@ -15,7 +15,6 @@ let ReAssignButton=document.getElementById("ReAssignButton")
 job_id=activeUserID
 
 
-
 $(document).ready(function(){
 
 
@@ -156,6 +155,10 @@ $(document).ready(function(){
         $("#name").text("SITE NAME: "+val.site.name)
         $("#timeZone").text("TIME ZONE: "+val.site.time_zone)
         $("#qr_code_count").text(val.job.no_qr_code)   
+        $("#qr_code_count").text(val.job.no_qr_code)   
+        $("#jobT").text("JOB TITLE: "+val.job.job_type)   
+        $("#paymentT").text("PAYMENT STATUS: "+val.job.payment_status)   
+
     }
 
     function getAllGuard(){
@@ -171,7 +174,6 @@ $(document).ready(function(){
             },
             success: function (data) {
 
-                    console.log(data.data)
                   displayGuard(data.data,"selectpickerReassign")
                 setTimeout(() => {
                         hideModal()
@@ -187,10 +189,14 @@ $(document).ready(function(){
     }
 
     getAllGuard()
+    
   });
 
 
   function displayGuard(val,picker){
+
+    console.log(activeGuardScheduleAll)
+    console.log(val)
     let data=''
    
       for(let i=0;i<val.length;i++){
@@ -282,9 +288,8 @@ function getSchedule(guard_id ,job_id){
             job_id      
           },
         success: function (data) {
-
+            console.log(data)
             $('#loader2').css("display","none");
-            console.log(data.data)
             displaySchedule(data.data)
           
         },
@@ -311,28 +316,364 @@ function displaySchedule(val){
         if(val[i].is_started==false){
             activeGuardScheduleAll.push(val[i])
             $("#ReAssignButton").removeAttr("disabled");
-
         }
       
-
         if(val[i].is_started){
             if(val[i].schedule_accepted_by_admin){
 
-                data+= `
-                <tr>
-                <td>${i+1}</td>
-                <td> 
+                if(val[i].comments.length!=0){
+                    let comment=''
 
-                <label for="">
-                    <a class="gear"  data-bs-toggle="popover" title="Reference date" data-bs-content=" Enter the actual time event took place">
+                    for (let index = 0; index < val[i].comments.length; index++) {
+                        comment+=` <div class='comment mt-4 text-justify float-left'>
+                        <h6>Jhon Doe</h6>
+                        <span>Created at: ${val[i].comments[index].created_at}</span>
+                        <br>
+                        <p>${val[i].comments[index].comment}</p>
+                        </div>`
+                    }
+
+                    data+= `
+                    <tr>
+                    <td>${i+1}</td>
+                    <td> 
+    
+                    <label for="">
+                        <a class="gear"  data-bs-toggle="popover" title="Comment" data-bs-content="${comment}" data-html="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                        </svg>
+                        </a>
+                    </label>
+                    
+                    
+                    
+                    ${val[i].check_in_date}</td>
+                    <td>${val[i].start_time}</td>
+                    <td>${val[i].check_out_date}</td>
+                    <td>${val[i].end_time}</td>
+                    <td>${val[i].hours}</td>
+                    <td>
+                        <div class="text-muted text-nowrap">
+                            <button type="button" class="btn btn-outline-primary"
+                            onclick="selectDateTime('${val[i].check_in_date}','${val[i].start_time}',${val[i].schedule_id},'Check in',${val[i].job_id},${val[i].guard_id},${i+1})">Select</button>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="text-muted text-nowrap">
+                            <button type="button" class="btn btn-outline-primary"
+                            onclick="selectDateTime('${val[i].check_out_date}','${val[i].end_time}',${val[i].schedule_id},'Check out',${val[i].job_id},${val[i].guard_id},${i+1})">Select</button>
+                        </div>
+                    </td>
+                    <td>
+                          <div class="actions">
+    
+                            <button class="btn btn-info btn-sm btn-square rounded-pill" data-bs-toggle="modal" data-bs-target="#add_note"  onclick="scheduleIdToAddNoteFunc(${val[i].schedule_id})">
+                                <span class="btn-icon icofont-ui-edit"></span>
+                            </button>
+                            
+                          </div>     
+                        </td>
+                  </tr>
+                     `
+                }
+                else{
+                    data+= `
+                    <tr>
+                    <td>${i+1}</td>
+                    <td> 
+
+                    ${val[i].check_in_date}</td>
+                    <td>${val[i].start_time}</td>
+                    <td>${val[i].check_out_date}</td>
+                    <td>${val[i].end_time}</td>
+                    <td>${val[i].hours}</td>
+                    <td>
+                        <div class="text-muted text-nowrap">
+                            <button type="button" class="btn btn-outline-primary"
+                            onclick="selectDateTime('${val[i].check_in_date}','${val[i].start_time}',${val[i].schedule_id},'Check in',${val[i].job_id},${val[i].guard_id},${i+1})">Select</button>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="text-muted text-nowrap">
+                            <button type="button" class="btn btn-outline-primary"
+                            onclick="selectDateTime('${val[i].check_out_date}','${val[i].end_time}',${val[i].schedule_id},'Check out',${val[i].job_id},${val[i].guard_id},${i+1})">Select</button>
+                        </div>
+                    </td>
+                    <td>
+                          <div class="actions">
+    
+                            <button class="btn btn-info btn-sm btn-square rounded-pill" data-bs-toggle="modal" data-bs-target="#add_note"  onclick="scheduleIdToAddNoteFunc(${val[i].schedule_id})">
+                                <span class="btn-icon icofont-ui-edit"></span>
+                            </button>
+                            
+                          </div>     
+                        </td>
+                  </tr>
+                     `
+                }
+
+               
+            }
+            else{
+
+
+
+                if(val[i].comments.length!=0){
+
+                    let comment=''
+
+                    for (let index = 0; index < val[i].comments.length; index++) {
+                        comment+=` <div class='comment mt-4 text-justify float-left'>
+                        <h6>Jhon Doe</h6>
+                        <span>Created at: ${val[i].comments[index].created_at}</span>
+                        <br>
+                        <p>${val[i].comments[index].comment}</p>
+                        </div>`
+                    }
+
+
+                    data+= `
+                    <tr>
+                    <td>${i+1}</td>
+                    <td>
+
+                    <label for="">
+                    <a class="gear"  data-bs-toggle="popover" title="Comment" data-bs-content="${comment}" data-html="true">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                         <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
                     </svg>
                     </a>
                 </label>
+
+                    ${val[i].check_in_date}</td>
+                    <td>${val[i].start_time}</td>
+                    <td>${val[i].check_out_date}</td>
+                    <td>${val[i].end_time}</td>
+                    <td>${val[i].hours}</td>
+                    <td>
+                        <div class="text-muted text-nowrap">
+                            <button type="button" class="btn btn-outline-primary"
+                            onclick="selectDateTime('${val[i].check_in_date}','${val[i].start_time}',${val[i].schedule_id},'Check in',${val[i].job_id},${val[i].guard_id},${i+1})">Select</button>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="text-muted text-nowrap">
+                            <button type="button" class="btn btn-outline-primary"
+                            onclick="selectDateTime('${val[i].check_out_date}','${val[i].end_time}',${val[i].schedule_id},'Check out',${val[i].job_id},${val[i].guard_id},${i+1})">Select</button>
+                        </div>
+                    </td>
+                    <td>
+                          <div class="actions">
+                            
+                            <button type="button" class="btn btn-outline-primary"
+                                onclick="toggleScheduleAcceptance(${val[i].schedule_id},${val[i].guard_id},${val[i].job_id},'true')">Accept
+                            </button>
+                            
+                            <button class="btn btn-info btn-sm btn-square rounded-pill" data-bs-toggle="modal" data-bs-target="#add_note" onclick="scheduleIdToAddNoteFunc(${val[i].schedule_id})">
+                            <span class="btn-icon icofont-ui-edit"></span>
+                            </button>
+                     
+                          </div>
+                        </td>
+                  </tr>
+                     `
+                }
+                else{
+                    data+= `
+                    <tr>
+                    <td>${i+1}</td>
+                    <td>${val[i].check_in_date}</td>
+                    <td>${val[i].start_time}</td>
+                    <td>${val[i].check_out_date}</td>
+                    <td>${val[i].end_time}</td>
+                    <td>${val[i].hours}</td>
+                    <td>
+                        <div class="text-muted text-nowrap">
+                            <button type="button" class="btn btn-outline-primary"
+                            onclick="selectDateTime('${val[i].check_in_date}','${val[i].start_time}',${val[i].schedule_id},'Check in',${val[i].job_id},${val[i].guard_id},${i+1})">Select</button>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="text-muted text-nowrap">
+                            <button type="button" class="btn btn-outline-primary"
+                            onclick="selectDateTime('${val[i].check_out_date}','${val[i].end_time}',${val[i].schedule_id},'Check out',${val[i].job_id},${val[i].guard_id},${i+1})">Select</button>
+                        </div>
+                    </td>
+                    <td>
+                          <div class="actions">
+                            
+                            <button type="button" class="btn btn-outline-primary"
+                                onclick="toggleScheduleAcceptance(${val[i].schedule_id},${val[i].guard_id},${val[i].job_id},'true')">Accept
+                            </button>
+                            
+                            <button class="btn btn-info btn-sm btn-square rounded-pill" data-bs-toggle="modal" data-bs-target="#add_note" onclick="scheduleIdToAddNoteFunc(${val[i].schedule_id})">
+                            <span class="btn-icon icofont-ui-edit"></span>
+                            </button>
+                     
+                          </div>
+                        </td>
+                  </tr>
+                     `
+                }
+              
+        
+            }
+        }
+        else{
+
+            if(val[i].schedule_accepted_by_admin){
+
+                if(val[i].comments.length!=0){
+
+                    let comment=''
+
+                    for (let index = 0; index < val[i].comments.length; index++) {
+                        comment+=` <div class='comment mt-4 text-justify float-left'>
+                        <h6>Jhon Doe</h6>
+                        <span>Created at: ${val[i].comments[index].created_at}</span>
+                        <br>
+                        <p>${val[i].comments[index].comment}</p>
+                        </div>`
+                    }
+
+                    data+= `
+                    <tr>
+                    <td>${i+1}</td>
+                    <td>
+                    
+                    
+                    <label for="">
+                    <a class="gear"  data-bs-toggle="popover" title="Comment" data-bs-content="${comment}" data-html="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                    </svg>
+                    </a>
+                </label>
+                ${val[i].check_in_date}</td>
+                    <td>${val[i].start_time}</td>
+                    <td>${val[i].check_out_date}</td>
+                    <td>${val[i].end_time}</td>
+                    <td>${val[i].hours}</td>
+                    <td>
+                            
+
+    
+    
+                        <div class="text-muted text-nowrap">
+                            <button type="button" class="btn btn-outline-primary"
+                            onclick="selectDateTime('${val[i].check_in_date}','${val[i].start_time}',${val[i].schedule_id},'Check in',${val[i].job_id},${val[i].guard_id},${i+1})">Select</button>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="text-muted text-nowrap">
+                            <button type="button" class="btn btn-outline-primary"
+                            onclick="selectDateTime('${val[i].check_out_date}','${val[i].end_time}',${val[i].schedule_id},'Check out',${val[i].job_id},${val[i].guard_id},${i+1})">Select</button>
+                        </div>
+                    </td>
+                    <td>
+                          <div class="actions">
+                            <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteSingleGuardSchedule(${val[i].schedule_id},${val[i].guard_id},${val[i].job_id})">
+                              <span class="btn-icon icofont-ui-delete"></span>
+                            </button>
+    
+                            <button class="btn btn-info btn-sm btn-square rounded-pill" data-bs-toggle="modal" data-bs-target="#add_note" onclick="scheduleIdToAddNoteFunc(${val[i].schedule_id})">
+                            <span class="btn-icon icofont-ui-edit"></span>
+                            </button>
+                          
+                            <div class="form-check mt-3" style="margin-left:20px;">
+                                <input class="form-check-input checkBox" type="checkbox" value='${JSON.stringify(val[i])}'  id="defaultCheck${i}" checked>
+                                <label class="form-check-label" for="defaultCheck${i}">
+                                    re-assign
+                                </label>
+                            </div>
+        
+                          </div>     
+                        </td>
+                  </tr>
+                     `
+                }
+                else{
+                    data+= `
+                    <tr>
+                    <td>${i+1}</td>
+                    <td>${val[i].check_in_date}</td>
+                    <td>${val[i].start_time}</td>
+                    <td>${val[i].check_out_date}</td>
+                    <td>${val[i].end_time}</td>
+                    <td>${val[i].hours}</td>
+                    <td>
+                            
+    
+    
+                        <div class="text-muted text-nowrap">
+                            <button type="button" class="btn btn-outline-primary"
+                            onclick="selectDateTime('${val[i].check_in_date}','${val[i].start_time}',${val[i].schedule_id},'Check in',${val[i].job_id},${val[i].guard_id},${i+1})">Select</button>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="text-muted text-nowrap">
+                            <button type="button" class="btn btn-outline-primary"
+                            onclick="selectDateTime('${val[i].check_out_date}','${val[i].end_time}',${val[i].schedule_id},'Check out',${val[i].job_id},${val[i].guard_id},${i+1})">Select</button>
+                        </div>
+                    </td>
+                    <td>
+                          <div class="actions">
+                            <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteSingleGuardSchedule(${val[i].schedule_id},${val[i].guard_id},${val[i].job_id})">
+                              <span class="btn-icon icofont-ui-delete"></span>
+                            </button>
+    
+                            <button class="btn btn-info btn-sm btn-square rounded-pill" data-bs-toggle="modal" data-bs-target="#add_note" onclick="scheduleIdToAddNoteFunc(${val[i].schedule_id})">
+                            <span class="btn-icon icofont-ui-edit"></span>
+                            </button>
+                          
+                            <div class="form-check mt-3" style="margin-left:20px;">
+                                <input class="form-check-input checkBox" type="checkbox" value='${JSON.stringify(val[i])}'  id="defaultCheck${i}" checked>
+                                <label class="form-check-label" for="defaultCheck${i}">
+                                    re-assign
+                                </label>
+                            </div>
+        
+                          </div>     
+                        </td>
+                  </tr>
+                     `
+                }
+               
+            }
+            else{
+
+                if(val[i].comments.length!=0){
+
+                    let comment=''
+
+                    for (let index = 0; index < val[i].comments.length; index++) {
+                        comment+=` <div class='comment mt-4 text-justify float-left'>
+                        <h6>Jhon Doe</h6>
+                        <span>Created at: ${val[i].comments[index].created_at}</span>
+                        <br>
+                        <p>${val[i].comments[index].comment}</p>
+                        </div>`
+                    }
+
+                    
+                data+= `
+                <tr>
+                <td>${i+1}</td>
+                <td>
                 
-                
+                       
+                <label for="">
+                <a class="gear"  data-bs-toggle="popover" title="Comment" data-bs-content="${comment}" data-html="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                </svg>
+                </a>
+            </label>
                 
                 ${val[i].check_in_date}</td>
                 <td>${val[i].start_time}</td>
@@ -353,106 +694,32 @@ function displaySchedule(val){
                 </td>
                 <td>
                       <div class="actions">
-
-                        <button class="btn btn-info btn-sm btn-square rounded-pill" data-bs-toggle="modal" data-bs-target="#add_note"  onclick="scheduleIdToAddNoteFunc(${val[i].schedule_id})">
-                            <span class="btn-icon icofont-ui-edit"></span>
-                        </button>
-                        
-                      </div>     
-                    </td>
-              </tr>
-                 `
-            }
-            else{
-                data+= `
-                <tr>
-                <td>${i+1}</td>
-                <td>${val[i].check_in_date}</td>
-                <td>${val[i].start_time}</td>
-                <td>${val[i].check_out_date}</td>
-                <td>${val[i].end_time}</td>
-                <td>${val[i].hours}</td>
-                <td>
-                    <div class="text-muted text-nowrap">
-                        <button type="button" class="btn btn-outline-primary"
-                        onclick="selectDateTime('${val[i].check_in_date}','${val[i].start_time}',${val[i].schedule_id},'Check in',${val[i].job_id},${val[i].guard_id},${i+1})">Select</button>
-                    </div>
-                </td>
-                <td>
-                    <div class="text-muted text-nowrap">
-                        <button type="button" class="btn btn-outline-primary"
-                        onclick="selectDateTime('${val[i].check_out_date}','${val[i].end_time}',${val[i].schedule_id},'Check out',${val[i].job_id},${val[i].guard_id},${i+1})">Select</button>
-                    </div>
-                </td>
-                <td>
-                      <div class="actions">
-                        
-                        <button type="button" class="btn btn-outline-primary"
-                            onclick="toggleScheduleAcceptance(${val[i].schedule_id},${val[i].guard_id},${val[i].job_id},'true')">Accept
-                        </button>
-                        
-                        <button class="btn btn-info btn-sm btn-square rounded-pill" data-bs-toggle="modal" data-bs-target="#add_note" onclick="scheduleIdToAddNoteFunc(${val[i].schedule_id})">
-                        <span class="btn-icon icofont-ui-edit"></span>
-                        </button>
-                 
-                      </div>
-                    </td>
-              </tr>
-                 `
-        
-            }
-        }
-        else{
-
-
-            if(val[i].schedule_accepted_by_admin){
-
-                data+= `
-                <tr>
-                <td>${i+1}</td>
-                <td>${val[i].check_in_date}</td>
-                <td>${val[i].start_time}</td>
-                <td>${val[i].check_out_date}</td>
-                <td>${val[i].end_time}</td>
-                <td>${val[i].hours}</td>
-                <td>
-                        
-
-
-                    <div class="text-muted text-nowrap">
-                        <button type="button" class="btn btn-outline-primary"
-                        onclick="selectDateTime('${val[i].check_in_date}','${val[i].start_time}',${val[i].schedule_id},'Check in',${val[i].job_id},${val[i].guard_id},${i+1})">Select</button>
-                    </div>
-                </td>
-                <td>
-                    <div class="text-muted text-nowrap">
-                        <button type="button" class="btn btn-outline-primary"
-                        onclick="selectDateTime('${val[i].check_out_date}','${val[i].end_time}',${val[i].schedule_id},'Check out',${val[i].job_id},${val[i].guard_id},${i+1})">Select</button>
-                    </div>
-                </td>
-                <td>
-                      <div class="actions">
                         <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteSingleGuardSchedule(${val[i].schedule_id},${val[i].guard_id},${val[i].job_id})">
                           <span class="btn-icon icofont-ui-delete"></span>
                         </button>
+                        <button type="button" class="btn btn-outline-primary"
+                            onclick="toggleScheduleAcceptance(${val[i].schedule_id},${val[i].guard_id},${val[i].job_id},'true')">Accept
+                        </button>
 
                         <button class="btn btn-info btn-sm btn-square rounded-pill" data-bs-toggle="modal" data-bs-target="#add_note" onclick="scheduleIdToAddNoteFunc(${val[i].schedule_id})">
                         <span class="btn-icon icofont-ui-edit"></span>
                         </button>
-                      
-                        <div class="form-check mt-3" style="margin-left:20px;">
-                            <input class="form-check-input checkBox" type="checkbox" value='${JSON.stringify(val[i])}'  id="defaultCheck${i}" checked>
+                       
+                        <div class="form-check mt-2 ml-10px" >
+                            <input class="form-check-input checkBox" type="checkbox" value='${JSON.stringify(val[i])}'  id="defaultCheck${i}">
                             <label class="form-check-label" for="defaultCheck${i}">
                                 re-assign
                             </label>
                         </div>
-    
-                      </div>     
+
+                      </div>
                     </td>
               </tr>
                  `
-            }
-            else{
+
+                }
+                else{
+                        
                 data+= `
                 <tr>
                 <td>${i+1}</td>
@@ -497,6 +764,10 @@ function displaySchedule(val){
                     </td>
               </tr>
                  `
+                }
+
+
+
         
             }
 
@@ -551,7 +822,8 @@ function displaySchedule(val){
     $('.gear').popover({
         title:"titke",
         content:"click me",
-        trigger:"click"
+        trigger:"click",
+        html: true
     });
     $('.kpi').live('mouseleave', function(e) {
         $('.gear').remove();
@@ -1265,13 +1537,15 @@ function setGuardId(val){
 
 ReAssignButton.addEventListener("click", ()=>{
 
+    console.log(activeGuardScheduleAll)
     getAllInstructionAndTaskInSelectedShift(activeGuardScheduleAll)
 })
 
 
 function getAllInstructionAndTaskInSelectedShift(shift){
 
-   // console.log(shift)
+    console.log(shift)
+
     $.ajax({
         type: "post", url:`${domain}/api/v1/job/allJobs/oneAgendaPerGuard`,
         headers: {
@@ -1642,6 +1916,10 @@ function removeSchedule(val){
 
 function reAssignJob(schedule){
 
+
+    $('#view_schedule').modal('hide');
+    $('#add-guard').modal('hide');
+
     $.ajax({
         type: "post", url:`${domain}/api/v1/job/add_shedule_date_staff`,
         headers: {
@@ -1654,6 +1932,8 @@ function reAssignJob(schedule){
         },
         success: function (data) {
             
+
+           
             addGuardToInstruction()
             addGuardToTask()
             showModal(data.message)
@@ -1664,6 +1944,10 @@ function reAssignJob(schedule){
   
         },
         error: function (request, status, error) {
+
+            
+
+
           analyzeError(request)      
         }
       })
@@ -1688,10 +1972,37 @@ addNoteForm.addEventListener("submit",(e)=>{
   let dateOfReference=document.getElementById("dateOfReference").value
   let timeOfReference=document.getElementById("timeOfReference").value
 
-  
-    console.log( myNote , dateOfReference, timeOfReference, scheduleIdToAddNote)
+    
+    //console.log( myNote , dateOfReference, timeOfReference, scheduleIdToAddNote)
+   // console.log(new Date(dateOfReference+' '+timeOfReference))
 
-
+    $.ajax({
+        type: "post", url:`${domain}/api/v1/job/add_shift_comment`,
+        dataType  : 'json',
+        encode  : true,
+        headers: {
+          "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+        },
+        data: {
+            comment:myNote,
+            schedule_id:scheduleIdToAddNote,
+        },
+        success: function (data) {
+             
+            showModal(data.message)
+              
+            setTimeout(() => {
+                    hideModal()
+            }, 3000);
+    
+        },
+        error: function (request, status, error) {
+            console.log(request)
+            analyzeError(request)
+         
+        }
+      });
+    
 })
 
 

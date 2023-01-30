@@ -118,7 +118,7 @@
                     </a>
                   </li>
                   <li>
-                    <a href="./sign-in.html" class="align-items-center" >
+                    <a href="sign-in.html" class="align-items-center" >
                       <span class="icon icofont-logout"></span>
                       Log Out
                     </a>
@@ -367,7 +367,7 @@
                   <div class="col-12 col-sm-6">
                     <div class="form-group">
                       <label>Email  address </label>
-                      <input class="form-control" id="email" name="email" type="text" placeholder="Email address" required>
+                      <input class="form-control" id="email" name="email" type="text" placeholder="Email address" required disabled>
                     </div>
                   </div>
                 </div>
@@ -405,8 +405,8 @@
                           </svg>
                         </a>
                       </label>
-                      <select class="selectpicker gender" name="gender" title="Gender" required  disabled>
-                        <option value="NOT_SPECIFIED">Guard</option>
+                      <select class="selectpicker role" name="role" title="role" required  disabled>
+                        <option value="GUARD" selected>Guard</option>
                       </select>
                     </div>
                   </div>
@@ -414,18 +414,14 @@
                   <div class="col-12 col-sm-6">
                     <div class="input-group mb-3 ">
                       <label>Account status 
-                        <a href="#"  data-bs-toggle="popover" title="Account is active" data-bs-content="Staff can perform operation">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
-                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-                          </svg>
-                        </a>
+                       
                       </label>
                       
-                      <select class="selectpicker gender" name="gender" title="Gender" required>
-                        <option value="NOT_SPECIFIED">Active</option>
-                        <option value="MALE" >Suspended</option>
+                      <select class="selectpicker guard_status" name="guard_status" title="guard_status" disabled>
+                        <option value="Active">Active</option>
+                        <option value="Suspended" >Suspended</option>
                       </select>
+
                     </div>
                   </div>
                 </div>
@@ -497,22 +493,34 @@
               
               <li class="item">
                 <a href=# class="link">FBY ADMIN</a>
-  
+
+                <i class="separator icofont-thin-right"></i>
+              </li>
+
+              <li class="item">
+                <a href=# class="link">
+                  User management</a>
+
+                <i class="separator icofont-thin-right"></i>
+              </li>
+
+              <li class="item">
+                <a href="guard.html" class="link">Guard</a>
+                <i class="separator icofont-thin-right"></i>
+              </li>
+
+              <li class="item">
+                <a href="guard-profile.html" class="link">Guard profile</a>
+                <i class="separator icofont-thin-right"></i>
+              </li>
+
+              <li class="item">
+                <a href=# class="link">Edit guard profile</a>
                 <i class="separator icofont-thin-right"></i>
               </li>
             
-              <li class="item">
-                <a href="guard.html" class="link">Guard</a>
-  
-                <i class="separator icofont-thin-right"></i>
-              </li>
-  
-              <li class="item">
-                <a href=# class="link">guard-profile</a>
-  
-                <i class="separator icofont-thin-right"></i>
-              </li>      
-            </ul>
+            
+          </ul>
           </div>
 
           <div class="col-12 col-md-6 text-end">
@@ -673,7 +681,7 @@ aria-hidden="true">
 <script src="assets/js/echarts.min.js"></script>
 <script src="assets/js/echarts-gl.min.js"></script>
 <script src="assets/js/globalVar.js"></script>
-<script src="assets/js/guard-profile.js"></script>
+<script src="assets/js/edit-guard-profile.js"></script>
 <script src="assets/js/main.js"></script>
 <script>
   //this script allows pop over 

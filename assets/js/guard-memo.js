@@ -110,7 +110,7 @@ $(document).ready(function() {
                 Send to
               </button>                      
 
-              <button type="button" class="btn btn-outline-danger mt-1" onclick="deleteMemo(${data})">
+              <button type="button" class="btn btn-outline-danger mt-1 disabled" onclick="deleteMemo(${data})">
                 <span class="d-none d-sm-block">Remove</span>
                 <span class="d-sm-none">Delete</span>
               </button>
@@ -183,7 +183,7 @@ $(document).ready(function() {
         order:[[ 0, 'dsc']]
 
 
-})
+  })
 
 
 

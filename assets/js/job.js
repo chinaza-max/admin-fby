@@ -1883,11 +1883,12 @@ $.ajax({
 });
 
 function displayCustomer(val){
+
   let data=`<option value="">--Select--</option>`
 
   for(let i=0; i<val.length; i++){
           data+= `
-          <option data-tokens=${val[i].id}>${val[i].full_name} (site=${val[i].sites.length} ) </option>
+          <option data-tokens=${val[i].id}>${val[i].company_name} (site=${val[i].sites.length} ) </option>
         `
       if(i==val.length-1){
 
@@ -2001,7 +2002,7 @@ formAdminReg.addEventListener("submit",(e)=>{
     $('.selectpicker').selectpicker('refresh')
   
           $.ajax({
-            type: "post", url:`${domain}/api/v1/job/`,
+            type: "post", url:`${domain}/api/v1/job`,
             dataType  : 'json',
             encode  : true,
             headers: {
@@ -2010,14 +2011,14 @@ formAdminReg.addEventListener("submit",(e)=>{
               data: {
               client_charge:client_charge,
               staff_charge:staff_charge,
-              description , 
+              description, 
               job_status:"ACTIVE",
               customer_id:myCstomer_id,
               site_id:siteIdForJob,
               job_type:myJobType,
               payment_status:myPaymentStatus
             },
-            success: function (data, text) {
+            success: function (data) {
   
                 showModal(data.message)
                   
@@ -2169,7 +2170,7 @@ $(function(){
             <td>
               <div class="actions">
             
-                <a href="guard-in-job.html" onclick="storeCurrentUserID(${val[i].id})"  class="btn btn-dark btn-sm btn-square rounded-pill">
+                <a  onclick="storeCurrentUserID(${val[i].id})" href="guard-in-job.html"  class="btn btn-dark btn-sm btn-square rounded-pill">
                 <span class="btn-icon icofont-external-link"></span>
                 </a>
                 <button class="btn btn-info btn-sm btn-square rounded-pill" data-bs-toggle="modal"
@@ -2248,7 +2249,7 @@ $(function(){
             data+= `<tr>
 
             <td>
-            ${offset+i+1}
+            ${offset2+i+1}
           </td>
          
             <td>
@@ -2372,7 +2373,7 @@ $(function(){
             data+= `<tr>
 
             <td>
-            ${offset+i+1}
+            ${offset3+i+1}
           </td>
          
             <td>
@@ -2473,7 +2474,6 @@ $(function(){
       
         success: function (data) {
 
-            console.log(data.data)
             $('#loader4').css("display","none");
 
             CreateTable4(data.data)
@@ -2629,7 +2629,7 @@ function Previous2(){
 
 function Next2(){
   offset2=offset2+limit2+1
-  getTableData(limit2,offset2)
+  getTableData2(limit2,offset2)
   $(".page-item2").removeClass("active");
   $("#Next2").addClass("active");
 
@@ -2665,8 +2665,8 @@ function Previous3(){
   }
   else{
       $("#Previous3").removeClass("disabled");
-      offset3=offset3-(limit3+1)
-      getTableData2(limit3,offset3)
+      offset3=offset3-(limit3)
+      getTableData3(limit3,offset3)
       $(".page-item3").removeClass("active");
       $("#Previous3").addClass("active");
 
@@ -2674,8 +2674,8 @@ function Previous3(){
 }
 
 function Next3(){
-  offset3=offset3+limit3+1
-  getTableData(limit3,offset3)
+  offset3=offset3+limit3
+  getTableData3(limit3,offset3)
   $(".page-item3").removeClass("active");
   $("#Next3").addClass("active");
 
@@ -2710,7 +2710,7 @@ function Previous4(){
   }
   else{
       $("#Previous4").removeClass("disabled");
-      offset4=offset4-(limit4+1)
+      offset4=offset4-(limit4)
       getTableData4(limit4,offset4)
       $(".page-item4").removeClass("active");
       $("#Previous4").addClass("active");
@@ -2719,7 +2719,7 @@ function Previous4(){
 }
 
 function Next4(){
-  offset4=offset4+limit4+1
+  offset4=offset4+limit4
   getTableData4(limit4,offset4)
   $(".page-item4").removeClass("active");
   $("#Next4").addClass("active");
@@ -2756,8 +2756,7 @@ function updateJobStatusId(val){
 function updateJobStatus(){
   $('.selectpickerStatusChange').on("changed.bs.select", function() {
     myJobStatus = $('option:selected', this).attr("data-tokens");
-
-  });
+  })
 }
 $("#loadingButton2").css("display","none")
 
@@ -2781,6 +2780,9 @@ function changeJobStatus(){
     },
     success: function (data, text) {
         showModal(data.message)
+
+          getTableData2(limit2,offset2)
+          getTableData(limit,offset)
       
           getTableData2(limit2,offset2)
           getTableData3(limit3,offset3)
@@ -2834,9 +2836,9 @@ function deleteJob(job_id){
         data: {
           job_id      
         },
-        success: function (data, text) {
+        success: function (data) {
             showModal(data.message)
-            let limit=15,
+            limit=15,
             offset=0,
             limit2=15,
             offset2=0,
@@ -2921,9 +2923,6 @@ function deleteGuardSchedule(job_id,guard_id){
  
     },
     error: function (request, status, error) {
-
-        console.log(request.responseJSON.status)
-
         analyzeError(request)
      
     }
@@ -3010,16 +3009,9 @@ all_form_for_adding_guard.forEach(element => {
 });
 
 
-
-
 let old_guard_id;
 document.getElementById("reassignForm").addEventListener("submit",(e)=>{
   e.preventDefault()
-
-
-  console.log(old_guard_id,job_id_for_schedule )
-
-
   
   let guard_id_array = $(".selectpickerReassign option:selected").map(function() {
     return $(this).data("name");
@@ -3043,8 +3035,6 @@ document.getElementById("reassignForm").addEventListener("submit",(e)=>{
       showModal(data.message)
     },
     error: function (request, status, error) {
-
-      console.log(request)
         analyzeError(request)
      
     }

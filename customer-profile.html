@@ -9,21 +9,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- Favicon -->
-  <link rel="shortcut icon" href="../assets/img/favicon.ico">
+  <link rel="shortcut icon" href="assets/img/favicon.ico">
 
   <!-- Plugins CSS -->
-  <link rel="stylesheet" href="../assets/css/bootstrap/bootstrap.css">
-  <link rel="stylesheet" href="../assets/css/icofont.min.css">
-  <link rel="stylesheet" href="../assets/css/simple-line-icons.css">
-  <link rel="stylesheet" href="../assets/css/jquery.typeahead.css">
-  <link rel="stylesheet" href="../assets/css/datatables.min.css">
-  <link rel="stylesheet" href="../assets/css/bootstrap-select.min.css">
-  <link rel="stylesheet" href="../assets/css/Chart.min.css">
-  <link rel="stylesheet" href="../assets/css/morris.css">
-  <link rel="stylesheet" href="../assets/css/leaflet.css">
+  <link rel="stylesheet" href="assets/css/bootstrap/bootstrap.css">
+  <link rel="stylesheet" href="assets/css/icofont.min.css">
+  <link rel="stylesheet" href="assets/css/simple-line-icons.css">
+  <link rel="stylesheet" href="assets/css/jquery.typeahead.css">
+  <link rel="stylesheet" href="assets/css/datatables.min.css">
+  <link rel="stylesheet" href="assets/css/bootstrap-select.min.css">
+  <link rel="stylesheet" href="assets/css/Chart.min.css">
+  <link rel="stylesheet" href="assets/css/morris.css">
+  <link rel="stylesheet" href="assets/css/leaflet.css">
 
   <!-- Theme CSS -->
-  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 
@@ -93,7 +93,7 @@
                 data-bs-offset="0, 10"
               >
                 <span class="d-flex align-items-center">
-                  <img src="../assets/content/user-400-1.jpg" id="avatar" alt="" width="40" height="40" class="rounded-500 me-1">
+                  <img src="assets/content/fbyDefaultIMG.png" id="avatar" alt="" width="40" height="40" class="rounded-500 me-1">
                   <i class="icofont-simple-down"></i>
                 </span>
               </button>
@@ -114,7 +114,7 @@
                     </a>
                   </li>
                   <li>
-                    <a href="./sign-in.html" class="align-items-center" >
+                    <a href="sign-in.html" class="align-items-center" >
                       <span class="icon icofont-logout"></span>
                       Log Out
                     </a>
@@ -158,7 +158,7 @@
           <div class="app-logo">
             <div class="logo-wrap">
             
-            <img src="../assets/img/logo.png" alt="" width="147" height="33" class="logo-img">
+            <img src="assets/img/logo.png" alt="" width="147" height="33" class="logo-img">
              FBY
             </div>
           </div>
@@ -252,7 +252,7 @@
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a class="item-link" href="/view-shift.html">
+                  <a class="item-link" href="view-shift.html">
                     <div class="icon icofont-search-job"></div>
                     <span class="link-text">View shift</span>
                   </a>
@@ -335,48 +335,31 @@
 
                 <label>Photo</label>
                 <div class="form-group avatar-box d-flex align-items-center">
-                  <img src="../assets/content/user-400-1.jpg" id="avatar2" width="100" height="100" alt="" class="rounded-500 me-4">
+                  <img src="assets/content/fbyDefaultIMG.png" id="avatar2" width="100" height="100" alt="" class="rounded-500 me-4">
 
-                  <button class="btn btn-outline-primary" type="button" onClick="document.getElementById('profilePicturePath').click()">
-                    Change photo<span class="btn-icon icofont-ui-user ms-2"></span>
-                  </button>
-                  <input type='file' onchange="checkImg(this)" id="profilePicturePath" style="display: none;" accept=".jpg, .jpeg, .png"/> 
-
+               
                 </div>
 
 
               <form class="mb-4" id="updateUser">
 
-
-                <div class="form-group">
-                  <label>First name</label>
-                  <input class="form-control" type="text" id="firstName" name="firstName" placeholder="Type first name..." required>
-                </div>
-
-              
-
-
                 <div class="row">
                   <div class="col-12 col-sm-6">
                     <div class="form-group">
-                      <label>Last name</label>
-                      <input class="form-control" id="lastName" name="lastName" type="text" placeholder="Last name" value="Jouns">
-                    </div>
+                      <label>Company,s name</label>
+                      <input class="form-control" type="text" id="Company" name="Company" placeholder="Enter Company,s name..." required>
+                    </div>   
                   </div>
                   <div class="col-12 col-sm-6">
                     <div class="form-group">
-                      <label>Last name</label>
-                      <input class="form-control" id="email" name="email" type="text" placeholder="email address" value="Jouns">
-                    </div>
+                      <label>Phone No</label>
+                      <input class="form-control" type="tel" id="tel" name="tel" placeholder="Enter Company,s name..." required>
+                    </div>   
                   </div>
-                </div>
-
-
-                <div class="row">
                   <div class="col-12 col-sm-6">
                     <div class="form-group">
-                      <label>Date of birth</label>
-                      <input class="form-control" id="dataOfBirth" name="dataOfBirth" type="date" >
+                      <label>Email address</label>
+                      <input class="form-control" type="email" name="email" id="email"   required/>
                     </div>
                   </div>
                   <div class="col-12 col-sm-6">
@@ -391,19 +374,23 @@
                   </div>
                 </div>
 
-                <div class="form-group">
-                  <label>Address</label>
-                  <textarea class="form-control" name="address" id="address" placeholder="Address" rows="3">71 Pilgrim Avenue Chevy Chase, MD 20815</textarea>
+                <div class="row">
+                  <div class="col-12 ">
+          
+                      <div class="form-group">
+                        <label>Address</label>
+                        <textarea class="form-control" name="address" id="address"  rows="3"></textarea>
+                      </div>
+                    
+                  </div>
                 </div>
-
-              
 
                 <div class="row">
                   <div class="col">
                     <button type="submit" class="btn btn-success">Save changes</button>
                   </div>
                   <div class="col text-end">
-                    <button type="button" class="btn btn-outline-danger">
+                    <button type="button" class="btn btn-outline-danger" disabled>
                       <span class="d-none d-sm-block">Delete account</span>
                       <span class="d-sm-none">Delete</span>
                     </button>
@@ -412,6 +399,7 @@
               </form>
 
               <hr>
+              <button type="button" id="password" class="btn btn-outline-dark">Change password</button>
                           
 
             </div>
@@ -426,25 +414,24 @@
           <div class="col-12 col-md-6 d-none d-md-block">
             <ul class="page-breadcrumbs">
               
-                <li class="item">
-                  <a href=# class="link">Apps</a>
+              <li class="item">
+                <a href=# class="link">FBY ADMIN</a>
 
-                  <i class="separator icofont-thin-right"></i>
-                </li>
-              
-                <li class="item">
-                  <a href=# class="link">Service pages</a>
+                <i class="separator icofont-thin-right"></i>
+              </li>
 
-                  <i class="separator icofont-thin-right"></i>
-                </li>
-              
-                <li class="item">
-                  <a href=# class="link">Edit account</a>
+              <li class="item">
+                <a href="customer.html" class="link">Customer</a>
+                <i class="separator icofont-thin-right"></i>
+              </li>
 
-                  <i class="separator icofont-thin-right"></i>
-                </li>
-              
-            </ul>
+              <li class="item">
+                <a href=# class="link">Customer profile</a>
+                <i class="separator icofont-thin-right"></i>
+              </li>
+            
+            
+          </ul>
           </div>
 
           <div class="col-12 col-md-6 text-end">
@@ -558,22 +545,22 @@
 <!-- end Add patients modals -->
 
 
-<script src="../assets/js/jquery-3.6.0.min.js"></script>
-<script src="../assets/js/jquery-migrate-1.4.1.min.js"></script>
-<script src="../assets/js/popper.min.js"></script>
-<script src="../assets/js/bootstrap.min.js"></script>
-<script src="../assets/js/jquery.typeahead.min.js"></script>
-<script src="../assets/js/datatables.min.js"></script>
-<script src="../assets/js/bootstrap-select.min.js"></script>
-<script src="../assets/js/jquery.barrating.min.js"></script>
-<script src="../assets/js/Chart.min.js"></script>
-<script src="../assets/js/raphael-min.js"></script>
-<script src="../assets/js/morris.min.js"></script>
-<script src="../assets/js/echarts.min.js"></script>
-<script src="../assets/js/echarts-gl.min.js"></script>
-<script src="../assets/js/globalVar.js"></script>
-<script src="../assets/js/customer-profile.js"></script>
-<script src="../assets/js/main.js"></script>
+<script src="assets/js/jquery-3.6.0.min.js"></script>
+<script src="assets/js/jquery-migrate-1.4.1.min.js"></script>
+<script src="assets/js/popper.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/jquery.typeahead.min.js"></script>
+<script src="assets/js/datatables.min.js"></script>
+<script src="assets/js/bootstrap-select.min.js"></script>
+<script src="assets/js/jquery.barrating.min.js"></script>
+<script src="assets/js/Chart.min.js"></script>
+<script src="assets/js/raphael-min.js"></script>
+<script src="assets/js/morris.min.js"></script>
+<script src="assets/js/echarts.min.js"></script>
+<script src="assets/js/echarts-gl.min.js"></script>
+<script src="assets/js/globalVar.js"></script>
+<script src="assets/js/customer-profile.js"></script>
+<script src="assets/js/main.js"></script>
 
 
 </body>

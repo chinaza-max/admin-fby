@@ -170,6 +170,8 @@ updateUser.addEventListener("submit",(e)=>{
 
 
 })
+
+
 function checkImg(e){
     document.getElementById('avatar2').src = window.URL.createObjectURL(e.files[0])
 }
@@ -196,6 +198,7 @@ $(document).ready(function(){
                 $("#address").val(data.data.user.address);
                 $("#dataOfBirth").val(data.data.user.date_of_birth);
                 $("#phoneNumber").val(data.data.user.phone_number);
+                $("#email").attr("disabled", true)
 
                 if(data.data.user.is_archived==true){
                     $('select[name=status]').val("Available");

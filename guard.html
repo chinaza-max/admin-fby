@@ -9,18 +9,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- Favicon -->
-  <link rel="shortcut icon" href="../assets/img/favicon.ico">
+  <link rel="shortcut icon" href="assets/img/favicon.ico">
 
   <!-- Plugins CSS -->
-  <link rel="stylesheet" href="../assets/css/bootstrap/bootstrap.css">
-  <link rel="stylesheet" href="../assets/css/icofont.min.css">
-  <link rel="stylesheet" href="../assets/css/simple-line-icons.css">
-  <link rel="stylesheet" href="../assets/css/jquery.typeahead.css">
-  <link rel="stylesheet" href="../assets/css/datatables.min.css">
-  <link rel="stylesheet" href="../assets/css/bootstrap-select.min.css">
-  <link rel="stylesheet" href="../assets/css/Chart.min.css">
-  <link rel="stylesheet" href="../assets/css/morris.css">
-  <link rel="stylesheet" href="../assets/css/leaflet.css">
+  <link rel="stylesheet" href="assets/css/bootstrap/bootstrap.css">
+  <link rel="stylesheet" href="assets/css/icofont.min.css">
+  <link rel="stylesheet" href="assets/css/simple-line-icons.css">
+  <link rel="stylesheet" href="assets/css/jquery.typeahead.css">
+  <link rel="stylesheet" href="assets/css/datatables.min.css">
+  <link rel="stylesheet" href="assets/css/bootstrap-select.min.css">
+  <link rel="stylesheet" href="assets/css/Chart.min.css">
+  <link rel="stylesheet" href="assets/css/morris.css">
+  <link rel="stylesheet" href="assets/css/leaflet.css">
 
   
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -30,7 +30,7 @@
 
 
   <!-- Theme CSS -->
-  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 
@@ -99,7 +99,7 @@
                 data-bs-offset="0, 10"
               >
                 <span class="d-flex align-items-center">
-                  <img src="../assets/content/user-400-1.jpg" id="avatar" alt="" width="40" height="40" class="rounded-500 me-1">
+                  <img src="assets/content/fbyDefaultIMG.png" id="avatar" alt="" width="40" height="40" class="rounded-500 me-1">
                   <i class="icofont-simple-down"></i>
                 </span>
               </button>
@@ -120,7 +120,7 @@
                     </a>
                   </li>
                   <li>
-                    <a href="./sign-in.html" class="align-items-center" >
+                    <a href="sign-in.html" class="align-items-center" >
                       <span class="icon icofont-logout"></span>
                       Log Out
                     </a>
@@ -163,7 +163,7 @@
           <div class="app-logo">
             <div class="logo-wrap">
             
-            <img src="../assets/img/logo.png" alt="" width="147" height="33" class="logo-img">
+            <img src="assets/img/logo.png" alt="" width="147" height="33" class="logo-img">
              FBY
             </div>
           </div>
@@ -331,13 +331,13 @@
             <div class="card-header">
               Guard
             </div>
-            <div class="card-body">
+            <div class="card-body" >
               <ul class="nav nav-pills mb-3" role="tablist">
                 <li class="nav-item" role="presentation">
-                  <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#tab-1" type="button" role="tab" aria-selected="true">All</button>
+                  <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#tab-1" type="button" role="tab" aria-selected="true">Available guard</button>
                 </li>
                 <li  class="nav-item" role="presentation">
-                  <button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-2" type="button" role="tab" aria-selected="false">Suspended</button>
+                  <button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-2" type="button" role="tab" aria-selected="false">Suspended guard</button>
                 </li>
                
             
@@ -348,8 +348,9 @@
                     <table class="table table-hover">
                       <thead>
                       <tr class="bg-primary text-white">
+                        <th scope="col">#</th>
                         <th scope="col">Photo</th>
-                        <th scope="col" class="text-nowrap">Job ID</th>
+                        <th scope="col" class="text-nowrap">Guard ID</th>
                         <th scope="col">Name</th>
                         <th scope="col " class="text-nowrap">Date of birth</th>
                         <th scope="col">Address</th>
@@ -397,11 +398,13 @@
                     <table class="table table-hover">
                       <thead>
                       <tr class="bg-primary text-white">
+                        <th scope="col">#</th>
                         <th scope="col">Photo</th>
                         <th scope="col">Name</th>
-                        <th scope="col " class="text-nowrap">Site No</th>
+                        <th scope="col " class="text-nowrap">Date of birth</th>
                         <th scope="col">Address</th>
                         <th scope="col">Email</th>
+                        <th scope="col">Phone</th> 
                         <th scope="col">Gender</th>
                         <th scope="col">Actions</th>
                       </tr>
@@ -420,10 +423,7 @@
                           <span class="icofont-simple-left"></span>
                         </a>
                       </li>
-                      <li class="page-item page-item2 active" aria-current="page" id="page12" onclick="page2(1)"><a class="page-link" href="#">1</a></li>
-                      <li class="page-item page-item2"  id="page22"><a class="page-link" href="#"  onclick="page2(2)">2</a></li>
-                      <li class="page-item page-item2"  id="page32"><a class="page-link" href="#"  onclick="page2(3)">3</a></li>
-                      <li id="Next2" class="page-item page-item2" onclick="Next2()">
+                      <li id="Next2" class="page-item page-item2 active" onclick="Next2()">
                         <a class="page-link" href="#" aria-label="Next">
                           <span class="icofont-simple-right"></span>
                         </a>
@@ -587,18 +587,23 @@
       <form  id="formguardReg">
       <div class="modal-body">
         
-          <div class="form-group">
-            <label>First name</label>
-            <input class="form-control" type="text" name="firstName" placeholder="Type first name..." required>
-          </div>
-
-          <div class="form-group">
-            <label>Last name</label>
-            <input class="form-control" type="text"  name="lastName" placeholder="Type last name..." required>
-          </div>
-
-
+        
           <div class="row">
+
+
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label>First name</label>
+                <input class="form-control" type="text" name="firstName" placeholder="Type first name..." required>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label>Last name</label>
+                <input class="form-control" type="text"  name="lastName" placeholder="Type last name..." required>
+              </div>
+            </div>
             <div class="col-12 col-md-6">
               <div class="form-group">
                 <label>Email</label>
@@ -670,26 +675,99 @@
 
 
 
+<div class="modal fade" id="suspension_details" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+        <i class="icofont-close-line"></i>
+      </button>
+      <div class="modal-header">
+        <h5 class="modal-title">Suspension details</h5>
+      </div>
+  
+      <div class="modal-body">
+   
+            <div class="table-responsive">
+              <div class="table-responsive">
+                <table class="table table-bordered"  id="suspensionContent">
+
+                </table>
+              </div>
+            </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" id="suspend">
+  <div class="modal-dialog ">
+    <div class="modal-content">
+    
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          <i class="icofont-close-line"></i>
+        </button>
+
+        <div class="modal-header">
+          <h5 class="modal-title">
+
+            Suspend guard
+          </h5>
+          
+        </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+          <form id="suspendForm">
+
+            <label>info
+              <a href="#"  data-bs-toggle="popover" title="info" data-bs-content="Information about action">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                  </svg>
+                </a>
+               </label>
+        
+              <textarea class="form-control" id="suspendInfo" rows="4" placeholder="" required></textarea>
+      
+            <button type="submit" id="suspendFormButton" style="display: none;"></button>
+          </form>
+      </div>
+      
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary"  onclick="clickHiddenBut()">Suspend</button>
+
+      </div>
+      
+    </div>
+  </div>
+</div>
 
 
 
 
-<script src="../assets/js/jquery-3.6.0.min.js"></script>
-<script src="../assets/js/jquery-migrate-1.4.1.min.js"></script>
-<script src="../assets/js/popper.min.js"></script>
-<script src="../assets/js/bootstrap.min.js"></script>
-<script src="../assets/js/jquery.typeahead.min.js"></script>
-<script src="../assets/js/datatables.min.js"></script>
-<script src="../assets/js/bootstrap-select.min.js"></script>
-<script src="../assets/js/jquery.barrating.min.js"></script>
-<script src="../assets/js/Chart.min.js"></script>
-<script src="../assets/js/raphael-min.js"></script>
-<script src="../assets/js/morris.min.js"></script>
-<script src="../assets/js/echarts.min.js"></script>
-<script src="../assets/js/echarts-gl.min.js"></script>
-<script src="../assets/js/globalVar.js"></script>
-<script src="../assets/js/guard.js"></script>
-<script src="../assets/js/main.js"></script>
+<script src="assets/js/jquery-3.6.0.min.js"></script>
+<script src="assets/js/jquery-migrate-1.4.1.min.js"></script>
+<script src="assets/js/popper.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/jquery.typeahead.min.js"></script>
+<script src="assets/js/datatables.min.js"></script>
+<script src="assets/js/bootstrap-select.min.js"></script>
+<script src="assets/js/jquery.barrating.min.js"></script>
+<script src="assets/js/Chart.min.js"></script>
+<script src="assets/js/raphael-min.js"></script>
+<script src="assets/js/morris.min.js"></script>
+<script src="assets/js/echarts.min.js"></script>
+<script src="assets/js/echarts-gl.min.js"></script>
+<script src="assets/js/globalVar.js"></script>
+<script src="assets/js/guard.js"></script>
+<script src="assets/js/main.js"></script>
 
 
 
