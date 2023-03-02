@@ -1,7 +1,4 @@
-
 let site_id=activeSiteID
-
-
 
 
 $(document).ready(function(){
@@ -14,9 +11,8 @@ $(document).ready(function(){
             encode  : true,  
             dataSrc: function (data) {
 
-                console.log(data)
                 $("#cName").text("Company's Name : "  +data.data.company_name)
-                $("#sName").text("Site's Name : " +data.data.company_name)
+                $("#sName").text("Site's Name : " +data.data.site_name)
 
                 return data.data.jobs;
               },
@@ -81,7 +77,7 @@ $(document).ready(function(){
                   render: function (data, type, full, meta) {
 
                             return  `
-                            <a  onclick="storeCurrentUserID(${data})" href="guard-in-job.html"  class="btn btn-dark btn-sm btn-square rounded-pill">
+                            <a  onclick="storeCurrentJobID(${data})" href="guard-in-job.html"  class="btn btn-dark btn-sm btn-square rounded-pill">
                             <span class="btn-icon icofont-external-link"></span>
                             </a>
                     `

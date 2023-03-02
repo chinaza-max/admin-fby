@@ -30,11 +30,13 @@ $(document).ready(function() {
         ajax: {
             url: `${domain}/api/v1/job/getSingleReportGuard`,
             method: "post",
+            dataType  : 'json',
+            encode  : true,
             headers: {
               "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
           },
           data: {
-            job_id:activeUserID,
+            job_id:activeJobID,
             guard_id
           },
           },

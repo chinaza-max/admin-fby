@@ -65,6 +65,13 @@ document.getElementById("dateSelection").addEventListener("change", function() {
  */
 
 
+let myCoor
+  
+getLatAndLon(function(latLon) {
+  myCoor= latLon;
+})
+
+
 let formforGettingTask=document.getElementById("formforGettingTask")
 let formforGettingInstructionInfo=document.getElementById("formforGettingInstructionInfo")
 let startEndDateForm=document.getElementById("startEndDateForm")
@@ -332,7 +339,7 @@ function displayGuard(val, modalId,picker){
       for(let i=0;i<val.length;i++){
 
           data+=`
-          <option data-name=${val[i].guard_id}>${val[i].full_name}</option>
+          <option data-subtext="${val[i].guard_id}" data-name=${val[i].guard_id}>${val[i].full_name}</option>
           `
           if(i==val.length-1){
 
@@ -1043,20 +1050,28 @@ function update_job_id_for_schedule(id){
 
 function postSchedule(obj){
 
+  console.log(obj)
     $.ajax({
       type: "post", url:`${domain}/api/v1/job/add_shedule_date_staff`,
       headers: {
         "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
       },
+      dataType  : 'json',
+      encode  : true,
       data: {
         date_time_staff_shedule:JSON.stringify(obj),
+        latitude: Number(myCoor.lat).toFixed(8),
+        longitude: Number(myCoor.lon).toFixed(8),
       },
-      success: function (data, text) {
+      success: function (data) {
 
           showModal(data.message)
           setTimeout(() => {
                   hideModal()
           }, 3000);
+
+          $('#example').DataTable().clear().destroy();
+          getTableData()
 
       },
       error: function (request, status, error) {
@@ -1072,6 +1087,8 @@ function postSchedule(obj){
 
 function postSchedule2(obj){
 
+
+  console.log(myCoor)
   $.ajax({
     type: "post", url:`${domain}/api/v1/job/add_agenda`,
     dataType  : 'json',
@@ -1081,6 +1098,8 @@ function postSchedule2(obj){
     },
     data: {
       shedule_agenda:JSON.stringify(obj),
+      latitude: Number(myCoor.lat).toFixed(8),
+      longitude: Number(myCoor.lon).toFixed(8),
     },
     success: function (data, text) {
         showModal(data.message)
@@ -1091,7 +1110,31 @@ function postSchedule2(obj){
     },
     error: function (request, status, error) {
 
-      analyzeError(request)      
+
+      if(request.responseJSON.status=="location-error"){
+
+          
+        let obj=request.responseJSON.message
+        let  obj2=JSON.parse(obj)
+
+    
+        let myMessage=obj2.info.issues+" "+obj2.info.operation_date+" for "+obj2.info.fullName
+        let task_or_instruction=obj2.info.issues.includes("Task")?'from Task Or adjust date':'from Instruction Or adjust date' 
+        let solution="Remove "+obj2.info.fullName+" "+task_or_instruction
+  
+        Swal.fire({
+          icon: 'error',
+          title:myMessage,
+          text: solution,
+          footer: "NOTE :Date should be inside guard created shift"
+        })
+
+      }
+      else{
+        analyzeError(request)      
+
+      }
+      
     }
   })
 }
@@ -1920,8 +1963,9 @@ function getSite(val){
         },
         dataType  : 'json',
         encode  : true,
-        success: function (data, text) {
+        success: function (data) {
 
+          console.log(data)
             myCstomer_id=data.data[0].id
             disPlaySite(data.data[0].sites)
         },
@@ -1996,7 +2040,9 @@ formAdminReg.addEventListener("submit",(e)=>{
     const formFields = form.elements,
     client_charge = formFields.inputJobCost.value,
     staff_charge=formFields.inputGuardAmount.value,
-    description=formFields.description.value;
+    description=formFields.description.value,
+    latitude=myCoor.lat,
+    longitude=myCoor.lon;
   
     $('select[name=status]').val("Available");
     $('.selectpicker').selectpicker('refresh')
@@ -2016,7 +2062,9 @@ formAdminReg.addEventListener("submit",(e)=>{
               customer_id:myCstomer_id,
               site_id:siteIdForJob,
               job_type:myJobType,
-              payment_status:myPaymentStatus
+              payment_status:myPaymentStatus,
+              longitude,
+              latitude,
             },
             success: function (data) {
   
@@ -2025,7 +2073,9 @@ formAdminReg.addEventListener("submit",(e)=>{
                 limit=15
                 offset=0
                   
-                getTableData(limit,offset)
+                $('#example').DataTable().clear().destroy();
+                getTableData()
+             
                 setTimeout(() => {
                         hideModal()
                 }, 3000);
@@ -2055,6 +2105,7 @@ let getTableData='',
  getTableData2='',
  getTableData3='',
  getTableData4='',
+ getTableData5='',
   limit=15,
   offset=0,
   limit2=15,
@@ -2066,12 +2117,11 @@ let getTableData='',
   myJobStatus="ACTIVE",
   statusChangeIdForJob
 
-
 //THIS HANDLES STYLING FOR PAGINATION FOR ACTIVE JOB
 
 
 
-$(function(){
+$(document).ready(function(){
   setNavLinkStatus()
   function setNavLinkStatus(){
 
@@ -2085,380 +2135,7 @@ $(function(){
    
   }
 
-  //FOR ACTIVE JOB
-  getTableData=function ( limit,offset){
-
-    $('#loader1').css("display","block");
-    $.ajax({
-        type: "get", url:`${domain}/api/v1/job/allJobs?type=ACTIVE&limit=${limit}&offset=${offset}`,
-        headers: {
-            "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
-        },
-        dataType  : 'json',
-        encode  : true,
-      
-        success: function (data) {
-
-            $('#loader1').css("display","none");
-            CreateTable(data.data)
-       
-        },
-        error: function (request, status, error) {
-
-            $('#loader1').css("display","none");
-
-            analyzeError(request)
-         
-        }
-    });
-  }
-  getTableData(limit,offset)
-  function CreateTable(val){
-      let data=''
-      if(val.length!=0){
-        for(let i=0; i<val.length; i++){
-
-            data+= `<tr>
-
-            <td>
-            ${offset+i+1}
-          </td>
-         
-            <td>
-              <div class="d-flex align-items-center nowrap text-primary">
-              ${val[i].create}
-              </div>
-            </td>
-            <td>
-            ${val[i].id}
-            </td>
-            <td>
-            ${val[i].customer}
-
-            </td>
-            <td>
-            ${val[i].site}
-
-            </td>
-            <td>
-              <div class="text-muted text-nowrap">
-        
-                  <div class="progress">
-                  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: ${val[i].job_progress}%"></div>
-                  </div>
-
-              </div>
-            </td>
-            <td>
-              <div class="d-flex align-items-center nowrap text-primary">
-              $${val[i].client_charge}
-
-              </div>
-            </td>
-            <td>
-              <div class="d-flex align-items-center nowrap text-primary">
-              $${val[i].staff_payment}
-
-              </div>
-            </td>
-
-          
-            <td>
-              <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
-                data-bs-target="#schedule"  onclick="update_job_id_for_schedule(${val[i].id})">Add</button>
-            </td>
-            <td>
-              <div class="actions">
-            
-                <a  onclick="storeCurrentUserID(${val[i].id})" href="guard-in-job.html"  class="btn btn-dark btn-sm btn-square rounded-pill">
-                <span class="btn-icon icofont-external-link"></span>
-                </a>
-                <button class="btn btn-info btn-sm btn-square rounded-pill" data-bs-toggle="modal"
-                  data-bs-target="#edit"   onclick="updateJobStatusId(${val[i].id})">
-                  <span class="btn-icon icofont-ui-edit"></span>
-                </button>
-                
-                <button onclick="deleteJob(${val[i].id})" class="btn btn-error btn-sm btn-square rounded-pill">
-                  <span class="btn-icon icofont-ui-delete"></span>
-                </button>
-              </div>
-            </td>
-          </tr>`
-
-            if(i==val.length-1){
-
-                $('#mytable1').children().remove();
-                $("#mytable1").append(data)
-            }
-        }
-      }else{
-
-        $('#mytable1').children().remove();
-        $("#mytable1").append(`    <tr>
-        <td colspan="1000">
-        
-        <div class="alert alert-light outline text-dark " role="alert" style="text-align:center;">
-        YOU HAVE NO ACTIVE JOB
-      </div>
-        </td>
-      </tr>`)
-      }
-
-       
-
-  }
-
-
-  //FOR PENDING JOB
-  getTableData2=function ( limit,offset){
-
-    $('#loader2').css("display","block");
-
-    $.ajax({
-        type: "get", url:`${domain}/api/v1/job/allJobs?type=PENDING&limit=${limit}&offset=${offset}`,
-        headers: {
-            "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
-        },
-        dataType  : 'json',
-        encode  : true,
-      
-        success: function (data, text) {
-
-            $('#loader2').css("display","none");
-
-            CreateTable2(data.data)
-    
-        },
-        error: function (request, status, error) {
-
-            $('#loader2').css("display","none");
-
-            analyzeError(request)
-         
-        }
-    });
-  }
-
-  getTableData2(limit2,offset2)
-  function CreateTable2(val){
-
-      let data=''
-      if(val.length!=0){
-        for(let i=0; i<val.length; i++){
-
-            data+= `<tr>
-
-            <td>
-            ${offset2+i+1}
-          </td>
-         
-            <td>
-              <div class="d-flex align-items-center nowrap text-primary">
-              ${val[i].create}
-              </div>
-            </td>
-            <td>
-            ${val[i].id}
-            </td>
-            <td>
-            ${val[i].customer}
-
-            </td>
-            <td>
-            ${val[i].site}
-
-            </td>
-            <td>
-              <div class="text-muted text-nowrap">
-                <div class="progress">
-                  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: ${val[i].job_progress}%"></div>
-                </div>
-              </div>
-            </td>
-            <td>
-              <div class="d-flex align-items-center nowrap text-primary">
-              $${val[i].client_charge}
-
-              </div>
-            </td>
-            <td>
-              <div class="d-flex align-items-center nowrap text-primary">
-              $${val[i].staff_payment}
-
-              </div>
-            </td>
-
-            <td>
-              <div class="actions">
-                <a href="guard-in-job.html" onclick="storeCurrentUserID(${val[i].id})"  class="btn btn-dark btn-sm btn-square rounded-pill">
-                <span class="btn-icon icofont-external-link"></span>
-                </a>
-                <button class="btn btn-info btn-sm btn-square rounded-pill" data-bs-toggle="modal"
-                  data-bs-target="#edit2"   onclick="updateJobStatusId(${val[i].id})">
-                  <span class="btn-icon icofont-ui-edit"></span>
-                </button>
-                <button onclick="deleteJob(${val[i].id})" class="btn btn-error btn-sm btn-square rounded-pill">
-                  <span class="btn-icon icofont-ui-delete"></span>
-                </button>
-              </div>
-            </td>
-          </tr>`
-
-            if(i==val.length-1){
-
-                $('#mytable2').children().remove();
-                $("#mytable2").append(data)
-            }
-        }
-      }
-      else{
-        $('#mytable2').children().remove();
-        $("#mytable2").append(`
-        
-        <tr>
-        <td colspan="1000">
-        
-        <div class="alert alert-light outline text-dark " role="alert" style="text-align:center;">
-        YOU HAVE NO PENDING JOB
-      </div>
-        </td>
-      </tr>
-        
-        `)
-      }
-
-         
-
-  }
-
-
-  //FOR COMPLETED JOB
-
-  getTableData3=function ( limit,offset){
-
-
-    $('#loader3').css("display","block");
-
-    $.ajax({
-        type: "get", url:`${domain}/api/v1/job/allJobs?type=COMPLETED&limit=${limit}&offset=${offset}`,
-        headers: {
-            "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
-        },
-        dataType  : 'json',
-        encode  : true,
-      
-        success: function (data, text) {
-
-            $('#loader3').css("display","none");
-            CreateTable3(data.data)
-       
-        },
-        error: function (request, status, error) {
-
-            $('#loader3').css("display","none");
-
-            analyzeError(request)
-         
-        }
-    });
-  }
-
-  getTableData3(limit3,offset3)
-  function CreateTable3(val){
-
-      let data=''
-      if(val.length!=0){
-        for(let i=0; i<val.length; i++){
-
-            data+= `<tr>
-
-            <td>
-            ${offset3+i+1}
-          </td>
-         
-            <td>
-              <div class="d-flex align-items-center nowrap text-primary">
-              ${val[i].create}
-              </div>
-            </td>
-            <td>
-            ${val[i].id}
-            </td>
-            <td>
-            ${val[i].customer}
-
-            </td>
-            <td>
-            ${val[i].site}
-
-            </td>
-            <td>
-              <div class="text-muted text-nowrap">
-             
-                <div class="progress">
-                <div class="progress-bar progress-bar-striped " role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: ${val[i].job_progress}%"></div>
-                </div>
-
-              </div>
-            </td>
-            <td>
-              <div class="d-flex align-items-center nowrap text-primary">
-              $${val[i].client_charge}
-
-              </div>
-            </td>
-            <td>
-              <div class="d-flex align-items-center nowrap text-primary">
-              $${val[i].staff_payment}
-
-              </div>
-            </td>
-
-            <td>
-              <div class="actions">
-                <a href="guard-in-job.html" onclick="storeCurrentUserID(${val[i].id})"  class="btn btn-dark btn-sm btn-square rounded-pill">
-                <span class="btn-icon icofont-external-link"></span>
-                </a>
-                <button class="btn btn-info btn-sm btn-square rounded-pill" data-bs-toggle="modal"
-                  data-bs-target="#edit3"   onclick="updateJobStatusId(${val[i].id})">
-                  <span class="btn-icon icofont-ui-edit"></span>
-                </button>
-                <button onclick="deleteJob(${val[i].id})" class="btn btn-error btn-sm btn-square rounded-pill">
-                  <span class="btn-icon icofont-ui-delete"></span>
-                </button>
-              </div>
-            </td>
-          </tr>`
-
-            if(i==val.length-1){
-
-                $('#mytable3').children().remove();
-                $("#mytable3").append(data)
-            }
-        }
-      }
-      else{
-        $('#mytable3').children().remove();
-        $("#mytable3").append(`
-        
-        <tr>
-        <td colspan="1000">
-        
-        <div class="alert alert-light outline text-dark " role="alert" style="text-align:center;">
-        YOU HAVE NO COMPLETED JOB
-      </div>
-        </td>
-      </tr>
-        
-        `)
-      }
-
-         
-
-  }
-
-
-
+ 
    //FOR DECLINE JOB
    getTableData4=function ( limit,offset){
 
@@ -2558,195 +2235,629 @@ $(function(){
 
   }
 
+
+
 })
 
 
 
-//FOR ACTIVE JOB
+getTableData =()=>{
 
-function Previous(){
-  if(offset==0){
-      $("#Previous").addClass("disabled");
-  }
-  else{
-      $("#Previous").removeClass("disabled");
-      offset=offset-(limit+1)
-      getTableData(limit,offset)
-      $(".page-item1").removeClass("active");
-      $("#Previous").addClass("active");
+  let table
+    table=$('#example').DataTable({
+      ajax: {
+          url:`${domain}/api/v1/job/allJobs?type=ACTIVE`,
+          method: "get",
+          dataType  : 'json',
+          encode  : true,  
+          headers: {
+            "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+          },
+         
+        },
+        columnDefs: [
 
-  }
-}
+        
+          {
+            render: function (data, type, full, meta) {
 
-function Next(){
-  offset=offset+limit+1
-  getTableData(limit,offset)
-  $(".page-item1").removeClass("active");
-  $("#Next").addClass("active");
+              return `  <div  class="nowrap">${data}</div>
+                `
+            
+            },
+            targets: 0
+          },
+          {
+            render: function (data, type, full, meta) {
 
-}
+        
 
-function page(val){
-  if(val==1){
-      offset=0
-      $(".page-item1").removeClass("active");
-      $("#page1").addClass("active");
-  }
-  else if(val==2){
-      offset=16
-      $(".page-item1").removeClass("active");
-      $("#page2").addClass("active");
+              if(full.has_shift){
 
-  }
-  else if(val==3){
-      offset=32
-      $(".page-item1").removeClass("active");
-      $("#page3").addClass("active");
-  }
+                return  data
+              }
+              else{
+                return ` <label for="">
+                <a class="gear"  data-bs-toggle="popover" title="info" data-bs-content="This job has no shift" data-html="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                </svg>
+                </a>
+              </label>${data}`
+              }
+
+
+            },
+            targets: 1
+          },
+          {
+            render: function (data, type, full, meta) {
+
+              return  `  <div class="text-muted text-nowrap">
+        
+              <div class="progress">
+              <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: ${data}%"></div>
+              </div>
+
+          </div>`
+            },
+            targets: 4
+          },
+          {
+            render: function (data, type, full, meta) {
+
+              return  `      <div class="d-flex align-items-center nowrap text-primary">
+              $${data}
+
+              </div>
+              `
+            },
+            targets: 5
+          }
+
+          ,
+          {
+            render: function (data, type, full, meta) {
+
+              return  `      <div class="d-flex align-items-center nowrap text-primary">
+              $${data}
+
+              </div>
+              `
+            },
+            targets: 6
+          }
+          ,
+          {
+            render: function (data, type, full, meta) {
+
+              return  ` <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
+              data-bs-target="#schedule"  onclick="update_job_id_for_schedule(${full.id})">Add</button>
+              `
+            },
+            targets: 7
+          }
+          ,
+          {
+            render: function (data, type, full, meta) {              
+              return  `  <div class="actions">
+            
+              <a  onclick="updateSearchGuard('');storeCurrentJobID(${full.id})" href="guard-in-job.html"  class="btn btn-dark btn-sm btn-square rounded-pill">
+              <span class="btn-icon icofont-external-link"></span>
+              </a>
+              <button class="btn btn-info btn-sm btn-square rounded-pill" data-bs-toggle="modal"
+                data-bs-target="#edit"   onclick="updateJobStatusId(${full.id})">
+                <span class="btn-icon icofont-ui-edit"></span>
+              </button>
+              
+              <button onclick="deleteJob(${full.id})" class="btn btn-error btn-sm btn-square rounded-pill">
+                <span class="btn-icon icofont-ui-delete"></span>
+              </button>
+            </div>
+              `
+            },
+            targets: 8
+          }
+             
+        ],
+        columns:[
+          { data: "create" },
+          { data: "id" },
+          { data: "customer" },
+          { data: "site" },
+          { data: "job_progress" },
+          { data: "client_charge" },
+          { data: "staff_payment" },
+          { data: "has_shift"},
+          { data: "status" },
+          { data: "description" }
+        ],
+        order: [[0, 'desc']],
+    })
+
+
+    setTimeout(() => {
+
+      var column1 = table.column(9);
+      column1.visible(!column1.visible());
   
+    }, 100);
 
-  
-  getTableData(limit,offset)
+
+    setInterval(() => {
+      $('.gear').popover({
+        title:"titke",
+        content:"click me",
+        trigger:"click",
+        html: true
+      })
+    }, 2000);
+
+          
+
+  }
+getTableData()
+
+
+
+
+getTableData2 =()=>{
+  let table
+  table=$('#example2').DataTable({
+    ajax: {
+        url:`${domain}/api/v1/job/allJobs?type=PENDING`,
+        method: "get",
+        dataType  : 'json',
+        encode  : true,  
+        headers: {
+          "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+        },
+       
+      },
+      columnDefs: [
+        {
+          render: function (data, type, full, meta) {
+            
+            if(full.has_shift){
+          
+              return `  <div  class="nowrap">${data}</div>
+              </div>
+              `
+            }
+            else{
+              return `  <div  class="nowrap">
+              <label for="">
+              <a class="gear"  data-bs-toggle="popover" title="info" data-bs-content="This job has no shift" data-html="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                  <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+              </svg>
+              </a>
+            </label>
+              ${data}</div>
+              `
+            }
+          },
+          targets: 0
+        },
+        {
+          render: function (data, type, full, meta) {
+
+            return  data
+          },
+          targets: 1
+        },
+        {
+          render: function (data, type, full, meta) {
+
+            return  `  <div class="text-muted text-nowrap">
+      
+            <div class="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: ${data}%"></div>
+            </div>
+
+        </div>`
+          },
+          targets: 4
+        },
+        {
+          render: function (data, type, full, meta) {
+
+            return  `<div class="d-flex align-items-center nowrap text-primary">
+            $${data}
+
+            </div>
+            `
+          },
+          targets: 5
+        }
+
+        ,
+        {
+          render: function (data, type, full, meta) {
+
+            return  `<div class="d-flex align-items-center nowrap text-primary">
+            $${data}
+
+            </div>
+            `
+          },
+          targets: 6
+        },
+        {
+          render: function (data, type, full, meta) {
+
+            return  ` <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
+            data-bs-target="#schedule"  onclick="update_job_id_for_schedule(${full.id})">Add</button>
+            `
+          },
+          targets: 7
+        },
+        {
+          render: function (data, type, full, meta) {              
+            return  `   <div class="actions">
+            <a href="guard-in-job.html" onclick="storeCurrentJobID(${full.id})"  class="btn btn-dark btn-sm btn-square rounded-pill">
+            <span class="btn-icon icofont-external-link"></span>
+            </a>
+            <button class="btn btn-info btn-sm btn-square rounded-pill" data-bs-toggle="modal"
+              data-bs-target="#edit2"   onclick="updateJobStatusId(${full.id})">
+              <span class="btn-icon icofont-ui-edit"></span>
+            </button>
+            <button onclick="deleteJob(${full.id})" class="btn btn-error btn-sm btn-square rounded-pill" >
+              <span class="btn-icon icofont-ui-delete"></span>
+            </button>
+          </div>
+            `
+          },
+          targets: 8
+        }
+           
+      ],
+      columns:[
+        { data: "create" },
+        { data: "id" },
+        { data: "customer" },
+        { data: "site" },
+        { data: "job_progress" },
+        { data: "client_charge" },
+        { data: "staff_payment" },
+        { data: "has_shift"},
+        { data: "status" },
+        { data: "description" }
+      ],
+  })
+
+
+  setTimeout(() => {
+
+    var column1 = table.column(9);
+    column1.visible(!column1.visible());
+
+    var column2 = table.column(7);
+    column2.visible(!column2.visible());
+    }, 100);
+
+    setInterval(() => {
+      $('.gear').popover({
+        title:"titke",
+        content:"click me",
+        trigger:"click",
+        html: true
+      })
+    }, 2000);
+
+        
+   
 }
+getTableData2()
 
 
 
-//FOR PENDING JOB
 
-function Previous2(){
-  if(offset2==0){
-      $("#Previous2").addClass("disabled");
-  }
-  else{
-      $("#Previous2").removeClass("disabled");
-      offset2=offset2-(limit2+1)
-      getTableData2(limit2,offset2)
-      $(".page-item2").removeClass("active");
-      $("#Previous2").addClass("active");
 
-  }
+getTableData3 =()=>{
+  let table
+  table=$('#example3').DataTable({
+    ajax: {
+        url:`${domain}/api/v1/job/allJobs?type=COMPLETED`,
+        method: "get",
+        dataType  : 'json',
+        encode  : true,  
+        headers: {
+          "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+        },
+       
+      },
+      columnDefs: [
+        {
+          render: function (data, type, full, meta) {
+      
+            if(full.has_shift){
+          
+              return `  <div  class="nowrap">${data}</div>
+              </div>
+              `
+            }
+            else{
+              return `<div  class="nowrap">
+              <label for="">
+              <a class="gear"  data-bs-toggle="popover" title="info" data-bs-content="This job has no shift" data-html="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                  <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+              </svg>
+              </a>
+            </label>
+              ${data}</div>
+              `
+            }
+          },
+          targets: 0
+        },
+        {
+          render: function (data, type, full, meta) {
+
+            return  data
+          },
+          targets: 1
+        },
+        {
+          render: function (data, type, full, meta) {
+
+            return  `  <div class="text-muted text-nowrap">
+      
+            <div class="progress">
+            <div class="progress-bar progress-bar-striped " role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: ${data}%"></div>
+            </div>
+
+        </div>`
+          },
+          targets: 4
+        },
+        {
+          render: function (data, type, full, meta) {
+
+            return  `<div class="d-flex align-items-center nowrap text-primary">
+            $${data}
+
+            </div>
+            `
+          },
+          targets: 5
+        }
+
+        ,
+        {
+          render: function (data, type, full, meta) {
+
+            return  `<div class="d-flex align-items-center nowrap text-primary">
+            $${data}
+
+            </div>
+            `
+          },
+          targets: 6
+        },
+        {
+          render: function (data, type, full, meta) {
+
+            return  ` <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
+            data-bs-target="#schedule"  onclick="update_job_id_for_schedule(${full.id})">Add</button>
+            `
+          },
+          targets: 7
+        },
+        {
+          render: function (data, type, full, meta) {              
+            return  `    <div class="actions">
+            <a href="guard-in-job.html" onclick="storeCurrentJobID(${full.id})"  class="btn btn-dark btn-sm btn-square rounded-pill">
+            <span class="btn-icon icofont-external-link"></span>
+            </a>
+         
+            <button onclick="deleteJob(${full.id})" class="btn btn-error btn-sm btn-square rounded-pill" disabled>
+              <span class="btn-icon icofont-ui-delete"></span>
+            </button>
+          </div>
+            `
+          },
+          targets: 8
+        }
+           
+      ],
+      columns:[
+        { data: "create" },
+        { data: "id" },
+        { data: "customer" },
+        { data: "site" },
+        { data: "job_progress" },
+        { data: "client_charge" },
+        { data: "staff_payment" },
+        { data: "has_shift"},
+        { data: "status" },
+        { data: "description" }
+      ],
+  })
+
+  setTimeout(() => {
+
+    var column1 = table.column(9);
+    column1.visible(!column1.visible());
+
+    var column2 = table.column(7);
+    column2.visible(!column2.visible());
+
+    }, 100);
+
+    
+    setInterval(() => {
+      $('.gear').popover({
+        title:"titke",
+        content:"click me",
+        trigger:"click",
+        html: true
+      })
+    }, 2000);
 }
+getTableData3()
 
-function Next2(){
-  offset2=offset2+limit2+1
-  getTableData2(limit2,offset2)
-  $(".page-item2").removeClass("active");
-  $("#Next2").addClass("active");
 
+
+
+
+
+$.ajax({
+  type: "get", url:`${domain}/api/v1/job/allJobs?type=ACTIVE`,
+  headers: {
+      "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+  },
+  dataType  : 'json',
+  encode  : true,
+  success: function (data) {
+    console.log(data)    
+  },
+  error: function (request, status, error) {
+      analyzeError(request)
+   
+  }
+});
+
+getTableData5 =()=>{
+  table=$('#example5').DataTable({
+    ajax: {
+        url:`${domain}/api/v1/job/deleted_job`,
+        method: "get",
+        dataType :'json',
+        encode  : true,  
+        headers: {
+          "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+        },  
+      },
+      columnDefs: [
+        {
+          render: function (data, type, full, meta) {
+
+            
+            if(full.has_shift){
+
+              return `  <div  class="nowrap">${data}</div>
+              </div>
+              `
+            }
+            else{
+
+              return `  <div  class="nowrap">${data}</div>
+              </div>
+              `
+            }
+          },
+          targets: 0
+        },
+        {
+          render: function (data, type, full, meta) {
+
+            return  data
+          },
+          targets: 1
+        },
+        {
+          render: function (data, type, full, meta) {
+
+            return  `  <div class="text-muted text-nowrap">
+      
+            <div class="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: ${data}%"></div>
+            </div>
+
+        </div>`
+          },
+          targets: 4
+        },
+        {
+          render: function (data, type, full, meta) {
+
+            return  `      <div class="d-flex align-items-center nowrap text-primary">
+            $${data}
+
+            </div>
+            `
+          },
+          targets: 5
+        }
+
+        ,
+        {
+          render: function (data, type, full, meta) {
+
+            return  `<div class="d-flex align-items-center nowrap text-primary">
+            $${data}
+
+            </div>
+            `
+          },
+          targets: 6
+        }
+        ,
+        {
+          render: function (data, type, full, meta) {
+
+            return  ` <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
+            data-bs-target="#schedule"  onclick="update_job_id_for_schedule(${full.id})">Add</button>
+            `
+          },
+          targets: 7
+        }
+        ,
+        {
+          render: function (data, type, full, meta) {              
+            return  `  <div class="actions">
+          
+            <a  onclick="updateSearchGuard('');storeCurrentJobID(${full.id})" href="guard-in-job.html"  class="btn btn-dark btn-sm btn-square rounded-pill disabled">
+            <span class="btn-icon icofont-external-link"></span>
+            </a>
+            <button class="btn btn-info btn-sm btn-square rounded-pill disabled" data-bs-toggle="modal"
+              data-bs-target="#edit"   onclick="updateJobStatusId(${full.id})">
+              <span class="btn-icon icofont-ui-edit"></span>
+            </button>
+            
+            <button onclick="deleteJob(${full.id})" class="btn btn-error btn-sm btn-square rounded-pill disabled">
+              <span class="btn-icon icofont-ui-delete"></span>
+            </button>
+          </div>
+            `
+          },
+          targets: 8
+        }
+           
+      ],
+      columns:[
+        { data: "create" },
+        { data: "id" },
+        { data: "customer" },
+        { data: "site" },
+        { data: "job_progress" },
+        { data: "client_charge" },
+        { data: "staff_payment" },
+        { data: "has_shift"},
+        { data: "status" },
+        { data: "description" }
+      ],
+  })
+
+
+
+  setTimeout(() => {
+
+    var column1 = table.column(7);
+    column1.visible(!column1.visible());
+    var column2 = table.column(9);
+    column2.visible(!column2.visible());
+
+    }, 200);
+
+    
 }
-
-function page2(val){
-  if(val==1){
-      offset2=0
-      $(".page-item2").removeClass("active");
-      $("#page12").addClass("active");
-  }
-  else if(val==2){
-      offset2=16
-      $(".page-item2 ").removeClass("active");
-      $("#page22").addClass("active");
-
-  }
-  else if(val==3){
-      offset2=32
-      $(".page-item2 ").removeClass("active");
-      $("#page32").addClass("active");
-  }
-  
-
-  getTableData2(limit2,offset2)
-}
-
-
-//FOR COMPLETED JOB
-function Previous3(){
-  if(offset3==0){
-      $("#Previous3").addClass("disabled");
-  }
-  else{
-      $("#Previous3").removeClass("disabled");
-      offset3=offset3-(limit3)
-      getTableData3(limit3,offset3)
-      $(".page-item3").removeClass("active");
-      $("#Previous3").addClass("active");
-
-  }
-}
-
-function Next3(){
-  offset3=offset3+limit3
-  getTableData3(limit3,offset3)
-  $(".page-item3").removeClass("active");
-  $("#Next3").addClass("active");
-
-}
-
-function page3(val){
-  if(val==1){
-      offset3=0
-      $(".page-item3").removeClass("active");
-      $("#page13").addClass("active");
-  }
-  else if(val==2){
-      offset3=16
-      $(".page-item3 ").removeClass("active");
-      $("#page23").addClass("active");
-  }
-  else if(val==3){
-      offset3=32
-      $(".page-item3 ").removeClass("active");
-      $("#page33").addClass("active");
-  }
-  
-
-  getTableData3(limit3,offset3)
-}
-
-//FOR DECLINE JOB
-
-function Previous4(){
-  if(offset4==0){
-      $("#Previous4").addClass("disabled");
-  }
-  else{
-      $("#Previous4").removeClass("disabled");
-      offset4=offset4-(limit4)
-      getTableData4(limit4,offset4)
-      $(".page-item4").removeClass("active");
-      $("#Previous4").addClass("active");
-
-  }
-}
-
-function Next4(){
-  offset4=offset4+limit4
-  getTableData4(limit4,offset4)
-  $(".page-item4").removeClass("active");
-  $("#Next4").addClass("active");
-
-}
-
-function page4(val){
-  if(val==1){
-      offset4=0
-      $(".page-item4").removeClass("active");
-      $("#page14").addClass("active");
-  }
-  else if(val==2){
-      offset4=16
-      $(".page-item4").removeClass("active");
-      $("#page24").addClass("active");
-
-  }
-  else if(val==3){
-      offset4=32
-      $(".page-item4").removeClass("active");
-      $("#page34").addClass("active");
-  }
-  
-
-  getTableData4(limit4,offset4)
-}
+getTableData5()
 
 
 //UPDATE JOB STATUS
@@ -2778,19 +2889,16 @@ function changeJobStatus(){
       status_value:myJobStatus ,
       
     },
-    success: function (data, text) {
+    success: function (data) {
         showModal(data.message)
 
-          getTableData2(limit2,offset2)
-          getTableData(limit,offset)
-      
-          getTableData2(limit2,offset2)
-          getTableData3(limit3,offset3)
-          getTableData(limit,offset)
-      
-
+        $('#example').DataTable().clear().destroy();
+        getTableData()
+        $('#example2').DataTable().clear().destroy();
+        getTableData2()
+        $('#example3').DataTable().clear().destroy();
+        getTableData3()
           
-        getTableData(limit,offset)
         setTimeout(() => {
                 hideModal()
         }, 3000);
@@ -2804,7 +2912,24 @@ function changeJobStatus(){
         $("#saveButton").css("display","block")
         $("#loadingButton2").css("display","none")
 
-        analyzeError(request)
+        if(request.responseJSON.status=="time-error"){
+          let obj=request.responseJSON.message
+
+
+        
+          let  obj2=JSON.parse(obj)
+  
+          Swal.fire({
+            icon: 'error',
+            title:obj2.message,
+            text: obj2.solution,
+            footer: "NOTE :Guard in this job must not have any active shift before moving job to active"
+          })
+        }
+        else{
+          analyzeError(request)
+
+        }
      
     }
   });
@@ -2838,32 +2963,25 @@ function deleteJob(job_id){
         },
         success: function (data) {
             showModal(data.message)
-            limit=15,
-            offset=0,
-            limit2=15,
-            offset2=0,
-            limit3=15,
-            offset3=0,
-            limit4=15,
-            offset4=0;
-    
-              getTableData2(limit2,offset2)
-              getTableData(limit,offset)
-              getTableData3(limit3,offset3)
-              getTableData4(limit4,offset4)
-          
-              getTableData2(limit2,offset2)
-              getTableData(limit,offset)
-              getTableData3(limit3,offset3)
-          
-  
+
+
+              $('#example').DataTable().clear().destroy();
+              getTableData()
+              $('#example2').DataTable().clear().destroy();
+              getTableData2()
+              $('#example3').DataTable().clear().destroy();
+              getTableData3()
+              $('#example5').DataTable().clear().destroy();
+              getTableData5()
+
             setTimeout(() => {
                     hideModal()
             }, 3000);
   
         },
-        error: function (request, status, error) {    
-            analyzeError(request)
+        error: function (request, status, error) {  
+          
+          analyzeError(request)
         }
       });
     }
@@ -2963,20 +3081,12 @@ function reAssign(job_id,guard_id){
     
             showModal(data.message)
     
-            let limit=15,
-            offset=0,
-            limit2=15,
-            offset2=0,
-            limit3=15,
-            offset3=0,
-            limit4=15,
-            offset4=0;
-    
-              getTableData2(limit2,offset2)
-              getTableData(limit,offset)
-              getTableData3(limit3,offset3)
-              getTableData4(limit4,offset4)
-    
+            $('#example').DataTable().clear().destroy();
+            getTableData()
+            $('#example2').DataTable().clear().destroy();
+            getTableData2()
+            $('#example3').DataTable().clear().destroy();
+            getTableData3()
     
             setTimeout(() => {
                     hideModal()

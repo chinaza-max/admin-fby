@@ -9,15 +9,19 @@ activeGuardInstructionStatus=true,
 activeGuardTaskStatus=true,
 activeGuardScheduleAll=[];
 
+let myCoor
+getLatAndLon(function(latLon) {
+  myCoor= latLon;
+})
 
 let ReAssignButton=document.getElementById("ReAssignButton")
 
-job_id=activeUserID
+job_id=activeJobID
 
 
 $(document).ready(function(){
 
-
+/*
     $('#loader1').css("display","block");
 
     getTableData=function ( limit,offset){
@@ -117,11 +121,11 @@ $(document).ready(function(){
                             </a>    
                         </td>
                         <td>
-                        <div class="actions">
-                            <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteGuardSchedule(${guard[i].guard_id})">
-                            <span class="btn-icon icofont-ui-delete"></span>
-                            </button>
-                        </div>
+                            <div class="actions">
+                                <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteGuardSchedule(${guard[i].guard_id})">
+                                <span class="btn-icon icofont-ui-delete"></span>
+                                </button>
+                            </div>
                         </td>
                         
                     </tr>
@@ -149,12 +153,207 @@ $(document).ready(function(){
 
     }
 
+    */
+
+
+    let job_detail
+
+    getTableData =()=>{
+
+        let  table=$('#example').DataTable({
+            ajax: {
+                url:`${domain}/api/v1/job/allJobs/guard`,
+                method: "post",
+                dataType  : 'json',
+                encode  : true,  
+                headers: {
+                  "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+                },
+                data: {
+                    job_id      
+                },
+                dataSrc: function (data) {
+                    job_detail=data.data
+                    $("#qr_code_count").text(job_detail.job.no_qr_code)   
+
+                    fillJobDetails(data)
+                    return data.data.guard;
+                },
+              },
+              columnDefs: [
+                {
+                  render: function (data, type, full, meta) {
+      
+                      return `<img src=${data} alt="" width="40" height="40"
+                      class="rounded-500">
+                      `
+                  },
+                  targets: 0
+                } ,
+                {
+                    render: function (data, type, full, meta) {
+        
+                        return ` <strong class="text-nowrap">${data}  ${full.last_name} </strong>
+
+                        `
+                    },
+                    targets: 1
+                  }  ,
+                  {
+                    render: function (data, type, full, meta) {
+          
+                          return `<div class="d-flex align-items-center nowrap text-primary">
+                          <span class="icofont-ui-cell-phone p-0 me-2"></span>
+                          ${data}
+                      </div>
+                          `
+                      },
+                      targets: 2
+                    } 
+                    ,
+                    {
+                    render: function (data, type, full, meta) {
+                        return `<div class="text-nowrap">$${(data*job_detail.job.guard_charge).toFixed(2)}</div>
+                            `
+                        },
+                        targets: 3
+                    } 
+                    ,
+                    {
+                    render: function (data, type, full, meta) {
+                        return ` <div class="text-muted text-nowrap">
+                                <button type="button" onclick="getSchedule(${full.guard_id},${job_id})" class="btn btn-outline-primary"
+                                 data-bs-toggle="modal"
+                                    data-bs-target="#view_schedule">View</button>
+                                </div>
+                            `
+                        },
+                        targets: 4
+                    } 
+                    ,
+                    {
+                    render: function (data, type, full, meta) {
+                        return `  <div class="text-muted text-nowrap">
+                                    <button type="button" onclick="getLog(${full.guard_id},${job_id})"    class="btn btn-outline-primary"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#view_log">View</button>
+                                </div>
+                            `
+                        },
+                        targets: 5
+                    } 
+                    ,
+                    {
+                    render: function (data, type, full, meta) {
+                        return `  <div class="text-muted text-nowrap">
+                                        <button type="button" onclick="getLogSecurityCheck(${full.guard_id},${job_id})"    class="btn btn-outline-primary"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#view_log_security_check" >View</button>
+                                    </div>
+                            `
+                        },
+                        targets: 6
+                    } 
+                    ,
+                    {
+                    render: function (data, type, full, meta) {
+                        return ` <div class="text-muted text-nowrap">
+                                    <button type="button" onclick="getInstruction(${full.guard_id},${job_id})"  class="btn btn-outline-primary"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#view_instruction">View</button>
+                                </div>
+                            `
+                        },
+                        targets: 7
+                    } 
+                    ,
+                    {
+                    render: function (data, type, full, meta) {
+                        return `<div class="text-muted text-nowrap">
+                                    <button type="button" onclick="getTask(${full.guard_id},${job_id})" class="btn btn-outline-primary"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#view_task" >View</button>
+                                </div>
+                            `
+                        },
+                        targets: 8
+                    } 
+                    ,
+                    {
+                    render: function (data, type, full, meta) {
+                        return `<a    onclick="setGuardName('${full.first_name}  ${full.last_name}'); setGuardId(${full.guard_id})" href="reportPerGuard.html" class="btn btn-primary"  >
+                                    Report <span class="badge badge-light badge-inside ms-2">${full.no_of_report}</span>
+                                </a>    
+                            `
+                        },
+                        targets: 9
+                    } 
+                    ,
+                    {
+                    render: function (data, type, full, meta) {
+
+                        return `   <div class="actions">
+                                        <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteGuardSchedule(${full.guard_id})">
+                                        <span class="btn-icon icofont-ui-delete"></span>
+                                        </button>
+                                    </div>
+                            `
+                        },
+                        targets: 10
+                    } 
+                    
+              ],
+              columns:[
+                { data: "image" },
+                { data: "first_name" },
+                { data: "phone_number" },
+                { data: "hours_worked" },
+                { data: "email" },
+                { data: "last_name" },
+                { data: "no_of_report" },
+                { data: "guard_id" },  
+                { data: null   }
+              ],
+             
+          })
+          if(searchGuard!="false"&&searchGuard!=null){
+            table.search(searchGuard).draw();
+          }
+        
+          setTimeout(() => {
+    
+            var column1 = table.column(10);
+            column1.visible(!column1.visible());
+        
+            }, 100);
+    }
+    getTableData()
+
+    function fillJobDetails(val){
+
+        console.log(val)
+        $("#jobDes").text(val.data.job.description)
+        $("#site").text(val.data.site.name)
+        $("#hourlyP").text(val.data.job.guard_charge)
+        $("#timeZ").text(val.data.site.time_zone)
+        $("#paymentS").text(val.data.job.payment_status)
+        $("#customer").text(val.data.site.customer_name)
+        $("#jobA").text(val.data.job.client_charge)
+        $("#jobT").text(val.data.job.job_type)
+        $("#jobID").text(val.data.job.job_id)
+
+
+    }
+
+
+
+
+
     function updateTopContent(val){
     
         $("#des").text("JOB DESCRIPTION: "+val.job.description)
         $("#name").text("SITE NAME: "+val.site.name)
         $("#timeZone").text("TIME ZONE: "+val.site.time_zone)
-        $("#qr_code_count").text(val.job.no_qr_code)   
         $("#qr_code_count").text(val.job.no_qr_code)   
         $("#jobT").text("JOB TITLE: "+val.job.job_type)   
         $("#paymentT").text("PAYMENT STATUS: "+val.job.payment_status)   
@@ -174,7 +373,7 @@ $(document).ready(function(){
             },
             success: function (data) {
 
-                  displayGuard(data.data,"selectpickerReassign")
+                displayGuard(data.data,"selectpickerReassign")
                 setTimeout(() => {
                         hideModal()
                 }, 3000);
@@ -195,13 +394,11 @@ $(document).ready(function(){
 
   function displayGuard(val,picker){
 
-    console.log(activeGuardScheduleAll)
-    console.log(val)
     let data=''
    
       for(let i=0;i<val.length;i++){
           data+=`
-          <option data-name=${val[i].guard_id}>${val[i].full_name}</option>
+          <option data-subtext="ID:${val[i].guard_id}" data-name=${val[i].guard_id}>${val[i].full_name}</option>
           `
           if(i==val.length-1){
 
@@ -265,8 +462,6 @@ function Previous(){
         $("#page3").addClass("active");
     }
     
-  
-    
     getTableData(limit,offset)
   }
   
@@ -288,7 +483,7 @@ function getSchedule(guard_id ,job_id){
             job_id      
           },
         success: function (data) {
-            console.log(data)
+
             $('#loader2').css("display","none");
             displaySchedule(data.data)
           
@@ -296,7 +491,6 @@ function getSchedule(guard_id ,job_id){
         error: function (request, status, error) {
             $('#loader2').css("display","none");
             analyzeError(request)
-         
         }
     });
 }
@@ -313,10 +507,7 @@ function displaySchedule(val){
 
     for(let i=0; i<val.length; i++){
         
-        if(val[i].is_started==false){
-            activeGuardScheduleAll.push(val[i])
-            $("#ReAssignButton").removeAttr("disabled");
-        }
+      
       
         if(val[i].is_started){
             if(val[i].schedule_accepted_by_admin){
@@ -326,8 +517,8 @@ function displaySchedule(val){
 
                     for (let index = 0; index < val[i].comments.length; index++) {
                         comment+=` <div class='comment mt-4 text-justify float-left'>
-                        <h6>Jhon Doe</h6>
-                        <span>Created at: ${val[i].comments[index].created_at}</span>
+                        <h6>${val[i].comments[index].Admin_details.first_name} ${val[i].comments[index].Admin_details.last_name}</h6>
+                        <span>Created at: ${ moment(val[i].comments[index].created_at).format("YYYY-MM-DD HH:MM a")}</span>
                         <br>
                         <p>${val[i].comments[index].comment}</p>
                         </div>`
@@ -587,7 +778,7 @@ function displaySchedule(val){
                             <div class="form-check mt-3" style="margin-left:20px;">
                                 <input class="form-check-input checkBox" type="checkbox" value='${JSON.stringify(val[i])}'  id="defaultCheck${i}" checked>
                                 <label class="form-check-label" for="defaultCheck${i}">
-                                    re-assign
+                                    include
                                 </label>
                             </div>
         
@@ -633,7 +824,7 @@ function displaySchedule(val){
                             <div class="form-check mt-3" style="margin-left:20px;">
                                 <input class="form-check-input checkBox" type="checkbox" value='${JSON.stringify(val[i])}'  id="defaultCheck${i}" checked>
                                 <label class="form-check-label" for="defaultCheck${i}">
-                                    re-assign
+                                include
                                 </label>
                             </div>
         
@@ -708,7 +899,7 @@ function displaySchedule(val){
                         <div class="form-check mt-2 ml-10px" >
                             <input class="form-check-input checkBox" type="checkbox" value='${JSON.stringify(val[i])}'  id="defaultCheck${i}">
                             <label class="form-check-label" for="defaultCheck${i}">
-                                re-assign
+                                include
                             </label>
                         </div>
 
@@ -756,7 +947,7 @@ function displaySchedule(val){
                         <div class="form-check mt-2 ml-10px" >
                             <input class="form-check-input checkBox" type="checkbox" value='${JSON.stringify(val[i])}'  id="defaultCheck${i}">
                             <label class="form-check-label" for="defaultCheck${i}">
-                                re-assign
+                                include
                             </label>
                         </div>
 
@@ -772,7 +963,20 @@ function displaySchedule(val){
             }
 
         }
-  
+        if(val[i].is_started==false){
+
+            console.log(val[i])
+            //const isoDate = moment(date, "DD-MM-YYYY").format("YYYY-MM-DD");
+            //am converting it to iso date format
+            console.log(val[i]["check_in_date"])
+
+            val[i]["check_in_date"]=moment( val[i]["check_in_date"], "MM-DD-YYYY").format("YYYY-MM-DD");
+            val[i]["check_out_date"]=moment(val[i]["check_out_date"], "MM-DD-YYYY").format("YYYY-MM-DD");
+
+            
+            activeGuardScheduleAll.push(val[i])
+            $("#ReAssignButton").removeAttr("disabled");
+        }
 
         if(i==val.length-1){
 
@@ -824,10 +1028,13 @@ function displaySchedule(val){
         content:"click me",
         trigger:"click",
         html: true
-    });
+    })
+    
+    /*
     $('.kpi').live('mouseleave', function(e) {
         $('.gear').remove();
     });
+    */
  
 
 }
@@ -871,10 +1078,12 @@ function toggleScheduleAcceptance(schedule_id,guard_id,job_id,status){
 
 function selectDateTime(date ,time ,schedule_id, text,job_id,guard_id,schedule_no){
 
+    const isoDate = moment(date, "MM-DD-YYYY").format("YYYY-MM-DD");
+
     $('#selectDateTime').modal('show');
     $("#schedule_no").text(`Schedule (${schedule_no})`)
     let dt = moment(time, ["h:mm A"]).format("HH:mm");
-    document.getElementById('myDate').value = date;
+    document.getElementById('myDate').value = isoDate;
     document.getElementById('myTime').value = dt;
     $("#checkAction").text(text)
     
@@ -889,6 +1098,7 @@ function checkActionButton(){
     let myNewTime=document.getElementById("myTime").value
 
     let fullDate=moment(new Date(myNewDate+'  '+myNewTime)).format("YYYY-MM-DD hh:mm:ss a")
+
     let checkInOrOut= buttonInfo=='Check in'? true:false;
     checkInAndOut(fullDate,checkInOrOut,myGuard_id,job_id,mySchedule_id)
 }
@@ -901,6 +1111,7 @@ $("#selectDateTime").on('hidden.bs.modal', function() {
 
 function checkInAndOut(date,check_in,guard_id,job_id,schedule_id){
 
+    console.log(date)
     $.ajax({
         type: "post", url:`${domain}/api/v1/job/check_in_admin`,
         headers: {
@@ -913,6 +1124,8 @@ function checkInAndOut(date,check_in,guard_id,job_id,schedule_id){
             check_in,
             guard_id,
             job_id,
+            latitude: Number(myCoor.lat).toFixed(8),
+            longitude: Number(myCoor.lon).toFixed(8),
             schedule_id  
           },
         success: function (data) {
@@ -994,7 +1207,7 @@ function displayInstruction(val){
            
             <td>
                   <div class="actions">
-                    <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteSingleGuardAgenda(${val[i].agenda_id},${val[i].guard_id},${val[i].job_id})">
+                    <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteSingleGuardAgenda(${val[i].agenda_id},${val[i].guard_id},${val[i].job_id})" disabled>
                       <span class="btn-icon icofont-ui-delete"></span>
                     </button>
                   </div>
@@ -1018,7 +1231,7 @@ function displayInstruction(val){
     
             <td>
                   <div class="actions">
-                    <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteSingleGuardAgenda(${val[i].agenda_id},${val[i].guard_id},${val[i].job_id})">
+                    <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteSingleGuardAgenda(${val[i].agenda_id},${val[i].guard_id},${val[i].job_id})" disabled>
                       <span class="btn-icon icofont-ui-delete"></span>
                     </button>
                   </div>
@@ -1068,7 +1281,6 @@ function getTask(guard_id ,job_id){
           },
         success: function (data) {        
             $('#loader6').css("display","none");
-            console.log(data.data)
             displayTask(data.data);
         },
         error: function (request, status, error) {
@@ -1081,12 +1293,9 @@ function getTask(guard_id ,job_id){
 function displayTask(val){
 
 
-    console.log(val)
     let data=''
-
     for(let i=0; i<val.length; i++){
 
-        
         if(val[i].agenda_done){
             data+= `
             <tr>
@@ -1103,7 +1312,7 @@ function displayTask(val){
            
             <td>
                   <div class="actions">
-                    <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteSingleGuardAgenda(${val[i].agenda_id},${val[i].guard_id},${val[i].job_id})">
+                    <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteSingleGuardAgenda(${val[i].agenda_id},${val[i].guard_id},${val[i].job_id})" disabled>
                       <span class="btn-icon icofont-ui-delete"></span>
                     </button>
                   </div>
@@ -1113,7 +1322,6 @@ function displayTask(val){
         }
         else{
 
-            console.log(val[i].done_at)
             data+= `
             <tr>
             <td>${i+1}</td>
@@ -1129,7 +1337,7 @@ function displayTask(val){
     
             <td>
                   <div class="actions">
-                    <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteSingleGuardAgenda(${val[i].agenda_id},${val[i].guard_id},${val[i].job_id})">
+                    <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteSingleGuardAgenda(${val[i].agenda_id},${val[i].guard_id},${val[i].job_id})" disabled>
                       <span class="btn-icon icofont-ui-delete"></span>
                     </button>
                   </div>
@@ -1193,60 +1401,101 @@ function getLogSecurityCheck(guard_id ,job_id){
 
 
 function displayLogSecurityCheck(val){
-
+    console.log(val)
     let data=''
 
     for(let i=0; i<val.length; i++){
 
+      
         if(val[i].status){
-            data+= `
-            <tr>
-            <td>${i+1}</td>
-            <td>${val[i].date}</td>
-            <td>${val[i].message}</td>
-            <td>
-                <div class="text-nowrap text-success">
-                    <i class="icofont-check-circled"></i> In location
-                </div>
-            </td>
-            <td>
-                <div class="text-muted text-nowrap">
-                    <button type="button" class="btn btn-outline-primary"
-                        data-bs-toggle="modal"
-                        data-bs-target="#" disabled>view location</button>
-                </div>
-            </td>
-          </tr>
-             `
+          
+
+                let comment=` <p>${val[i].comment.comment}</p>`
+
+                data+= `
+                <tr>
+                <td>${i+1}</td>
+                <td>
+                    <label for="">
+                        <a class="gear"  data-bs-toggle="popover" title="Comment" data-bs-content="${comment}" data-html="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                            </svg>
+                        </a>
+                    </label>
+                ${val[i].date}</td>
+                <td>${val[i].message}</td>
+                <td>
+                    <div class="text-nowrap text-success">
+                        <i class="icofont-check-circled"></i> In location
+                    </div>
+                </td>
+                <td>
+                    <div class="text-muted text-nowrap">
+                        <button onclick="initMap(${val[i].lat},${val[i].log},${val[i].site_lat},${val[i].site_log},${val[i].radius})" type="button" class="btn btn-outline-primary"
+                            data-bs-toggle="modal"
+                            data-bs-target="#view_location" >view location</button>
+                    </div>
+                </td>
+              </tr>
+                 `
+
+            
+          
         }
         else{
 
-            data+= `
-            <tr>
-            <td>${i+1}</td>
-            <td>${val[i].date}</td>
-            <td>${val[i].message}</td>
-            <td>
-             <div class="text-nowrap text-danger">
-             <i class="icofont-close-circled"></i> Not in location
-           </div>
-            </td>
-            <td>
-                <div class="text-muted text-nowrap">
-                    <button type="button" class="btn btn-outline-primary"
-                        data-bs-toggle="modal"
-                        data-bs-target="#" disabled>view location</button>
-                </div>
-            </td>
-          </tr>
-             `
+                let comment=` <p>${val[i].comment.comment}</p>`
+
+                data+= `
+                <tr>
+                <td>${i+1}</td>
+                <td>
+                <label for="">
+                    <a class="gear"  data-bs-toggle="popover" title="Comment" data-bs-content="${comment}" data-html="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                        </svg>
+                    </a>
+                </label>
+                ${val[i].date}</td>
+                <td>${val[i].message}</td>
+                <td>
+                 <div class="text-nowrap text-danger">
+                 <i class="icofont-close-circled"></i> Not in location
+               </div>
+                </td>
+                <td>
+                    <div class="text-muted text-nowrap">
+                        <button onclick="initMap(${val[i].lat},${val[i].log},${val[i].site_lat},${val[i].site_log},${val[i].radius})" type="button" class="btn btn-outline-primary"
+                            data-bs-toggle="modal"
+                            data-bs-target="#view_location" >view location</button>
+                    </div>
+                </td>
+              </tr>
+                 `
+            
+         
 
         }
   
         if(i==val.length-1){
 
+           
+
             $('#mySecurityCheck').children().remove();
             $("#mySecurityCheck").append(data)
+
+
+            $('.gear').popover({
+                title:"titke",
+                content:"click me",
+                trigger:"click",
+                html: true
+            })
+
         }
     }
     if(val.length==0){
@@ -1278,7 +1527,7 @@ function getLog(guard_id ,job_id){
             guard_id,
             job_id      
           },
-        success: function (data, text) {
+        success: function (data) {
             $('#loader3').css("display","none");
 
 
@@ -1295,7 +1544,7 @@ function getLog(guard_id ,job_id){
 
 
 function displayLog(val){
-
+    console.log(val)
     let data=''
 
     for(let i=0; i<val.length; i++){
@@ -1312,14 +1561,14 @@ function displayLog(val){
             <td>
 
             <div class="text-nowrap text-success">
-            <i class="icofont-check-circled"></i>  ${val[i].location_message}
+            <i class="icofont-check-circled"></i>${val[i].location_message}
           </div>
             </td>
             <td>
                 <div class="text-muted text-nowrap">
-                    <button type="button" class="btn btn-outline-primary"
+                    <button  onclick="initMap(${val[i].lat},${val[i].log},${val[i].site_lat},${val[i].site_log},${val[i].radius})"             type="button" class="btn btn-outline-primary"
                         data-bs-toggle="modal"
-                        data-bs-target="#view_schedule">view location</button>
+                        data-bs-target="#view_location">view location</button>
                 </div>
             </td>
           </tr>
@@ -1344,9 +1593,9 @@ function displayLog(val){
             </td>
             <td>
                 <div class="text-muted text-nowrap">
-                    <button type="button" class="btn btn-outline-primary"
+                    <button type="button"  onclick="initMap(${val[i].lat},${val[i].log},${val[i].site_lat},${val[i].site_log},${val[i].radius})" class="btn btn-outline-primary"
                         data-bs-toggle="modal"
-                        data-bs-target="#view_schedule">view location</button>
+                        data-bs-target="#view_location">view location</button>
                 </div>
             </td>
           </tr>
@@ -1396,15 +1645,19 @@ function deleteSingleGuardAgenda(agenda_id,guard_id,job_id){
                   "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
                   },
               data: {
-                agenda_id
+                agenda_id,
+                latitude: Number(myCoor.lat).toFixed(8),
+                longitude: Number(myCoor.lon).toFixed(8)
               },
               success: function (data) {
                 
                   showModal(data.message)
                   getInstruction(guard_id ,job_id)
                   getTask(guard_id ,job_id)
-                  getTableData(limit,offset)
-  
+                  /*
+                  $('#example').DataTable().clear().destroy();
+                  getTableData()
+                  */
                   setTimeout(() => {
                         hideModal()
                   }, 3000);
@@ -1450,7 +1703,8 @@ function deleteSingleGuardSchedule(schedule_id,guard_id,job_id){
                 showModal(data.message)
         
                 getSchedule(guard_id ,job_id)
-                getTableData(limit,offset)
+                $('#example').DataTable().clear().destroy();
+                getTableData()
 
                 setTimeout(() => {
                         hideModal()
@@ -1500,7 +1754,8 @@ function deleteSingleGuardSchedule(schedule_id,guard_id,job_id){
         success: function (data) {
             showModal(data.message)
     
-            getTableData(limit,offset)
+            $('#example').DataTable().clear().destroy();
+            getTableData()
   
             setTimeout(() => {
                     hideModal()
@@ -1537,14 +1792,12 @@ function setGuardId(val){
 
 ReAssignButton.addEventListener("click", ()=>{
 
-    console.log(activeGuardScheduleAll)
     getAllInstructionAndTaskInSelectedShift(activeGuardScheduleAll)
+
 })
 
 
 function getAllInstructionAndTaskInSelectedShift(shift){
-
-    console.log(shift)
 
     $.ajax({
         type: "post", url:`${domain}/api/v1/job/allJobs/oneAgendaPerGuard`,
@@ -1560,7 +1813,6 @@ function getAllInstructionAndTaskInSelectedShift(shift){
           },
         success: function (data) {
             filterInstructionToMatchShift(data.data,shift)
-
         },
         error: function (request, status, error) {
     
@@ -1799,7 +2051,7 @@ function addGuardToTask(){
 
     let addGuardToTaskV=[]
     let guard_id_array = $(".selectpickerReassign option:selected").map(function() {
-        return $(this).data("name");
+        return $(this).data("name")
       }).get()
 
       for(let i=0; i <guard_id_array.length;i++){
@@ -1835,30 +2087,59 @@ function addGuardToTask(){
 function reAssignJobAgendas1(obj){
 
     console.log(activeGuardInstructionStatus)
+    console.log(obj)
 
+    
     if(activeGuardInstructionStatus){
-        $.ajax({
-            type: "post", url:`${domain}/api/v1/job/add_agenda`,
-            dataType  : 'json',
-            encode  : true,
-            headers: {
-              "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
-            },
-            data: {
-              shedule_agenda:JSON.stringify(obj),
-            },
-            success: function (data) {
-                showModal(data.message)
-                setTimeout(() => {
-                        hideModal()
-                }, 3000);
-        
-            },
-            error: function (request, status, error) {
-        
-              analyzeError(request)      
-            }
-          })
+        console.log("obj")
+
+        if(obj.length!=0){
+            $.ajax({
+                type: "post", url:`${domain}/api/v1/job/add_agenda`,
+                dataType  : 'json',
+                encode  : true,
+                headers: {
+                  "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+                },
+                data: {
+                  shedule_agenda:JSON.stringify(obj),
+                  latitude: Number(myCoor.lat).toFixed(8),
+                  longitude: Number(myCoor.lon).toFixed(8),
+                },
+                success: function (data) {
+                    showModal(data.message)
+                    setTimeout(() => {
+                            hideModal()
+                    }, 3000);
+            
+                },
+                error: function (request, status, error) {
+            
+                    if(request.responseJSON.status=="location-error"){
+
+                        let obj=request.responseJSON.message
+                        let  obj2=JSON.parse(obj)
+                    
+                        let myMessage=obj2.info.issues+" "+obj2.info.operation_date+" for "+obj2.info.fullName
+                        let task_or_instruction=obj2.info.issues.includes("Task")?'from Task Or adjust date':'from Instruction Or adjust date' 
+                        let solution="Remove "+obj2.info.fullName+" "+task_or_instruction
+                
+                        Swal.fire({
+                        icon: 'error',
+                        title:myMessage,
+                        text: solution,
+                        footer: "NOTE :Date should be inside guard created shift"
+                        })
+
+                    }
+                    else{
+                        analyzeError(request)      
+
+                    }   
+                }
+            })
+        }
+   
     }
 
 }
@@ -1866,29 +2147,61 @@ function reAssignJobAgendas1(obj){
 function reAssignJobAgendas2(obj){
 
     console.log(activeGuardTaskStatus)
+    console.log(obj)
+
     if(activeGuardTaskStatus){
-        $.ajax({
-            type: "post", url:`${domain}/api/v1/job/add_agenda`,
-            dataType  : 'json',
-            encode  : true,
-            headers: {
-              "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
-            },
-            data: {
-              shedule_agenda:JSON.stringify(obj),
-            },
-            success: function (data) {
-                showModal(data.message)
-                setTimeout(() => {
-                        hideModal()
-                }, 3000);
-        
-            },
-            error: function (request, status, error) {
-        
-              analyzeError(request)      
-            }
-          })
+        console.log("obj")
+
+        if(obj.length!=0){
+            $.ajax({
+                type: "post", url:`${domain}/api/v1/job/add_agenda`,
+                dataType  : 'json',
+                encode  : true,
+                headers: {
+                  "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+                },
+                data: {
+                  shedule_agenda:JSON.stringify(obj),
+                  latitude: Number(myCoor.lat).toFixed(8),
+                  longitude: Number(myCoor.lon).toFixed(8),
+                },
+                success: function (data) {
+                    showModal(data.message)
+                    setTimeout(() => {
+                            hideModal()
+                    }, 3000);
+            
+                },
+                error: function (request, status, error) {
+              
+                    if(request.responseJSON.status=="location-error"){
+
+                        
+                        let obj=request.responseJSON.message
+                        let  obj2=JSON.parse(obj)
+
+                    
+                        let myMessage=obj2.info.issues+" "+obj2.info.operation_date+" for "+obj2.info.fullName
+                        let task_or_instruction=obj2.info.issues.includes("Task")?'from Task Or adjust date':'from Instruction Or adjust date' 
+                        let solution="Remove "+obj2.info.fullName+" "+task_or_instruction
+                
+                        Swal.fire({
+                        icon: 'error',
+                        title:myMessage,
+                        text: solution,
+                        footer: "NOTE :Date should be inside guard created shift"
+                        })
+
+                    }
+                    else{
+                        analyzeError(request)      
+
+                    }    
+                }
+              })
+        }
+
+      
     }
 
 }
@@ -1916,7 +2229,7 @@ function removeSchedule(val){
 
 function reAssignJob(schedule){
 
-
+    console.log(schedule)
     $('#view_schedule').modal('hide');
     $('#add-guard').modal('hide');
 
@@ -1929,14 +2242,15 @@ function reAssignJob(schedule){
         encode  : true,
         data: {
           date_time_staff_shedule:JSON.stringify(schedule),
+          latitude: Number(myCoor.lat).toFixed(8),
+          longitude: Number(myCoor.lon).toFixed(8)
         },
         success: function (data) {
             
-
-           
             addGuardToInstruction()
             addGuardToTask()
             showModal(data.message)
+            $('#example').DataTable().clear().destroy();
             getTableData()
             setTimeout(() => {
                     hideModal()
@@ -1945,10 +2259,28 @@ function reAssignJob(schedule){
         },
         error: function (request, status, error) {
 
+            if(request.responseJSON.status=="location-error"){
+
+                let obj=request.responseJSON.message
+                let  obj2=JSON.parse(obj)
+
             
+                let myMessage=obj2.info.issues+" "+obj2.info.operation_date+" for "+obj2.info.fullName
+                let task_or_instruction=obj2.info.issues.includes("Task")?'from Task Or adjust date':'from Instruction Or adjust date' 
+                let solution="Remove "+obj2.info.fullName+" "+task_or_instruction
+        
+                Swal.fire({
+                icon: 'error',
+                title:myMessage,
+                text: solution,
+                footer: "NOTE :Date should be inside guard created shift"
+                })
 
+            }
+            else{
+                analyzeError(request)      
 
-          analyzeError(request)      
+            }   
         }
       })
 
@@ -1966,12 +2298,10 @@ let  addNoteForm=document.getElementById("addNoteForm")
 addNoteForm.addEventListener("submit",(e)=>{
   e.preventDefault()
 
-
-
   let myNote=document.getElementById("myNote").value
   let dateOfReference=document.getElementById("dateOfReference").value
   let timeOfReference=document.getElementById("timeOfReference").value
-
+  let fullDate=new Date(dateOfReference+' '+timeOfReference)
     
     //console.log( myNote , dateOfReference, timeOfReference, scheduleIdToAddNote)
    // console.log(new Date(dateOfReference+' '+timeOfReference))
@@ -1986,6 +2316,7 @@ addNoteForm.addEventListener("submit",(e)=>{
         data: {
             comment:myNote,
             schedule_id:scheduleIdToAddNote,
+            reference_date:fullDate
         },
         success: function (data) {
              
@@ -2027,3 +2358,46 @@ checkboxTask.addEventListener('change', function() {
         activeGuardTaskStatus=false
     }
 })
+
+
+
+  function initMap(lat=0,lon=0,site_lat=0,site_lon=0,rad=0) {
+    var guardLocation = {lat:lat, lng:lon};
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 19,
+      mapTypeId: "satellite",
+      center: guardLocation
+    });
+    
+    var guardImage = 'assets/content/for_google_map3.png';
+
+    var marker = new google.maps.Marker({
+      position: guardLocation,
+      map: map,
+      animation: google.maps.Animation.DROP,
+      icon: guardImage
+    });
+  
+    var siteLocation = {lat:site_lat, lng: site_lon};
+    var line = new google.maps.Polyline({
+      path: [guardLocation, siteLocation],
+      geodesic: true,
+      strokeColor: '#FF0000',
+      strokeOpacity: 1.0,
+      strokeWeight: 2
+    });
+    line.setMap(map);
+  
+    var circle = new google.maps.Circle({
+      strokeColor: '#FF0000',
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillColor: '#FF0000',
+      fillOpacity: 0.35,
+      map: map,
+      center: siteLocation,
+      radius: rad
+    });
+  }
+  
+

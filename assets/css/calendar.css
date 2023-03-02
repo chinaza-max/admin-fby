@@ -45,6 +45,7 @@
   .table td,
   .table th {
     padding: 5px !important;
+    margin-top: 10px;
   }
   th:first-child {
     position: sticky;
@@ -202,6 +203,11 @@
     width: 94%;
   }
 
+  .details-task:hover{
+   cursor: pointer;
+  }
+
+
 
   .float-right-top {
   position: absolute;
@@ -209,7 +215,9 @@
   top: 0;
 } 
 
-
+.time-font-size{
+  font-size: 11px;
+}
 .main-menu{
   z-index: 2000;
 }

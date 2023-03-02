@@ -1,7 +1,11 @@
 let mode="development"
 let activeUserID= localStorage.getItem("storeCurrentUserID")
 let activeSiteID= localStorage.getItem("storeCurrentSiteID")
+let activeGuardID= localStorage.getItem("storeCurrentGuardID")
+let activeCustomerID= localStorage.getItem("storeCurrentCustomerID")
+let activeJobID= localStorage.getItem("storeCurrentJobID")
 
+let searchGuard=localStorage.getItem("searchGuard")
 let folder="adminPanel"
 let alertLifeSpan=2000
 let alertLifeSpan2=2000
@@ -18,13 +22,26 @@ else{
 }
 
 
+
+
+function storeCurrentCustomerID(val){
+    localStorage.setItem("storeCurrentCustomerID",val)
+}
+
+function storeCurrentGuardID(val){
+    localStorage.setItem("storeCurrentGuardID",val)
+}
+
 function storeCurrentUserID(val){
-    console.log(val)
     localStorage.setItem("storeCurrentUserID",val)
 }
+
+function storeCurrentJobID(val){
+    localStorage.setItem("storeCurrentJobID",val)
+}
+
 function storeCurrentSiteID(val){
 
-    console.log(val)
     localStorage.setItem("storeCurrentSiteID",val)
 }
 
@@ -97,6 +114,8 @@ userDeatils=JSON.parse(atob(localStorage.getItem("userDetails")))
 
 
 function analyzeError(request){
+
+    console.log(request)
     if(request.responseJSON.status=="conflict-error"){
         showModalError(request.responseJSON.message)
         setTimeout(() => {
@@ -136,8 +155,6 @@ function analyzeError(request){
         }, alertLifeSpan);
     }
     else if(request.responseJSON.status=="time-error"){
-
-       console.log(request.responseJSON.message)
 
         let obj=request.responseJSON.message
         let  obj2=JSON.parse(obj)
@@ -267,6 +284,57 @@ if(checkbox2){
 }
 
 
+function updateSearchGuard(val){
+
+    console.log(val)
+    localStorage.setItem("searchGuard",val)
+}
 
 
 
+
+
+function getLatAndLon(callback){
+  
+
+    let kalmanLat = new KalmanFilter({R: 0.01, Q: 3});
+    let kalmanLon = new KalmanFilter({R: 0.01, Q: 3});
+  
+    if (navigator.geolocation) {
+           
+      navigator.geolocation.getCurrentPosition(showPosition, () => {
+  
+        Swal.fire({
+          title: 'Action Required',
+          text: "Location permission is required to proceed!",
+          icon: 'warning',
+          confirmButtonColor: '#1c0d2e',
+          confirmButtonText: 'ok'
+        })
+    
+      });
+      
+    } else { 
+      console.log("Geolocation is not supported by this browser.")
+  
+      Swal.fire({
+        title: 'Action Required',
+        text: "Device need Update ",
+        icon: 'warning',
+        confirmButtonColor: '#1c0d2e',
+        confirmButtonText: 'ok'
+      })
+    }
+  
+    function showPosition(position) {
+      
+      let filteredLat = kalmanLat.filter(position.coords.latitude);
+      let filteredLon = kalmanLon.filter(position.coords.longitude);
+      
+      let obj={
+        lat:filteredLat,
+        lon:filteredLon
+      }
+      callback(obj)
+    }
+  }

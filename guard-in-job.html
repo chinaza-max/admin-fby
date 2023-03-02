@@ -197,7 +197,7 @@
                                         </li>
 
                                         <li class="menu-item">
-                                            <a class="item-link" href="guard.html">
+                                            <a class="item-link"   href="guard.html">
                                                 <div class="icon icofont-cop"></div>
                                                 <span class="link-text">Guard</span>
                                             </a>
@@ -317,71 +317,43 @@
                 <div class="main-content-wrap">
                     <div class="page-content">
 
-                        <div class="row">
-
-                            <div class="col-12 col-md-6">
-
-                                <div class="alert alert-primary outline overflow-auto " role="alert" style="height:81px ;" id="des">
-                                
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-md-3">
-                                <div class="alert alert-info outline overflow-auto" role="alert" style="height:81px ;"  >
-                                        <div id="name"></div>
-                                        <div id="jobT"></div>
-                                </div>
-
-                            </div>
-
-                            <div class="col-12 col-md-3">
-                                <div class="alert alert-success outline overflow-auto" style="height:81px ;" role="alert" >
-                                    <div id="timeZone"></div>
-                                    <div id="paymentT"></div>
-
-                                </div>
-                            </div>
-
-                        </div>
-
                         <div class="card">
-                            
+                            <label for="">
+                                Job details
+                                <a data-bs-toggle="modal"   data-bs-target="#job_details" >
+                                <svg  class="iconMoreJob" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                                </svg>
+                                </a>
+                            </label>
                         
                             <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr class="bg-primary text-white">
-                                            <th scope="col">#</th>
-                                            <th scope="col">Photo</th>
-                                            <th scope="col">Name</th>
-                                            <th scope="col" class="text-nowrap">Phone</th>
-                                            <th scope="col" style="width:100px">Money earned</th>
-                                            <th scope="col" >Schedule</th>
-                                            <th scope="col">Log<sup> (shift) </sup></th>   
-                                            <th scope="col" class="nowrap">Log  <sup>(security check)</sup>  </th>   
-                                            <th scope="col">Instruction</th>
-                                            <th scope="col">Task</th>
-                                            <th scope="col">Report</th>
-                                            <th scope="col">Action</th>
-                                        </tr>
-                                    </thead>
-                                    
-                                    <tbody id="mytable1">
+                    
+                              <table
+                                id="example" 
+                                class="table data-table dataTable table-hover "                 
+                              >
+                                <thead>
+                                <tr class="bg-primary text-white">
+                                  <th scope="col" class="nowrap">Photo</th>
+                                  <th scope="col" class="nowrap">Name</th>
+                                  <th scope="col">Phone</th>
+                                  <th scope="col" >Money earned</th>
+                                  <th scope="col">Schedule</th>
+                                  <th scope="col">Log<sup> (shift) </sup></th>   
+                                  <th scope="col" class="nowrap">Log  <sup>(safety check)</sup></th>   
+                                  <th scope="col">Instruction</th>
+                                  <th scope="col">Task</th>
+                                  <th scope="col">Report</th>
+                                  <th scope="col">Action</th>
+    
+                                </tr>
+                                </thead>
+                                <tbody></tbody>
+                              </table>
 
-                                    </tbody>
-                                </table>
-
-
-
-                              
-
-                                <div class="text-center" id="loader1">
-                                    <div class="spinner-border" role="status">
-                                      <span class="sr-only">Loading...</span>
-                                    </div>
-                                </div>
                             </div>
-
                         </div>
 
                     </div>
@@ -462,7 +434,68 @@
 
 
 
-<div class="modal fade" id="view_log" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+    <div class="modal fade" id="view_log" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="icofont-close-line"></i>
+                </button>
+
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                </div>
+                <div class="modal-body">
+
+                    <div class="card">
+                        <div class="card-header">
+                        LOG (shift)
+                        </div>
+                        <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">Check in date </th>
+                                <th scope="col">Check in time </th>
+                                <th scope="col">Check out date </th>
+                                <th scope="col">Check out time </th>
+                                <th scope="col">Hours</th>
+                                <th scope="col">location_message</th>
+                                <th scope="col">Action </th>
+
+                            </tr>
+                            </thead>
+                            <tbody id="myLog">
+                            
+                            </tbody>
+                            </table>
+
+                            <div class="text-center" id="loader3" >
+                                <div class="spinner-border" role="status">
+                                <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+
+                        </div>
+                        </div>
+                    </div>
+
+
+                    <div class="modal-footer">
+                        <div class="actions justify-content-between">
+                            <button type="button" class="btn btn-error" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="modal fade" id="view_log_security_check"  tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -477,7 +510,7 @@
 
                 <div class="card">
                     <div class="card-header">
-                      LOG (shift)
+                      LOGS (security check)
                     </div>
                     <div class="card-body">
                       <div class="table-responsive">
@@ -485,22 +518,20 @@
                           <thead>
                           <tr>
                             <th scope="col">No</th>
-                            <th scope="col">Check in date </th>
-                            <th scope="col">Check in time </th>
-                            <th scope="col">Check out date </th>
-                            <th scope="col">Check out time </th>
-                            <th scope="col">Hours</th>
-                            <th scope="col">location_message</th>
-                            <th scope="col">Action </th>
-
+                            <th scope="col">Date</th>
+                            <th scope="col">Message</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Check Location </th>
+                           
                           </tr>
                           </thead>
-                          <tbody id="myLog">
+                          <tbody id="mySecurityCheck">
                          
+                     
                           </tbody>
                         </table>
 
-                        <div class="text-center" id="loader3">
+                        <div class="text-center" id="loader4">
                             <div class="spinner-border" role="status">
                               <span class="sr-only">Loading...</span>
                             </div>
@@ -520,10 +551,36 @@
             </div>
         </div>
     </div>
-</div>
+    </div>
 
+    <div class="modal"  id="view_location" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+    aria-hidden="true">
+        <div class="modal-dialog  modal-xl">
+          <div class="modal-content">
+          
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                <i class="icofont-close-line"></i>
+              </button>
 
-  
+              <div class="modal-header">
+                <h5 class="modal-title"></h5>
+              </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <div id="map" style="width: 100%; height: 300px;"></div>
+                
+            </div>
+            
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+            
+          </div>
+        </div>
+    </div>
+
 
     <div class="modal" id="view_schedule">
         <div class="modal-dialog modal-dialog-scrollable modal-xl">
@@ -545,9 +602,9 @@
                 <div class="d-flex justify-content-between">
                     <p>SCHEDULE</p>
                     <p>
-                        RE-ASSIGN
+                        COPY-JOB
                         <button  id="ReAssignButton" class="btn btn-dark btn-sm btn-square rounded-pill  " data-bs-toggle="modal" data-bs-target="#add-guard">
-                            <div class="icon sli-share-alt"></div>
+                            <div class="icon icofont-copy"></div>
                         </button>
 
 
@@ -584,7 +641,11 @@
                         </div>
                     </div>
 
-                  </div>
+                </div>
+
+
+
+              
             </div>
             
             <!-- Modal footer -->
@@ -725,7 +786,6 @@
     </div>
     </div>
 
-
     
     <div class="modal fade" id="view_task" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
     aria-hidden="true">
@@ -786,63 +846,6 @@
     </div>
 
 
-    <div class="modal fade" id="view_log_security_check" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                <i class="icofont-close-line"></i>
-              </button>
-
-              <div class="modal-header">
-                <h5 class="modal-title"></h5>
-              </div>
-            <div class="modal-body">
-
-                <div class="card">
-                    <div class="card-header">
-                      LOGS (security check)
-                    </div>
-                    <div class="card-body">
-                      <div class="table-responsive">
-                        <table class="table table-bordered">
-                          <thead>
-                          <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Message</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Check Location </th>
-                           
-                          </tr>
-                          </thead>
-                          <tbody id="mySecurityCheck">
-                         
-                     
-                          </tbody>
-                        </table>
-
-                        <div class="text-center" id="loader4">
-                            <div class="spinner-border" role="status">
-                              <span class="sr-only">Loading...</span>
-                            </div>
-                        </div>
-
-                      </div>
-                    </div>
-                  </div>
-
-
-                <div class="modal-footer">
-                    <div class="actions justify-content-between">
-                        <button type="button" class="btn btn-error" data-bs-dismiss="modal">Close</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    </div>
 
 
 
@@ -898,13 +901,13 @@
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-body" id="RegisterationErrorContent">
+                <div class="modal-body" >
+                    <div id="RegisterationErrorContent" role="alert">
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-
 
 
 
@@ -917,7 +920,7 @@
             <div class="modal-header">
               <h5 class="modal-title">guard</h5>
             </div>
-            <form id="all_form_for_adding_guard"  >
+            <form id="all_form_for_adding_guard">
               <div class="modal-body">
                   <div class="card">
                     <div class="card-body">
@@ -945,7 +948,7 @@
                         <div class="form-group ">
 
                           <label>Add multiple or single Guard
-                            <a href="#"  data-bs-toggle="popover" title="about ressigning shift" data-bs-content="When you reassign shift it does not delete the formal guard shift">
+                            <a href="#"  data-bs-toggle="popover" title="about ressigning shift" data-bs-content="When you copy shift it does not delete from the original">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
                                   <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                                   <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
@@ -1021,6 +1024,94 @@
     <!-- end Add patients modals -->
 
 
+    <div class="modal fade" id="job_details" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Job detail</h5>
+    
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                <i class="icofont-close-line"></i>
+              </button>
+            </div>
+            <div id="modal-edit" class="modal-body">
+            
+
+                <div class="card-body ">
+                  <div class="d-flex align-items-center justify-content-between mb-3 user-actions">
+
+                    <div id="modalButton">
+                    </div>
+                  </div>
+
+                 
+
+                 
+
+                  <table class="table table-striped">
+                    <tbody>
+                      <tr>
+                        <td>Job description </td>
+                        <td >
+                          <div style="max-width:240px;" id="jobDes">
+
+                          </div>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>Customer </td>
+                        <td  id="customer" ></td>
+                      </tr>
+                      <tr>
+                        <td>Site</td>
+                        <td id="site"></td>
+                      </tr>
+                      <tr>
+                        <td>Job amount($)</td>
+                        <td id="jobA"></td>
+                      </tr>
+                      <tr>
+                        <td>Hourly pay  ($)</td>
+                        <td id="hourlyP"></td>
+                      </tr>
+                    
+                      <tr>
+                        <td>Time zone</td>
+                        <td id="timeZ"></td>
+                      </tr>
+                      <tr>
+                        <td>Payment status</td>
+                        <td id="paymentS"></td>
+                      </tr>
+
+                      <tr>
+                        <td>Job type</td>
+                        <td id="jobT"></td>
+                      </tr>
+
+                      <tr>
+                        <td>Job id</td>
+                        <td id="jobID"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                </div>
+        
+
+              
+
+             
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
 
 
 
@@ -1039,15 +1130,25 @@
     <script src="assets/js/echarts.min.js"></script>
     <script src="assets/js/echarts-gl.min.js"></script>
     <script src="assets/js/globalVar.js"></script>
+    <script src="assets/js/kalman.min.js"></script>
     <script src="assets/js/guard-in-job.js"></script>
     <script src="assets/js/main.js"></script>
-    
+
+   
+  <script
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-ppGbdkgQXBwhwiPIYtSYAjowZe0u4cc&callback=initMap&libraries=places&v=weekly" defer>
+</script>
+
+
+
+
     <script>
         //this script allows pop over 
         var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
         var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
             return new bootstrap.Popover(popoverTriggerEl,{html: true})
         })
+        
     </script>
        
 

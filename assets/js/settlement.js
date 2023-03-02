@@ -1,5 +1,5 @@
 let getTableData='',
- getTableData2='',
+  getTableData2='',
   limit=15,
   offset=0,
   limit2=15,
@@ -9,6 +9,8 @@ let getTableData='',
 $(document).ready(function(){
 
     //FOR UNSETTLED SHIFT
+
+    /*
     $('#loader1').css("display","block");
 
     getTableData=function (limit,offset){
@@ -23,7 +25,8 @@ $(document).ready(function(){
         
           success: function (data) {
  
-            $('#loader1').css("display","none");
+
+            console.log(data)
 
             CreateTable(data.data)
             
@@ -91,15 +94,95 @@ $(document).ready(function(){
         }
     }
   
+*/
+
+
+    getTableData =()=>{
+
+
+      let  table=$('#example').DataTable({
+          ajax: {
+              url:`${domain}/api/v1/job/getGeneralUnsettleShift?settlement=false`,
+              method: "get",
+              dataType  : 'json',
+              encode  : true,  
+              headers: {
+                "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+              },
+       
+        
+            },
+            columnDefs: [
+              
+
+              {
+                render: function (data, type, full, meta) {
+    
+                    return ` <span>
+                                $${data}
+                            </span>
+                    `
+                },
+                targets: 3
+              },
+              {
+                  render: function (data, type, full, meta) {
+      
+
+                    console.log(full)
+                      return ` <div class="actions">
+                                <a href="#" onclick="getDetailOfShift(${full.id})"  class="btn btn-dark btn-sm btn-square rounded-pill" data-bs-toggle="modal"
+                                data-bs-target="#view-detail"   >
+                                <span class="btn-icon icofont-external-link"></span>
+                                </a>
+                                <button type="button" class="btn btn-outline-primary"  onclick="settleguard([${full.shedule_id}])">Settle</button>
+                              </div>
+                      `
+                  },
+                  targets: 4
+              } 
+                
+                
+            ],
+            columns:[
+              { data: "first_name" },
+              { data: "last_name" },
+              { data: "hours_worked" },
+              { data: "amount" },
+              { data: "id" },
+              { data: "foundJL_id" },
+              { data: "shedule_id" },
+
+
+            ],
+           
+        })
+    
+      
+        setTimeout(() => {
+    
+          var column1 = table.column(5);
+          column1.visible(!column1.visible());
+          var column2 = table.column(6);
+          column2.visible(!column2.visible());
+      
+          }, 100);
+  }
+  getTableData()
+
+
+
+
+
 
 
     
       //FOR SETTLED SHIFT
+
+      /*
       $('#loader2').css("display","block");
 
       getTableData2=function ( limit,offset){
-        
-
         //Guard id here is not required for processing but must be 
         $.ajax({
             type: "post", url:`${domain}/api/v1/job/getAllUnsettleShiftOneGuard?settlement=true&limit=${limit}&offset=${offset}`,
@@ -115,7 +198,8 @@ $(document).ready(function(){
           
             success: function (data) {
     
-              $('#loader2').css("display","none");
+
+              console.log(data)
               CreateTable2(data.data)
              
             },
@@ -238,20 +322,113 @@ $(document).ready(function(){
   
           }
       }
+    */
+
+
+
+      
+  getTableData2 =()=>{
+
+
+      let  table=$('#example2').DataTable({
+          ajax: {
+              url:`${domain}/api/v1/job/getAllUnsettleShiftOneGuard?settlement=true`,
+              method: "post",
+              dataType:'json',
+              encode: true,  
+              headers: {
+                "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+              },
+              data: {
+                guard_id:1,
+                settlement:true  
+              },
+            },
+            columnDefs: [
+            
+              {
+                render: function (data, type, full, meta) {
     
+                  console.log(full)
+                  return `
+                  ${full.first_name}  ${full.last_name}
+                  `
+                },
+                targets: 1
+              }
+              ,
+              {
+                  render: function (data, type, full, meta) {
+      
+                      return `
+                      <span >$${data}</span>
+
+                      `
+                  },
+                  targets: 12
+              } 
+              ,
+              {
+                  render: function (data, type, full, meta) {
+      
+
+                    console.log(full)
+                      return `
+                      <span >$${data}</span>
+
+                      `
+                  },
+                  targets: 13
+              } ,
+              {
+                  render: function (data, type, full, meta) {
+      
+                      return `
+                      <button type="button" class="btn btn-primary" onclick="settleguard([${full.shedule_id}])">Revert</button>
+
+                      `
+                  },
+                  targets: 14
+              } 
+                
+                
+            ],
+            columns:[
+              { data: "site_name" },
+              { data: "first_name" },
+              { data: "start_date" },
+              { data: "start_time" },
+              { data: "end_date" },
+              { data: "end_time" },
+              { data: "Job_hours" },
+              { data: "check_in_date" },
+              { data: "check_in_time" },
+              { data: "check_out_date" },
+              { data: "check_out_time" },
+              { data: "hours_worked" },
+              { data: "charge" },
+              { data: "amount" },
+              { data: "shedule_id" },
+              { data: "last_name" },
+
+            ],
+           
+        })
+    
+      
+        setTimeout(() => {
+    
+          var column1 = table.column(15);
+          column1.visible(!column1.visible());      
+          }, 100);
+  }
+  getTableData2()
 
 
-  })
 
+})
 
-
-
-
-
-
-
-
-
+/*
 //FOR UNSETTLED 
 
 function Previous(){
@@ -273,7 +450,7 @@ function Previous(){
     getTableData(limit,offset)
     $(".page-item1").removeClass("active");
     $("#Next").addClass("active");
-  
+    console.log(limit,offset)
   }
   
   function page(val){
@@ -344,11 +521,12 @@ function Previous(){
     
     getTableData2(limit2,offset2)
   }
-  
+  */
   
   let guard_id_been_viewed=''
   
   function getDetailOfShift(guard_id){
+
     guard_id_been_viewed=guard_id
 
     $('#loader3').css("display","block");
@@ -384,9 +562,7 @@ function Previous(){
 
   function displayShift(val){
 
-        let data=''
-
-        
+    let data=''
     for(let i=0; i<val.length;i++){
         
             data+=`
@@ -509,10 +685,14 @@ function Previous(){
             data: {
                 schedule_id:JSON.stringify(val),
             },
-            success: function (data, text) {
+            success: function (data) {
                 
-                getTableData(limit,offset)
-                getTableData2(limit2,offset2)
+                $('#example').DataTable().clear().destroy();
+                getTableData()
+
+                $('#example2').DataTable().clear().destroy();
+                getTableData2()
+
                 if(guard_id_been_viewed!=""){
                     getDetailOfShift(guard_id_been_viewed)
                 }

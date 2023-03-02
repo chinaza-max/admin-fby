@@ -324,13 +324,14 @@
               <div class="card-header">
                 
                 Job
+                
               </div>
               <div class="card-body">
                 <ul class="nav nav-pills mb-3" role="tablist">
                   <li class="nav-item" role="presentation" >
                     <button class="nav-link active" id="active" onclick="updateNavLinkStatus('active')" data-bs-toggle="pill" data-bs-target="#tab-1" type="button"
                       role="tab" aria-selected="true">Active</button>
-                  </li>
+                  </li>                             
                   <li class="nav-item" role="presentation" id="pendingContainer">
                     <button class="nav-link" id="pending" onclick="updateNavLinkStatus('pending')" data-bs-toggle="pill" data-bs-target="#tab-2" type="button" role="tab"
                       aria-selected="false">Pending</button>
@@ -343,56 +344,39 @@
                     <button class="nav-link" id="decline" data-bs-toggle="pill" onclick="updateNavLinkStatus('decline')" data-bs-target="#tab-4" type="button" role="tab"
                       aria-selected="false">Decline</button>
                   </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="deleted" data-bs-toggle="pill" onclick="updateNavLinkStatus('deleted')" data-bs-target="#tab-5" type="button" role="tab"
+                      aria-selected="false">Deleted </button>
+                  </li>
 
                 </ul>
                 <div class="tab-content">
                   <div class="tab-pane fade show active" id="tab-1" role="tabpanel">
                     <div class="card mb-0">
                       <div class="card-body">
-                        <div class="table-responsive">
-                          <table class="table table-hover nowrap">
-                            <thead>
-                              <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Date created</th>
-                                <th scope="col">Job ID</th>
-                                <th scope="col">Customer</th>
-                                <th scope="col">Customer site</th>
-                                <th scope="col">Progress</th>
-                                <th scope="col">Client charge</th>
-                                <th scope="col">Guard charge</th>
-                                <th scope="col">Schedule</th>
-                                <th scope="col">Actions</th>
-                              </tr>
-                            </thead>
-                            <tbody id="mytable1">
+                 
+                        <table
+                        id="example" 
+                        class="table data-table table-striped dataTable table-hover no-footer"                 
+                      >
+                        <thead>
+                        <tr class="bg-primary text-white">
+                          <th scope="col" class="nowrap">Date created</th>
+                          <th scope="col" class="nowrap">Job ID</th>
+                          <th scope="col">Customer</th>
+                          <th scope="col" class="nowrap">Customer site</th>
+                          <th scope="col">Progress</th>
+                          <th scope="col" class="nowrap">Client charge</th>
+                          <th scope="col" class="nowrap">Guard charge</th>
+                          <th scope="col">Schedule</th>
+                          <th scope="col">Actions</th>
+                          <th scope="col">Actions</th>
 
-                            </tbody>
-                          </table>
-
-                          <div class="text-center" id="loader1">
-                            <div class="spinner-border" role="status">
-                              <span class="sr-only">Loading...</span>
-                            </div>
-                          </div>
-                        </div>
-
-                        <nav class="mt-4">
-                          <ul class="pagination">
-                            <li id="Previous" class="page-item page-item1 disabled" onclick="Previous()">
-                              <a class="page-link" href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
-                                <span class="icofont-simple-left"></span>
-                              </a>
-                            </li>
-                          
-                            <li id="Next" class="page-item page-item1 active" onclick="Next()">
-                              <a class="page-link" href="#" aria-label="Next">
-                                <span class="icofont-simple-right"></span>
-                              </a>
-                            </li>
-                          </ul>
-                        </nav>
-
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                      </table>
+                        
                       </div>
                     </div>
                   </div>
@@ -401,49 +385,30 @@
                   <div class="tab-pane fade" id="tab-2" role="tabpanel">
                     <div class="card mb-0">
                       <div class="card-body">
-                        <div class="table-responsive">
-                          <table class="table table-hover nowrap">
-                            <thead>
-                              <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Date created</th>
-                                <th scope="col">Job ID</th>
-                                <th scope="col">Customer</th>
-                                <th scope="col">Customer site</th>
-                                <th scope="col">Progress</th>
-                                <th scope="col">Client charge</th>
-                                <th scope="col">Guard charge</th>
-                                <th scope="col">Actions</th>
-                              </tr>
-                            </thead>
-                            <tbody id="mytable2">
 
+                                      
+                        <table
+                        id="example2" 
+                        class="table data-table table-striped dataTable table-hover no-footer"                 
+                        >
+                        <thead>
+                        <tr class="bg-primary text-white">
+                          <th scope="col" class="nowrap">Date created</th>
+                          <th scope="col" class="nowrap">Job ID</th>
+                          <th scope="col">Customer</th>
+                          <th scope="col" class="nowrap">Customer site</th>
+                          <th scope="col">Progress</th>
+                          <th scope="col" class="nowrap">Client charge</th>
+                          <th scope="col" class="nowrap">Guard charge</th>
+                          <th scope="col">Schedule</th>
+                          <th scope="col">Actions</th>
+                          <th scope="col">Actions</th>
 
-                            </tbody>
-                          </table>
-
-                          <div class="text-center" id="loader2">
-                            <div class="spinner-border" role="status">
-                              <span class="sr-only">Loading...</span>
-                            </div>
-                          </div>
-                        </div>
-
-                        <nav class="mt-4">
-                          <ul class="pagination">
-                            <li id="Previous2" class="page-item page-item2 disabled" onclick="Previous2()">
-                              <a class="page-link" href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
-                                <span class="icofont-simple-left"></span>
-                              </a>
-                            </li>
-                     
-                            <li id="Next2" class="page-item page-item2 active" onclick="Next2()">
-                              <a class="page-link" href="#" aria-label="Next">
-                                <span class="icofont-simple-right"></span>
-                              </a>
-                            </li>
-                          </ul>
-                        </nav>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                      </table>
+                        
                       </div>
                     </div>
                   </div>
@@ -451,47 +416,31 @@
                   <div class="tab-pane fade" id="tab-3" role="tabpanel">
                     <div class="card mb-0">
                       <div class="card-body">
-                        <div class="table-responsive">
-                          <table class="table table-hover nowrap">
-                            <thead>
-                              <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Date created</th>
-                                <th scope="col">Job ID</th>
-                                <th scope="col">Customer</th>
-                                <th scope="col">Customer site</th>
-                                <th scope="col">Progress</th>
-                                <th scope="col">Client charge</th>
-                                <th scope="col">Guard charge</th>
-                                <th scope="col">Actions</th>
-                              </tr>
-                            </thead>
-                            <tbody id="mytable3">
+                      
 
-                            </tbody>
-                          </table>
-                          <div class="text-center" id="loader3">
-                            <div class="spinner-border" role="status">
-                              <span class="sr-only">Loading...</span>
-                            </div>
-                          </div>
-                        </div>
+                  
+                        <table
+                        id="example3" 
+                        class="table data-table table-striped dataTable table-hover no-footer"                 
+                      >
+                        <thead>
+                        <tr class="bg-primary text-white">
+                          <th scope="col" class="nowrap">Date created</th>
+                          <th scope="col" class="nowrap">Job ID</th>
+                          <th scope="col">Customer</th>
+                          <th scope="col"  class="nowrap">Customer site</th>
+                          <th scope="col">Progress</th>
+                          <th scope="col" class="nowrap">Client charge</th>
+                          <th scope="col"  class="nowrap">Guard charge</th>
+                          <th scope="col">Schedule</th>
+                          <th scope="col">Actions</th>
+                          <th scope="col">Actions</th>
 
-                        <nav class="mt-4">
-                          <ul class="pagination">
-                            <li id="Previous3" class="page-item page-item3 disabled" onclick="Previous3()">
-                              <a class="page-link" href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
-                                <span class="icofont-simple-left"></span>
-                              </a>
-                            </li>
-                            
-                            <li id="Next3" class="page-item page-item3 active" onclick="Next3()">
-                              <a class="page-link" href="#" aria-label="Next">
-                                <span class="icofont-simple-right"></span>
-                              </a>
-                            </li>
-                          </ul>
-                        </nav>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                      </table>
+
                       </div>
                     </div>
                   </div>
@@ -518,6 +467,8 @@
                             </tbody>
                           </table>
 
+                         
+
                           <div class="text-center" id="loader4">
                             <div class="spinner-border" role="status">
                               <span class="sr-only">Loading...</span>
@@ -540,6 +491,36 @@
                             </li>
                           </ul>
                         </nav>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="tab-pane fade" id="tab-5" role="tabpanel">
+                    <div class="card mb-0">
+                      <div class="card-body">
+                    
+                        <table
+                        id="example5" 
+                        class="table data-table table-striped dataTable"                 
+                      >
+                        <thead>
+                        <tr class="bg-primary text-white">
+                          <th scope="col" class="nowrap">Date created</th>
+                          <th scope="col" class="nowrap">Job ID</th>
+                          <th scope="col">Customer</th>
+                          <th scope="col" class="nowrap">Customer site</th>
+                          <th scope="col">Progress</th>
+                          <th scope="col" class="nowrap">Client charge</th>
+                          <th scope="col" class="nowrap">Guard charge</th>
+                          <th scope="col">Schedule</th>
+                          <th scope="col">Actions</th>
+                          <th scope="col">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                      </table>
+
                       </div>
                     </div>
                   </div>
@@ -1597,7 +1578,7 @@
                 <select class="selectpicker mb-3" id="instructionType">
                   <option>Select</option>
                   <option value="scan-QR-code">Scan QR code</option>
-                  <option value="perform-security-check">Perform security check</option>
+                  <option value="perform-security-check" disabled>Perform security check</option>
                 </select>
               </div>
 
@@ -2034,9 +2015,7 @@
             <div class="form-group">
               <label>Job status</label>
               <select class="selectpicker selectpickerStatusChange" onchange="updateJobStatus()">
-                <option value="horizontal" data-tokens="PENDING">PENDING</option>
                 <option value="horizontal-layout" data-tokens="ACTIVE">ACTIVE</option>
-                <option value="vertical-layout" data-tokens="COMPLETED">COMPLETED</option>
               </select>
             </div>
 
@@ -2112,7 +2091,11 @@
   <div class="modal fade" id="applyDateRestriction" style="z-index:10000;" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-body" id="applyDateRestrictionContent" style="color:green ;text-align: center;">
+        <div class="modal-body" >
+
+              <div class="alert alert-primary" role="alert" style="color:green ;text-align: center;" id="applyDateRestrictionContent">
+              </div>
+
         </div>
       </div>
     </div>
@@ -2126,6 +2109,8 @@
       <div class="modal-content">
         <div class="modal-body">
           <div id="RegisterationSuccessFullContent" class="alert alert-primary outline  text-center" role="alert">
+
+              
           </div>
         </div>
       </div>
@@ -2188,7 +2173,10 @@
   <div class="modal fade" id="RegisterationError" style="z-index:10000;" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-body" id="RegisterationErrorContent">
+        <div class="modal-body" >
+          <div class="alert alert-primary" role="alert" id="RegisterationErrorContent">
+          </div>
+
         </div>
       </div>
     </div>
@@ -2257,17 +2245,7 @@
   <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
   <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
   <script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
-
-
-    <!-- 
-
-  <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
-  <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
-  <script src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.html5.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-   -->
+  <script src="assets/js/kalman.min.js"></script>
   <script src="assets/js/job.js"></script>
 
 

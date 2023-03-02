@@ -6,7 +6,7 @@ $.ajax({
     },
     dataType  : 'json',
     encode  : true,
-    success: function (data, text) {
+    success: function (data) {
 
         displayDashboardInfo(data.data)
  

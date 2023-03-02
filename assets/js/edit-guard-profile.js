@@ -2,9 +2,8 @@
 const password=document.getElementById("password")*/
 const updateUser=document.getElementById("updateUser")
 
-let id=activeUserID
+let id=Number(activeGuardID)
 let my_license_id=''
-
 
 /*
 
@@ -63,6 +62,12 @@ password.addEventListener("click" ,()=>{
 */
 
 
+
+let myCoor
+getLatAndLon(function(latLon) {
+  myCoor= latLon;
+})
+
 updateUser.addEventListener("submit",(e)=>{
 
     e.preventDefault()
@@ -91,6 +96,7 @@ updateUser.addEventListener("submit",(e)=>{
     formData.append("address",address);
     formData.append("phone_number",phoneNumber);
     formData.append("id",id);
+    console.log(typeof(id))
 
 
         for (const value of formData.values()) {
@@ -131,7 +137,7 @@ updateUser.addEventListener("submit",(e)=>{
                         }, 3000);
                     }
                     else if(data.status=="validation-error"){
-                        console.log(data.errors.message)
+                        console.log(data.errors)
                         showModalError(data.errors[0].message)
                         setTimeout(() => {
                             hideModalError()
@@ -232,10 +238,11 @@ $(document).ready(function(){
             },
             error: function (request, status, error) {
                 localStorage.removeItem("myUser");
+
                 
             //  window.location.replace('https://sunny-kataifi-7adb6f.netlify.app/sign-in.html')
             //  window.location.replace('/sign-in.html')
-            window.location.href =window.location.toString().split('/')[0] +`/index.html`
+             window.location.href =window.location.toString().split('/')[0] +`/index.html`
 
 
             }
@@ -253,11 +260,12 @@ $(document).ready(function(){
                 "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
             },
             data:{
+                latitude: Number(myCoor.lat).toFixed(8),
+                longitude: Number(myCoor.lon).toFixed(8),
                 id
             },
             success: function (data) {
-             
-            
+
                 console.log(data)
                 displayLicenseDetails(data.data)
         
@@ -283,99 +291,205 @@ $(document).ready(function(){
 
 function displayLicenseDetails(val){
     let data=''
-    if(val.expiry_date!==""){
 
 
-        if(val.status=="Expired"){
-            data+=`
-            <tr>
-                <td>1</td>
+    console.log(val)
+    if(val.length!=0){
+        for (let index = 0; index < val.length; index++) {
 
-                <td class="nowrap">${val.Posted}</td>
+          let path =String.raw`${val[index].url}`
+          let path2 = path.replace(/\\/g, "/");
 
-                <td class="nowrap">${val.expiry_date}</td>
+          console.log(path2)
                 
-                <td><span class="badge badge-danger">${val.status}</span></td>
+            if(val[index].status=="Expired"){
+                data+=`
+                <div class="accordion-item">
+                <h2 class="accordion-header accordion-Expired" id="flush-headingOne${index}">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne${index}" aria-expanded="false" aria-controls="flush-collapseOne${index}">
+                  #${index+1} Expiry date: ${val[index].expiry_date}
+                  </button>
+                </h2>
+                <div id="flush-collapseOne${index}" class="accordion-collapse collapse" aria-labelledby="flush-headingOne${index}" data-bs-parent="#accordionFlushExample">
+                  <div class="accordion-body">
 
-                <td>
-                    <button type="button" class="btn btn-outline-primary"
-                    data-bs-toggle="modal"
-                    data-bs-target="#view_license">View</button>
-                </td>
 
-                <td>
-                    <div class="actions">
-                        <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteGuardLicense(${val.license_id})">
-                        <span class="btn-icon icofont-ui-delete"></span>
-                        </button>
-                    </div>
-                </td>
-           </tr>
+                    <table class="table table-bordered">
+                      <thead>
+                      <tr>
+                        <th scope="col">Posted</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">View</th>
+                        <th scope="col">Delete</th>
+                      </tr>
+                      </thead>
+                      <tbody id="licenseDetail">
 
-             `
-        }
-        else if(val.status=="Approved"){
-            data+=`
-            <tr>
-            <td>1</td>
-            <td class="nowrap">${val.Posted}</td>
-            <td class="nowrap">${val.expiry_date}</td>
-            <td><span class="badge badge-success">${val.status}</span></td>
-            <td>
-                <button type="button" class="btn btn-outline-primary"
-                data-bs-toggle="modal"
-                data-bs-target="#view_license">View</button>
-            </td>
-            <td>
-                <div class="actions">
-                    <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteGuardLicense(${val.license_id})">
-                    <span class="btn-icon icofont-ui-delete"></span>
-                    </button>
+                        <tr>
+                          <td class="nowrap text-muted ">
+                          ${val[index].Posted}
+                          </td>
+              
+                          <td class="nowrap">
+                          <span class="badge badge-danger">${val[index].status}</span> 
+                          </td>
+              
+                          <td class="nowrap">
+                            <button onclick="attarchPDF2('${path2}')"   class="btn btn-outline-primary btn-square rounded-pill" fdprocessedid="4a7xi3" 
+                            data-bs-toggle="modal"
+                            data-bs-target="#view_license2">
+                              <span class="btn-icon icofont-file-alt"></span>
+                            </button>
+                          </td>
+                          
+                          <td>
+                            <button onclick="deleteGuardLicense('${val[index].license_id}')" class="btn btn-error btn-sm btn-square rounded-pill" fdprocessedid="9ditxn">
+                              <span class="btn-icon icofont-ui-delete"></span>
+                            </button>
+                          </td>
+                          
+                        </tr>
+                      </tbody>
+                    </table>
+                   
+                  </div>
                 </div>
-            </td>
-            </tr>
-             `
+              </div>
+
+                 `
+            }
+            else if(val[index].status=="Approved"){
+                data+=`
+         
+                <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingOne${index}">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne${index}" aria-expanded="false" aria-controls="flush-collapseOne${index}">
+                  <input class="form-check-input" type="checkbox" value="" id="defaultCheck4" disabled checked>
+                  #${index+1} Expiry date:${val[index].expiry_date}
+                  
+                  </button>
+                </h2>
+                <div id="flush-collapseOne${index}" class="accordion-collapse collapse" aria-labelledby="flush-headingOne${index}" data-bs-parent="#accordionFlushExample">
+                  <div class="accordion-body">
+  
+                    <table class="table table-bordered">
+                      <thead>
+                      <tr>
+                        <th scope="col">Status</th>
+                        <th scope="col">View</th>
+                        <th scope="col">Delete</th>
+                      </tr>
+                      </thead>
+  
+                      <tbody id="licenseDetail">
+                        <tr>
+                          <td class="nowrap">
+                            <span class="badge badge-success">${val[index].status}</span> 
+                          </td>
+              
+                          <td class="nowrap">
+                            <button  onclick="attarchPDF2('${path2}')"  class="btn btn-outline-primary btn-square rounded-pill" fdprocessedid="4a7xi3" data-bs-toggle="modal"
+                            data-bs-target="#view_license2">
+                              <span class="btn-icon icofont-file-alt"></span>
+                            </button>
+                          </td>
+                          
+                          <td>
+                            <button onclick="deleteGuardLicense('${val[index].license_id}')"  class="btn btn-error btn-sm btn-square rounded-pill" fdprocessedid="9ditxn">
+                              <span class="btn-icon icofont-ui-delete"></span>
+                            </button>
+                          </td>
+                          
+                        </tr>
+                      </tbody>
+                    </table>
+                   
+                  </div>
+                </div>
+              </div>
+                   `
+            }
+            else if(val[index].status=="Pending"){
+                data+=`
+           
+                <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingOne${index}">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne${index}" aria-expanded="false" aria-controls="flush-collapseOne${index}">
+                     #${index+1} Expiry date:${val[index].expiry_date}
+                  </button>
+                </h2>
+                <div id="flush-collapseOne${index}" class="accordion-collapse collapse" aria-labelledby="flush-headingOne${index}" data-bs-parent="#accordionFlushExample">
+                  <div class="accordion-body">
+  
+                    <table class="table table-bordered">
+                      <thead>
+                      <tr>
+                        <th scope="col">Posted</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">View</th>
+                        <th scope="col">Delete</th>
+                      </tr>
+                      </thead>
+  
+                      <tbody id="licenseDetail">
+                      
+                        <tr>
+
+                        <td class="nowrap text-muted ">
+                        ${val[index].Posted}
+                        </td>
+                          <td class="nowrap">
+                            <span class="badge badge-info">${val[index].status}</span> 
+                          </td>
+              
+                          <td class="nowrap">
+                            <button  onclick="attarchPDF('${path2}');updateLicenseId(${val[index].license_id})" class="btn btn-outline-primary btn-square rounded-pill" fdprocessedid="4a7xi3" data-bs-toggle="modal"
+                            data-bs-target="#view_license">
+                              <span class="btn-icon icofont-file-alt"></span>
+                            </button>
+                          </td>
+                          
+                          <td>
+                            <button    onclick="deleteGuardLicense('${val[index].license_id}')"   class="btn btn-error btn-sm btn-square rounded-pill" fdprocessedid="9ditxn">
+                              <span class="btn-icon icofont-ui-delete"></span>
+                            </button>
+                          </td>
+                          
+                        </tr>
+                      </tbody>
+                    </table>
+                   
+                  </div>
+                </div>
+              </div>
+                   `
+            }
+
+            if(index==val.length-1){
+
+                $('#accordionFlushExample').children().remove();
+                $("#accordionFlushExample").append(data)
+            }
         }
-        else if(val.status=="Pending"){
-            data+=`
-            <tr>
-                <td>1</td>
-                <td class="nowrap">${val.Posted}</td>
-                <td class="nowrap">${val.expiry_date}</td>
-                <td><span class="badge badge-warning">${val.status}</span></td>
-                <td>
-                    <button type="button" class="btn btn-outline-primary"
-                    data-bs-toggle="modal"
-                    data-bs-target="#view_license">View</button>
-                </td>
-                <td>
-                    <div class="actions">
-                        <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteGuardLicense(${val.license_id})">
-                        <span class="btn-icon icofont-ui-delete"></span>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-             `
-        }
-     
-         $('#licenseDetails').children().remove();
-         $("#licenseDetails").append(data)
-         my_license_id=val.license_id   
-         document.getElementById("contentarea").setAttribute('data',val.url);
     }
-    else{   
+    else{
         data+=`
         <tr>
-        <td  colspan="7" class="text-center">
+        <td  colspan="3" class="text-center">
             No license uploaded
         </td>
       </tr>
          `
-         $('#licenseDetails').children().remove();
-         $("#licenseDetails").append(data)
+         $('#accordionFlushExample').children().remove();
+         $("#accordionFlushExample").append(data)
     }
+
 }   
+
+
+function updateLicenseId(id){
+  my_license_id=id
+}
 
 function deleteGuardLicense(id){
 
@@ -398,6 +512,8 @@ function deleteGuardLicense(id){
             "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
           },
           data: {
+            latitude: Number(myCoor.lat).toFixed(8),
+            longitude: Number(myCoor.lon).toFixed(8),
             id      
           },
           success: function (data) {
@@ -409,10 +525,7 @@ function deleteGuardLicense(id){
              
           },
           error: function (request, status, error) {
-      
-              console.log(request)
-              console.log(status)
-              console.log(error)
+    
               console.log(request.responseJSON.status)
       
               analyzeError(request)
@@ -435,7 +548,9 @@ function approveLicense(){
         "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
         },
         data: {
-        id:my_license_id
+          latitude: Number(myCoor.lat).toFixed(8),
+          longitude: Number(myCoor.lon).toFixed(8),
+          id:my_license_id
         },
         success: function (data) {
             showModal(data.message)
@@ -455,3 +570,64 @@ function approveLicense(){
     });
   
 }
+
+
+
+function attarchPDF(URL){
+
+  // Get the canvas element
+  var canvas = document.getElementById('pdf-canvas');
+
+  // Load the PDF
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@latest/build/pdf.worker.min.js';
+  pdfjsLib.getDocument(`${URL}`).promise.then(function(pdf) {
+    // Get the first page of the PDF
+    pdf.getPage(1).then(function(page) {
+      // Get the viewport of the page
+      var viewport = page.getViewport({ scale: 1 });
+
+      // Set the canvas dimensions to match the viewport
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+
+      // Render the page on the canvas
+      var renderContext = {
+        canvasContext: canvas.getContext('2d'),
+        viewport: viewport
+      };
+      page.render(renderContext);
+    });
+  });
+
+}
+
+function attarchPDF2(URL){
+
+
+  
+  // Get the canvas element
+  var canvas = document.getElementById('pdf-canvas2');
+
+  // Load the PDF
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@latest/build/pdf.worker.min.js';
+  pdfjsLib.getDocument(`${URL}`).promise.then(function(pdf) {
+    // Get the first page of the PDF
+    pdf.getPage(1).then(function(page) {
+      // Get the viewport of the page
+      var viewport = page.getViewport({ scale: 1 });
+
+      // Set the canvas dimensions to match the viewport
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+
+      // Render the page on the canvas
+      var renderContext = {
+        canvasContext: canvas.getContext('2d'),
+        viewport: viewport
+      };
+      page.render(renderContext);
+    });
+  });
+
+}
+

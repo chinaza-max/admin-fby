@@ -31,16 +31,25 @@ $.fn.dataTable.ext.search.push(
           var max = maxDate.val();
           var date = new Date( data[3] );
           var date2 = new Date( data[5] );
+
+          var minM = moment(min).format("MM-DD-YYYY") ;
+          var maxM = moment(max).format("MM-DD-YYYY")  ;
+          var dateM =moment(date).format("MM-DD-YYYY") ;
+          var date2M = moment(date2).format("MM-DD-YYYY") ;
             
+
+
+
+
           if (
               ( min === null && max === null ) ||
-              ( min === null &&  moment(date).isSameOrBefore(max)) ||
-              ( moment(min).isSameOrBefore(date)  && max === null ) ||
-              ( moment(min).isSameOrBefore(date)   && moment(date).isSameOrBefore(max) )
+              ( min === null &&  moment(dateM).isSameOrBefore(maxM)) ||
+              (moment(minM).isSameOrBefore(dateM)  && max === null ) ||
+              ( moment(minM).isSameOrBefore(dateM)   && moment(dateM).isSameOrBefore(maxM) )
   
-              ||( min === null &&   moment(date2).isSameOrBefore(max)   )||
-              ( moment(min).isSameOrBefore(date2)   && max === null ) ||
-              ( moment(min).isSameOrBefore(date2)   &&     moment(date2).isSameOrBefore(max) )
+              ||( min === null &&  moment(date2M).isSameOrBefore(maxM))||
+              ( moment(minM).isSameOrBefore(date2M)   && max === null ) ||
+              ( moment(minM).isSameOrBefore(date2M)   &&  moment(date2M).isSameOrBefore(maxM) )
           ) {
   
           
@@ -160,7 +169,7 @@ $(document).ready(function() {
     });
     maxDate = new DateTime($('#max'), {
         format: 'MMMM Do YYYY'
-    });
+    })
 
 
     var table = $('#example').DataTable({
@@ -420,7 +429,7 @@ function displayGetAllGuard(val){
 
   for(let i=0; i<val.length; i++){
           data+= `
-          <option data-subtext="${val[i].suspension_status}" value="${val[i].name}"> ${val[i].name} </option>
+          <option data-subtext="${val[i].suspension_status}  ID:${val[i].guard}" value="${val[i].name}"> ${val[i].name} </option>
         `
       if(i==val.length-1){
 

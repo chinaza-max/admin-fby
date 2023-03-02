@@ -19,7 +19,10 @@
     <link rel="stylesheet" href="assets/css/bootstrap-select.min.css" />
     <link rel="stylesheet" href="assets/css/style.css" />
     <link rel="stylesheet" href="assets/css/calendar.css" />
+    <link rel="stylesheet" href="assets/css/sideBar.css" />
+
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
@@ -230,7 +233,8 @@
         
                   </select>
                   </li>
-                  <li class="menu-item">
+
+                  <li class="menu-item mt-4">
                     <a class="item-link dropdown-toggle" href="#" id="dropdownMenuClickableOutside" data-bs-toggle="dropdown" data-bs-auto-close="inside" aria-expanded="false">
                       <span class="link-text">Sort with date</span>
                     </a>
@@ -244,18 +248,33 @@
                                 <input type="text" id="min" name="min" />
                               </td>
                             </tr>
-                            <tr>
-                              <td>To :</td>
-                              <td>
-                                <input type="text" id="max" name="max" />
-                              </td>
-                            </tr>
+                        
                           </tbody>
                         </table>
                       </a></li>
                       
                     </ul>
                   </li>
+
+
+                  <li class="menu-item mt-4">
+                    <ul class="pagination">
+                      <li id="Previous" class="page-item disabled" onclick="previous()">
+                        <a class="page-link" href="#"   aria-label="Previous" tabindex="-1" aria-disabled="true" >
+                          <span class="icofont-simple-left"></span>
+                        </a>
+                      </li>
+            
+                      <li id="Next" class="page-item active" onclick="next()">
+                        <a class="page-link"  href="#" aria-label="Next" >
+                          <span class="icofont-simple-right"></span>
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+
+
+
 
                 </ul>
               </nav>
@@ -329,374 +348,115 @@
 
             </div>
           </div>
+
           <marquee width="100%">
-            <p class="myLabelProgress_Status">ACTIVE JOB SCHEDULE</p>
+            <p class="myLabelProgress_Status">ENDED SHIFT</p>
             <div class="Progress_Status">
               <div
                 class="myprogressBar"
-                style="background-color: #828204"
+                style="background-color: #7E7E7E"
               ></div>
             </div>
 
-            <p class="myLabelProgress_Status">PENDING JOB SCHEDULE</p>
+            <p class="myLabelProgress_Status">STARTED SHIFT </p>
             <div class="Progress_Status">
               <div
                 class="myprogressBar"
-                style="background-color: #b60707"
+                style="background-color: #51FF00"
               ></div>
             </div>
 
-            <p class="myLabelProgress_Status">COMPLETED JOB SCHEDULE</p>
+            <p class="myLabelProgress_Status">UPCOMING SHIFT</p>
             <div class="Progress_Status">
-              <div class="myprogressBar" style="background-color: green"></div>
+              <div class="myprogressBar" style="background-color: #2473AB"></div>
             </div>
           </marquee>
           
           <!-- DISPLAY USER SCHEDULER-->
-          <div class="table-responsive">
-            <div data-parse="1595877840000" id="calplaceholder" style="max-height: 500px; margin-bottom: 0;">
-              <div class="cal-sectionDiv">
-                <table class="table table-striped table-bordered">
-                  <thead class="cal-thead sticky-top" >
-                    <tr>
-                      <th class="cal-viewmonth" id="changemonth">weekly shift 2023</th>
-                      <th class="cal-toprow">Sun Jan 1</th>
-                      <th class="cal-toprow">Mon Jan 2</th>
-                      <th class="cal-toprow">Tue Jan 3</th>
-                      <th class="cal-toprow weekend">Wed Jan 4</th>
-                      <th class="cal-toprow weekend">Thur Jan 5</th>
-                      <th class="cal-toprow">Fri Jan 6</th>
-                      <th class="cal-toprow">Sat Jan 7</th>
-                    </tr>
+         
+          <div id="mySidenav" class="sidenav">
+        
+            <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 380px;">
+               
+                <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+                  <a class="navbar-brand" href="#">
+                    <a class="icon sli-close" onclick="closeNav()" style="cursor: pointer;"></a>
+                  </a>
+                </nav>
+
+                <ul class="nav nav-tabs mb-3 mt-1" role="tablist">
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-1" type="button" role="tab" aria-controls="tab-1" aria-selected="true">Job logs</button>
+                  </li>
+                </ul>
+
+
+                <div class="tab-content">
+                  <div class="tab-pane fade show active" id="tab-1" role="tabpanel">
+
+                    <div class="list-group list-group-flush border-bottom scrollarea" id="jobLogs">
+
+                      <div class="text-center" id="loader2">
+                        <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                        </div>
+                      </div>
+                     
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="tab-2" role="tabpanel">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab adipisci animi asperiores assumenda atque corporis culpa cumque cupiditate debitis dicta dignissimos dolor, dolorem dolores eius est et facere fugit harum hic illo impedit in libero nesciunt nisi nostrum obcaecati quae quam qui ratione reiciendis repellendus rerum sit soluta veritatis vitae voluptas?
+                  </div>
+                  <div class="tab-pane fade" id="tab-3" role="tabpanel">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus ad aliquid asperiores consequatur dolore error hic id magnam, optio, praesentium repellendus sunt tempora velit? Asperiores doloremque molestiae odio rem repellendus, sit totam voluptas! Commodi culpa, deserunt dolor et magnam molestiae mollitia necessitatibus officia officiis praesentium quam sit suscipit, tempore!
+                  </div>
+                </div>
           
-                  </thead>
-                  <tbody class="cal-tbody">
-                    <tr id="h16">
-                      <td class="cal-usersheader" style="color:#000; background-color:#389fe8; padding: 0px;">Guards</td>
-                      <td colspan="31" style="color:#FFFFFF; background-color:#389fe8;"></td>
-                    </tr>
-                    <tr id="u1">
-                      <td class="cal-userinfo" style="height: 100px;">
-                        <span class="float-right-top"><b style="text-decoration: underline" class="float-start">Van Els</b> Numan  ID:(12)<span></span></span>
-                        <div class="cal-usercounter">
-                          <span class="cal-userbadge badge badge-light w-100">Job-Summary</span>
-
-                          <div class="cal-userbadge  badge-warning">
-                            Assigned : <span class="text-muted"> 33.2hrs</span>
-                          </div>
-                          <div class="cal-userbadge  badge-warning">
-                            Worked : <span class="text-muted"> 33.2hrs</span>
-                          </div>
-
-                        </div>
-                        <div class="cal-userarrows">
-                          <i class="up mdi mdi-arrow-up-bold"></i><i class="down mdi mdi-arrow-down-bold"></i>
-                        </div>
-                      </td>
-
-                      <td class="ui-droppable" data-date="1/7/2020" data-userid="1">
-                        <div class="drag details ui-draggable ui-draggable-handle" data-taskid="13956" data-userid="1" style="border-left: 5px solid rgb(81, 255, 0); position: relative;">
-                          <h3 class="details-task" style=" background: #51FF00; color: #000000">Training</h3>
-                          <div class="details-uren">
-                           
-                            <div class="d-flex justify-content-between">
-                                  <div>
-
-                                      <a href="#" data-bs-toggle="popover" title="about ressigning shift" data-bs-content="When you reassign shift it does not delete the formal guard shift">
-                                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
-                                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-                                          </svg>
-                                        </a>
-
-                                  </div>
-                                  <div> 
-                                    15:00 - 16:30
-                                  </div>
-                            </div>
-
-                          </div>
-                        </div>
-                      </td>
-
-                      
-                      <td class="ui-droppable" data-date="2/7/2020" data-userid="1">
-                        <div class="drag details ui-draggable ui-draggable-handle" data-taskid="13957" data-userid="1" style="border-left: 5px solid rgb(121, 32, 32); position: relative;">
-                          <h3 class="details-task" style=" background: #792020; color: #FFFFFF">Day Shift</h3>
-                          <div class="details-uren">
-                            00:00 - 00:00
-                          </div>
-                        </div>
-                      </td>
-                      <td class="ui-droppable" data-date="3/7/2020" data-userid="1">
-                        <div class="drag details ui-draggable ui-draggable-handle" data-taskid="13959" data-userid="1" style="border-left: 5px solid rgb(175, 0, 0); position: relative;">
-                          <h3 class="details-task" style=" background: #AF0000; color: #FFFFFF">Sick</h3>
-                          <div class="details-uren">
-                            00:00 - 00:00
-                          </div>
-                        </div>
-                      </td>
-                      <td class="weekend ui-droppable" data-date="4/7/2020" data-userid="1">
-                        <div class="drag details ui-draggable ui-draggable-handle" data-taskid="13958" data-userid="1" style="border-left: 5px solid rgb(36, 115, 171); position: relative;">
-                          <h3 class="details-task" style=" background: #2473AB; color: #FFFFFF">Late shift</h3>
-                          <div class="details-uren">
-                            07:30 - 16:30
-                          </div>
-                        </div>
-                      </td>
-                      <td class="weekend ui-droppable" data-date="5/7/2020" data-userid="1">
-                        <div class="drag details ui-draggable ui-draggable-handle" data-taskid="12179" data-userid="1" style="border-left: 5px solid rgb(30, 137, 90); position: relative;">
-                          <h3 class="details-task" style=" background: #1E895A; color: #FFFFFF">Vacation</h3>
-                          <div class="details-uren">
-                            00:00 - 00:00
-                          </div>
-                        </div>
-                      </td>
-                      <td class="ui-droppable" data-date="6/7/2020" data-userid="1">
-                        <div class="drag details ui-draggable ui-draggable-handle" data-taskid="12316" data-userid="1" style="border-left: 5px solid rgb(126, 126, 126); position: relative;">
-                          <h3 class="details-task" style=" background: #7E7E7E; color: #FFFFFF">Rest</h3>
-                          <div class="details-uren">
-                            00:00 - 00:00
-                          </div>
-                        </div>
-                      </td>
-                      <td class="ui-droppable" data-date="7/7/2020" data-userid="1">
-                        <div class="drag details ui-draggable ui-draggable-handle" data-taskid="12117" data-userid="1" style="border-left: 5px solid rgb(126, 126, 126); position: relative;">
-                          <h3 class="details-task" style=" background: #7E7E7E; color: #FFFFFF">Rest</h3>
-                          <div class="details-uren">
-                            00:00 - 00:00
-                          </div>
-                        </div>
-                      </td>
-                                 
-                    </tr>
-                    <tr id="u2">
-                      <td class="cal-userinfo" style="height: 100px;">
-                        <span class="float-right-top"><b style="text-decoration: underline" class="float-start">Van Els</b> Numan  ID:(11)<span></span></span>
-                        <div class="cal-usercounter">
-                          <span class="cal-userbadge badge badge-light w-100">Job-Summary</span>
-
-                          <div class="cal-userbadge  badge-warning">
-                            Assigned : <span class="text-muted"> 33.2hrs</span>
-                          </div>
-                          <div class="cal-userbadge  badge-warning">
-                            Worked : <span class="text-muted"> 30.2hrs</span>
-                          </div>
-
-                        </div>
-                        <div class="cal-userarrows">
-                          <i class="up mdi mdi-arrow-up-bold"></i><i class="down mdi mdi-arrow-down-bold"></i>
-                        </div>
-                      </td>
-
-                      <td class="ui-droppable" data-date="1/7/2020" data-userid="2"></td>
-                      <td class="ui-droppable" data-date="2/7/2020" data-userid="2">
-                        <div class="drag details ui-draggable ui-draggable-handle" data-taskid="12326" data-userid="2" style="border-left: 5px solid rgb(36, 115, 171); position: relative;">
-                          <h3 class="details-task" style=" background: #2473AB; color: #FFFFFF">Late shift</h3>
-                          <div class="details-uren">
-                            11:00 - 18:00
-                          </div>
-                        </div>
-                      </td>
-                      <td class="ui-droppable" data-date="3/7/2020" data-userid="2">
-                        <div class="drag details ui-draggable ui-draggable-handle" data-taskid="11978" data-userid="2" style="border-left: 5px solid rgb(255, 184, 72); position: relative;">
-                          <h3 class="details-task" style=" background: #FFB848; color: #000000">Late shift</h3>
-                          <div class="details-uren">
-                            17:00 - 00:00
-                          </div>
-                        </div>
-                      </td>
-                      <td class="weekend ui-droppable" data-date="4/7/2020" data-userid="2">
-                        <div class="drag details ui-draggable ui-draggable-handle" data-taskid="12189" data-userid="2" style="border-left: 5px solid rgb(189, 0, 0); position: relative;">
-                          <h3 class="details-task" style=" background: #BD0000; color: #FFFFFF">Extra shift</h3>
-                          <div class="details-uren">
-                            21:00 - 04:00
-                          </div>
-                        </div>
-                      </td>
-                      <td class="weekend ui-droppable" data-date="5/7/2020" data-userid="2">
-                        <div class="drag details ui-draggable ui-draggable-handle" data-taskid="12169" data-userid="2" style="border-left: 5px solid rgb(30, 137, 90); position: relative;">
-                          <h3 class="details-task" style=" background: #1E895A; color: #FFFFFF">Vacation</h3>
-                          <div class="details-uren">
-                            00:00 - 00:00
-                          </div>
-                        </div>
-                      </td>
-                      <td class="ui-droppable" data-date="6/7/2020" data-userid="2">
-                        <div class="drag details ui-draggable ui-draggable-handle" data-taskid="13941" data-userid="2" style="border-left: 5px solid rgb(175, 0, 0); position: relative;">
-                          <h3 class="details-task" style=" background: #AF0000; color: #FFFFFF">Sick</h3>
-                          <div class="details-uren">
-                            00:00 - 00:00
-                          </div>
-                        </div>
-                      </td>
-                      <td class="ui-droppable" data-date="7/7/2020" data-userid="2">
-                        <div class="drag details ui-draggable ui-draggable-handle" data-taskid="12127" data-userid="2" style="border-left: 5px solid rgb(36, 115, 171); position: relative;">
-                          <h3 class="details-task" style=" background: #2473AB; color: #FFFFFF">Late shift</h3>
-                          <div class="details-uren">
-                            15:00 - 22:00
-                          </div>
-                        </div>
-                      </td>
-                                     
-                    </tr>
-                    <tr id="u3">
-
-                      <td class="cal-userinfo" style="height: 100px;">
-                        <span class="float-right-top"><b style="text-decoration: underline" class="float-start">Van Els</b> Numan  ID:(8)<span></span></span>
-                        <div class="cal-usercounter">
-                          <span class="cal-userbadge badge badge-light w-100">Job-Summary</span>
-
-                          <div class="cal-userbadge  badge-warning">
-                            Assigned : <span class="text-muted"> 33.2hrs</span>
-                          </div>
-                          <div class="cal-userbadge  badge-warning">
-                            Worked : <span class="text-muted"> 12.2hrs</span>
-                          </div>
-
-                        </div>
-                        <div class="cal-userarrows">
-                          <i class="up mdi mdi-arrow-up-bold"></i><i class="down mdi mdi-arrow-down-bold"></i>
-                        </div>
-                      </td>
-                      <td class="ui-droppable" data-date="1/7/2020" data-userid="3">
-                        <div class="drag details ui-draggable ui-draggable-handle" data-taskid="12938" data-userid="3" style="border-left: 5px solid rgb(36, 115, 171); position: relative;">
-                          <h3 class="details-task" style=" background: #2473AB; color: #FFFFFF">Late shift</h3>
-                          <div class="details-uren">
-                            12:00 - 19:00
-                          </div>
-                        </div>
-                      </td>
-                      <td class="ui-droppable" data-date="2/7/2020" data-userid="3">
-                      </td>
-                      <td class="ui-droppable" data-date="3/7/2020" data-userid="3">
-                        <div class="drag details ui-draggable ui-draggable-handle" data-taskid="12266" data-userid="3" style="border-left: 5px solid rgb(36, 115, 171); position: relative;">
-                          <h3 class="details-task" style=" background: #2473AB; color: #FFFFFF">Late shift</h3>
-                          <div class="details-uren">
-                            05:00 - 12:00
-                          </div>
-                        </div>
-                      </td>
-                      <td class="weekend ui-droppable" data-date="4/7/2020" data-userid="3">
-                        <div class="drag details ui-draggable ui-draggable-handle" data-taskid="12286" data-userid="3" style="border-left: 5px solid rgb(36, 115, 171); position: relative;">
-                          <h3 class="details-task" style=" background: #2473AB; color: #FFFFFF">Late shift</h3>
-                          <div class="details-uren">
-                            07:00 - 14:00
-                          </div>
-                        </div>
-                      </td>
-                      <td class="weekend ui-droppable" data-date="5/7/2020" data-userid="3">
-                        <div class="drag details ui-draggable ui-draggable-handle" data-taskid="12107" data-userid="3" style="border-left: 5px solid rgb(126, 126, 126); position: relative;">
-                          <h3 class="details-task" style=" background: #7E7E7E; color: #FFFFFF">Rest</h3>
-                          <div class="details-uren">
-                            00:00 - 00:00
-                          </div>
-                        </div>
-                      </td>
-                      <td class="ui-droppable" data-date="6/7/2020" data-userid="3">
-                        <div class="drag details ui-draggable ui-draggable-handle" data-taskid="12276" data-userid="3" style="border-left: 5px solid rgb(36, 115, 171); position: relative;">
-                          <h3 class="details-task" style=" background: #2473AB; color: #FFFFFF">Late shift</h3>
-                          <div class="details-uren">
-                            06:00 - 13:00
-                          </div>
-                        </div>
-                      </td>
-                      <td class="ui-droppable" data-date="7/7/2020" data-userid="3">
-                        <div class="drag details ui-draggable ui-draggable-handle" data-taskid="12249" data-userid="3" style="border-left: 5px solid rgb(36, 115, 171); position: relative;">
-                          <h3 class="details-task" style=" background: #2473AB; color: #FFFFFF">Late shift</h3>
-                          <div class="details-uren">
-                            03:00 - 10:00
-                          </div>
-                        </div>
-                      </td>
-       
-                                   
-                    
-                    </tr>
-                    <tr id="u4">
-                      <td class="cal-userinfo" style="height: 100px;">
-                        <span class="float-right-top"><b style="text-decoration: underline" class="float-start">Van Els</b> Numan  ID:(9)<span></span></span>
-                        <div class="cal-usercounter">
-                          <span class="cal-userbadge badge badge-light w-100">Job-Summary</span>
-
-                          <div class="cal-userbadge  badge-warning">
-                            Assigned : <span class="text-muted"> 33.2hrs</span>
-                          </div>
-                          <div class="cal-userbadge  badge-warning">
-                            Worked : <span class="text-muted"> 12.2hrs</span>
-                          </div>
-
-                        </div>
-                        <div class="cal-userarrows">
-                          <i class="up mdi mdi-arrow-up-bold"></i><i class="down mdi mdi-arrow-down-bold"></i>
-                        </div>
-                      </td>
-                      <td class="ui-droppable" data-date="1/7/2020" data-userid="4">
-                        <div class="drag details ui-draggable ui-draggable-handle" data-taskid="12129" data-userid="4" style="border-left: 5px solid rgb(36, 115, 171); position: relative;">
-                          <h3 class="details-task" style=" background: #2473AB; color: #FFFFFF">Late shift</h3>
-                          <div class="details-uren">
-                            15:00 - 22:00
-                          </div>
-                        </div>
-                      </td>
-                      <td class="ui-droppable" data-date="2/7/2020" data-userid="4">
-                        <div class="drag details ui-draggable ui-draggable-handle" data-taskid="13954" data-userid="4" style="border-left: 5px solid rgb(126, 126, 126); position: relative;">
-                          <h3 class="details-task" style=" background: #7E7E7E; color: #FFFFFF">Rest</h3>
-                          <div class="details-uren">
-                            00:00 - 00:00
-                          </div>
-                        </div>
-                      </td>
-                      <td class="ui-droppable" data-date="3/7/2020" data-userid="4">
-                        <div class="drag details ui-draggable ui-draggable-handle" data-taskid="12149" data-userid="4" style="border-left: 5px solid rgb(36, 115, 171); position: relative;">
-                          <h3 class="details-task" style=" background: #2473AB; color: #FFFFFF">Late shift</h3>
-                          <div class="details-uren">
-                            17:00 - 00:00
-                          </div>
-                        </div>
-                      </td>
-                      <td class="weekend ui-droppable" data-date="4/7/2020" data-userid="4">
-                        <div class="drag details ui-draggable ui-draggable-handle" data-taskid="13952" data-userid="4" style="border-left: 5px solid rgb(189, 0, 0); position: relative;">
-                          <h3 class="details-task" style=" background: #BD0000; color: #FFFFFF">Extra shift</h3>
-                          <div class="details-uren">
-                            11:00 - 18:00
-                          </div>
-                        </div>
-                      </td>
-                      <td class="weekend ui-droppable" data-date="5/7/2020" data-userid="4">
-                        <div class="drag details ui-draggable ui-draggable-handle" data-taskid="13953" data-userid="4" style="border-left: 5px solid rgb(126, 126, 126); position: relative;">
-                          <h3 class="details-task" style=" background: #7E7E7E; color: #FFFFFF">Rest</h3>
-                          <div class="details-uren">
-                            00:00 - 00:00
-                          </div>
-                        </div>
-                      </td>
-                      <td class="ui-droppable" data-date="6/7/2020" data-userid="4">
-                        <div class="drag details ui-draggable ui-draggable-handle" data-taskid="12356" data-userid="4" style="border-left: 5px solid rgb(36, 115, 171); position: relative;">
-                          <h3 class="details-task" style=" background: #2473AB; color: #FFFFFF">Late shift</h3>
-                          <div class="details-uren">
-                            14:00 - 21:00
-                          </div>
-                        </div>
-                      </td>
-                     
-                     
-  
-                    </tr>
-                    
-                
-                  </tbody>
-                </table>
-              </div>
+            
             </div>
+
           </div>
           
+       
+          
+          <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+          <div id="main">
+
+            <div class="table-responsive">
+              <div data-parse="1595877840000" id="calplaceholder" style="max-height: 500px; margin-bottom: 0;">
+                <div class="cal-sectionDiv">
+                  <table class="table table-striped table-bordered">
+                    <thead class="cal-thead sticky-top">
+  
+                      <tr id="calendarHead">
+                        
+                      </tr>
+            
+                    </thead>
+                    <tbody class="cal-tbody" id="calendarBody">          
+                      
+                  
+                    </tbody>
+                  </table>
+                  <div class="text-center" id="loader1">
+                    <div class="spinner-border" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+
+
+            
+          </div>
           <!-- DISPLAY MODAL: EDIT -->
           <div class="modal fade" id="edittask" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Edit Task</h5>
+                  <h5 class="modal-title" id="exampleModalLabel">Job detail</h5>
         
                   <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
                     <i class="icofont-close-line"></i>
@@ -704,14 +464,70 @@
                 </div>
                 <div id="modal-edit" class="modal-body">
                 
-                  <div class="input-group mb-2">
-                    <label for="cono1" class="col-sm-2 text-left control-label col-form-label nowrap">Job description:</label>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, </p>
-                  </div>
-                  <div class="input-group mb-2">
-                    <label for="cono1" class="col-sm-2 text-left control-label col-form-label nowrap">Date created:</label>
-                    <div class="w-100">2023-02-02 02:02 AM</div>
-                  </div>
+
+                    <div class="card-body ">
+                      <div class="d-flex align-items-center justify-content-between mb-3 user-actions">
+                        <img src="assets/content/fbyDefaultIMG.png" width="100" id="avatar2" height="100" alt="" class="rounded-500 me-4">
+
+                        <div id="modalButton">
+                        </div>
+                      </div>
+    
+                     
+
+                      <div class="d-flex justify-content-between">
+                        <div class="p-2">
+                          <div class="d-flex align-items-center justify-content-between">
+                            <h5 class="mb-0 mt-0 me-1">Created at</h5>
+                          </div>
+                          <p class="text-muted" id="dateCreated">
+    
+                          </p>
+                        </div>
+                        <div class="p-2">
+                          <div class="d-flex align-items-center justify-content-between" id="reassignContainer">
+                            
+
+                          </div>
+                      
+                        </div>
+                      </div>
+
+                      <table class="table table-striped">
+                        <tbody>
+                          <tr>
+                            <td>Job description </td>
+                            <td >
+                              <div style="max-width:240px;" id="jobDes">
+
+                              </div>
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td>Customer </td>
+                            <td  id="customer" ></td>
+                          </tr>
+                          <tr>
+                            <td>Site</td>
+                            <td id="site"></td>
+                          </tr>
+                          <tr>
+                            <td>Job amount($)</td>
+                            <td id="jobA"></td>
+                          </tr>
+                          <tr>
+                            <td>Hourly pay  ($)</td>
+                            <td id="hourlyP"></td>
+                          </tr>
+                        </tbody>
+                      </table>
+
+                    </div>
+            
+
+                  
+
                  
                 </div>
                 <div class="modal-footer">
@@ -740,62 +556,63 @@
           </div>
         </main>
 
-        <div class="app-footer">
-          <div class="footer-wrap">
-            <div class="row h-100 align-items-center">
-              <div class="col-12 col-md-6 d-none d-md-block">
-                <ul class="page-breadcrumbs">
-                  <li class="item">
-                    <a href=# class="link">FBY ADMIN</a>
-    
-                    <i class="separator icofont-thin-right"></i>
-                  </li>
-    
-                  <li class="item">
-                    <a href=# class="link">Calender</a>
-                    <i class="separator icofont-thin-right"></i>
-                  </li>
-                </ul>
+      
+
+
+
+
+
+
+        <div class="modal fade" id="add-guard2" tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered ">
+            <div class="modal-content">
+              <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                <i class="icofont-close-line"></i>
+              </button>
+              <div class="modal-header">
+                <h5 class="modal-title">Reassign Guard</h5>
               </div>
-
-              <div class="col-12 col-md-6 text-end">
-                <div
-                  class="d-flex align-items-center justify-content-center justify-content-md-end"
-                >
-                  <span>Version 1.0</span>
-                  <button
-                    class="no-style ms-2 settings-btn"
-                    data-bs-toggle="modal"
-                    data-bs-target="#settings"
-                  >
-                    <span class="icon icofont-ui-settings text-primary"></span>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div class="footer-skeleton">
-              <div class="row align-items-center">
-                <div class="col-12 col-md-6 d-none d-md-block">
-                  <ul class="page-breadcrumbs">
-                    <li class="item bg-1 animated-bg"></li>
-                    <li class="item bg animated-bg"></li>
-                  </ul>
-                </div>
-
-                <div class="col-12 col-md-6">
-                  <div
-                    class="info justify-content-center justify-content-md-end"
-                  >
-                    <div class="version bg animated-bg"></div>
-                    <div class="settings animated-bg"></div>
+      
+              <form id="reassignForm">
+              <div class="modal-body">
+                  <div class="card">
+                    <div class="card-body">
+                        <div class="form-group ">
+                          <label>Add multiple or single Guard
+                              <a  class="gear"  href="#"  data-bs-toggle="popover" title="about ressigning Job" data-bs-content="When you reassign Job from here the initial guard will be removed from the job. you can go inside job logs and see other option for reasigning job">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                                  </svg>
+                                </a>
+                              
+                          </label>
+                          <select class="selectpicker selectpickerReassign" data-live-search="true" id="selectpickerReassignId" multiple required>
+                            
+                          </select>
+                        </div>
+      
+                    </div>
+      
                   </div>
+                  <div>
+                  </div>
+      
+                
+              </div>
+              <div class="modal-footer d-block">
+                <div class="actions justify-content-between">
+                  <button type="button" class="btn btn-error" data-bs-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-info">Assign</button>
                 </div>
               </div>
+      
+             </form>
             </div>
           </div>
         </div>
 
+      
         <div class="content-overlay"></div>
       </div>
     </div>
@@ -955,6 +772,51 @@
     </div>
     <!-- end Add patients modals -->
 
+
+
+    
+    <div class="modal fade" id="RegisterationSuccessFull" style="z-index:10000;" tabindex="-1" role="dialog"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div id="RegisterationSuccessFullContent" class="alert alert-primary outline  text-center"
+                        role="alert">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal"  id="view_location" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+    aria-hidden="true">
+        <div class="modal-dialog  modal-xl">
+          <div class="modal-content">
+          
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                <i class="icofont-close-line"></i>
+              </button>
+
+              <div class="modal-header">
+                <h5 class="modal-title"></h5>
+              </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <div id="map" style="width: 100%; height: 300px;"></div>
+                
+            </div>
+            
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+            
+          </div>
+        </div>
+    </div>
+
+
     <script src="assets/js/jquery-3.6.0.min.js"></script>
     <script src="assets/js/jquery-migrate-1.4.1.min.js"></script>
     <script src="assets/js/popper.min.js"></script>
@@ -966,13 +828,7 @@
 
     <script src="assets/js/globalVar.js"></script>
 
-    <script>
-      //this script allows pop over 
-      var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
-      var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-          return new bootstrap.Popover(popoverTriggerEl)
-      })
-  </script>
+
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -985,6 +841,23 @@
     <script src="assets/js/main.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script>
     <script src="https://cdn.datatables.net/datetime/1.1.2/js/dataTables.dateTime.min.js"></script>
+
+    <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-ppGbdkgQXBwhwiPIYtSYAjowZe0u4cc&callback=initMap&libraries=places&v=weekly" defer>
+  </script>
+    <script>
+      //this script allows pop over 
+      var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+      var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+          return new bootstrap.Popover(popoverTriggerEl)
+      })
+
+      
+  </script>
   
   </body>
+
+
+
+  
 </html>

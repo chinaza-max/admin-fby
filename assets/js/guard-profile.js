@@ -1,4 +1,4 @@
-let guard_id=activeUserID
+let guard_id=activeGuardID
 
 let getProfileData
 let getAllJobDoneByGuard
@@ -279,7 +279,7 @@ function fetchJob(id){
         $("#job_status").text(data.data.payment_status)
         $("#jobDes").text(data.data.description)
 
-        let data2=`<a onclick="storeCurrentUserID(${data.data.id})" href="guard-in-job.html"  class="btn btn-outline-primary">
+        let data2=`<a onclick="storeCurrentJobID(${data.data.id})" href="guard-in-job.html"  class="btn btn-outline-primary">
         More<span class="btn-icon icofont-prescription ms-2"></span>
       </a>
     `

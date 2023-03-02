@@ -7,7 +7,10 @@ offset3=0,
 customer_id=0;
 
 let suspensionReason=[]
-
+let myCoor
+getLatAndLon(function(latLon) {
+  myCoor= latLon;
+})
 
 
 
@@ -48,16 +51,17 @@ formAdminReg.addEventListener("submit",(e)=>{
                     email,
                     gender,
                     address,
+                    latitude: Number(myCoor.lat).toFixed(8),
+                    longitude: Number(myCoor.lon).toFixed(8),
                     phone_number:Phone_number
             },
             success: function (data) {
   
-                console.log(data)
-
                 showModal(data.message)
                 limit=15
                 offset=0
-                getTableDate(limit,offset)
+                $('#example').DataTable().clear().destroy();
+                getTableDate()
 
                 setTimeout(() => {
                         hideModal()
@@ -72,8 +76,6 @@ formAdminReg.addEventListener("submit",(e)=>{
                 $("#signInButton").css("display","block")
                 $("#loadingButton").css("display","none")
                
-                console.log(request.responseJSON.status)
-
               analyzeError(request)
              
             }
@@ -114,14 +116,132 @@ formAdminReg.addEventListener("submit",(e)=>{
 
 let getTableDate=''
 let getTableDate2=''
+let getTableData3=''
 
 $(document).ready(function(){
     //FOR ALL CUSTOMER
-    getTableDate=function ( limit,offset){
-        $('#loader1').css("display","block");
+    getTableDate=()=>{
+      table=$('#example').DataTable({
+        ajax: {
+            url:`${domain}/api/v1/customer`,
+            method: "get",
+            dataType  : 'json',
+            encode  : true,  
+            headers: {
+              "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+            }
+          },
+         
+          columnDefs: [
+            {
+              render: function (data, type, full, meta) {
+  
+                return `<img src=${data} alt="" width="40" height="40" class="rounded-500">`
+              },
+              targets: 0
+            },
+            
+            {
+              render: function (data, type, full, meta) {
+                return  `<span  width="2" >${data}</span>`
+    
+              },
+              targets: 1
+            }
+            ,
+            {
+              render: function (data, type, full, meta) {
+                return  `<strong>${data.length}</strong>`
+    
+              },
+              targets: 2
+            }
+            ,
+            {
+              render: function (data, type, full, meta) {
+    
+                return  `<div style="max-width:200px;min-width:200px" >${data}</div>`
+    
+              },
+              targets: 3
+            }
+            ,
+            {
+              render: function (data, type, full, meta) {
+    
+                return  ` <div class="d-flex align-items-center nowrap text-primary">
+                <span class="icofont-ui-email p-0 me-2"></span>
+                ${data}
+              </div>`
+    
+              },
+              targets: 4
+            }
+            ,
+            {
+              render: function (data, type, full, meta) {
+                return  ` <div class="d-flex align-items-center nowrap text-primary">
+                <span class="icofont-ui-cell-phone p-0 me-2"></span>
+                ${data}
+              </div>`
+             
+              },
+              targets: 5
+            }
+            ,
+            {
+              render: function (data, type, full, meta) {
+    
+                return  `
+                
+                    <div class="actions">
+                    <a onclick="storeCurrentCustomerID(${data})"  href="addSite.html"  class="btn btn-dark btn-sm btn-square rounded-pill">
+                      <span class="btn-icon icofont-external-link"></span>
+                    </a>
+                    <a  onclick="storeCurrentCustomerID(${data})" href="customer-profile.html"  class="btn btn-info btn-sm btn-square rounded-pill">
+                      <span class="btn-icon icofont-ui-edit"></span>
+                    </a>
+                    <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteCustomer(${data})" >
+                      <span class="btn-icon icofont-ui-delete"></span>
+                    </button>
+
+                    <button onclick="update_customer_id(${data})" class="btn btn-error btn-sm btn-square rounded-pill" 
+                    data-bs-toggle="modal" data-bs-target="#suspend" 
+                    >
+                    <div class="icon sli-user-unfollow"></div>
+                  </button>
+                  </div>
+              `
+              },
+              targets: 7
+            }
+          ],
+          
+          columns:[
+            { data: "image" },
+            { data: "company_name" },
+            { data: "sites" },
+            { data: "address" },
+            { data: "email" },
+            { data: "phone_number" },
+            { data: "gender" },
+            { data: "id" }
+          ],
+      })
+
+    
+      
+    }
+    getTableDate()
+
+
+
+
+    getTableDate2=function ( limit,offset){
+        $('#loader2').css("display","block");
 
         $.ajax({
-            type: "get", url:`${domain}/api/v1/customer?limit=${limit}&offset=${offset}`,
+            type: "get", url:`${domain}/api/v1/customer/suspended_customers?limit=${limit}&offset=${offset}`,
             headers: {
                 "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
             },
@@ -130,98 +250,90 @@ $(document).ready(function(){
           
             success: function (data) {
                 
-                $('#loader1').css("display","none");
+                $('#loader2').css("display","none");
+                suspensionReason=data.data
+                CreateTable2(data.data)
 
-                CreateTable(data.data)
-             
             },
             error: function (request, status, error) {
-
-                $('#loader1').css("display","none");
+                $('#loader2').css("display","none");
                 analyzeError(request)
-             
+            
             }
         });
     }
 
-    getTableDate(limit,offset)
-    function CreateTable(val){
+    getTableDate2(limit2,offset2)
+    function CreateTable2(val){
 
         let data=''
         if(val.length!=0){
 
             for(let i=0; i<val.length; i++){
-                data+= `  <tr>
-                <td>
-                ${offset+i+1}
-              </td>
-                <td>
-                  <img src=${val[i].image} alt="" width="40" height="40" class="rounded-500">
+                data+= ` 
+                <tr>
+                  <td>
+                  ${offset2+i+1}
                 </td>
-                
-                <td>
-                  <strong>${val[i].company_name}</strong>
-                </td>
-                
-                <td>
-                  <div class="text-muted text-nowrap">${val[i].sites.length}</div>
-                </td>
-                <td>
-                  <div class="address-col">${val[i].address}</div>
-                </td>
-                <td>
-                  <div class="d-flex align-items-center nowrap text-primary">
-                  ${val[i].email}
-                  </div>
-                </td>
+                  <td>
+                    <img src=${val[i].image} alt="" width="40" height="40" class="rounded-500">
+                  </td>
+                  
+                  <td>
+                    <strong>${val[i].company_name}</strong>
+                  </td>
+                  
+                  <td>
+                    <div class="text-muted text-nowrap">${val[i].sites.length}</div>
+                  </td>
+                  <td>
+                    <div class="address-col">${val[i].address}</div>
+                  </td>
+                  <td>
+                    <div class="d-flex align-items-center nowrap text-primary">
+                    <span class="icofont-ui-email p-0 me-2"></span>
+                      ${val[i].email}
+                    </div>
+                  </td>
 
-                <td>
+                  <td>
+                        <div class="d-flex align-items-center nowrap text-primary">
+                          <span class="icofont-ui-cell-phone p-0 me-2"></span>
+                          ${val[i].phone_number}
+                        </div>
+                  </td>
+                  <td>
+                    <div class="text-muted text-nowrap">${val[i].gender}</div>
+                  </td>
+                  <td>
+                    <div class="actions">
+                      <button onclick="displaySuspensionReason(${i})"  data-bs-toggle="modal" data-bs-target="#suspension_details"  class="btn btn-dark btn-sm btn-square rounded-pill">
+                        <span class="btn-icon icofont-external-link"></span>
+                      </button>
 
-                  <div class="d-flex align-items-center nowrap text-primary">
-                        <span class="icofont-ui-cell-phone p-0 me-2"></span>
-                        ${val[i].phone_number}
-                      </div>
-                </td>
-                <td>
-                  <div class="text-muted text-nowrap">${val[i].gender}</div>
-                </td>
-                <td>
-                  <div class="actions">
-                    <a onclick="storeCurrentUserID(${val[i].id})"  href="addSite.html"  class="btn btn-dark btn-sm btn-square rounded-pill">
-                      <span class="btn-icon icofont-external-link"></span>
-                    </a>
-                    <a  onclick="storeCurrentUserID(${val[i].id})" href="customer-profile.html"  class="btn btn-info btn-sm btn-square rounded-pill">
-                      <span class="btn-icon icofont-ui-edit"></span>
-                    </a>
-                    <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteCustomer(${val[i].address_id})">
-                      <span class="btn-icon icofont-ui-delete"></span>
-                    </button>
+                      <button onclick="unSuspend(${val[i].id})" class="btn btn-error btn-sm btn-square rounded-pill" >
+                      <div class="icon sli-user-following"></div>
+                      </button>
 
-                    <button onclick="update_customer_id(${val[i].id})" class="btn btn-error btn-sm btn-square rounded-pill" 
-                    data-bs-toggle="modal" data-bs-target="#suspend" 
-                     onclick="">
-                    <div class="icon sli-user-unfollow"></div>
-                  </button>
-
-
-                  </div>
-                </td>
-              </tr>`
+                    </div>
+                  </td>
+                </tr>
+  `
 
                 if(i==val.length-1){
 
-                    $('#mytable1').children().remove();
-                    $("#mytable1").append(data)
+                    $('#mytable2').children().remove();
+                    $("#mytable2").append(data)
                 }
             }
           }else{
 
-            $('#mytable1').children().remove();
-            $("#mytable1").append(`    <tr>
+            $('#mytable2').children().remove();
+            $("#mytable2").append(`    <tr>
             <td colspan="1000">
             
             <div class="alert alert-light outline text-dark " role="alert" style="text-align:center;">
-            YOU HAVE NO AVAILABLE CUSTOMER 
+            YOU HAVE NO SUSPENDED CUSTOMER
           </div>
             </td>
           </tr>`)
@@ -229,114 +341,143 @@ $(document).ready(function(){
 
 
     }
-    
-    getTableDate2=function ( limit,offset){
-      $('#loader2').css("display","block");
-
-      $.ajax({
-          type: "get", url:`${domain}/api/v1/customer/suspended_customers?limit=${limit}&offset=${offset}`,
-          headers: {
-              "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
-          },
-          dataType  : 'json',
-          encode  : true,
-        
-          success: function (data) {
-              
-              $('#loader2').css("display","none");
-              console.log(data)
-              suspensionReason=data.data
-              CreateTable2(data.data)
-
-          },
-          error: function (request, status, error) {
-              $('#loader2').css("display","none");
-              analyzeError(request)
-           
-          }
-      });
-  }
-
-  getTableDate2(limit2,offset2)
-  function CreateTable2(val){
-
-      let data=''
-      if(val.length!=0){
-
-          for(let i=0; i<val.length; i++){
-              data+= ` 
-              <tr>
-                <td>
-                ${offset2+i+1}
-              </td>
-                <td>
-                  <img src=${val[i].image} alt="" width="40" height="40" class="rounded-500">
-                </td>
-                
-                <td>
-                  <strong>${val[i].company_name}</strong>
-                </td>
-                
-                <td>
-                  <div class="text-muted text-nowrap">${val[i].sites.length}</div>
-                </td>
-                <td>
-                  <div class="address-col">${val[i].address}</div>
-                </td>
-                <td>
-                  <div class="d-flex align-items-center nowrap text-primary">
-                  ${val[i].email}
-                  </div>
-                </td>
-
-                <td>
-
-                  <div class="d-flex align-items-center nowrap text-primary">
-                        <span class="icofont-ui-cell-phone p-0 me-2"></span>
-                        ${val[i].phone_number}
-                      </div>
-                </td>
-                <td>
-                  <div class="text-muted text-nowrap">${val[i].gender}</div>
-                </td>
-                <td>
-                  <div class="actions">
-                    <button onclick="displaySuspensionReason(${i})"  data-bs-toggle="modal" data-bs-target="#suspension_details"  class="btn btn-dark btn-sm btn-square rounded-pill">
-                      <span class="btn-icon icofont-external-link"></span>
-                    </button>
-
-                    <button onclick="unSuspend(${val[i].id})" class="btn btn-error btn-sm btn-square rounded-pill" >
-                     <div class="icon sli-user-following"></div>
-                    </button>
-
-                  </div>
-                </td>
-              </tr>
-`
-
-              if(i==val.length-1){
-
-                  $('#mytable2').children().remove();
-                  $("#mytable2").append(data)
-              }
-          }
-        }else{
-
-          $('#mytable2').children().remove();
-          $("#mytable2").append(`    <tr>
-          <td colspan="1000">
-          
-          <div class="alert alert-light outline text-dark " role="alert" style="text-align:center;">
-          YOU HAVE NO SUSPENDED CUSTOMER
-        </div>
-          </td>
-        </tr>`)
-        }
-
-
-  }
   
 
+    //FOR DELETED CUSTOMER
+
+/*
+  <div class="d-flex align-items-center nowrap text-primary">
+  ${val[i].email}
+  </div>
+  */
+    getTableData3 =()=>{
+      table=$('#example3').DataTable({
+        ajax: {
+            url:`${domain}/api/v1/customer/deleted_customers`,
+            method: "get",
+            dataType  : 'json',
+            encode  : true,  
+           
+            headers: {
+              "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+            }
+          },
+         
+          columnDefs: [
+            {
+              render: function (data, type, full, meta) {
+  
+                return `<img src=${data} alt="" width="40" height="40" class="rounded-500">`
+              },
+              targets: 0
+            },
+            
+            {
+              render: function (data, type, full, meta) {
+                return  `<span  width="2" >${data}</span>`
+    
+              },
+              targets: 1
+            }
+            ,
+            {
+              render: function (data, type, full, meta) {
+                return  `<strong>${data.length}</strong>`
+    
+              },
+              targets: 2
+            }
+            ,
+            {
+              render: function (data, type, full, meta) {
+    
+                return  `<div style="max-width:200px;min-width:200px" >${data}</div>`
+    
+              },
+              targets: 3
+            }
+            ,
+            {
+              render: function (data, type, full, meta) {
+    
+                return  ` <div class="d-flex align-items-center nowrap text-primary">
+                <span class="icofont-ui-email p-0 me-2"></span>
+                ${data}
+              </div>`
+    
+              },
+              targets: 4
+            }
+            ,
+            {
+              render: function (data, type, full, meta) {
+                return  ` <div class="d-flex align-items-center nowrap text-primary">
+                <span class="icofont-ui-cell-phone p-0 me-2"></span>
+                ${data}
+              </div>`
+             
+              },
+              targets: 5
+            }
+            ,
+            {
+              render: function (data, type, full, meta) {
+    
+                return  `
+                
+                    <div class="actions">
+                    <a onclick="storeCurrentCustomerID(${data})"  href="addSite.html"  class="btn btn-dark btn-sm btn-square rounded-pill disabled">
+                      <span class="btn-icon icofont-external-link"></span>
+                    </a>
+                    <a  onclick="storeCurrentCustomerID(${data})" href="customer-profile.html"  class="btn btn-info btn-sm btn-square rounded-pill disabled">
+                      <span class="btn-icon icofont-ui-edit"></span>
+                    </a>
+                    <button class="btn btn-error btn-sm btn-square rounded-pill disabled" onclick="deleteCustomer(${data})" >
+                      <span class="btn-icon icofont-ui-delete disabled"></span>
+                    </button>
+
+                    <button onclick="update_customer_id(${data})" class="btn btn-error btn-sm btn-square rounded-pill disabled" 
+                    data-bs-toggle="modal" data-bs-target="#suspend" 
+                    >
+                    <div class="icon sli-user-unfollow"></div>
+                  </button>
+                  </div>
+              `
+              },
+              targets: 7
+            }
+          ],
+          
+          columns:[
+            { data: "image" },
+            { data: "company_name" },
+            { data: "sites" },
+            { data: "address" },
+            { data: "email" },
+            { data: "phone_number" },
+            { data: "gender" },
+            { data: "id" }
+          ],
+      })
+
+/*
+      setTimeout(() => {
+    
+        var column1 = table.column(6);
+        column1.visible(!column1.visible());
+        var column2 = table.column(7);
+        column2.visible(!column2.visible());
+    
+        }, 100);
+
+*/
+        
+    }
+    getTableData3()
+      
+   
+
+    
 
   });
 
@@ -443,7 +584,6 @@ function page2(val){
 
 function deleteCustomer(id){
 
-
   Swal.fire({
     title: 'Are you sure?',
     text: "You won't be able to revert this!",
@@ -463,15 +603,17 @@ function deleteCustomer(id){
         dataType  : 'json',
         encode  : true,
         data: {
-          address_id:id      
+          id:id      
         },
         success: function (data) {
     
             showModal(data.message)
-            limit=15
-            offset=0
-            getTableDate(limit,offset)
-          
+            $('#example').DataTable().clear().destroy();
+            getTableDate()
+
+            $('#example3').DataTable().clear().destroy();
+            getTableData3()
+        
   
             setTimeout(() => {
                     hideModal()
@@ -481,9 +623,7 @@ function deleteCustomer(id){
            
         },
         error: function (request, status, error) {
-    
-           
-    
+  
             analyzeError(request)
          
         }
@@ -524,12 +664,12 @@ suspendForm.addEventListener("submit",(e)=>{
     },
     success: function (data) {
 
-      limit=15,
-      offset=0,
+
       limit2=15,
       offset2=0,
       
-      getTableDate(limit,offset)
+      $('#example').DataTable().clear().destroy();
+      getTableDate()
       getTableDate2(limit2,offset2)
 
       showModal(data.message)
@@ -587,12 +727,12 @@ function unSuspend(id){
             showModal(data.message)
 
 
-            limit=15,
-            offset=0,
+        
             limit2=15,
             offset2=0,
             
-            getTableDate(limit,offset)
+            $('#example').DataTable().clear().destroy();
+            getTableDate()
             getTableDate2(limit2,offset2)
           
             setTimeout(() => {
@@ -630,7 +770,7 @@ function displaySuspensionReason(index){
                   <tr>
                     <td>${selected.Admin_details.first_name}   ${selected.Admin_details.last_name}</td>
                     <td>${selected.admin_id}</td>
-                    <td>${selected.createdAt}</td>
+                    <td class="nowrap">${moment(selected.createdAt).format("MM-DD-YYYY hh-mm a")}</td>
                     <td>${selected.comment}</td>
                   </tr>
                   </tbody>

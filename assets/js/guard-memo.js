@@ -1,6 +1,12 @@
 
 
 
+let getAllMemo=''
+let myCoor
+  
+getLatAndLon(function(latLon) {
+  myCoor= latLon;
+})
 
 $(document).ready(function() {
 
@@ -82,7 +88,7 @@ $(document).ready(function() {
 
 
 
-
+ getAllMemo=()=>{
   var table =$('#example').DataTable({
     ajax: {
         url: `${domain}/api/v1/job/allMemoDetail?type=allMemo`,
@@ -102,9 +108,13 @@ $(document).ready(function() {
         },
         {
           render: function (data, type, full, meta) {
+              return  `<div style="max-width:200px;min-width:240px" >${data}</div>`;
+          },
+          targets: 2
+        },
+        {
+          render: function (data, type, full, meta) {
 
-
-            
             return  `
               <button type="button" onclick="guardOnMemo(${data})" class="btn btn-outline-primary" data-toggle="modal" data-target="#guards">
                 Send to
@@ -185,16 +195,22 @@ $(document).ready(function() {
 
   })
 
+  }
 
 
+  getAllMemo()
+
+
+/*
 setTimeout(() => {
 
   let column1 = table.column(3);
   column1.visible(!column1.visible());
 
-  }, 1000);
+  }, 1000)
+*/
 
-});
+})
 
 
 
@@ -456,6 +472,8 @@ document.getElementById("uploadButton").addEventListener("click", myFunction);
 
 
   function upload(guards_details,message,send_date ){
+
+
     $.ajax({
       type: "post", url:`${domain}/api/v1/job/create_memo`,
       dataType  : 'json',
@@ -466,11 +484,15 @@ document.getElementById("uploadButton").addEventListener("click", myFunction);
       data: {
         guards_details:JSON.stringify(guards_details),
         message,
+        latitude: Number(myCoor.lat).toFixed(8),
+        longitude: Number(myCoor.lon).toFixed(8),
         send_date      
       },
       success: function (data) {
   
           showModal(data.message)
+          
+        
           $j("#RegisterationSuccessFull").modal('show');
 
           setTimeout(() => {
@@ -480,6 +502,9 @@ document.getElementById("uploadButton").addEventListener("click", myFunction);
             $j("#RegisterationSuccessFull").modal('hide');
                   
           }, 3000);
+
+          $('#example').DataTable().clear().destroy();
+          getAllMemo()
 
       },
       error: function (request, status, error) {
@@ -626,8 +651,10 @@ document.getElementById("uploadButton").addEventListener("click", myFunction);
             },
             success: function (data) {
         
-                console.log(data)
               showModal(data.message)
+              
+              $('#example').DataTable().clear().destroy();
+              getAllMemo()
               $j("#RegisterationSuccessFull").modal('show');
     
               setTimeout(() => {

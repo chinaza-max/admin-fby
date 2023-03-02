@@ -1,5 +1,12 @@
 getCardData='';
-job_id=activeUserID
+job_id=activeJobID
+
+let myCoor
+  
+getLatAndLon(function(latLon) {
+  myCoor= latLon;
+})
+
 
 
 $(document).ready(function(){
@@ -15,9 +22,8 @@ $(document).ready(function(){
             data: {
                 job_id      
               },
-            success: function (data, text) {
+            success: function (data) {
                 createCards(data.data)
-
             },
 
             error: function (request, status, error) {
@@ -41,7 +47,7 @@ $(document).ready(function(){
                 data+= `
                 <div class="col-12 col-md-4">
                 <div class="card department bg-light bg-gradient">
-                  <img src="../assets/content/qr-code.png" class="card-img-top" width="400" height="250" alt="">
+                  <img src="assets/content/qr-code.png" class="card-img-top" width="400" height="250" alt="">
   
                   <div class="card-body">
                     <h3 class="h6 mt-0" id="date">Date : ${val[i].operation_date}</h3>
@@ -137,9 +143,6 @@ function generateQRCode(code,mes,ope){
     });
 
 
-
-
-    
     document.getElementById("contentPrintMessage").style.marginTop ="90%"
 
     ///document.getElementById("operationDate").style.marginTop ="50px"
@@ -158,7 +161,6 @@ function generateQRCode(code,mes,ope){
 }
 
 
-
 function confirmLocation(){
     $.ajax({
         type: "post", url:`${domain}/api/v1/job/check_position_qr_code`,
@@ -168,6 +170,8 @@ function confirmLocation(){
             "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
         },
         data: {
+            latitude: Number(myCoor.lat).toFixed(8),
+            longitude: Number(myCoor.lon).toFixed(8),
             job_id      
           },
         success: function (data) {

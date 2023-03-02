@@ -11,7 +11,13 @@ let suspensionReason=[]
 
 let getTableDate=''
 let getTableDate2=''
+let getTableData3=''
 
+let myCoor
+  
+getLatAndLon(function(latLon) {
+  myCoor= latLon;
+})
 
 
 
@@ -57,16 +63,17 @@ formAdminReg.addEventListener("submit",(e)=>{
               address,
               phone_number,
               staffRole,
+              latitude: Number(myCoor.lat).toFixed(8),
+              longitude: Number(myCoor.lon).toFixed(8),
             },
             success: function (data) {
   
-                console.log(data)
 
                 showModal(data.message)
-                limit=15
-                offset=0
-                getTableDate(limit,offset)
-
+               
+                $('#example').DataTable().clear().destroy();
+                getTableDate()
+            
                 setTimeout(() => {
                         hideModal()
                 }, 3000)
@@ -80,8 +87,6 @@ formAdminReg.addEventListener("submit",(e)=>{
                 $("#signInButton").css("display","block")
                 $("#loadingButton").css("display","none")
                
-                console.log(request)
-
               analyzeError(request)
              
             }
@@ -104,7 +109,7 @@ formAdminReg.addEventListener("submit",(e)=>{
 
     
     function  clearField(){
-        formFields.company_name.value='',
+       // formFields.company_name.value='',
         formFields.email.value='',
         formFields.Gender.value='',
         formFields.address.value='',
@@ -123,170 +128,143 @@ formAdminReg.addEventListener("submit",(e)=>{
 $(document).ready(function(){
 
 
-    getTableDate=function (limit,offset){
-
-      $('#loader1').css("display","block");
-
-        $.ajax({
-            type: "get", url:`${domain}/api/v1/user/getAllStaff?role=ALL_ADMINISTRATORS_AVAILABLE&limit=${limit}&offset=${offset}`,
-            headers: {
-                "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
-            },
+    getTableDate =()=>{
+      table=$('#example').DataTable({
+        ajax: {
+            url:`${domain}/api/v1/user/getAllStaff?role=ALL_ADMINISTRATORS_AVAILABLE_NO_PAGINATION`,
+            method: "get",
             dataType  : 'json',
-            encode  : true,
-            success: function (data){
-
-                $('#loader1').css("display","none");
-                CreateTable(data.data)
-
+            encode  : true,  
+            headers: {
+              "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
             },
-            error: function (request, status, error) {
-
-              $('#loader1').css("display","none");
-
-              analyzeError(request)
-             
-            }
-          });
-    }
-
-    getTableDate(limit,offset)
-
+          },
+         
+          columnDefs: [
+            {
+              render: function (data, type, full, meta) {
+  
+                return `<img src=${data} alt="" width="40" height="40" class="rounded-500">`
+              },
+              targets: 0
+            },
+            
+            {
+              render: function (data, type, full, meta) {
+                return  `<span  width="2" >${data}</span>`
     
-    function CreateTable(val){
-        let data=''
+              },
+              targets: 1
+            }
+            ,
+            {
+              render: function (data, type, full, meta) {
+                return  `<strong>${data}</strong>`
+    
+              },
+              targets: 2
+            }
+            ,
+         
+            {
+              render: function (data, type, full, meta) {
+    
+                return  `<div style="max-width:200px;min-width:200px" >${data}</div>`
+    
+              },
+              targets: 3
+            }
+            ,       
+            {
+              render: function (data, type, full, meta) {
+    
+                return  ` <div  style="max-width:200px;min-width:200px" class="d-flex align-items-center text-primary">
+                <span class="icofont-ui-email p-0 me-2"></span>
+               ${data}
+              </div>`
+    
+              },
+              targets: 4
+            }
+            ,
+            {
+              render: function (data, type, full, meta) {
+    
+                return  ` <div class="d-flex align-items-center nowrap text-primary">
+                <span class="icofont-ui-cell-phone p-0 me-2"></span>
+                ${data}
+              </div>`
+    
+              },
+              targets: 5
+            }
+            ,
+            {
+              render: function (data, type, full, meta) {
 
-        
-        if(val.length!=0){
-            for(let i=0; i<val.length; i++){
-              if(val[i].email=="nigeria-workspace@proton.me"){
-                  data+= `  <tr>
-                  <td>
-                  ${offset+i+1}
-                  </td>
-                  <td>
-                    <img src=${val[i].image} alt="" width="40" height="40" class="rounded-500">
-                  </td>
-                  <td>
-                    <strong>${val[i].full_name}</strong>
-                  </td>
-                  
-                  <td>
-                    <div class="text-muted text-nowrap">${val[i].date_of_birth}</div>
-                  </td>
-
-                  <td>
-                    <div class="address-col">${val[i].address}</div>
-                  </td>
-                  <td>
-                      <div class="d-flex align-items-center nowrap text-primary">
-                      ${val[i].email}
-                      </div>
-                  </td>
-
-                <td>
-
-                      <div class="d-flex align-items-center nowrap text-primary">
-                          <span class="icofont-ui-cell-phone p-0 me-2"></span>
-                          ${val[i].phone_number}
-                      </div>
-                </td>
-                  <td>
-                    <div class="text-muted text-nowrap">${val[i].gender}</div>
-                  </td>
-                  <td>
-                    <div class="actions">
-                      <a href="staff-profile.html" class="btn btn-dark btn-sm btn-square rounded-pill">
-                        <span class="btn-icon icofont-external-link"></span>
-                      </a>
-                     
-                      <button class="btn btn-error btn-sm btn-square rounded-pill disabled" onclick="deleteAdmin(${val[i].address_id})">
-                        <span class="btn-icon icofont-ui-delete"></span>
-                      </button>
-                      
-                    </div>
-                  </td>
-                </tr>`
-              }
-              else{
-
-                  data+= `  <tr>
-                  <td>
-                  ${offset+i+1}
-                  </td>
-                  <td>
-                    <img src=${val[i].image} alt="" width="40" height="40" class="rounded-500">
-                  </td>
-                  <td>
-                    <strong>${val[i].full_name}</strong>
-                  </td>
-                  
-                  <td>
-                    <div class="text-muted text-nowrap">${val[i].date_of_birth}</div>
-                  </td>
-
-                  <td>
-                    <div class="address-col">${val[i].address}</div>
-                  </td>
-                  <td>
-                      <div class="d-flex align-items-center nowrap text-primary">
-                      ${val[i].email}
-                      </div>
-                  </td>
-
-                <td>
-
-                      <div class="d-flex align-items-center nowrap text-primary">
-                          <span class="icofont-ui-cell-phone p-0 me-2"></span>
-                          ${val[i].phone_number}
-                      </div>
-                </td>
-                  <td>
-                    <div class="text-muted text-nowrap">${val[i].gender}</div>
-                  </td>
-                  <td>
-                    <div class="actions">
-                
-
-                      <a  onclick="storeCurrentUserID(${val[i].id})" href="staff-profile.html"  class="btn btn-info btn-sm btn-square rounded-pill">
+                if(full.email=="nigeria-workspace@proton.me"){
+                  return  `
+                  <div class="actions">
+                      <a  onclick="storeCurrentUserID(${data})" href="staff-profile.html"  class="btn btn-info btn-sm btn-square rounded-pill">
                       <span class="btn-icon icofont-ui-edit"></span>
                       </a>
 
-                      <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteAdmin(${val[i].address_id})">
+                      <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteAdmin(${data})" disabled>
                         <span class="btn-icon icofont-ui-delete"></span>
                       </button>
-                      <button onclick="update_user_id(${val[i].id})" class="btn btn-error btn-sm btn-square rounded-pill" 
+                      <button onclick="update_user_id(${data})" class="btn btn-error btn-sm btn-square rounded-pill" 
                       data-bs-toggle="modal" data-bs-target="#suspend" 
-                       onclick="">
+                       disabled>
                       <div class="icon sli-user-unfollow"></div>
                     </button>
                     </div>
-                  </td>
-                </tr>`
-              }
-                if(i==val.length-1){
-
-                    $('#mytable1').children().remove();
-                    $("#mytable1").append(data)
+              `
                 }
+                else{ 
+                  return  `
+                  <div class="actions">
+                      <a  onclick="storeCurrentUserID(${data})" href="staff-profile.html"  class="btn btn-info btn-sm btn-square rounded-pill">
+                      <span class="btn-icon icofont-ui-edit"></span>
+                      </a>
+
+                      <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteAdmin(${data})">
+                        <span class="btn-icon icofont-ui-delete"></span>
+                      </button>
+                      <button onclick="update_user_id(${data})" class="btn btn-error btn-sm btn-square rounded-pill" 
+                      data-bs-toggle="modal" data-bs-target="#suspend" 
+                      >
+                      <div class="icon sli-user-unfollow"></div>
+                    </button>
+                    </div>
+              `
+
+                }
+    
+             
+              },
+              targets: 7
             }
-        }else{
-            
-            $('#mytable1').children().remove();
-            $("#mytable1").append(`    <tr>
-            <td colspan="1000">
-            
-            <div class="alert alert-light outline text-dark " role="alert" style="text-align:center;">
-            YOU HAVE NO AVAILABLE REGISTERED STAFF 
-          </div>
-            </td>
-          </tr>`)
-        }
+          ],
+          
+          columns:[
+            { data: "image" },
+            { data: "id" },
+            { data: "full_name" },
+            { data: "address" },
+            { data: "email" },
+            { data: "phone_number" },
+            { data: "gender" },
+            { data: "guard_id_for_action" }
+            ],
+      })
 
-
+    
+      
     }
     
+    getTableDate()
     
+  
     getTableDate2=function ( limit,offset){
 
 
@@ -303,7 +281,6 @@ $(document).ready(function(){
 
               $('#loader2').css("display","none");
 
-                console.log(data)
                 CreateTable2(data.data)
                 suspensionReason=data.data
             },
@@ -323,7 +300,6 @@ $(document).ready(function(){
         let data=''
 
         if(val.length!=0){
-          console.log(val)
             for(let i=0; i<val.length; i++){
 
                 data+= `  <tr>
@@ -333,20 +309,25 @@ $(document).ready(function(){
                 <td>
                   <img src=${val[i].image} alt="" width="40" height="40" class="rounded-500">
                 </td>
+
+                <td>
+                <div class="text-muted text-nowrap">${val[i].id}</div>
+                </td>
                 <td>
                   <strong>${val[i].full_name}</strong>
                 </td>
                 
-                <td>
-                  <div class="text-muted text-nowrap">${val[i].date_of_birth}</div>
-                </td>
+              
                 <td>
                   <div class="address-col">${val[i].address}</div>
                 </td>
                 <td>
+                
                   <div class="d-flex align-items-center nowrap text-primary">
-                  ${val[i].email}
+                  <span class="icofont-ui-email p-0 me-2"></span>
+                    ${val[i].email}
                   </div>
+
                 </td>
                 <td>
                   <div class="d-flex align-items-center nowrap text-primary">
@@ -397,9 +378,166 @@ $(document).ready(function(){
 
     }
     
-  });
+
+    $.ajax({
+      type: "get", url:`${domain}/api/v1/user/deleted_staffs?role=ADMIN`,
+      headers: {
+          "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+      },
+      dataType  : 'json',
+      encode  : true,
+      success: function (data) {
+
+          console.log(data)
+      },
+      error: function (request, status, error) {
+        $('#loader2').css("display","none");
+
+          analyzeError(request)
+       
+      }
+    });
+
+
+
+    getTableData3 =()=>{
+      table=$('#example3').DataTable({
+        ajax: {
+            url:`${domain}/api/v1/user/deleted_staffs?role=ALL_ADMINISTRATORS_AVAILABLE_NO_PAGINATION`,
+            method: "get",
+            dataType  : 'json',
+            encode  : true,  
+            headers: {
+              "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+            }
+          },
+          columnDefs: [
+            {
+              render: function (data, type, full, meta) {
+  
+                return `<img src=${data} alt="" width="40" height="40" class="rounded-500">`
+              },
+              targets: 0
+            },
+            
+            {
+              render: function (data, type, full, meta) {
+                return  `<span  width="2" >${data}</span>`
+    
+              },
+              targets: 1
+            }
+            ,
+            {
+              render: function (data, type, full, meta) {
+                return  `<strong>${data}</strong>`
+    
+              },
+              targets: 2
+            }
+            ,
+         
+            {
+              render: function (data, type, full, meta) {
+    
+                return  `<div style="max-width:200px;min-width:200px" >${data}</div>`
+    
+              },
+              targets: 3
+            }
+            ,       
+            {
+              render: function (data, type, full, meta) {
+    
+                return  ` <div  style="max-width:200px;min-width:200px" class="d-flex align-items-center text-primary">
+                <span class="icofont-ui-email p-0 me-2"></span>
+               ${data}
+              </div>`
+    
+              },
+              targets: 4
+            }
+            ,
+            {
+              render: function (data, type, full, meta) {
+    
+                return  ` <div class="d-flex align-items-center nowrap text-primary">
+                <span class="icofont-ui-cell-phone p-0 me-2"></span>
+                ${data}
+              </div>`
+    
+              },
+              targets: 5
+            }
+            ,
+            {
+              render: function (data, type, full, meta) {
+
+                if(full.email=="nigeria-workspace@proton.me"){
+                  return  `
+                  <div class="actions">
+                      <a  onclick="storeCurrentUserID(${data})" href="staff-profile.html"  class="btn btn-info btn-sm btn-square rounded-pill">
+                      <span class="btn-icon icofont-ui-edit"></span>
+                      </a>
+
+                      <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteAdmin(${data})" disabled>
+                        <span class="btn-icon icofont-ui-delete"></span>
+                      </button>
+                      <button onclick="update_user_id(${data})" class="btn btn-error btn-sm btn-square rounded-pill" 
+                      data-bs-toggle="modal" data-bs-target="#suspend" 
+                       disabled>
+                      <div class="icon sli-user-unfollow"></div>
+                    </button>
+                    </div>
+              `
+                }
+                else{ 
+                  return  `
+                  <div class="actions">
+                      <a  onclick="storeCurrentUserID(${data})" href="staff-profile.html"  class="btn btn-info btn-sm btn-square rounded-pill disabled">
+                      <span class="btn-icon icofont-ui-edit"></span>
+                      </a>
+
+                      <button class="btn btn-error btn-sm btn-square rounded-pill disabled" onclick="deleteAdmin(${data})">
+                        <span class="btn-icon icofont-ui-delete"></span>
+                      </button>
+                      <button onclick="update_user_id(${data})" class="btn btn-error btn-sm btn-square rounded-pill disabled" 
+                      data-bs-toggle="modal" data-bs-target="#suspend" 
+                      >
+                      <div class="icon sli-user-unfollow"></div>
+                    </button>
+                    </div>
+              `
+
+                }
+    
+             
+              },
+              targets: 7
+            }
+          ],
+          
+          columns:[
+            { data: "image" },
+            { data: "id" },
+            { data: "full_name" },
+            { data: "address" },
+            { data: "email" },
+            { data: "phone_number" },
+            { data: "gender" },
+            { data: "guard_id_for_action" }
+            ],
+      })
+
+
+    }
+    getTableData3()
+
 
   
+  })
+
+  /*
 //FOR ALL
 function Previous(){
     if(offset==0){
@@ -422,7 +560,7 @@ function Next(){
     $("#Next").addClass("active");
 
 }
-
+*/
 /*
 function page(val){
 
@@ -447,9 +585,6 @@ function page(val){
 }
 */
   
-
-
-
 
 
 //FOR SUSPENDED
@@ -526,15 +661,20 @@ function deleteAdmin(id){
           headers: {
             "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
           },
+          dataType  : 'json',
+          encode  : true,
           data: {
             id      
           },
-          success: function (data, text) {
+          success: function (data) {
       
               showModal(data.message)
-              limit=15
-              offset=0
-              getTableDate(limit,offset)
+              $('#example').DataTable().clear().destroy();
+              getTableDate()
+
+                
+            $('#example3').DataTable().clear().destroy();
+            getTableData3()
             
     
               setTimeout(() => {
@@ -583,12 +723,12 @@ suspendForm.addEventListener("submit",(e)=>{
     },
     success: function (data) {
 
-      limit=15,
-      offset=0,
+   
       limit2=15,
       offset2=0,
       
-      getTableDate(limit,offset)
+      $('#example').DataTable().clear().destroy();
+      getTableDate()
       getTableDate2(limit2,offset2)
 
       showModal(data.message)
@@ -681,12 +821,12 @@ function unSuspend(id){
         },
         success: function (data) {
             showModal(data.message)
-            limit=15,
-            offset=0,
+         
             limit2=15,
             offset2=0,
             
-            getTableDate(limit,offset)
+            $('#example').DataTable().clear().destroy();
+            getTableDate()
             getTableDate2(limit2,offset2)
           
             setTimeout(() => {
