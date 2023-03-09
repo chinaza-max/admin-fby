@@ -342,7 +342,12 @@
                   </li>
                   <li class="nav-item" role="presentation">
                     <button class="nav-link" id="decline" data-bs-toggle="pill" onclick="updateNavLinkStatus('decline')" data-bs-target="#tab-4" type="button" role="tab"
-                      aria-selected="false">Decline</button>
+                      aria-selected="false"> 
+                      <div id="declineCount">
+
+                      </div>
+
+                    </button>
                   </li>
                   <li class="nav-item" role="presentation">
                     <button class="nav-link" id="deleted" data-bs-toggle="pill" onclick="updateNavLinkStatus('deleted')" data-bs-target="#tab-5" type="button" role="tab"
@@ -1977,6 +1982,14 @@
                 <option value="horizontal-layout" data-tokens="ACTIVE">ACTIVE</option>
                 <option value="horizontal" data-tokens="PENDING">PENDING</option>
                 <option value="vertical-layout" data-tokens="COMPLETED">COMPLETED</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Payment status</label>
+              <select class="selectpicker selectpickerStatusChange2" onchange="updateJobStatus()">
+                <option value="horizontal" data-tokens="Paid">Paid</option>
+                <option value="horizontal-layout" data-tokens="Awaiting Payment">Awaiting Payment</option>
               </select>
             </div>
 

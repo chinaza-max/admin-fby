@@ -2115,6 +2115,7 @@ let getTableData='',
   limit4=15,
   offset4=0,
   myJobStatus="ACTIVE",
+  myJobPaymentStatus="Paid",
   statusChangeIdForJob
 
 //THIS HANDLES STYLING FOR PAGINATION FOR ACTIVE JOB
@@ -2153,6 +2154,7 @@ $(document).ready(function(){
 
             $('#loader4').css("display","none");
 
+            console.log(data.data)
             CreateTable4(data.data)
         
         },
@@ -2168,11 +2170,16 @@ $(document).ready(function(){
   getTableData4(limit,offset)
 
   function CreateTable4(val){
+
+
+
       let data=''
           
       if(val.length!=0){
         for(let i=0; i<val.length; i++){
 
+
+          if(val[i].can_be_reasign){
             data+= `
             <tr>
             <td>
@@ -2201,10 +2208,10 @@ $(document).ready(function(){
           
             <td>
               <div class="actions">
-                <button class="btn btn-error btn-sm btn-square rounded-pill" onclick="deleteGuardSchedule(${val[i].job_id},${val[i].guard_id})">
+                <button class="btn btn-error btn-sm btn-square rounded-pill disabled" onclick="deleteGuardSchedule(${val[i].job_id},${val[i].guard_id})">
                   <span class="btn-icon icofont-ui-delete"></span>
                 </button>
-                <button  data-bs-toggle="modal" data-bs-target="#add-guard2" onclick="getAvailableGuard2('selectpickerReassignId','selectpickerReassign');update_job_id_for_schedule(${val[i].job_id});PrepareScheduleDetails(${val[i].guard_id})"  class="btn btn-dark btn-sm btn-square rounded-pill">
+                <button  data-bs-toggle="modal" data-bs-target="#add-guard2" onclick="getAvailableGuard2('selectpickerReassignId','selectpickerReassign');update_job_id_for_schedule(${val[i].job_id});PrepareScheduleDetails(${val[i].guard_id})"  class="btn btn-dark btn-sm btn-square rounded-pill ">
                 <div class="icon sli-share-alt"></div>
                 </button>
 
@@ -2213,11 +2220,79 @@ $(document).ready(function(){
             </td>
           </tr>
             `
+          }
+          else{
+            data+= `
+            <tr>
+            <td>
+            ${i+1}
+          </td>
+            <td>
+              ${val[i].date}
+            </td>
+            <td>
+            ${val[i].Name}
+
+
+            </td>
+            <td>
+            ${val[i].Phone_number}
+
+
+            </td>
+            <td>
+            ${val[i].customer_name}
+
+            </td>
+            <td>
+            ${val[i].facility_name}
+            </td>
+          
+            <td>
+              <div class="actions">
+                <button class="btn btn-error btn-sm btn-square rounded-pill disabled" onclick="deleteGuardSchedule(${val[i].job_id},${val[i].guard_id})">
+                  <span class="btn-icon icofont-ui-delete"></span>
+                </button>
+                <button  data-bs-toggle="modal" data-bs-target="#add-guard2" onclick="getAvailableGuard2('selectpickerReassignId','selectpickerReassign');update_job_id_for_schedule(${val[i].job_id});PrepareScheduleDetails(${val[i].guard_id})"  class="btn btn-dark btn-sm btn-square rounded-pill disabled">
+                <div class="icon sli-share-alt"></div>
+                </button>
+
+                <button type="button" class="btn btn-outline-primary"  onclick="reAssign(${val[i].job_id},${val[i].guard_id})">Re-assign</button>
+              </div>
+            </td>
+          </tr>
+            `
+          }
+         
             if(i==val.length-1){
                 $('#mytable4').children().remove();
                 $("#mytable4").append(data)
             }
         }
+
+
+        if(val.length>2000){
+          $('#declineCount').children().remove();
+          $("#declineCount").append(`
+          Decline
+          <span class="badge badge-danger badge-sm"> 2000+</span>`)
+  
+        }
+        if(val.length>1000){
+          $('#declineCount').children().remove();
+          $("#declineCount").append(`
+          Decline
+          <span class="badge badge-danger badge-sm"> 1000+</span>`)
+  
+        }
+        else{
+          $('#declineCount').children().remove();
+          $("#declineCount").append(`
+          Decline
+          <span class="badge badge-danger badge-sm">${val.length}</span>`)
+        }
+   
+        
       }else{
 
         $('#mytable4').children().remove();
@@ -2233,9 +2308,8 @@ $(document).ready(function(){
 
        
 
+
   }
-
-
 
 })
 
@@ -2868,6 +2942,11 @@ function updateJobStatus(){
   $('.selectpickerStatusChange').on("changed.bs.select", function() {
     myJobStatus = $('option:selected', this).attr("data-tokens");
   })
+  $('.selectpickerStatusChange2').on("changed.bs.select", function() {
+    myJobPaymentStatus = $('option:selected', this).attr("data-tokens");
+  })
+
+
 }
 $("#loadingButton2").css("display","none")
 
@@ -2886,8 +2965,8 @@ function changeJobStatus(){
    },
     data: {
       job_id:statusChangeIdForJob,
-      status_value:myJobStatus ,
-      
+      status_value:myJobStatus,
+      payment_status:myJobPaymentStatus
     },
     success: function (data) {
         showModal(data.message)
@@ -3005,7 +3084,7 @@ function deleteGuardSchedule(job_id,guard_id){
     if (result.isConfirmed) {
         
   $.ajax({
-    type: "post", url:`${domain}/api/v1/job/re_asign_or_delete-job`,
+    type: "post", url:`${domain}/api/v1/job/re_asign_or_delete_job`,
     dataType  : 'json',
     encode  : true,
     headers: {
@@ -3066,7 +3145,7 @@ function reAssign(job_id,guard_id){
     if (result.isConfirmed) {
 
       $.ajax({
-        type: "post", url:`${domain}/api/v1/job/re_asign_or_delete-job`,
+        type: "post", url:`${domain}/api/v1/job/re_asign_or_delete_job`,
         dataType  : 'json',
         encode  : true,
         headers: {
@@ -3087,7 +3166,8 @@ function reAssign(job_id,guard_id){
             getTableData2()
             $('#example3').DataTable().clear().destroy();
             getTableData3()
-    
+            getTableData4()
+
             setTimeout(() => {
                     hideModal()
             }, 3000);

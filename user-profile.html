@@ -21,6 +21,8 @@
   <link rel="stylesheet" href="assets/css/Chart.min.css">
   <link rel="stylesheet" href="assets/css/morris.css">
   <link rel="stylesheet" href="assets/css/leaflet.css">
+  <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-messaging.js"></script>
 
   <!-- Theme CSS -->
   <link rel="stylesheet" href="assets/css/style.css">
@@ -426,6 +428,21 @@
               </form>
 
               <hr>
+              <div class="row">
+                <div class="col-6">
+                  <h5>
+                    <span class="icon icofont-notification"></span>
+
+                    Notification</h5>
+                </div>
+                <div class="col-6 col" >
+                  <div class="form-check form-switch" id="notificationContainer">
+                  </div>
+
+                </div>
+              </div>
+              <hr>
+
               
 
                 <button type="button" id="password" class="btn btn-outline-dark">Change password</button>
@@ -568,6 +585,8 @@
 <script src="assets/js/echarts.min.js"></script>
 <script src="assets/js/echarts-gl.min.js"></script>
 <script src="assets/js/globalVar.js"></script>
+<script src="assets/js/kalman.min.js"></script>
+<script src="assets/js/notificationFirebase.js"></script>
 <script src="assets/js/user-profile.js"></script>
 <script src="assets/js/main.js"></script>
 

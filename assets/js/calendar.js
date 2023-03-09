@@ -79,7 +79,7 @@ function closeNav() {
     let allDetailsOfAParticularGuard=taskid
     console.log(allDetailsOfAParticularGuard.name)
 
-    $("#dateCreated").text(moment(shiftDetailsObj[userid].created_at).format("YYYY-MM-DD hh:mm:ss a"))
+    $("#dateCreated").text(moment(shiftDetailsObj[userid].created_at).format("MM-DD-YYYY hh:mm a"))
     $("#jobDes").text(shiftDetailsObj[userid].description)
     $("#jobA").text(shiftDetailsObj[userid].client_charge)
     $("#hourlyP").text(shiftDetailsObj[userid].staff_charge)
@@ -101,7 +101,6 @@ function closeNav() {
 
     let data2=''
 
-    console.log(shiftDetailsObj[userid])
     if(shiftDetailsObj[userid].canReasign){
       data2=` 
       <h5 class="mb-0 mt-0 me-1">RE-ASSIGN </h5>
@@ -826,7 +825,7 @@ function shiftDetails(details){
     for (let index2 = 0; index2 < shiftData.length; index2++) {
 
       $.ajax({
-        type: "get", url:`${domain}/api/v1/job/check_if_job_can_be_re-assigned?job_id=${shiftData[index2].job.id}`,
+        type: "get", url:`${domain}/api/v1/job/check_if_job_can_be_re_assigned?job_id=${shiftData[index2].job.id}`,
         headers: {
             "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
         },
@@ -1049,7 +1048,6 @@ function viewDetails(guard_id, job_id){
 
 
 function displayLog(val){
-  console.log(val)
   let data=''
 
 

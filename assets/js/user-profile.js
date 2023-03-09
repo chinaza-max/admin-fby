@@ -96,9 +96,6 @@ updateUser.addEventListener("submit",(e)=>{
 
 
 
-
-
-
         for (const value of formData.values()) {
             console.log(value);
           }
@@ -199,6 +196,8 @@ $(document).ready(function(){
                 $("#dataOfBirth").val(data.data.user.date_of_birth);
                 $("#phoneNumber").val(data.data.user.phone_number);
                 $("#email").attr("disabled", true)
+                getNotificationStatus(data.data.user.notification)
+
 
                 if(data.data.user.is_archived==true){
                     $('select[name=status]').val("Available");
@@ -247,3 +246,69 @@ $(document).ready(function(){
 
 
 
+function getNotificationStatus(booleanValue){
+      
+
+    if(booleanValue){
+      
+      let hasGottenDeviceToken=localStorage.getItem("hasGottenDeviceToken")
+   
+      if(hasGottenDeviceToken=="false"||hasGottenDeviceToken==null){
+        initializeFireBaseMessaging()
+      }
+
+
+
+        $('#notificationContainer').children().remove();
+        $("#notificationContainer").append(`
+        <input class="form-check-input mycheckButton2 float-end mt-4" type="checkbox"  checked>
+        `)
+
+
+      Notification.requestPermission().then(function(permission) {
+        if (permission === 'granted') {
+          console.log('Notification permission granted.');
+        } else {
+          console.log('Notification permission denied.');
+        }
+      });
+
+
+    }
+    else{
+
+        localStorage.setItem("hasGottenDeviceToken","false")
+
+        $('#notificationContainer').children().remove();
+        $("#notificationContainer").append(`
+        
+        <input class="form-check-input mycheckButton2 float-end mt-4" type="checkbox" >
+
+        `)
+    }
+
+
+    $('.mycheckButton2').on('change', function(){ 
+      
+        $.ajax({
+          type: "post", url:`${domain}/api/v1/user/toggleVisibilty?type=notification`,
+          headers: {
+              "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+          },
+          data: {
+          },
+          success: function (data) {         
+          
+            getProfileData()
+          },
+          error: function (request, status, error) {
+              analyzeError(request)
+          }
+        })
+        
+
+  })
+
+  
+        
+}
