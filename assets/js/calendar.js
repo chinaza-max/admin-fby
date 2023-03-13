@@ -14,10 +14,6 @@ function closeNav() {
 
 
 
-
-
-
-
 // Drag tasks around
 /*
  $j (".drag").draggable({
@@ -77,7 +73,6 @@ function closeNav() {
     userid =  $j (this).parent().parent().data("userid");
 
     let allDetailsOfAParticularGuard=taskid
-    console.log(allDetailsOfAParticularGuard.name)
 
     $("#dateCreated").text(moment(shiftDetailsObj[userid].created_at).format("MM-DD-YYYY hh:mm a"))
     $("#jobDes").text(shiftDetailsObj[userid].description)
@@ -200,6 +195,21 @@ let customer_id='',
      from_date='';
 
 $(document).ready(function(){
+
+  let myButtonCopy=document.getElementById("copyContainer")
+  myButtonCopy.addEventListener("click", function() {
+    
+  
+    document.getElementById("copyText").innerHTML="copied"
+    setTimeout(() => {
+      document.getElementById("copyText").innerHTML="copy"
+    }, 3000);
+  
+  });
+
+
+
+
 //?customer_id=${customer_id}&guard_id=${guard_id}&site_id=${site_id}&from_date=${from_date}&to_date=${to_date}
   $('#loader1').css("display","block");
 
@@ -1039,6 +1049,31 @@ function viewDetails(guard_id, job_id){
 
         $('#loader1').css("display","none");
         analyzeError(request)
+      
+    }
+  });
+
+
+
+  console.log(job_id)
+  console.log(guard_id)
+
+  $.ajax({
+    type: "get", url:`${domain}/api/v1/job/get_single_job_with_agenda?job_id=${job_id}&guard_id=${guard_id}`,
+    headers: {
+        "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+    },
+    dataType  : 'json',
+    encode  : true,
+    success: function (data) {
+
+      console.log(data.data)
+
+    },
+    error: function (request, status, error) {
+
+     // $('#loader1').css("display","none");
+      analyzeError(request)
       
     }
   });

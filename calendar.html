@@ -395,7 +395,7 @@
                     <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-1" type="button" role="tab" aria-controls="tab-1" aria-selected="true">Job logs</button>
                   </li>
                   <li class="nav-item" role="presentation">
-                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-2" type="button" role="tab" aria-controls="tab-2" aria-selected="true">Copy job </button>
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-2" type="button" role="tab" aria-controls="tab-2" aria-selected="true">Job shift </button>
                   </li>
                 </ul>
 
@@ -416,99 +416,139 @@
 
                   <div class="tab-pane fade" id="tab-2" role="tabpanel">
 
+                    <div class="shadow-none p-3 mb-5 bg-light rounded w-100 text-center" id="copyContainer">
+                      <span style="font-size: 18px;" id="copyText">copy</span> <div class="icon icofont-ui-copy"></div>
+                    </div>
+                    
+                    <div class="list-group list-group-flush border-bottom scrollarea ">
+                      <div class="form-check btn-outline-success" >
 
-                    <div class="list-group list-group-flush border-bottom scrollarea">
+                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" checked/>
+                        <label class="form-check-label" for="defaultCheck1">
+                          <div >
+                              Start date: 02/02/2019 09:01 AM <br>
+                              End date: 02/02/2020 09:01 PM
 
-                      <div class="form-check">
+                              <div class="row">
+                                <div class="col-6">
+                                  <button  class="btn btn-light" data-bs-toggle="modal"
+                                  data-bs-target="#view_instruction"  >Instruction
+                                    <span class="badge badge-info badge-sm">5</span>
+                                  </button>
+                                </div>   
+                                <div class="col-6">
+                                  <button  class="btn btn-light"  data-bs-toggle="modal"
+                                  data-bs-target="#view_task" >Task
+                                    <span class="badge badge-info badge-sm">5</span>
+                                  </button>
+                                </div>
+                              </div>
+                            
+                          </div>
+                        </label>
 
-                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" checked>
+
+                      </div>  
+
+                      <div class="form-check btn-outline-danger" >
+
+                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" checked/>
                         <label class="form-check-label" for="defaultCheck2">
-                            <div>
-                              Start time: 02/02/2019 09:01 AM <br>
-                              End time: 02/02/2020 09:01 PM
-                            </div>
+                          <div >
+                              Start date: 02/02/2019 09:01 AM <br>
+                              End date: 02/02/2020 09:01 PM
+
+                              <div class="row">
+                                <div class="col-6">
+                                  <button  class="btn btn-light">Instruction</button>
+                                </div>   
+                                <div class="col-6">
+                                  <button  class="btn btn-light">Task</button>
+                                </div>
+                              </div>
+                            
+                          </div>
                         </label>
-                        <hr>
-                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" checked>
+
+
+                      </div>  
+
+                      <div class="form-check btn-outline-success" >
+
+                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck3" checked/>
+                        <label class="form-check-label" for="defaultCheck3">
+                          <div >
+                              Start date: 02/02/2019 09:01 AM <br>
+                              End date: 02/02/2020 09:01 PM
+
+                              <div class="row">
+                                <div class="col-6">
+                                  <button  class="btn btn-light">Instruction</button>
+                                </div>   
+                                <div class="col-6">
+                                  <button  class="btn btn-light">Task</button>
+                                </div>
+                              </div>
+
+
+                            
+                          </div>
+                        </label>
+
+
+                      </div>  
+
+                      <div class="form-check btn-outline-danger text-muted" >
+
+                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck4" checked/>
+                        <label class="form-check-label" for="defaultCheck4">
+                          <div >
+                              Start date: 02/02/2019 09:01 AM <br>
+                              End date: 02/02/2020 09:01 PM
+
+                              <div class="row">
+                                <div class="col-6">
+                                  <button  class="btn btn-light">Instruction</button>
+                                </div>   
+                                <div class="col-6">
+                                  <button  class="btn btn-light">Task</button>
+                                </div>
+                              </div>
+                            
+                          </div>
+                        </label>
+
+
+                      </div>  
+
+                      <div class="form-check btn-outline-danger text-muted" style="z-index: -1;" >
+
+                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" checked/>
                         <label class="form-check-label" for="defaultCheck2">
-                            <div>
-                              Start time: 02/02/2019 09:01 AM <br>
-                              End time: 02/02/2020 09:01 PM
-                            </div>
+                          <div >
+                              Start date: 02/02/2019 09:01 AM <br>
+                              End date: 02/02/2020 09:01 PM
+
+                              <div class="row">
+                                <div class="col-6">
+                                  <button  class="btn btn-light">Instruction</button>
+                                </div>   
+                                <div class="col-6">
+                                  <button  class="btn btn-light">Task</button>
+                                </div>
+                              </div>
+                            
+                          </div>
                         </label>
-                        <hr>
-                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" checked>
-                        <label class="form-check-label" for="defaultCheck2">
-                            <div>
-                              Start time: 02/02/2019 09:01 AM <br>
-                              End time: 02/02/2020 09:01 PM
-                            </div>
-                        </label>
-                        <hr>  <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" checked>
-                        <label class="form-check-label" for="defaultCheck2">
-                            <div>
-                              Start time 02/02/2019 09:01 AM <br>
-                              End time 02/02/2020 09:01 PM
-                            </div>
-                        </label>
-                        <hr>  <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" checked>
-                        <label class="form-check-label" for="defaultCheck2">
-                            <div>
-                              Start time 02/02/2019 09:01 AM <br>
-                              End time 02/02/2020 09:01 PM
-                            </div>
-                        </label>
-                        <hr>  <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" checked>
-                        <label class="form-check-label" for="defaultCheck2">
-                            <div>
-                              Start time 02/02/2019 09:01 AM <br>
-                              End time 02/02/2020 09:01 PM
-                            </div>
-                        </label>
-                        <hr>  <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" checked>
-                        <label class="form-check-label" for="defaultCheck2">
-                            <div>
-                              Start time: 02/02/2019 09:01 AM <br>
-                              End time: 02/02/2020 09:01 PM
-                            </div>
-                        </label>
-                        <hr>  <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" checked>
-                        <label class="form-check-label" for="defaultCheck2">
-                            <div>
-                              Start time: 02/02/2019 09:01 AM <br>
-                              End time: 02/02/2020 09:01 PM
-                            </div>
-                        </label>
-                        <hr>  <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" checked>
-                        <label class="form-check-label" for="defaultCheck2">
-                            <div>
-                              Start time: 02/02/2019 09:01 AM <br>
-                              End time: 02/02/2020 09:01 PM
-                            </div>
-                        </label>
-                        <hr>  <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" checked>
-                        <label class="form-check-label" for="defaultCheck2">
-                            <div>
-                              Start time: 02/02/2019 09:01 AM <br>
-                              End time: 02/02/2020 09:01 PM
-                            </div>
-                        </label>
-                        <hr>  <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" checked>
-                        <label class="form-check-label" for="defaultCheck2">
-                            <div>
-                              Start time: 02/02/2019 09:01 AM <br>
-                              End time: 02/02/2020 09:01 PM
-                            </div>
-                        </label>
-                        <hr>  <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" checked>
-                        <label class="form-check-label" for="defaultCheck2">
-                            <div>
-                              Start time: 02/02/2019 09:01 AM <br>
-                              End time: 02/02/2022 09:01 PM
-                            </div>
-                        </label>
-                        <hr>
-                      </div>               
+
+
+                      </div>  
+
+
+                      
+                      
+
+                   
                     </div>
         
                     
@@ -892,8 +932,7 @@
         </div>
     </div>
 
-    <div class="modal"  id="view_location" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
-    aria-hidden="true">
+    <div class="modal"  id="view_location" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
         <div class="modal-dialog  modal-xl">
           <div class="modal-content">
           
@@ -919,6 +958,154 @@
           </div>
         </div>
     </div>
+
+
+    
+
+    <div class="modal fade" id="view_instruction" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                <i class="icofont-close-line"></i>
+              </button>
+
+              <div class="modal-header">
+                <h5 class="modal-title"></h5>
+              </div>
+
+            <div class="modal-body">
+
+                <div class="card">
+                    <div class="card-header">
+                      INSTRUCTION
+                    </div>
+                    <div class="card-body">
+                      <div class="table-responsive">
+                        <table class="table table-bordered" >
+                          <thead>
+                          <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Operation date</th>
+                            <th scope="col">Scanned at</th>
+                            <th scope="col">Title </th>
+                            <th scope="col">Description </th>
+                            <th scope="col">Instruction done</th>
+                            <th scope="col">Action</th>
+
+                          </tr>
+                          </thead>
+                          <tbody id="myInstruction">
+                         
+                     
+                          </tbody>
+                        </table>
+
+                            <div class="text-center" id="loader5">
+                                <div class="spinner-border" role="status">
+                                <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                <div class="modal-footer">
+                    <div class="actions justify-content-between">
+                        <button type="button" class="btn btn-error" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </div>
+
+    
+    <div class="modal fade" id="view_task" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                <i class="icofont-close-line"></i>
+              </button>
+
+              <div class="modal-header">
+                <h5 class="modal-title"></h5>
+              </div>
+            <div class="modal-body">
+
+                <div class="card">
+                    <div class="card-header">
+                      TASK
+                    </div>
+                    <div class="card-body">
+                      <div class="table-responsive">
+                        <table class="table table-bordered">
+                          <thead>
+                          <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Operation date</th>
+                            <th scope="col">Done_at</th>
+                            <th scope="col">Title </th>
+                            <th scope="col">Description </th>
+                            <th scope="col">Task done</th>
+                            <th scope="col">Action</th>
+
+                          </tr>
+                          </thead>
+                          <tbody id="myTask">
+                            
+
+                            <tr>
+                              <td>1</td>
+                              <td>02/02/2019 </td>
+                              <td>None</td>
+                              <td>test</td>
+                              <td style="max-width:200px">test test</td>
+                              <td>
+                                  <div class="text-nowrap text-danger">
+                                      <i class="icofont-close-circled"></i> Not done
+                                  </div>
+                              </td>
+                      
+                              <td>
+                                    <div class="actions">
+                                      <input class="form-check-input" type="checkbox" value="" id="defaultCheckTask1" checked/>
+                                        <label class="form-check-label" for="defaultCheckTask1">
+                                          copy
+                                        </label>
+                                      </button>
+                                    </div>
+                                  </td>
+                            </tr>
+                     
+                          </tbody>
+                        </table>
+
+                        <div class="text-center" id="loader6">
+                            <div class="spinner-border" role="status">
+                              <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                <div class="modal-footer">
+                    <div class="actions justify-content-between">
+                        <button type="button" class="btn btn-error" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </div>
+
 
 
     <script src="assets/js/jquery-3.6.0.min.js"></script>
