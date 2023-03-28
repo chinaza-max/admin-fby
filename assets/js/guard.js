@@ -280,7 +280,7 @@ $(document).ready(function(){
                    ${offset2+i+1}
                 </td>
                 <td>
-                  <img src=${val[i].image} alt="" width="40" height="40" class="rounded-500">
+                  <img src="${val[i].image}" alt="" width="40" height="40" class="rounded-500">
                 </td>
 
                 <td>
@@ -349,7 +349,6 @@ $(document).ready(function(){
     }
     
 
-    
     getTableData3 =()=>{
       table=$('#example3').DataTable({
         ajax: {

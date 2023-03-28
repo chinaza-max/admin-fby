@@ -117,7 +117,7 @@ let MAX_TIMESTAMP = 8640000000000000;
         if(await checkIfDateIsInCorrectOrder(obj)){
 
           if(await checkIfDateAreApart(obj)){
-            getAvailableGuard("addGuardDateShedule2V", "selectpickerRandom")
+            getAvailableGuard("addGuardDateShedule2V", "selectpickerRandom" ,obj)
 
             $('#addGuardDateSchedule2').modal('show');
           }
@@ -153,7 +153,7 @@ let MAX_TIMESTAMP = 8640000000000000;
         if(await checkIfDateIsInCorrectOrder(obj)){
 
           if(await checkIfDateAreApart(obj)){
-            getAvailableGuard("addGuardDateShedule3V","selectpickerRange")
+            getAvailableGuard("addGuardDateShedule3V","selectpickerRange",obj)
             $('#addGuardDateSchedule3').modal('show');
           }
           else{
@@ -185,9 +185,7 @@ let MAX_TIMESTAMP = 8640000000000000;
   
   if(await checkIfDateIsInCorrectOrder(obj)){
 
-   
-
-    getAvailableGuard("addGuardDateShedule1V","selectpickerSingleSchedule")
+    getAvailableGuard("addGuardDateShedule1V","selectpickerSingleSchedule",obj)
     
     $('#addGuardDateSchedule1').modal('show');
     
@@ -202,8 +200,37 @@ let MAX_TIMESTAMP = 8640000000000000;
 
  //START GET AVAILABLE GUARD 
 
-function getAvailableGuard(modalId,picker){
+function getAvailableGuard(modalId,picker,schedule){
   
+  $.ajax({
+    type: "post", url:`${domain}/api/v1/job/getGuard2`,
+    dataType  : 'json',
+    encode  : true,
+    headers: {
+      "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+    },
+    data: {
+      job_id:job_id_for_schedule,
+      schedules:JSON.stringify(schedule)
+    },
+    success: function (data) {
+         
+          displayGuard(data.data, modalId,picker)
+          
+        setTimeout(() => {
+                hideModal()
+        }, 3000);
+
+    },
+    error: function (request, status, error) {
+
+        analyzeError(request)
+     
+    }
+  });
+
+  /*
+
   $.ajax({
     type: "post", url:`${domain}/api/v1/job/getGuard`,
     dataType  : 'json',
@@ -229,7 +256,7 @@ function getAvailableGuard(modalId,picker){
      
     }
   });
-
+  */
 }
 //START GET AVAILABLE GUARD 
 
@@ -2116,13 +2143,20 @@ let getTableData='',
   offset4=0,
   myJobStatus="ACTIVE",
   myJobPaymentStatus="Paid",
-  statusChangeIdForJob
+  statusChangeIdForJobdeclineCount
 
 //THIS HANDLES STYLING FOR PAGINATION FOR ACTIVE JOB
 
 
 
 $(document).ready(function(){
+
+
+
+
+
+
+
   setNavLinkStatus()
   function setNavLinkStatus(){
 
@@ -2136,6 +2170,87 @@ $(document).ready(function(){
    
   }
 
+
+
+  $.ajax({
+    type: "get", url:`${domain}/api/v1/job/get_customer_with_job?type=ACTIVE`,
+    headers: {
+        "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+    },
+    dataType  : 'json',
+    encode  : true,
+    success: function (data) {
+
+        console.log(data.data)
+        formatObjToTabulatorForm(data.data)
+    
+    },
+    error: function (request, status, error) {
+        console.log(request)
+    }
+  });
+
+
+  function formatObjToTabulatorForm(data){
+
+
+    const tableDataNested=[]
+      for (let index = 0; index < data.length; index++) {
+        const parent = data[index].customer;
+        const parent2 = data[index];
+        let obj={}
+
+        obj["dateCreated"]=parent.created_at
+        obj["id"] =parent.id
+        obj["customer"] =parent.company_name
+        obj["customerSite"] =parent.site
+        obj["progress"]=parent.job_progress
+        obj["clientCharge"]=parent.client_charge
+        obj["guardCharge"]=parent.staff_payment
+        obj["schedule"]="ssss"
+        obj["action"]="sssss"
+
+        if(parent2.job_details?.length!=0&&parent2.job_details!=undefined){
+          let childArr=[]
+
+
+          for (let index2 = 0; index2 < parent2.job_details.length; index2++) {
+            const child = parent2.job_details[index2];
+
+
+            let obj2={}
+
+            obj2["dateCreated"]=child.create
+            obj2["id"] =child.id
+            obj2["customer"] =child.description
+            obj2["customerSite"] =child.site
+            obj2["progress"]=child.job_progress
+            obj2["clientCharge"]=child.client_charge
+            obj2["guardCharge"]=child.staff_payment
+            obj2["schedule"]="ssss"
+            obj2["action"]="sssss"
+
+            childArr.push(obj2)
+            if(index2== parent2.job_details.length-1){
+              obj["_children"]=childArr
+
+              tableDataNested.push(obj)
+            }
+          }
+        }
+        else{
+          tableDataNested.push(obj)
+        }
+        
+        if( index == data.length-1){
+          
+        }
+      }
+
+
+
+    console.log(tableDataNested)
+  }
  
    //FOR DECLINE JOB
    getTableData4=function ( limit,offset){
@@ -2304,6 +2419,11 @@ $(document).ready(function(){
       </div>
         </td>
       </tr>`)
+
+      $('#declineCount').children().remove();
+      $("#declineCount").append(`
+      Decline
+      `)
       }
 
        
@@ -2945,12 +3065,18 @@ function updateJobStatus(){
   $('.selectpickerStatusChange2').on("changed.bs.select", function() {
     myJobPaymentStatus = $('option:selected', this).attr("data-tokens");
   })
-
-
 }
+
+
 $("#loadingButton2").css("display","none")
 
 function changeJobStatus(){
+
+
+
+console.log(myJobStatus)
+console.log(myJobPaymentStatus)
+console.log(statusChangeIdForJob)
 
 
   $("#saveButton").css("display","none")
@@ -2991,11 +3117,11 @@ function changeJobStatus(){
         $("#saveButton").css("display","block")
         $("#loadingButton2").css("display","none")
 
+
+        console.log(request)
         if(request.responseJSON.status=="time-error"){
           let obj=request.responseJSON.message
 
-
-        
           let  obj2=JSON.parse(obj)
   
           Swal.fire({

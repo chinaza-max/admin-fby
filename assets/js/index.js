@@ -8,7 +8,7 @@ $.ajax({
     encode  : true,
     success: function (data) {
 
-        displayDashboardInfo(data.data)
+      displayDashboardInfo(data.data)
  
     },
     error: function (request, status, error) {

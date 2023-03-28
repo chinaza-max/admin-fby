@@ -145,8 +145,11 @@
                 if(mode=="development"){
                   window.location.href =window.location.toString().split('/')[0] +`/index.html`
                 }
-                else{
+                else if(mode=="production"){
                   window.location.href =window.location.toString().split('/')[0] +`/adminpanel/index.html`
+                }
+                else{
+                  window.location.href =window.location.toString().split('/')[0] +`/index.html`
                 }
               }
           },

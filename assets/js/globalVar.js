@@ -17,8 +17,9 @@ if(mode=="development"){
 else{
 
     //domain= 'http://api.fbyteamschedule.com:3000'
-    domain='https://middleware.fbyteamschedule.com'
 
+    domain='https://middleware.fbyteamschedule.com'
+   //domain='http://fbyteamschedule.com:3000'
 }
 
 
@@ -116,45 +117,45 @@ userDeatils=JSON.parse(atob(localStorage.getItem("userDetails")))
 function analyzeError(request){
 
     console.log(request)
-    if(request.responseJSON.status=="conflict-error"){
+    if(request.responseJSON?.status=="conflict-error"){
         showModalError(request.responseJSON.message)
         setTimeout(() => {
             hideModalError()
         }, alertLifeSpan);
     }
-    else if(request.responseJSON.status=="validation-error"){
+    else if(request.responseJSON?.status=="validation-error"){
         showModalError(request.responseJSON.errors[0].message)
         setTimeout(() => {
             hideModalError()
         }, alertLifeSpan);
     }
-    else if(request.responseJSON.status=="server-error"){
+    else if(request.responseJSON?.status=="server-error"){
         showModalError(request.responseJSON.message)
         setTimeout(() => {
             hideModalError()
         }, alertLifeSpan);
     }
-    else if(request.responseJSON.status=="bad-request-error"){
+    else if(request.responseJSON?.status=="bad-request-error"){
         showModalError(request.responseJSON.message)
         setTimeout(() => {
             hideModalError()
         }, alertLifeSpan);
         logUserOut()
     }
-    else if(request.responseJSON.status=="notFound-error"){
+    else if(request.responseJSON?.status=="notFound-error"){
         console.log(request.responseJSON.message)
         showModalError(request.responseJSON.message)
         setTimeout(() => {
             hideModalError()
         }, alertLifeSpan);
     }
-    else if(request.responseJSON.status=="location-error"){
+    else if(request.responseJSON?.status=="location-error"){
         showModalError(request.responseJSON.message)
         setTimeout(() => {
             hideModalError()
         }, alertLifeSpan);
     }
-    else if(request.responseJSON.status=="time-error"){
+    else if(request.responseJSON?.status=="time-error"){
 
         let obj=request.responseJSON.message
         let  obj2=JSON.parse(obj)
@@ -166,7 +167,7 @@ function analyzeError(request){
           footer: "NOTE : Date should be 60minite apart for earch guard"
         })
     }
-    else if(request.responseJSON.status=="Agenda_not_Found_in_guard_shift"){
+    else if(request.responseJSON?.status=="Agenda_not_Found_in_guard_shift"){
 
 
         let obj=request.responseJSON.message

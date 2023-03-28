@@ -783,7 +783,7 @@ function displaySuspensionReason(index){
                 <tr>
                   <td>${selected.Admin_details.first_name}   ${selected.Admin_details.last_name}</td>
                   <td>${selected.admin_id}</td>
-                  <td>${selected.createdAt}</td>
+                  <td>${moment(selected.createdAt).format("MM-DD-YYYY hh:mm a")}</td>
                   <td>${selected.comment}</td>
                 </tr>
                 </tbody>

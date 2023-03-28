@@ -539,7 +539,6 @@ function displaySchedule(val){
                     </label>
                     
                     
-                    
                     ${val[i].check_in_date}</td>
                     <td>${val[i].start_time}</td>
                     <td>${val[i].check_out_date}</td>

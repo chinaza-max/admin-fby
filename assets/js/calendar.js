@@ -135,6 +135,13 @@ function closeNav() {
    $j ("#edittask").modal("show");
 });
 
+
+let myCoor
+getLatAndLon(function(latLon) {
+  myCoor= latLon;
+})
+
+
 // Modal remove task ?
  $j (document).on("click", ".opt-trash", function () {
  
@@ -186,6 +193,7 @@ let offset=0
 let continueNext=true
 let job_id_for_schedule;
 let old_guard_id;
+let selectedShift=[]
 
 
 
@@ -196,25 +204,112 @@ let customer_id='',
 
 $(document).ready(function(){
 
+
+  function getLastSundayDate() {
+    const now = new Date();
+    const dayOfWeek = now.getDay();
+    const sundayDiff = dayOfWeek === 0 ? 0 : dayOfWeek;
+    const lastSunday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - sundayDiff);
+    return lastSunday;
+  }
+  
+  const lastSundayDate = getLastSundayDate();
+  
+  from_date=lastSundayDate;
+
+
   let myButtonCopy=document.getElementById("copyContainer")
   myButtonCopy.addEventListener("click", function() {
-    
+
   
     document.getElementById("copyText").innerHTML="copied"
     setTimeout(() => {
       document.getElementById("copyText").innerHTML="copy"
     }, 3000);
   
+
+    if(selectedShift.length==0){
+
+      document.getElementById("copyText").innerHTML="No shift available "
+
+    }
+    else{
+
+      $('#add-guard3').modal('show');
+
+      $.ajax({
+        type: "post", url:`${domain}/api/v1/job/getGuard`,
+        dataType  : 'json',
+        encode  : true,
+        headers: {
+          "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+        },
+        data: {
+          job_id:activeJobID,
+        },
+        success: function (data) {
+  
+          displayGuard(data.data,"selectpickerCopy")
+         
+        },
+        error: function (request, status, error) {
+    
+          analyzeError(request)
+        
+        }
+      });
+
+
+      function displayGuard(val,picker){
+
+        let data=''
+       
+          for(let i=0;i<val.length;i++){
+  
+            if(activeGuardID!=val[i].guard_id){
+              data+=`
+              <option data-subtext="ID:${val[i].guard_id}" data-name=${val[i].guard_id}>${val[i].full_name}</option>
+              `
+            }
+           
+              if(i==val.length-1){
+    
+                $(`.${picker}`).children().remove();
+                $(`.${picker}`).append(data)
+                $('.selectpicker').selectpicker('refresh')
+    
+              }
+          }
+          if(val.length==0){
+            $(`.${picker}`).children().remove();
+            $(`.${picker}`).selectpicker('refresh')
+    
+          }
+    
+    
+    
+    
+      }
+    }
+ 
+
+
+
+
   });
 
 
 
 
 //?customer_id=${customer_id}&guard_id=${guard_id}&site_id=${site_id}&from_date=${from_date}&to_date=${to_date}
-  $('#loader1').css("display","block");
 
   getCalendar=function(customer_id , guard_id , site_id , from_date,limit,offset){
   
+    $('#loader1').css("display","block");
+
+
+
+
     $.ajax({
       type: "get", url:`${domain}/api/v1/job/calender?customer_id=${customer_id}&guard_id=${guard_id}&site_id=${site_id}&from_date=${from_date}&limit=${limit}&offset=${offset}`,
       headers: {
@@ -457,9 +552,8 @@ function  displayHeadOfCalendar(year ,displayHeader){
 
 function displayBodyOfCalendar(val){
 
-    console.log(val)
-    let allGuard=val.obj
-   //let allGuard=val
+  let allGuard=val.obj
+  //let allGuard=val
 
 
   if(allGuard.length!=0){
@@ -835,13 +929,12 @@ function shiftDetails(details){
     for (let index2 = 0; index2 < shiftData.length; index2++) {
 
       $.ajax({
-        type: "get", url:`${domain}/api/v1/job/check_if_job_can_be_re_assigned?job_id=${shiftData[index2].job.id}`,
+        type: "get", url:`${domain}/api/v1/job/check_if_job_can_be_re_assigned?job_id=${shiftData[index2].job.id}&guard_id=${shiftData[index2].guard_id}`,
         headers: {
             "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
         },
         dataType  : 'json',
         encode  : true,
-     
         success: function (data) {  
           let canReasign=data.data
 
@@ -945,7 +1038,9 @@ document.getElementById("reassignForm").addEventListener("submit",(e)=>{
     data: {
         old_guard_id,
         job_id:job_id_for_schedule,
-        array_guard_id:JSON.stringify(guard_id_array)  
+        array_guard_id:JSON.stringify(guard_id_array),
+        latitude: Number(myCoor.lat).toFixed(8),
+        longitude: Number(myCoor.lon).toFixed(8)
       },
     success: function (data) {
       
@@ -979,7 +1074,6 @@ document.getElementById("reassignForm").addEventListener("submit",(e)=>{
       job_id:job_id_for_schedule,
     },
     success: function (data) {
-          console.log(data)
           displayGuard(data.data, modalId,picker)
           
         setTimeout(() => {
@@ -1025,6 +1119,9 @@ function displayGuard(val, modalId,picker){
 function viewDetails(guard_id, job_id){
   openNav()
 
+  activeGuardID=guard_id
+  activeJobID=job_id
+
   $('#loader2').css("display","block");
 
   $.ajax({
@@ -1040,14 +1137,14 @@ function viewDetails(guard_id, job_id){
       },
     success: function (data) {
 
-      $('#loader1').css("display","none");
+      $('#loader2').css("display","none");
 
       displayLog(data.data)
 
     },
     error: function (request, status, error) {
 
-        $('#loader1').css("display","none");
+        $('#loader2').css("display","none");
         analyzeError(request)
       
     }
@@ -1055,8 +1152,7 @@ function viewDetails(guard_id, job_id){
 
 
 
-  console.log(job_id)
-  console.log(guard_id)
+  $('#loader3').css("display","block");
 
   $.ajax({
     type: "get", url:`${domain}/api/v1/job/get_single_job_with_agenda?job_id=${job_id}&guard_id=${guard_id}`,
@@ -1066,13 +1162,15 @@ function viewDetails(guard_id, job_id){
     dataType  : 'json',
     encode  : true,
     success: function (data) {
-
-      console.log(data.data)
+     
+      updateSelectedShift(data.data)
+      displayShiftAndAgenda(data.data)
+      $('#loader3').css("display","none");
 
     },
     error: function (request, status, error) {
 
-     // $('#loader1').css("display","none");
+      $('#loader3').css("display","none");
       analyzeError(request)
       
     }
@@ -1080,7 +1178,440 @@ function viewDetails(guard_id, job_id){
 
 }
 
+function updateSelectedShift(val){
+  selectedShift=[]
+  for (let index = 0; index < val.length; index++) {
+    const shift = val[index];
 
+    //
+    if(shift.status=="NOT_STARTED"){
+      let combineInstructionAndTask=[...shift?.agenda?.Instruction||[],...shift?.agenda?.Task||[]] 
+      let obj={}
+  
+      obj["id"]=shift.schedule_id
+      obj["deleted"]=false
+  
+     
+      let agendaIds=[]
+  
+      if(combineInstructionAndTask.length!=0){
+        for (let index2 = 0; index2 < combineInstructionAndTask.length; index2++) {
+          agendaIds.push(combineInstructionAndTask[index2].agenda_id)
+          if(index2 == combineInstructionAndTask.length-1){
+            obj["agendaIds"]=agendaIds
+            selectedShift.push(obj)
+          }
+        }
+      }
+      else{
+        selectedShift.push(obj)
+      }
+     
+      if(index == val.length-1){
+          console.log(selectedShift)
+      }
+    }
+
+  }
+}
+
+function editSelectedShift(target,affectedValue,type,decisionValue){
+  //console.log(selectedShift)
+
+  for (let index = 0; index < selectedShift.length; index++) {
+    const obj = selectedShift[index];
+
+    if(type=="agenda"){
+
+      if(obj["id"]==target){
+
+        //true means add while false means to remove id from array
+        if(decisionValue){
+          let containsId=obj["agendaIds"].includes(affectedValue)
+          if(!containsId){
+            obj["agendaIds"].push(Number(affectedValue))
+          }
+        }
+        else{
+
+          obj["agendaIds"]=obj["agendaIds"].filter((val)=>{
+            return   affectedValue!=val
+          })
+
+        }
+      }
+    }
+    else{
+
+      if(obj["id"]==target){
+        obj["deleted"]=affectedValue
+      }
+
+    }
+
+    if(index == selectedShift.length-1){
+      
+    }
+  }
+
+  console.log(selectedShift)
+
+
+}
+
+
+/*
+checkBoxShift.forEach(element => {
+  element.addEventListener('change', function() {
+  
+    if (this.checked) {
+        console.log(this.checked)
+    } else {
+      console.log(this.checked)
+    }
+     
+  })
+});
+*/
+
+function displayShiftAndAgenda(val){
+
+  let data=''
+
+  if(val.length!=0){
+    for (let index = 0; index < val.length; index++) {
+      const shift = val[index];
+
+     //console.log(shift?.agenda?.agenda||1000)
+     let InstructionCount=shift?.agenda?.Instruction.length||0
+     let TaskCount=shift?.agenda?.Task.length||0
+     let Instruction=JSON.stringify(shift?.agenda?.Instruction||[])
+     let Task=JSON.stringify(shift?.agenda?.Task||[])
+
+     
+     let badgeInstruction=InstructionCount==0?'':`<span class="badge badge-info badge-sm">${InstructionCount}</span>`
+     let badgeTask=TaskCount==0?'':`<span class="badge badge-info badge-sm">${TaskCount}</span>`
+     let fullStartDate=shift.start_date+" "+shift.start_time
+     let fullEndDate=shift.end_date+" "+shift.end_time
+     let combineInstructionAndTask=[...shift?.agenda?.Instruction||[],...shift?.agenda?.Task||[]]
+     let agendaDone=checkiFACertainValueExits(combineInstructionAndTask,"agenda_done",false)
+
+
+     if(shift.status=="NOT_STARTED"){
+            data+=` <div class="form-check btn-outline-upcoming" >
+
+            <input class="form-check-input checkBoxShift" type="checkbox"  id=${shift.schedule_id} checked/>
+            <label class="form-check-label" for=${shift.schedule_id}>
+              <div >
+                  Start date:${fullStartDate} <br>
+                  End date: ${fullEndDate}
+              </div>
+            </label>
+
+            <div class="row">
+              <div class="col-6">
+                <button  class="btn btn-light" data-bs-toggle="modal"
+                data-bs-target="#view_instruction"  onclick='viewAgendaPerShift(${Instruction},"INSTRUCTION",${shift.schedule_id},"${shift.status}")' >Instruction
+                  ${badgeInstruction}
+                </button>
+              </div>   
+              <div class="col-6">
+                <button  class="btn btn-light" data-bs-toggle="modal"
+                data-bs-target="#view_task" onclick='viewAgendaPerShift(${Task},"TASK",${shift.schedule_id},"${shift.status}")'>Task
+                  ${badgeTask}
+                </button>
+              </div>
+            </div>
+
+          </div>  `
+      }
+      else{
+
+        
+        if(agendaDone){
+
+          data+=`  <div class="form-check btn-outline-danger text-muted"  >
+
+          <input class="form-check-input" type="checkbox" value="" id="defaultCheck${index}" disabled/>
+          <label class="form-check-label" for="defaultCheck${index}">
+            <div >
+                Start date:${fullStartDate}<br>
+                End date:${fullEndDate}
+            </div>
+          </label>
+          <div class="row">
+            <div class="col-6">
+              <button  class="btn btn-light" data-bs-toggle="modal"
+              data-bs-target="#view_instruction" onclick='viewAgendaPerShift(${Instruction},"INSTRUCTION",${shift.schedule_id},"${shift.status}")'>Instruction
+                  ${badgeInstruction}
+              </button>
+            </div>   
+            <div class="col-6">
+              <button  class="btn btn-light" data-bs-toggle="modal"
+              data-bs-target="#view_task" onclick='viewAgendaPerShift(${Task},"TASK",${shift.schedule_id},"${shift.status}")'>Task
+                ${badgeTask}
+              </button>
+            </div>
+          </div>
+
+        </div>  `
+        }
+        else{
+            data+=`  <div class="form-check btn-outline-success text-muted"  >
+
+                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck5" disabled/>
+                    <label class="form-check-label" for="defaultCheck5">
+                      <div >
+                          Start date: ${fullStartDate} <br>
+                          End date: ${fullEndDate}
+                      </div>
+                    </label>
+                    <div class="row">
+                      <div class="col-6">
+                        <button  class="btn btn-light" data-bs-toggle="modal"
+                        data-bs-target="#view_instruction" onclick='viewAgendaPerShift(${Instruction},"INSTRUCTION",${shift.schedule_id},"${shift.status}")'>Instruction
+                            ${badgeInstruction}
+                        </button>
+                      </div>   
+                      <div class="col-6">
+                        <button  class="btn btn-light" data-bs-toggle="modal"
+                        data-bs-target="#view_task" onclick='viewAgendaPerShift(${Task},"TASK",${shift.schedule_id},"${shift.status}")'>Task
+                          ${badgeTask}
+                        </button>
+                      </div>
+                    </div>
+
+                  </div>  `
+        }
+        
+      }
+  
+      if(index == val.length-1){
+        $('#jobShifts').children().remove();
+        $("#jobShifts").append(data)
+      }
+      
+    }
+  }
+
+  setTimeout(() => {
+    let checkBoxShift = document.querySelectorAll(".checkBoxShift");
+
+    checkBoxShift.forEach(element => {
+        element.addEventListener('change', function() {
+        
+          if (this.checked) {
+            editSelectedShift(this.id,!this.checked,"shift",this.checked)
+          } else {
+            editSelectedShift(this.id,!this.checked,"shift",this.checked)
+          }
+          
+        })
+    })
+  }, 600);
+
+
+}
+
+
+function viewAgendaPerShift(val,agenda_type,shift_id,shift_status){
+
+
+
+  $('#loader4').css("display","block");
+  $('#loader5').css("display","block");
+
+
+  let data=''
+
+  if(val.length!=0){
+    for (let index = 0; index < val.length; index++) {
+      const agenda = val[index];
+
+      let title=agenda.agenda_type=="INSTRUCTION"? agenda.title :agenda.agenda_type
+
+      //
+      if(shift_status=="NOT_STARTED"){
+        if(agenda.agenda_done){
+          data+=`<tr>
+                <td>${index+1}</td>
+                <td>${agenda.operation_date}</td>
+                <td>${agenda.done_at}</td>
+                <td>${title}</td>
+                <td style="max-width:200px">${agenda.description}</td>
+                <td>
+                    <div class="text-nowrap text-danger">
+                    <i class="icofont-check-circled"></i> Done
+                    </div>
+                </td>
+  
+                <td>
+                      <div class="actions">
+                        <input class="form-check-input checkBoxAgenda" type="checkbox" value2="1000000000"  value=${shift_id} id=${agenda.agenda_id} checked/>
+                          <label class="form-check-label" for="${agenda.agenda_id}">
+                          include
+                          </label>
+                        </button>
+                      </div>
+                    </td>
+              </tr>`
+        }
+        else{
+          data+=`<tr>
+              <td>${index+1}</td>
+              <td>${agenda.operation_date}</td>
+              <td>${agenda.done_at}</td>
+              <td>${title}</td>
+              <td style="max-width:200px">${agenda.description}</td>
+              <td>
+                  <div class="text-nowrap text-danger">
+                      <i class="icofont-close-circled"></i> Not done
+                  </div>
+              </td>
+  
+              <td>
+                    <div class="actions">
+                      <input class="form-check-input checkBoxAgenda" type="checkbox" value2="10000000"  value=${shift_id}  id=${agenda.agenda_id} checked/>
+                        <label class="form-check-label" for=${agenda.agenda_id}>
+                        include
+                        </label>
+                      </button>
+                    </div>
+                  </td>
+            </tr>`
+        }
+      }
+      else{
+        if(agenda.agenda_done){
+          data+=`<tr>
+                <td>${index+1}</td>
+                <td>${agenda.operation_date}</td>
+                <td>${agenda.done_at}</td>
+                <td>${title}</td>
+                <td style="max-width:200px">${agenda.description}</td>
+                <td>
+                    <div class="text-nowrap text-danger">
+                    <i class="icofont-check-circled"></i> Done
+                    </div>
+                </td>
+  
+                <td>
+                      <div class="actions">
+                        <input class="form-check-input checkBoxAgenda" type="checkbox" value2="1000000000"  value=${shift_id} id=${agenda.agenda_id} disabled/>
+                          <label class="form-check-label" for="${agenda.agenda_id}">
+                          include
+                          </label>
+                        </button>
+                      </div>
+                    </td>
+              </tr>`
+        }
+        else{
+          data+=`<tr>
+              <td>${index+1}</td>
+              <td>${agenda.operation_date}</td>
+              <td>${agenda.done_at}</td>
+              <td>${title}</td>
+              <td style="max-width:200px">${agenda.description}</td>
+              <td>
+                  <div class="text-nowrap text-danger">
+                      <i class="icofont-close-circled"></i> Not done
+                  </div>
+              </td>
+  
+              <td>
+                    <div class="actions">
+                      <input class="form-check-input checkBoxAgenda" type="checkbox" value2="10000000"  value=${shift_id}  id=${agenda.agenda_id} disabled/>
+                        <label class="form-check-label" for=${agenda.agenda_id}>
+                        include
+                        </label>
+                      </button>
+                    </div>
+                  </td>
+            </tr>`
+        }
+      }
+    
+    
+      if(index == val.length-1){
+
+        if(agenda.agenda_type=="INSTRUCTION"){
+          $('#myInstruction').children().remove();
+          $("#myInstruction").append(data)
+
+        }
+        else{
+          $('#myTask').children().remove();
+          $("#myTask").append(data)
+        }
+
+        $('#loader4').css("display","none");
+        $('#loader5').css("display","none");
+      }
+    }
+  }
+  else{
+
+    if(agenda_type=="INSTRUCTION"){
+      $('#myInstruction').children().remove();
+      $("#myInstruction").append(`<tr>
+      <td colspan="1000">
+      
+      <div class="alert alert-light outline text-dark " role="alert" style="text-align:center;">
+      YOU HAVE NO INSTRUCTION  
+    </div>
+      </td>
+    </tr>`)
+
+    }
+    else{
+      $('#myTask').children().remove();
+      $("#myTask").append(`<tr>
+      <td colspan="1000">
+      
+      <div class="alert alert-light outline text-dark " role="alert" style="text-align:center;">
+      YOU HAVE NO TASK  
+    </div>
+      </td>
+    </tr>`)
+    }
+    $('#loader4').css("display","none");
+    $('#loader5').css("display","none");
+  }
+
+
+
+  setTimeout(() => {
+    let checkBoxAgenda = document.querySelectorAll(".checkBoxAgenda");
+
+    checkBoxAgenda.forEach(element => {
+        element.addEventListener('change', function() {
+        
+          if (this.checked) {
+            editSelectedShift(this.value,this.id,"agenda",this.checked)
+
+          } else {
+            editSelectedShift(this.value,this.id,"agenda",this.checked)
+
+          }
+          
+        })
+    })
+  }, 600);
+
+
+}
+
+
+function checkiFACertainValueExits(arr,keyPara,val){
+
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i][keyPara] == val) {
+      return true;
+    }
+  }
+  return false;
+}
 
 function displayLog(val){
   let data=''
@@ -1289,3 +1820,78 @@ function initMap(lat=0,lon=0,site_lat=0,site_lon=0,rad=0) {
     radius: rad
   });
 }
+
+
+
+
+
+document.getElementById("copyForm").addEventListener("submit",(e)=>{
+  e.preventDefault()
+})
+function createACopyOfShift(){
+
+  let guard_id_array = $(".selectpickerCopy option:selected").map(function() {
+      return $(this).data("name")
+    }).get()
+
+    /*
+  console.log(guard_id_array)
+  console.log(selectedShift)
+
+*/
+  $.ajax({
+    type: "post", url:`${domain}/api/v1/job/copy_shift_to_other_guard`,
+    headers: {
+      "Authorization": `Bearer ${atob(localStorage.getItem("myUser"))}`
+    },
+    dataType  : 'json',
+    encode  : true,
+    data: {
+      shiftAndagenda:JSON.stringify(selectedShift),
+      array_guard_id:JSON.stringify(guard_id_array),
+      latitude: Number(myCoor.lat).toFixed(8),
+      longitude: Number(myCoor.lon).toFixed(8),
+      job_id:activeJobID
+    },
+    success: function (data) {
+        
+      showModal(data.message)
+      getCalendar(customer_id, guard_id, site_id, from_date,limit,offset)
+      setTimeout(() => {
+              hideModal()
+      }, 3000);
+
+    },
+    error: function (request, status, error) {
+
+        if(request.responseJSON.status=="location-error"){
+
+            let obj=request.responseJSON.message
+            let  obj2=JSON.parse(obj)
+
+        
+            let myMessage=obj2.info.issues+" "+obj2.info.operation_date+" for "+obj2.info.fullName
+            let task_or_instruction=obj2.info.issues.includes("Task")?'from Task Or adjust date':'from Instruction Or adjust date' 
+            let solution="Remove "+obj2.info.fullName+" "+task_or_instruction
+    
+            Swal.fire({
+            icon: 'error',
+            title:myMessage,
+            text: solution,
+            footer: "NOTE :Date should be inside guard created shift"
+            })
+
+        }
+        else{
+            analyzeError(request)      
+
+        }   
+    }
+  })
+
+
+
+}
+
+
+//  getCalendar(customer_id, guard_id, site_id, from_date,limit,offset)
